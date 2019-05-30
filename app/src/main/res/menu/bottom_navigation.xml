@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/navigation_scan"
+        android:icon="@drawable/scan"
+        android:title="Scan"/>
+
+    <item
+        android:id="@+id/navigation_tap"
+        android:icon="@drawable/tap"
+        android:title="Tap"/>
+
+    <item
+        android:id="@+id/navigation_call"
+        android:icon="@drawable/call"
+        android:title="Call"/>
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/cart"
+        android:title="Cart"/>
+
+</menu>

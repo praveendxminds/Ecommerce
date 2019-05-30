@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:padding="0dp">
+
+
+    <LinearLayout
+        android:layout_weight="5"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_width="match_parent">
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/intercom_black"
+            android:text="Price Details"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:textSize="17sp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cart_shadow"
+        android:layout_marginBottom="10dp"
+        android:padding="0dp">
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_height="fill_parent"
+            android:padding="15dp"
+            android:layout_width="fill_parent">
+
+            <LinearLayout
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="0dp">
+
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/intercom_black"
+                    android:text="Price ( 1 )"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp">
+
+
+                <TextView
+                    android:id="@+id/prc"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/intercom_black"
+                    android:text="34"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_height="fill_parent"
+            android:padding="15dp"
+            android:layout_width="fill_parent">
+
+            <LinearLayout
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="0dp">
+
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/intercom_black"
+                    android:text="Deliver Charges for order below Rs100/- is"
+                    android:gravity="left"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp">
+
+
+                <TextView
+                    android:id="@+id/del_charge"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/intercom_black"
+                    android:text="34"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignBottom="@+id/image"
+                android:layout_alignLeft="@+id/image"
+                android:layout_alignRight="@+id/image"
+                android:layout_alignTop="@+id/main_image"
+                android:background="#DDDDDD" />
+        </LinearLayout>
+
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_height="fill_parent"
+            android:padding="15dp"
+            android:layout_width="fill_parent">
+
+            <LinearLayout
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="0dp">
+
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/intercom_black"
+                    android:text="Amount Payable"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp">
+
+
+                <TextView
+                    android:id="@+id/amnt_pay"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/intercom_black"
+                    android:text="64"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_weight="5"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_width="match_parent">
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/intercom_black"
+            android:text="100% Safe and Secure Payments.Easy returns.100%Authentic products."
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:textSize="17sp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

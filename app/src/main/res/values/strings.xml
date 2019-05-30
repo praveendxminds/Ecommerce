@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Ecommerce</string>
+    <string name="open_drawer">open_drawer</string>
+    <string name="close_drawer">close_drawer</string>
+    <string name="app_id">306749319960420</string>
+    <string name="fb_login_protocol_scheme">fb204127990172423</string>
+</resources>

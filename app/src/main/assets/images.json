@@ -1,0 +1,62 @@
+[
+    {
+        "url" : "https://4.imimg.com/data4/XC/RL/MY-9989851/1-500x500.png",
+        "title" : "Rice",
+        "price" : "65",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://4.imimg.com/data4/XI/YM/MY-11126284/moong-dal-500x500.jpg",
+        "title" : "Dal",
+        "price" : "30",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "http://nellaistores.in/pub/media/catalog/product/cache/cf3f2243ef4940fd5c66f2ff035145ac/k/i/kitchadi_paruppu_1.jpg",
+        "title" : "khichdi Dal",
+        "price" : "40",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://5.imimg.com/data5/MI/XY/MY-9252872/crystal-salt-500x500.jpg",
+        "title" : "Salt",
+        "price" : "25",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://5.imimg.com/data5/FQ/QY/MY-56156518/cashew-nut-500x500.jpg",
+        "title" : "Cashew Nut",
+        "price" : "250",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://www.homsist.com/wp-content/uploads/2018/04/american-bg-500x500.jpg",
+        "title" : "Badam",
+        "price" : "80",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://5.imimg.com/data5/NX/IO/MY-29350630/r5-500x500.jpg",
+        "title" : "Pista",
+        "price" : "70",
+        "qty" : "300 GMS"
+    },
+    {
+        "url" : "http://www.emarginfree.com/wp-content/uploads/2014/03/Muthira.jpg",
+        "title" : "Horse Gram",
+        "price" : "55",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://5.imimg.com/data5/MF/XV/MY-17000375/masoor-malka-500x500.jpg",
+        "title" : "Masoor Dal",
+        "price" : "80",
+        "qty" : "500 GMS"
+    },
+    {
+        "url" : "https://www.uttarakhandfoods.com/wp-content/uploads/2018/05/pahari-lobia-dal3.jpg",
+        "title" : "Pahari Dal",
+        "price" : "45",
+        "qty" : "500 GMS"
+    }
+]
