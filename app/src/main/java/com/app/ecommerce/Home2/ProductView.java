@@ -1,10 +1,11 @@
-package com.app.ecommerce.Home3;
+package com.app.ecommerce.Home2;
 
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.ecommerce.R;
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -17,16 +18,14 @@ import com.mindorks.placeholderview.annotations.expand.ParentPosition;
 import com.mindorks.placeholderview.annotations.expand.SingleTop;
 import com.mindorks.placeholderview.annotations.expand.Toggle;
 
-import com.app.ecommerce.R;
-
 /**
  * Created by praveen on 14/11/18.
  */
 
 @Parent
 @SingleTop
-@Layout(R.layout.home_three_feed_heading)
-public class HeadingView {
+@Layout(R.layout.home_two_product_item)
+public class ProductView {
 
     @View(R.id.headingTxt)
     private TextView headingTxt;
@@ -47,7 +46,7 @@ public class HeadingView {
     private String mHeading;
     private String mCatImgUrl;
 
-    public HeadingView(Context context, String heading,String CatImgUrl) {
+    public ProductView(Context context, String heading, String CatImgUrl) {
         mContext = context;
         mHeading = heading;
         mCatImgUrl = CatImgUrl;

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@drawable/shadow"
+    android:id="@+id/toggleView"
+    android:gravity="center|left"
+    android:layout_marginTop="8dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="8dp">
+
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/itemIcon"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="4dp"
+        app:civ_shadow="false"/>
+
+
+<TextView
+    android:id="@+id/headingTxt"
+    android:layout_width="wrap_content"
+    android:layout_height="60dp"
+    android:textColor="@color/blackshadow"
+    android:text="Menu Item"
+    android:gravity="center"
+    android:layout_marginLeft="7dp"
+    android:layout_toRightOf="@id/itemIcon"
+    android:textSize="13sp" />
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="60dp"
+    android:layout_alignParentRight="true"
+    android:tint="@color/blackshadow"
+    android:padding="0dp"
+    android:id="@+id/toggleIcon"
+    android:gravity="center|right"
+    android:src="@drawable/right"/>
+</RelativeLayout>

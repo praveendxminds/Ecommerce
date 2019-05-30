@@ -24,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -82,7 +83,7 @@ public class HomeTwo extends AppCompatActivity {
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
-    private ExpandablePlaceHolderView list_items;
+    private PlaceHolderView list_items;
     private Context mContext;
     private static HomeTwo instance;
     APIInterface apiInterface;
@@ -137,10 +138,10 @@ public class HomeTwo extends AppCompatActivity {
         instance = this;
 
 
-        list_items = (ExpandablePlaceHolderView)findViewById(R.id.list_items);
+        list_items = (PlaceHolderView)findViewById(R.id.list_items);
         mContext = this.getApplicationContext();
         url = "https://www.groceryfactory.in/media/em_minislideshow/1517843523_0_banner-1.jpg";
-
+        list_items.setLayoutManager(new GridLayoutManager(this, 2));
 
 
 
@@ -179,7 +180,7 @@ public class HomeTwo extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
 
                         list_items
-                                .addView(new HeadingView(mContext, category.name,category.product_url));
+                                .addView(new ProductView(mContext, category.name,category.product_url));
 
 
 
