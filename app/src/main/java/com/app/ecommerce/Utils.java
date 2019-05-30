@@ -15,8 +15,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.ecommerce.HomeListScroll.Feed;
-import com.app.ecommerce.HomeListScroll.items;
+import com.app.ecommerce.Home3.Feed;
+import com.app.ecommerce.Home3.items;
 import com.app.ecommerce.retrofit.APIInterface;
 
 /**

@@ -21,7 +21,7 @@ import com.app.ecommerce.about;
 import com.app.ecommerce.contact;
 import com.app.ecommerce.franchiseRequest;
 import com.app.ecommerce.preferences;
-import com.app.ecommerce.MainActivity;
+import com.app.ecommerce.Home3.HomeThree;
 import com.app.ecommerce.R;
 
 import static android.Manifest.permission.CALL_PHONE;
@@ -165,7 +165,7 @@ public class DrawerMenuItem {
 
     protected void call() {
 
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         Intent i = new Intent(Intent.ACTION_CALL);
         i.setData(Uri.parse("tel:18001231947"));
@@ -181,7 +181,7 @@ public class DrawerMenuItem {
 
     protected void feedback() {
 
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         String subject ="ss";
         String bodyText ="sss";
@@ -207,7 +207,7 @@ public class DrawerMenuItem {
 
     protected void prefrences()
     {
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         Intent myIntent = new Intent(mContext, preferences.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -217,7 +217,7 @@ public class DrawerMenuItem {
 
     protected void franchiseRequest()
     {
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         Intent myIntent = new Intent(mContext, franchiseRequest.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -226,7 +226,7 @@ public class DrawerMenuItem {
 
     protected void about()
     {
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         Intent myIntent = new Intent(mContext, about.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -236,7 +236,7 @@ public class DrawerMenuItem {
 
     protected void contact()
     {
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         Intent myIntent = new Intent(mContext, contact.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -247,7 +247,7 @@ public class DrawerMenuItem {
 
     protected void sendEmail() {
 
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         String subject ="ss";
         String bodyText ="sss";
@@ -273,7 +273,7 @@ public class DrawerMenuItem {
     protected void share()
     {
 
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
 
         Intent sendIntent = new Intent();
@@ -290,7 +290,7 @@ public class DrawerMenuItem {
 
     protected void rateapp() {
 
-        MainActivity.getInstance().closeDrawer();
+        HomeThree.getInstance().closeDrawer();
 
         Uri uri = Uri.parse("market://details?id=" + mContext.getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);

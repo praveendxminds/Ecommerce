@@ -164,7 +164,7 @@ public class forgot extends AppCompatActivity {
 
                           //  txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                            // txtEmail.setText(email);
-                          //  Picasso.with(MainActivity.this).load(image_url).into(imageView);
+                          //  Picasso.with(HomeThree.this).load(image_url).into(imageView);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

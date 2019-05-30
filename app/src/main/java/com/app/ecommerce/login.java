@@ -333,7 +333,7 @@ public class login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
                             //  txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                             // txtEmail.setText(email);
-                            //  Picasso.with(MainActivity.this).load(image_url).into(imageView);
+                            //  Picasso.with(HomeThree.this).load(image_url).into(imageView);
 
                             Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
 

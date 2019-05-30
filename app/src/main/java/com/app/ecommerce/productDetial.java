@@ -16,8 +16,7 @@ import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import q.rorbin.badgeview.QBadgeView;
-import com.app.ecommerce.HomeListScroll.ImageTypeSmallList;
-import com.app.ecommerce.R;
+import com.app.ecommerce.Home3.ImageTypeSmallList;
 import com.app.ecommerce.cart.cart;
 
 /**

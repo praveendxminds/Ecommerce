@@ -1,4 +1,4 @@
-package com.app.ecommerce;
+package com.app.ecommerce.Home3;
 
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -38,6 +38,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.app.ecommerce.BottomNavigationViewHelper;
+import com.app.ecommerce.Utils;
+import com.app.ecommerce.delivery;
+import com.app.ecommerce.login;
+import com.app.ecommerce.productDetial;
+import com.app.ecommerce.profile;
+import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -50,9 +57,7 @@ import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.app.ecommerce.HomeListScroll.Banner;
-import com.app.ecommerce.HomeListScroll.HeadingView;
-import com.app.ecommerce.HomeListScroll.ImageTypeSmallList;
+
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.appIntro.WelcomeActivity;
 import com.app.ecommerce.barcode.ScannerActivity;
@@ -70,14 +75,14 @@ import com.app.ecommerce.R;
 
 import static android.Manifest.permission.CALL_PHONE;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeThree extends AppCompatActivity {
 
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private ExpandablePlaceHolderView list_items;
     private Context mContext;
-    private static MainActivity instance;
+    private static HomeThree instance;
     APIInterface apiInterface;
     private String url;
     ProgressBar progressBar;
@@ -111,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent i = new Intent(MainActivity.this, WelcomeActivity.class);
+                Intent i = new Intent(HomeThree.this, WelcomeActivity.class);
                 startActivity(i);
 
             }
@@ -233,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.navigation_scan:
                                 //selectedFragment = ItemTwoFragment.newInstance();
 
-                                new IntentIntegrator(MainActivity.this).setCaptureActivity(ScannerActivity.class).initiateScan();
+                                new IntentIntegrator(HomeThree.this).setCaptureActivity(ScannerActivity.class).initiateScan();
                                 break;
                             case R.id.navigation_tap:
                                 //selectedFragment = ItemThreeFragment.newInstance();
@@ -332,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static MainActivity getInstance() {
+    public static HomeThree getInstance() {
         return instance;
     }
 
@@ -516,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("Scan Result", result);
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(MainActivity.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeThree.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
 
                     }
                 })

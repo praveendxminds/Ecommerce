@@ -1,9 +1,10 @@
-package com.app.ecommerce.HomeListScroll;
+package com.app.ecommerce.Home3;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
+import com.app.ecommerce.Home3.ImageTypeSmall;
 import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Animate;

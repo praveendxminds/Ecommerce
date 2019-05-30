@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import com.app.ecommerce.MainActivity;
+import com.app.ecommerce.Home3.HomeThree;
 
 /**
  * Created by praveen on 27/11/18.
@@ -100,7 +100,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationUtils.playNotificationSound();
             } else {
                 // app is in background, show the notification in notification tray
-                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent resultIntent = new Intent(getApplicationContext(), HomeThree.class);
                 resultIntent.putExtra("message", message);
 
                 // check for image attachment

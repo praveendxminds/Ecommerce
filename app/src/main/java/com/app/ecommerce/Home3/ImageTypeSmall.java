@@ -1,4 +1,4 @@
-package com.app.ecommerce.HomeListScroll;
+package com.app.ecommerce.Home3;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,8 @@ import q.rorbin.badgeview.QBadgeView;
 import com.app.ecommerce.productDetial;
 import com.app.ecommerce.R;
 
-import static com.app.ecommerce.MainActivity.bottomNavigationView;
+import static com.app.ecommerce.Home3.HomeThree.bottomNavigationView;
+
 
 /**
  * Created by janisharali on 19/08/16.

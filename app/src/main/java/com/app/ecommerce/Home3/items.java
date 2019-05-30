@@ -1,4 +1,4 @@
-package com.app.ecommerce.HomeListScroll;
+package com.app.ecommerce.Home3;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
