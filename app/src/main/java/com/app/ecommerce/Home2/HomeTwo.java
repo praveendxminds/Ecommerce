@@ -1,4 +1,4 @@
-package com.app.ecommerce.Home3;
+package com.app.ecommerce.Home2;
 
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -23,7 +24,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,11 +39,28 @@ import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.BottomNavigationViewHelper;
+import com.app.ecommerce.Home3.Banner;
+import com.app.ecommerce.Home3.HeadingView;
+import com.app.ecommerce.Home3.ImageTypeSmallList;
+import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
+import com.app.ecommerce.adapter.RemoteData;
+import com.app.ecommerce.appIntro.WelcomeActivity;
+import com.app.ecommerce.barcode.ScannerActivity;
+import com.app.ecommerce.barcode.nfc;
+import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.delivery;
+import com.app.ecommerce.drawer.DrawerHeader;
+import com.app.ecommerce.drawer.DrawerMenuItem;
+import com.app.ecommerce.fcm.NotificationUtils;
+import com.app.ecommerce.fcm.fcmConfig;
 import com.app.ecommerce.login;
+import com.app.ecommerce.notifications.MyNotifications;
 import com.app.ecommerce.productDetial;
 import com.app.ecommerce.profile;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.MultipleResources;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -58,31 +75,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import com.app.ecommerce.adapter.RemoteData;
-import com.app.ecommerce.appIntro.WelcomeActivity;
-import com.app.ecommerce.barcode.ScannerActivity;
-import com.app.ecommerce.barcode.nfc;
-import com.app.ecommerce.cart.cart;
-import com.app.ecommerce.drawer.DrawerHeader;
-import com.app.ecommerce.drawer.DrawerMenuItem;
-import com.app.ecommerce.fcm.NotificationUtils;
-import com.app.ecommerce.fcm.fcmConfig;
-import com.app.ecommerce.notifications.MyNotifications;
-import com.app.ecommerce.retrofit.APIClient;
-import com.app.ecommerce.retrofit.APIInterface;
-import com.app.ecommerce.retrofit.MultipleResources;
-import com.app.ecommerce.R;
-
 import static android.Manifest.permission.CALL_PHONE;
 
-public class HomeThree extends AppCompatActivity {
+public class HomeTwo extends AppCompatActivity {
 
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private ExpandablePlaceHolderView list_items;
     private Context mContext;
-    private static HomeThree instance;
+    private static HomeTwo instance;
     APIInterface apiInterface;
     private String url;
     ProgressBar progressBar;
@@ -92,7 +94,7 @@ public class HomeThree extends AppCompatActivity {
     SharedPreferences sharedpreferences;
 
   int crt_cnt = 0;
-    android.view.View view_count;
+    View view_count;
     Integer name_session;
 
     public static BottomNavigationView bottomNavigationView;
@@ -103,7 +105,7 @@ public class HomeThree extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_three);
+        setContentView(R.layout.home_two);
 
         AndroidNetworking.initialize(getApplicationContext());
 
@@ -116,7 +118,7 @@ public class HomeThree extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent i = new Intent(HomeThree.this, WelcomeActivity.class);
+                Intent i = new Intent(HomeTwo.this, WelcomeActivity.class);
                 startActivity(i);
 
             }
@@ -152,7 +154,6 @@ public class HomeThree extends AppCompatActivity {
         Log.w("myApp", android_id);
 
 
-        list_items.addView(new Banner(mContext,url));
 
 
 
@@ -179,11 +180,6 @@ public class HomeThree extends AppCompatActivity {
 
                         list_items
                                 .addView(new HeadingView(mContext, category.name,category.product_url));
-
-                            list_items.addView(new ImageTypeSmallList(mContext,category.id));
-
-
-                       // Toast.makeText(getApplicationContext(),String.valueOf(category.id),Toast.LENGTH_SHORT).show();
 
 
 
@@ -238,7 +234,7 @@ public class HomeThree extends AppCompatActivity {
                             case R.id.navigation_scan:
                                 //selectedFragment = ItemTwoFragment.newInstance();
 
-                                new IntentIntegrator(HomeThree.this).setCaptureActivity(ScannerActivity.class).initiateScan();
+                                new IntentIntegrator(HomeTwo.this).setCaptureActivity(ScannerActivity.class).initiateScan();
                                 break;
                             case R.id.navigation_tap:
                                 //selectedFragment = ItemThreeFragment.newInstance();
@@ -337,7 +333,7 @@ public class HomeThree extends AppCompatActivity {
     }
 
 
-    public static HomeThree getInstance() {
+    public static HomeTwo getInstance() {
         return instance;
     }
 
@@ -521,7 +517,7 @@ public class HomeThree extends AppCompatActivity {
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("Scan Result", result);
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(HomeThree.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeTwo.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
 
                     }
                 })
