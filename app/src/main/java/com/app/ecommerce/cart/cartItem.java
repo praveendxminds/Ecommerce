@@ -1,6 +1,7 @@
 package com.app.ecommerce.cart;
 
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -20,7 +21,7 @@ import com.app.ecommerce.R;
 public class cartItem {
 
     @View(R.id.imageView)
-    private CircularImageView imageView;
+    private ImageView imageView;
 
     private Drawable mDrawable;
 

@@ -15,22 +15,20 @@ import retrofit2.http.POST;
 
 public interface APIInterface {
 
-    @GET("/json/category.json")
+    @GET("json/category.json")
     Call<MultipleResources> doGetListResources();
 
-    @GET("/json/images.json")
+    @GET("json/products.json")
     Call<ImageScroll> doGetListImages();
 
-    @GET("/json/images1.json")
-    Call<ImageScroll> doGetListImages1();
 
     @FormUrlEncoded
-    @POST("/json/login.php")
+    @POST("json/login.php")
     Call<User> doGetLogin(@Field("name") String name, @Field("password") String password);
 
 
     @FormUrlEncoded
-    @POST("/json/register.php")
+    @POST("json/register.php")
     Call<RegisterUser> doGetRegister(@Field("fname") String fname, @Field("lname") String lname, @Field("email") String email, @Field("mobile") String mobile);
 
 }

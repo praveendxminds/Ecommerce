@@ -25,7 +25,7 @@ public class APIClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.groceryfactory.in")
+                .baseUrl("http://3.213.33.73/ecommerce/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

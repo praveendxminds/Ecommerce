@@ -33,6 +33,11 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal">
 
+          <!--  <com.mindorks.placeholderview.PlaceHolderView
+                android:id="@+id/slider_items"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>-->
 
             <com.mindorks.placeholderview.PlaceHolderView
                 android:id="@+id/list_items"

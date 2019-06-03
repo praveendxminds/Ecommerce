@@ -2,6 +2,7 @@ package com.app.ecommerce.addresbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.ImageView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
@@ -23,7 +24,7 @@ import com.app.ecommerce.R;
 public class addressItem {
 
     @View(R.id.imageView)
-    private CircularImageView imageView;
+    private ImageView imageView;
 
     PlaceHolderView mplaceHolderView;
 

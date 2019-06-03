@@ -3,6 +3,7 @@ package com.app.ecommerce.MyOrder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -23,7 +24,7 @@ import com.app.ecommerce.R;
 public class orderItem {
 
     @View(R.id.imageView)
-    private CircularImageView imageView;
+    private ImageView imageView;
 
     private Drawable mDrawable;
     private Context mContext;

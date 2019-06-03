@@ -18,7 +18,8 @@ public class MultipleResources {
 
     @SerializedName("items")
     public List<categories> data = null;
-
+   /* @SerializedName("slider")
+    public List<imageslider> resultdata=null;*/
 
     public class categories  {
 
@@ -34,6 +35,17 @@ public class MultipleResources {
 
 
     }
+    /*public class imageslider{
+        @SerializedName("ID")
+        public int id_img;
+
+        @SerializedName("category")
+        public String name_img;
+
+        @SerializedName("prdImg")
+        public String product_url_img;
+
+    }*/
 
 
 

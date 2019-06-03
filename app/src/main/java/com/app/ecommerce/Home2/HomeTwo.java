@@ -20,6 +20,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -64,6 +65,7 @@ import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.MultipleResources;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.placeholderview.ExpandablePlaceHolderView;
@@ -85,6 +87,7 @@ public class HomeTwo extends AppCompatActivity {
     private Toolbar mToolbar;
     private PlaceHolderView list_items;
     private Context mContext;
+    private ViewPager vpagerhome;
     private static HomeTwo instance;
     APIInterface apiInterface;
     private String url;
@@ -133,17 +136,30 @@ public class HomeTwo extends AppCompatActivity {
         mDrawerView = (PlaceHolderView)findViewById(R.id.drawerView);
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.loading);
+        //-----------------------------------------------------------AdapterFlipper------------------------------------------------------
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
         instance = this;
 
 
         list_items = (PlaceHolderView)findViewById(R.id.list_items);
+
         mContext = this.getApplicationContext();
         url = "https://www.groceryfactory.in/media/em_minislideshow/1517843523_0_banner-1.jpg";
-        list_items.setLayoutManager(new GridLayoutManager(this, 2));
+       // list_items.setLayoutManager(new GridLayoutManager(this, 2));//for view category list in grid view
+// Create a grid layout with two columns
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
+        // Create a custom SpanSizeLookup where the first item spans both columns
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? 2 : 1;
+            }
+        });
 
+        list_items.setLayoutManager(layoutManager);
 
 
 
@@ -153,14 +169,9 @@ public class HomeTwo extends AppCompatActivity {
 
 
         Log.w("myApp", android_id);
-
-
-
-
-
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
-
+        list_items.addView(new ImageSlider(mContext, "",""));
 
         if(Utils.CheckInternetConnection(getApplicationContext()))
         {
@@ -172,6 +183,20 @@ public class HomeTwo extends AppCompatActivity {
                 public void onResponse(Call<MultipleResources> call, Response<MultipleResources> response) {
 
                     MultipleResources resource = response.body();
+                 /*   //----------------------imgslider--------------
+                    List<MultipleResources.imageslider> datum = resource.resultdata;
+                    for (MultipleResources.imageslider imgslider : datum) {
+
+                        list_items.addView(new ImageTypeSmallList(mContext, imgslider.id_img));
+
+                        Log.e("-----slideimgurl--", String.valueOf(imgslider.id_img));
+
+                    }*/
+
+
+
+                    //-------------------------endimgslider--------------------------
+
 
                     List<MultipleResources.categories> datumList = resource.data;
 
@@ -179,8 +204,9 @@ public class HomeTwo extends AppCompatActivity {
 
                         progressBar.setVisibility(View.INVISIBLE);
 
-                        list_items
-                                .addView(new ProductView(mContext, category.name,category.product_url));
+                        list_items.addView(new ProductView(mContext, category.name,category.product_url));
+
+                        Log.e("-----imgurl--",category.product_url);
 
 
 

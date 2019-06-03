@@ -3,6 +3,7 @@ package com.app.ecommerce.drawer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -30,7 +31,7 @@ public class DrawerHeader {
 
 
     @View(profileImageView)
-    private CircularImageView profileImage;
+    private ImageView profileImage;
 
     @View(R.id.nameTxt)
     private TextView nameTxt;
