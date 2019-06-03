@@ -167,11 +167,17 @@ public class HomeTwo extends AppCompatActivity {
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
+String[] imgarray ={"https://www.gstatic.com/webp/gallery3/1.png",
+"https://www.gstatic.com/webp/gallery3/2.png",
+"https://www.gstatic.com/webp/gallery3/4.png"};
+
+String[] headingArray = {"rose","penguin","google"};
+
 
         Log.w("myApp", android_id);
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
-        list_items.addView(new ImageSlider(mContext, "",""));
+        list_items.addView(new ImageSlider(mContext, headingArray,imgarray));
 
         if(Utils.CheckInternetConnection(getApplicationContext()))
         {

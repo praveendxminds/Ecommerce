@@ -42,25 +42,25 @@ public class ImageSlider {
     private CircleIndicator indicator;
 
     private static int currentPage = 0;
-    private static final Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
-    private ArrayList<Integer> XMENArray = new ArrayList<Integer>();
+   // private static final Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
+    private ArrayList<String> XMENArray = new ArrayList<String>();
 
 
     @ParentPosition
     private int mParentPosition;
 
     private Context mContext;
-    private String mHeading;
-    private String mCatImgUrl;
+    private String[] mHeading;
+    private String[] mCatImgUrl;
 
-    public ImageSlider(Context context, String heading, String CatImgUrl) {
+    public ImageSlider(Context context, String[] heading, String[] CatImgUrl) {
         mContext = context;
         mHeading = heading;
         mCatImgUrl = CatImgUrl;
 
-        for (int i = 0; i < XMEN.length; i++) {
-            XMENArray.add(XMEN[i]);
-            Log.e("---images----", String.valueOf(XMEN[i]));
+        for (int i = 0; i < mCatImgUrl.length; i++) {
+            XMENArray.add(mCatImgUrl[i]);
+            Log.e("---images----", String.valueOf(mCatImgUrl[i]));
         }
     }
 
@@ -79,7 +79,7 @@ public class ImageSlider {
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == XMEN.length) {
+                if (currentPage == mCatImgUrl.length) {
                     currentPage = 0;
                 }
                 mPager.setCurrentItem(currentPage++, true);

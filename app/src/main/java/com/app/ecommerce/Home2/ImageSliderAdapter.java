@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.app.ecommerce.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 public class ImageSliderAdapter extends PagerAdapter {
 
-    private ArrayList<Integer> images;
+    private ArrayList<String> images;
     private LayoutInflater inflater;
     private Context context;
 
-    public ImageSliderAdapter(Context context, ArrayList<Integer> images) {
+    public ImageSliderAdapter(Context context, ArrayList<String> images) {
         this.context = context;
         this.images=images;
         inflater = LayoutInflater.from(context);
@@ -41,7 +42,10 @@ public class ImageSliderAdapter extends PagerAdapter {
         View myImageLayout = inflater.inflate(R.layout.slide_home_2, view, false);
         ImageView myImage = (ImageView) myImageLayout
                 .findViewById(R.id.image);
-        myImage.setImageResource(images.get(position));
+        final int itemPos = position;
+        final String fileUrl = images.get(position);
+        Glide.with(context).load(fileUrl).into(myImage);
+       // myImage.setImageResource(images.get(position));
         view.addView(myImageLayout, 0);
         return myImageLayout;
     }
