@@ -34,7 +34,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.app.ecommerce.Home2.HomeTwo" >
+
+        <activity android:name="com.app.ecommerce.Home3.HomeThree" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,13 +43,31 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.Home3.HomeThree"
+
+      <!--  <activity android:name="com.app.ecommerce.Home2.HomeTwo" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <HomeTwoCategory android:name="android.intent.HomeTwoCategory.DEFAULT" />
+            </intent-filter>
+        </activity>
+-->
+        <activity android:name="com.app.ecommerce.Home2.HomeTwoCategory"
+            android:label="Contact Us"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.app.ecommerce.Home1.HomeOne"
             android:label="Home Three"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+
 
 
         <activity android:name="com.app.ecommerce.contact"

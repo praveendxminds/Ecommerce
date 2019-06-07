@@ -183,7 +183,7 @@ public class HomeThree extends AppCompatActivity {
                             list_items.addView(new ImageTypeSmallList(mContext,category.id));
 
 
-                       // Toast.makeText(getApplicationContext(),String.valueOf(category.id),Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(),String.valueOf(HomeTwoCategory.id),Toast.LENGTH_SHORT).show();
 
 
 

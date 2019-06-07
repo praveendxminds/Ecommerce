@@ -4,13 +4,21 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:background="@color/white"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/productItem"
-        app:cardElevation="4dp">
+        android:layout_margin="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="1dp"
+        android:id="@+id/prdItemCardView">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,14 +30,14 @@
             android:paddingRight="5dp">
 
             <ImageView
-                android:id="@+id/itemIcon"
+                android:id="@+id/imageViewHomeOne"
                 android:layout_width="180dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
                 android:src="@android:color/holo_orange_dark"/>
 
             <TextView
-                android:id="@+id/headingTxt"
+                android:id="@+id/item_titleHomeOne"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
@@ -48,7 +56,7 @@
                 android:text="Price"
                 android:textSize="15dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/item_price" />
+                android:id="@+id/item_priceHomeOne" />
 
 
 
@@ -69,7 +77,7 @@
                     android:gravity="left"
                     android:layout_weight="1"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/qnty" />
+                    android:id="@+id/qntyHomeOne" />
 
 
 
@@ -81,7 +89,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/decrease"
+                        android:id="@+id/decreaseHomeOne"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@color/whiteshadow"
@@ -89,7 +97,7 @@
                         android:text="-" />
 
                     <TextView
-                        android:id="@+id/integer_number"
+                        android:id="@+id/integer_numberHomeOne"
                         android:layout_width="35dp"
                         android:layout_height="30dp"
                         android:gravity="center"
@@ -98,7 +106,7 @@
                         android:textSize="13sp" />
 
                     <Button
-                        android:id="@+id/increase"
+                        android:id="@+id/increaseHomeOne"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@color/whiteshadow"
@@ -111,7 +119,7 @@
 
 
             <Button
-                android:id="@+id/addcart"
+                android:id="@+id/cartHomeOne"
                 android:background="@color/green"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp"
@@ -130,4 +138,3 @@
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
-

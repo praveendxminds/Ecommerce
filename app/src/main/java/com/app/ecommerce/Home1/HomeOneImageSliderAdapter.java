@@ -1,4 +1,4 @@
-package com.app.ecommerce.Home2;
+package com.app.ecommerce.Home1;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -12,13 +12,13 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class ImageSliderAdapter extends PagerAdapter {
+public class HomeOneImageSliderAdapter extends PagerAdapter {
 
     private ArrayList<String> images;
     private LayoutInflater inflater;
     private Context context;
 
-    public ImageSliderAdapter(Context context, ArrayList<String> images) {
+    public HomeOneImageSliderAdapter(Context context, ArrayList<String> images) {
         this.context = context;
         this.images = images;
         inflater = LayoutInflater.from(context);

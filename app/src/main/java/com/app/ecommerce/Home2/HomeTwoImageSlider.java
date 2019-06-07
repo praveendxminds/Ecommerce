@@ -33,7 +33,7 @@ import me.relex.circleindicator.CircleIndicator;
 @Parent
 @SingleTop
 @Layout(R.layout.image_gallary_home_2)
-public class ImageSlider {
+public class HomeTwoImageSlider {
 
     @View(R.id.pager)
     private ViewPager mPager;
@@ -42,7 +42,7 @@ public class ImageSlider {
     private CircleIndicator indicator;
 
     private static int currentPage = 0;
-   // private static final Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
+    private static final Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
     private ArrayList<String> XMENArray = new ArrayList<String>();
 
 
@@ -50,36 +50,31 @@ public class ImageSlider {
     private int mParentPosition;
 
     private Context mContext;
-    private String[] mHeading;
-    private String[] mCatImgUrl;
+    private ArrayList<String> mHeading;
+    private ArrayList<String> mCatImgUrl;
 
-    public ImageSlider(Context context, String[] heading, String[] CatImgUrl) {
+    public HomeTwoImageSlider(Context context, ArrayList<String> heading, ArrayList<String> CatImgUrl) {
         mContext = context;
         mHeading = heading;
         mCatImgUrl = CatImgUrl;
 
-        for (int i = 0; i < mCatImgUrl.length; i++) {
-            XMENArray.add(mCatImgUrl[i]);
-            Log.e("---images----", String.valueOf(mCatImgUrl[i]));
+      for (int i = 0; i < mCatImgUrl.size(); i++) {
+            XMENArray.add(mCatImgUrl.get(i));
+            Log.e("---images----", String.valueOf(mCatImgUrl.get(i)));
         }
     }
 
     @Resolve
     private void onResolved() {
 
-
         mPager.setAdapter(new ImageSliderAdapter(mContext, XMENArray));
-        // Log.e("---mPager----",mPager.toString());
-        indicator.setViewPager(mPager);
-        //Log.e("------indicator----",indicator.toString());
-        //Set circle indicator radius
-        //indicator.setRadius(5 * density);
 
-        // Auto start of viewpager
+        indicator.setViewPager(mPager);
+
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == mCatImgUrl.length) {
+                if (currentPage == mCatImgUrl.size()) {
                     currentPage = 0;
                 }
                 mPager.setCurrentItem(currentPage++, true);

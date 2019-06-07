@@ -6,7 +6,6 @@
     app:theme="@style/AppTheme.Toolbar"
     app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
     app:subtitleTextColor="@color/white"
-    app:logo="@mipmap/logo"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp"
@@ -18,5 +17,4 @@
         android:textColor="@color/white"
         android:layout_gravity="center"
         android:id="@+id/toolbar_title" />
-
 </android.support.v7.widget.Toolbar>

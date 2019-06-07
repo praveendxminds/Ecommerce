@@ -8,7 +8,7 @@ import java.util.List;
  * Created by praveen on 14/11/18.
  */
 
-public class MultipleResources {
+public class CategoriesHomeTwo {
 
     @SerializedName("items")
     public List<categories> data = null;

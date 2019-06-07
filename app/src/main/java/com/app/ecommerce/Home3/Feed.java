@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Feed {
 
-    @SerializedName("category")
+    @SerializedName("HomeTwoCategory")
     @Expose
     private String heading;
 

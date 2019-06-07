@@ -1,4 +1,4 @@
-package com.app.ecommerce.Home2;
+package com.app.ecommerce.Home1;
 
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -41,7 +41,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.app.ecommerce.BottomNavigationViewHelper;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
@@ -60,8 +59,7 @@ import com.app.ecommerce.productDetial;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
-import com.app.ecommerce.retrofit.CategoriesHomeTwo;
-import com.app.ecommerce.retrofit.MultipleResources;
+import com.app.ecommerce.retrofit.ProductslHomeOne;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -78,34 +76,35 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.CALL_PHONE;
 
-public class HomeTwo extends AppCompatActivity {
+public class HomeOne extends AppCompatActivity {
 
-    private PlaceHolderView mDrawerView;
-    private DrawerLayout mDrawer;
-    private Toolbar mToolbar;
-    private PlaceHolderView list_items;
+    private PlaceHolderView mDrawerViewHomeOne;
+    private DrawerLayout mDrawerHomeOne;
+    private Toolbar mToolbarHomeOne;
+    private PlaceHolderView list_items_home_one;
     private Context mContext;
-    private ViewPager vpagerhome;
-    private static HomeTwo instance;
+    private ViewPager vpagerHomeOne;
+    private static HomeOne instance;
     APIInterface apiInterface;
     private String url;
-    ProgressBar progressBar;
+    ProgressBar progressBarHomeOne;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     AutoCompleteTextView searchEditText;
     public static final String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
+
     int crt_cnt = 0;
     View view_count;
     Integer name_session;
-
+    android.view.View menuItemView;
     public static BottomNavigationView bottomNavigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_two);
+        setContentView(R.layout.home_one);
 
         AndroidNetworking.initialize(getApplicationContext());
 
@@ -117,7 +116,7 @@ public class HomeTwo extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent i = new Intent(HomeTwo.this, WelcomeActivity.class);
+                Intent i = new Intent(HomeOne.this, WelcomeActivity.class);
                 startActivity(i);
 
             }
@@ -127,22 +126,22 @@ public class HomeTwo extends AppCompatActivity {
 
         crt_cnt = 0;
 
-        mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mDrawerView = (PlaceHolderView) findViewById(R.id.drawerView);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressBar = (ProgressBar) findViewById(R.id.loading);
+        mDrawerHomeOne = (DrawerLayout) findViewById(R.id.drawerLayoutHomeOne);
+        mDrawerViewHomeOne = (PlaceHolderView) findViewById(R.id.drawerViewHomeOne);
+        mToolbarHomeOne = (Toolbar) findViewById(R.id.toolbarHomeOne);
+        progressBarHomeOne = (ProgressBar) findViewById(R.id.loadingHomeOne);
         //-----------------------------------------------------------AdapterFlipper------------------------------------------------------
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mToolbarHomeOne);
         getSupportActionBar().setTitle(null);
         instance = this;
 
 
-        list_items = (PlaceHolderView) findViewById(R.id.list_items);
+        list_items_home_one = (PlaceHolderView) findViewById(R.id.list_items_home_one);
 
         mContext = this.getApplicationContext();
         url = "https://www.groceryfactory.in/media/em_minislideshow/1517843523_0_banner-1.jpg";
-         //list_items.setLayoutManager(new GridLayoutManager(this, 2));//for view HomeTwoCategory list in grid view
+        //list_items.setLayoutManager(new GridLayoutManager(this, 2));//for view HomeTwoCategory list in grid view
 // Create a grid layout with two columns
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
@@ -154,7 +153,7 @@ public class HomeTwo extends AppCompatActivity {
             }
         });
 
-        list_items.setLayoutManager(layoutManager);
+        list_items_home_one.setLayoutManager(layoutManager);
 
 
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
@@ -165,51 +164,55 @@ public class HomeTwo extends AppCompatActivity {
         Log.w("myApp", android_id);
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
-        //list_items.addView(new HomeTwoImageSlider(mContext, headingArray,imgarray));
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            Call<CategoriesHomeTwo> call = apiInterface.doGetListcategories();
-            call.enqueue(new Callback<CategoriesHomeTwo>() {
+            Call<ProductslHomeOne> call = apiInterface.doGetProducts();
+            call.enqueue(new Callback<ProductslHomeOne>() {
                 @Override
-                public void onResponse(Call<CategoriesHomeTwo> call, Response<CategoriesHomeTwo> response) {
+                public void onResponse(Call<ProductslHomeOne> call, Response<ProductslHomeOne> response) {
 
-                    CategoriesHomeTwo resource = response.body();
+                    ProductslHomeOne resource = response.body();
 
-                   List<CategoriesHomeTwo.imageslider> datumList = resource.resultdata;
-                    for (CategoriesHomeTwo.imageslider imageslider1 : datumList) {
+                    List<ProductslHomeOne.imageslider> datumList = resource.resultdata;
+                    for (ProductslHomeOne.imageslider imageslider1 : datumList) {
 
-                      //  list_items.addView(new HomeTwoImageSlider(getApplicationContext(), imageslider1.title, imageslider1.slimg));
+                        //  list_items.addView(new HomeTwoImageSlider(getApplicationContext(), imageslider1.title, imageslider1.slimg));
 
+                        progressBarHomeOne.setVisibility(View.INVISIBLE);
                         Log.e("-----imgslider--", imageslider1.slimg);
-                        imageArray.add(imageslider1.slimg );
-                        Log.e("-----imgtitle--",  imageslider1.title);
-                        headArray.add(imageslider1.title );
+                        imageArray.add(imageslider1.slimg);
+                        Log.e("-----imgtitle--", imageslider1.title);
+                        headArray.add(imageslider1.title);
 
                     }
-                    list_items.addView(new HomeTwoImageSlider(mContext, headArray,imageArray));
-                    //----------------------------------------------------------------------------grid view of HomeTwoCategory items---------------------
+                    list_items_home_one.addView(new HomeOneImageSlider(mContext, headArray, imageArray));
 
-                    List<CategoriesHomeTwo.categories> datumList1 = resource.data;
 
-                    for (CategoriesHomeTwo.categories category : datumList1) {
+                    List<ProductslHomeOne.products> datumList1 = resource.data;
 
-                        progressBar.setVisibility(View.INVISIBLE);
+                    for (ProductslHomeOne.products product : datumList1) {
 
-                        list_items.addView(new HomeTwoCategoryItem(mContext, category.name, category.product_url));
 
-                        Log.e("-----imgurl--", category.product_url);
+                        list_items_home_one.addView(new HomeOneProductItem(mContext, product.title, product.url,product.price,product.qty));
+
+                        Log.e("-----imgurl--", product.url);
 
 
                     }
+
+
                 }
 
 
                 @Override
-                public void onFailure(Call<CategoriesHomeTwo> call, Throwable t) {
+                public void onFailure(Call<ProductslHomeOne> call, Throwable t) {
                     call.cancel();
                 }
             });
+            //--------------------------------------product list-----------------------------------------------------
+
+
 
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
@@ -217,8 +220,8 @@ public class HomeTwo extends AppCompatActivity {
 
         setupDrawer();
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomeOne);
+//        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener
@@ -236,7 +239,7 @@ public class HomeTwo extends AppCompatActivity {
                             case R.id.navigation_scan:
                                 //selectedFragment = ItemTwoFragment.newInstance();
 
-                                new IntentIntegrator(HomeTwo.this).setCaptureActivity(ScannerActivity.class).initiateScan();
+                                new IntentIntegrator(HomeOne.this).setCaptureActivity(ScannerActivity.class).initiateScan();
                                 break;
                             case R.id.navigation_tap:
                                 //selectedFragment = ItemThreeFragment.newInstance();
@@ -301,7 +304,7 @@ public class HomeTwo extends AppCompatActivity {
 
 
     private void setupDrawer() {
-        mDrawerView
+        mDrawerViewHomeOne
                 .addView(new DrawerHeader(this.getApplicationContext()))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PREFERENCE))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_ABOUT))
@@ -313,7 +316,7 @@ public class HomeTwo extends AppCompatActivity {
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_FEEDBACK))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_SHARE));
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.open_drawer, R.string.close_drawer) {
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerHomeOne, mToolbarHomeOne, R.string.open_drawer, R.string.close_drawer) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -325,16 +328,16 @@ public class HomeTwo extends AppCompatActivity {
             }
         };
 
-        mDrawer.addDrawerListener(drawerToggle);
+        mDrawerHomeOne.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
 
     public void closeDrawer() {
-        mDrawer.closeDrawer(Gravity.LEFT);
+        mDrawerHomeOne.closeDrawer(Gravity.LEFT);
     }
 
 
-    public static HomeTwo getInstance() {
+    public static HomeOne getInstance() {
         return instance;
     }
 
@@ -490,7 +493,7 @@ public class HomeTwo extends AppCompatActivity {
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("Scan Result", result);
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(HomeTwo.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeOne.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -521,7 +524,7 @@ public class HomeTwo extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        mDrawerView.refresh();
+        mDrawerViewHomeOne.refresh();
 
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         name_session = sharedpreferences.getInt("count", 0);
@@ -530,7 +533,9 @@ public class HomeTwo extends AppCompatActivity {
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         view_count = bottomNavigationMenuView.getChildAt(4);
-        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources()
+                .getColor(R.color.white)).setGravityOffset(15, -2, true)
+                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
 
         // register GCM registration complete receiver
@@ -553,6 +558,8 @@ public class HomeTwo extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
+
+    //-----------------------------------------------------------------------Add-to-Cart----------------------------------------------------
 
 
 }

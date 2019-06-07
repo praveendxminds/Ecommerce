@@ -4,28 +4,32 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by praveen on 14/11/18.
- */
+public class ProductslHomeOne {
 
-public class MultipleResources {
 
-    @SerializedName("items")
-    public List<categories> data = null;
+
+    @SerializedName("images")
+    public List<products> data = null;
+
 
     @SerializedName("slider")
     public List<imageslider> resultdata = null;
 
-    public class categories {
+    public class products
+    {
 
-        @SerializedName("ID")
-        public int id;
 
-        @SerializedName("category")
-        public String name;
+        @SerializedName("url")
+        public String url;
 
-        @SerializedName("prdImg")
-        public String product_url;
+        @SerializedName("title")
+        public String title;
+
+        @SerializedName("price")
+        public String price;
+
+        @SerializedName("qty")
+        public String qty;
 
     }
 
@@ -41,4 +45,10 @@ public class MultipleResources {
         public String slimg;
 
     }
+
+
+
+
+
 }
+
