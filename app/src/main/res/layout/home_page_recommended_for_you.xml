@@ -6,13 +6,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/txt_DealOfDay"
+        android:text="@string/txt_Recommended"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
         android:padding="10dp"
-        style="@style/CodeFont"/>
+        style="@style/CodeFont" />
     <com.mindorks.placeholderview.PlaceHolderView
-        android:id="@+id/placeholderviewDealofDay"
+        android:id="@+id/placeholderviewRecommended"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>

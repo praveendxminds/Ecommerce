@@ -35,7 +35,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
-        <activity android:name="com.app.ecommerce.Home.HomePage"
+      <!--  <activity android:name="com.app.ecommerce.Home.HomePage"
             android:label="Home Page"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -43,9 +43,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>-->
+
+        <activity android:name="com.app.ecommerce.Home2.HomeTwo"
+            android:label="Home Two"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-
         <activity android:name="com.app.ecommerce.Home1.HomeOne"
             android:label="Home One"
             android:theme="@style/AppTheme">
@@ -54,13 +61,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.Home2.HomeTwo"
-            android:label="Home Two"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
+
 
 
 

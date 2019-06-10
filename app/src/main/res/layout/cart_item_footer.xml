@@ -24,7 +24,8 @@
             android:gravity="center"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_medium"/>
 
 
     </LinearLayout>
@@ -58,7 +59,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -79,7 +81,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -106,7 +109,8 @@
                     android:textColor="@color/intercom_black"
                     android:text="Deliver Charges for order below Rs100/- is"
                     android:gravity="left"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -127,7 +131,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -168,7 +173,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -189,7 +195,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -215,7 +222,8 @@
             android:gravity="center"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_regular"/>
 
 
     </LinearLayout>

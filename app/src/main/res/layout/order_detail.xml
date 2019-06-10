@@ -47,7 +47,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/whiteshadow"
                     android:text="Ordered ON"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/date"
@@ -55,7 +56,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/white"
                     android:text="title"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
             </LinearLayout>
 
@@ -73,7 +75,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/whiteshadow"
                     android:text="Items"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/item_cnt"
@@ -81,7 +84,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/white"
                     android:text="title"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
 
             </LinearLayout>
@@ -101,7 +105,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/whiteshadow"
                     android:text="Grand Total"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/grant_total_val"
@@ -109,7 +114,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/white"
                     android:text="title"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
             </LinearLayout>
 
@@ -163,7 +169,8 @@
                         android:gravity="center|left"
                         android:layout_marginLeft="7dp"
                         android:layout_toRightOf="@id/itemIcon"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>
 
@@ -186,7 +193,8 @@
                         android:text="Order Ref No:"
                         android:gravity="center|left"
                         android:layout_toRightOf="@id/itemIcon"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                     <TextView
@@ -196,7 +204,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="123456"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                 </LinearLayout>
@@ -220,7 +229,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="Ordered On:"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                     <TextView
@@ -230,7 +240,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="12 Dec 2018"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                 </LinearLayout>
@@ -254,7 +265,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="Shipping Method:"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                     <TextView
@@ -264,7 +276,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="Delivery Charges for Order"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                 </LinearLayout>
@@ -288,7 +301,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="Payment Method:"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                     <TextView
@@ -298,7 +312,8 @@
                         android:textColor="@color/blackshadow"
                         android:text="Credit Card"
                         android:gravity="center|left"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                 </LinearLayout>
@@ -333,7 +348,8 @@
                         android:gravity="center|left"
                         android:layout_marginLeft="7dp"
                         android:layout_toRightOf="@id/itemIcon"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>
 
@@ -364,7 +380,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_medium"/>
 
 
                         </LinearLayout>
@@ -417,7 +434,8 @@
                                 android:textColor="@color/intercom_black"
                                 android:text="text text text text text text text text text text text text text text text text"
                                 android:gravity="left"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -468,7 +486,8 @@
                                 android:textColor="@color/intercom_black"
                                 android:text="text text text text text text text text text text text text text text text text"
                                 android:gravity="left"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -514,7 +533,8 @@
                         android:gravity="center|left"
                         android:layout_marginLeft="7dp"
                         android:layout_toRightOf="@id/itemIcon"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>
 
@@ -545,7 +565,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_medium"/>
 
 
                         </LinearLayout>
@@ -598,7 +619,8 @@
                                 android:textColor="@color/intercom_black"
                                 android:text="text text text text text text text text text text text text text text text text"
                                 android:gravity="left"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -649,7 +671,8 @@
                                 android:textColor="@color/intercom_black"
                                 android:text="text text text text text text text text text text text text text text text text"
                                 android:gravity="left"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -694,7 +717,8 @@
                         android:gravity="center|left"
                         android:layout_marginLeft="7dp"
                         android:layout_toRightOf="@id/itemIcon"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>
 
@@ -744,7 +768,8 @@
                         android:gravity="center|left"
                         android:layout_marginLeft="7dp"
                         android:layout_toRightOf="@id/itemIcon"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>
 
@@ -775,7 +800,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -796,7 +822,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -823,7 +850,8 @@
                                 android:textColor="@color/intercom_black"
                                 android:text="Shipping Charges"
                                 android:gravity="left"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -844,7 +872,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -885,7 +914,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -906,7 +936,8 @@
                                 android:gravity="center"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_regular"/>
 
 
                         </LinearLayout>
@@ -937,6 +968,7 @@
                 android:background="@color/green"
                 android:textColor="@color/white"
                 android:text="Reorder"
+                android:fontFamily="@font/roboto_medium"
                 />
 
 

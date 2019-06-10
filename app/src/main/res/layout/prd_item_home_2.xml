@@ -45,7 +45,8 @@
                 android:gravity="left"
                 android:text="Title"
                 android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:fontFamily="@font/roboto_bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,7 +57,8 @@
                 android:text="Price"
                 android:textSize="15dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/item_priceHomeOne" />
+                android:id="@+id/item_priceHomeOne"
+                android:fontFamily="@font/roboto_medium"/>
 
 
 
@@ -77,7 +79,8 @@
                     android:gravity="left"
                     android:layout_weight="1"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/qntyHomeOne" />
+                    android:id="@+id/qntyHomeOne"
+                    android:fontFamily="@font/roboto_medium"/>
 
 
 
@@ -94,7 +97,8 @@
                         android:layout_height="30dp"
                         android:background="@color/whiteshadow"
                         android:textColor="@color/colorPrimary"
-                        android:text="-" />
+                        android:text="-"
+                        android:fontFamily="@font/roboto_bold"/>
 
                     <TextView
                         android:id="@+id/integer_numberHomeOne"
@@ -103,7 +107,8 @@
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
                         android:text="0"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                     <Button
                         android:id="@+id/increaseHomeOne"
@@ -112,7 +117,8 @@
                         android:background="@color/whiteshadow"
                         android:textColor="@color/colorPrimary"
                         android:onClick="increaseInteger"
-                        android:text="+" />
+                        android:text="+"
+                        android:fontFamily="@font/roboto_bold"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -126,7 +132,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="13dp"
-                android:text="Add to Cart" />
+                android:text="Add to Cart"
+                android:fontFamily="@font/roboto_medium"/>
 
 
         </LinearLayout>

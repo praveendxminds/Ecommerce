@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.app.ecommerce.walnutstores.app.ecommerce.barcode.ScannerActivity"
+    tools:context="com.app.ecommerce.barcode.ScannerActivity"
     tools:showIn="@layout/activity_scanner">
 
     <!--  set custom layout for scanner-->
@@ -26,7 +26,8 @@
         android:padding="13dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_border"
-        android:text="Turn ON Flashlight" />
+        android:text="Turn ON Flashlight"
+        android:fontFamily="@font/roboto_medium"/>
 
 
 </RelativeLayout>

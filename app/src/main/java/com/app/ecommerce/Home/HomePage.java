@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,9 +27,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -41,8 +43,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.app.ecommerce.Home1.HomeOneImageSlider;
-import com.app.ecommerce.Home1.HomeOneProductItem;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
@@ -143,19 +143,6 @@ public class HomePage extends AppCompatActivity {
 
         mContext = this.getApplicationContext();
         url = "https://www.groceryfactory.in/media/em_minislideshow/1517843523_0_banner-1.jpg";
-      /*
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-
-        // Create a custom SpanSizeLookup where the first item spans both columns
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return position == 0 ? 2 : 1;
-            }
-        });
-
-        list_items_homePage.setLayoutManager(layoutManager);
-*/
 
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -179,8 +166,6 @@ public class HomePage extends AppCompatActivity {
                     List<ProductslHomePage.imageslider> datumList = resource.resultdata;
                     for (ProductslHomePage.imageslider imageslider1 : datumList) {
 
-                        //  list_items.addView(new HomeTwoImageSlider(getApplicationContext(), imageslider1.title, imageslider1.slimg));
-
                         progressBarHomePage.setVisibility(View.INVISIBLE);
                         Log.e("-----imgslider--", imageslider1.slimg);
                         imageArray.add(imageslider1.slimg);
@@ -189,15 +174,33 @@ public class HomePage extends AppCompatActivity {
 
                     }
                     list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));
-                    //-----------------------------------------------------------------------------------
-                    List<ProductslHomePage.productslist> imageList = resource.data;
-                    List<ProductslHomePage.productslist> newImageList = new ArrayList<>();
-                    for (int i = 0; i <  (imageList.size() > 10 ? 10 : imageList.size()); i++) {
-                        newImageList.add(imageList.get(i));
-                        Log.e("---------aaaaaaaaaaaaaa-------", String.valueOf(imageList.get(i)));
-                    }
-                    list_items_homePage.addView(new HomePageProductsContainer(getApplicationContext(), newImageList));
+                    //-----------------------------------------deal of day ------------------------------------------
 
+                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.data;
+                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
+                    for (int i = 0; i <  (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
+                        newImageListDeal.add(imageListDeal.get(i));
+                        Log.e("---deal of day---", String.valueOf(imageListDeal.get(i)));
+                    }
+                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), newImageListDeal));
+                    //-----------------------------------------list of products--------------------------------------
+
+                    List<ProductslHomePage.DealOfDayList> imageListProducts = resource.data;
+                    List<ProductslHomePage.DealOfDayList> newImageListProducts = new ArrayList<>();
+                    for (int i = 0; i <  (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
+                        newImageListProducts.add(imageListProducts.get(i));
+                        Log.e("---list of products---", String.valueOf(imageListProducts.get(i)));
+                    }
+                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), newImageListProducts));
+                    //---------------------------------------recommended for you----------------------------------
+
+                    List<ProductslHomePage.DealOfDayList> imageListRecommended = resource.data;
+                    List<ProductslHomePage.DealOfDayList> newImageListRecommended = new ArrayList<>();
+                    for (int i = 0; i <  (imageListRecommended.size() > 10 ? 10 : imageListProducts.size()); i++) {
+                        newImageListRecommended.add(imageListRecommended.get(i));
+                        Log.e("---recommended for you", String.valueOf(imageListRecommended.get(i)));
+                    }
+                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), newImageListRecommended));
 
                 }
 

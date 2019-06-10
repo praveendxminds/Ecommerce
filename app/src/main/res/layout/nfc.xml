@@ -20,7 +20,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write a message: ">
+        android:text="Write a message: "
+        android:fontFamily="@font/roboto_regular">
     </TextView>
 
     <LinearLayout
@@ -34,17 +35,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="message" />
+            android:hint="message"
+            android:fontFamily="@font/roboto_regular"/>
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Write" />
+            android:text="Write"
+            android:fontFamily="@font/roboto_medium"/>
     </LinearLayout>
     <TextView
         android:id="@+id/nfc_contents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
         />
 </LinearLayout>

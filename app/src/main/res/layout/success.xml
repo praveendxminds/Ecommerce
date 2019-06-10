@@ -40,7 +40,8 @@
                 android:layout_marginBottom="24dp"
                 android:text="Order Success"
                 android:gravity="center"
-                android:textSize="16dip"/>
+                android:textSize="16dip"
+                android:fontFamily="@font/roboto_medium"/>
 
         </LinearLayout>
     </ScrollView>

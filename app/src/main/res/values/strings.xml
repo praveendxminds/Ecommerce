@@ -5,4 +5,6 @@
     <string name="app_id">306749319960420</string>
     <string name="fb_login_protocol_scheme">fb204127990172423</string>
     <string name="txt_DealOfDay">Deal of the Day</string>
+    <string name="txt_ListProducts">List of the Products</string>
+    <string name="txt_Recommended">Recommended for you</string>
 </resources>

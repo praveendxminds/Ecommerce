@@ -41,7 +41,8 @@
                 android:gravity="center"
                 android:layout_marginBottom="8dp"
                 android:textSize="18dp"
-                android:text="GFT"/>
+                android:text="GFT"
+                android:fontFamily="@font/roboto_medium"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:id="@+id/add_label"
-                android:text="GFT at your doorstep"/>
+                android:text="GFT at your doorstep"
+                android:fontFamily="@font/roboto_regular"/>
 
 
             <android.support.v7.widget.AppCompatButton
@@ -62,7 +64,8 @@
                 android:textColor="@color/white"
                 android:padding="12dp"
                 android:onClick="onLocationBtn"
-                android:text="Use current location"/>
+                android:text="Use current location"
+                android:fontFamily="@font/roboto_medium"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -70,7 +73,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="24dp"
                 android:text="or"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/roboto_medium"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_save"
@@ -82,7 +86,8 @@
                 android:background="@drawable/button_border"
                 android:padding="12dp"
                 android:onClick="onSavedBtn"
-                android:text="Select Saved address"/>
+                android:text="Select Saved address"
+                android:fontFamily="@font/roboto_medium"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -90,7 +95,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="24dp"
                 android:text="or"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/roboto_medium"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_add"
@@ -102,7 +108,8 @@
                 android:background="@drawable/button_border"
                 android:padding="12dp"
                 android:onClick="onAddBtn"
-                android:text="Enter Location Manually"/>
+                android:text="Enter Location Manually"
+                android:fontFamily="@font/roboto_medium"/>
 
         </LinearLayout>
 

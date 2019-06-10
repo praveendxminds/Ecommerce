@@ -113,10 +113,9 @@ public class HomeTwoCategory extends AppCompatActivity {
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("TAB1"));
-        tabLayout.addTab(tabLayout.newTab().setText("TAB2"));
-        tabLayout.addTab(tabLayout.newTab().setText("TAB3"));
-        tabLayout.addTab(tabLayout.newTab().setText("TAB4"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sort"));
+        tabLayout.addTab(tabLayout.newTab().setText("Filter"));
+
 
         // tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

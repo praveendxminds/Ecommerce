@@ -1,86 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:background="@color/white"
     android:gravity="center"
-    android:background="@color/white">
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:theme="@style/ToolbarColoredBackArrow"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent">
+        app:titleTextColor="@color/white">
 
         <TextView
+            android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="My Profile"
-            android:textSize="18dp"
             android:layout_marginLeft="-30dp"
+            android:gravity="center"
+            android:text="My Profile"
             android:textColor="@color/white"
-            android:gravity = "center"
-            android:id="@+id/toolbar_title" />
-
+            android:textSize="18dp"
+            android:fontFamily="@font/roboto_bold"/>
 
 
     </android.support.v7.widget.Toolbar>
 
 
-    <LinearLayout
-        android:orientation="vertical"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/draw_lt"
+            android:layout_width="match_parent"
             android:layout_height="178dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:orientation="vertical"
+            android:background="@color/colorPrimary"
             android:gravity="center"
-            android:background="@color/colorPrimary">
+            android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/pro_title"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:textColor="@color/colorPrimary"
-                android:textAlignment="center"
-                android:textSize="26dp"
-                android:text="G"
                 android:background="@drawable/profile_circle"
-                android:gravity="center_vertical" />
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:text="G"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="26dp" />
 
 
             <TextView
                 android:id="@+id/nameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Praveen Davis"
                 android:textColor="@color/white"
                 android:textSize="17sp"
-                android:text="Praveen Davis"
-                android:layout_marginTop="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/emailTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="praveen.davis@yahoo.com"
                 android:textColor="@color/whiteshadow"
                 android:textSize="14sp"
-                android:text="praveen.davis@yahoo.com"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -88,11 +89,11 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="0dp"
             android:background="@drawable/shadow"
             android:gravity="center|left"
             android:onClick="myorders"
-            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="8dp">
 
@@ -106,11 +107,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textColor="@color/blackshadow"
-                android:text="My Orders"
-                android:gravity="center"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/itemIcon"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="My Orders"
+                android:textColor="@color/blackshadow"
                 android:textSize="15sp" />
 
 
@@ -119,11 +121,11 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="0dp"
             android:background="@drawable/shadow"
             android:gravity="center|left"
-            android:layout_marginTop="0dp"
             android:onClick="addressbook"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="8dp">
 
@@ -137,11 +139,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textColor="@color/blackshadow"
-                android:text="Address Book"
-                android:gravity="center"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/itemIcon"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Address Book"
+                android:textColor="@color/blackshadow"
                 android:textSize="15sp" />
 
 
@@ -150,11 +153,11 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="0dp"
             android:background="@drawable/shadow"
             android:gravity="center|left"
-            android:layout_marginTop="0dp"
             android:onClick="change_pass"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="8dp">
 
@@ -168,11 +171,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textColor="@color/blackshadow"
-                android:text="Change Password"
-                android:gravity="center"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/itemIcon"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Change Password"
+                android:textColor="@color/blackshadow"
                 android:textSize="15sp" />
 
 
@@ -181,11 +185,11 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:onClick="logout"
+            android:layout_marginTop="0dp"
             android:background="@drawable/shadow"
             android:gravity="center|left"
-            android:layout_marginTop="0dp"
+            android:onClick="logout"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="8dp">
 
@@ -199,16 +203,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:textColor="@color/blackshadow"
-                android:text="Logout"
-                android:gravity="center"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/itemIcon"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Logout"
+                android:textColor="@color/blackshadow"
                 android:textSize="15sp" />
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>

@@ -36,7 +36,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
 
             </LinearLayout>
@@ -58,7 +59,8 @@
                     android:textColor="@color/green"
                     android:layout_gravity="right"
                     android:text="Edit"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
 
 
@@ -101,7 +103,8 @@
                     android:textColor="@color/intercom_black"
                     android:text="text text text text text text text text text text text text text text text text"
                     android:gravity="left"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -149,7 +152,8 @@
                     android:textColor="@color/intercom_black"
                     android:text="0123456789"
                     android:gravity="left"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
 
             </LinearLayout>
@@ -193,6 +197,7 @@
                 android:background="@color/white"
                 android:textColor="@color/black"
                 android:text="Delete"
+                android:fontFamily="@font/roboto_bold"
                 />
 
         </LinearLayout>

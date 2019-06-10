@@ -38,7 +38,8 @@
                 android:text="Title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_bold"/>
 
             <TextView
                 android:id="@+id/item_priceDealofDay"
@@ -49,7 +50,8 @@
                 android:text="Price"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/grey"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/roboto_medium"/>
 
 
             <LinearLayout
@@ -68,7 +70,8 @@
                     android:text="Quantity"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/grey"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:fontFamily="@font/roboto_medium"/>
 
 
                 <LinearLayout
@@ -84,7 +87,8 @@
                         android:layout_height="30dp"
                         android:background="@color/whiteshadow"
                         android:text="-"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/roboto_bold"/>
 
                     <TextView
                         android:id="@+id/integer_numberDealofDay"
@@ -93,7 +97,8 @@
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
                     <Button
                         android:id="@+id/increaseDealofDay"
@@ -102,7 +107,8 @@
                         android:background="@color/whiteshadow"
                         android:onClick="increaseInteger"
                         android:text="+"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/roboto_bold"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -116,7 +122,8 @@
                 android:background="@color/green"
                 android:text="Add to Cart"
                 android:textColor="@color/white"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:fontFamily="@font/roboto_medium"/>
 
 
         </LinearLayout>

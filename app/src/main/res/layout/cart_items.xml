@@ -35,7 +35,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
                 </LinearLayout>
 
@@ -56,7 +57,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
                 <TextView
                     android:id="@+id/re_amnt"
@@ -67,7 +69,8 @@
                     android:gravity="center"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
             </LinearLayout>
 
@@ -86,7 +89,8 @@
                         android:gravity="center"
                         android:layout_alignParentLeft="true"
                         android:layout_marginRight="10dp"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
                     <TextView
                         android:id="@+id/prd_price"
@@ -98,7 +102,8 @@
                         android:gravity="center"
                         android:layout_alignParentLeft="true"
                         android:layout_marginRight="10dp"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_regular"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -144,7 +149,8 @@
                     android:layout_height="30dp"
                     android:background="@color/whiteshadow"
                     android:textColor="@color/colorPrimary"
-                    android:text="-" />
+                    android:text="-"
+                    android:fontFamily="@font/roboto_bold"/>
 
                 <TextView
                     android:id="@+id/integer_number"
@@ -153,7 +159,8 @@
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"
                     android:text="0"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <Button
                     android:id="@+id/increase"
@@ -162,7 +169,8 @@
                     android:background="@color/whiteshadow"
                     android:textColor="@color/colorPrimary"
                     android:onClick="increaseInteger"
-                    android:text="+" />
+                    android:text="+"
+                    android:fontFamily="@font/roboto_bold"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -198,6 +206,7 @@
             android:background="@color/white"
             android:textColor="@color/black"
             android:text="Remove"
+            android:fontFamily="@font/roboto_medium"
             />
 
     </LinearLayout>

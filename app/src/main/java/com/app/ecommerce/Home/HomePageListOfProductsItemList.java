@@ -11,12 +11,9 @@ import android.widget.TextView;
 import com.app.ecommerce.R;
 import com.app.ecommerce.productDetial;
 import com.bumptech.glide.Glide;
-import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
-import com.mindorks.placeholderview.annotations.Animate;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
-import com.mindorks.placeholderview.annotations.LongClick;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
@@ -28,26 +25,26 @@ import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 
 
 @NonReusable
-@Layout(R.layout.home_page_dealofday_item_list)
-public class HomePageProductsItem {
+@Layout(R.layout.home_page_listproducts_item_list)
+public class HomePageListOfProductsItemList {
 
-    @View(R.id.imageViewDealofDay)
-    private ImageView imageViewDealofDay;
+    @View(R.id.imageViewListProduct)
+    private ImageView imageViewListProduct;
 
-    @View(R.id.headingTxtDealofDay)
-    private TextView headingTxtDealofDay;
+    @View(R.id.headingTxtListProduct)
+    private TextView headingTxtListProduct;
 
-    @Toggle(R.id.productItemDealofDay)
-    private CardView productItemDealofDay;
+    @Toggle(R.id.productItemListProduct)
+    private CardView productItemListProduct;
 
-    @View(R.id.item_priceDealofDay)
-    private TextView item_priceDealofDay;
+    @View(R.id.item_priceListProduct)
+    private TextView item_priceListProduct;
 
-    @View(R.id.integer_numberDealofDay)
-    private TextView integer_numberDealofDay;
+    @View(R.id.integer_numberListProduct)
+    private TextView integer_numberListProduct;
 
-    @View(R.id.qntyDealofDay)
-    private TextView item_qtyDealofDay;
+    @View(R.id.qntyListProduct)
+    private TextView qntyListProduct;
 
 
 
@@ -61,10 +58,10 @@ public class HomePageProductsItem {
     public static final String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
-    public HomePageProductsItem(Context context, PlaceHolderView placeHolderView, String ulr,String heading, String price, String qty) {
+    public HomePageListOfProductsItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
-        mUlr = ulr;
+        mPrdImgUrl = ulr;
         mHeading = heading;
         mPrice = price;
         mQty = qty;
@@ -72,10 +69,11 @@ public class HomePageProductsItem {
 
     @Resolve
     private void onResolved() {
-        Glide.with(mContext).load(mUlr).into(imageViewDealofDay);
-        headingTxtDealofDay.setText(mHeading);
-        item_priceDealofDay.setText("₹"+" "+mPrice);
-        item_qtyDealofDay.setText(mQty);
+        Glide.with(mContext).load(mPrdImgUrl).into(imageViewListProduct);
+        headingTxtListProduct.setText(mHeading);
+        item_priceListProduct.setText("₹"+" "+mPrice);
+        qntyListProduct.setText(mQty);
+
     }
     @Click(R.id.productItemDealofDay)
     private void onLongClick(){
@@ -110,14 +108,20 @@ public class HomePageProductsItem {
 
     @Click(R.id.decreaseDealofDay)
     public void onDecreaseClick() {
-        minteger = minteger - 1;
-        display(minteger);
+        if(minteger==0)
+        {
+            display(0);
+        }
+        else {
+            minteger = minteger - 1;
+            display(minteger);
+        }
     }
 
 
     private void display(int number)
     {
-        integer_numberDealofDay.setText("" + number);
+        integer_numberListProduct.setText("" + number);
     }
 
 

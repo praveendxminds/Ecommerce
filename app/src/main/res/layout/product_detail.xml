@@ -81,7 +81,8 @@
                         android:text="title"
                         android:paddingBottom="5dp"
                         android:gravity="left"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:fontFamily="@font/roboto_bold"/>
 
 
                     <RelativeLayout
@@ -101,7 +102,8 @@
                             android:gravity="center"
                             android:layout_alignParentLeft="true"
                             android:layout_marginRight="10dp"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            android:fontFamily="@font/roboto_medium"/>
 
 
                         <TextView
@@ -112,7 +114,8 @@
                             android:background="@drawable/strike_through"
                             android:gravity="center"
                             android:layout_toRightOf="@id/original_price"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            android:fontFamily="@font/roboto_medium"/>
 
 
 
@@ -132,6 +135,7 @@
                             android:background="@color/white"
                             android:textColor="@color/black"
                             android:text="Share"
+                            android:fontFamily="@font/roboto_medium"
                             />
 
                     </LinearLayout>
@@ -165,7 +169,9 @@
                         android:gravity="center|left"
                         android:layout_weight="1"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/qnty" />
+                        android:id="@+id/qnty"
+                        android:fontFamily="@font/roboto_medium"
+                        />
 
 
 
@@ -182,7 +188,8 @@
                             android:layout_height="30dp"
                             android:background="@color/whiteshadow"
                             android:textColor="@color/colorPrimary"
-                            android:text="-" />
+                            android:text="-"
+                            android:fontFamily="@font/roboto_bold"/>
 
                         <TextView
                             android:id="@+id/integer_number"
@@ -191,7 +198,8 @@
                             android:gravity="center"
                             android:textColor="@color/colorPrimary"
                             android:text="0"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            android:fontFamily="@font/roboto_medium"/>
 
                         <Button
                             android:id="@+id/increase"
@@ -200,7 +208,8 @@
                             android:background="@color/whiteshadow"
                             android:textColor="@color/colorPrimary"
                             android:onClick="increaseInteger"
-                            android:text="+" />
+                            android:text="+"
+                            android:fontFamily="@font/roboto_bold"/>
                     </LinearLayout>
 
 
@@ -233,7 +242,8 @@
                         android:text="Chose an option"
                         android:gravity="center"
                         android:layout_alignParentLeft="true"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_regular" />
 
 
                     <TextView
@@ -243,7 +253,8 @@
                         android:text="1Kg"
                         android:gravity="center"
                         android:layout_toLeftOf="@id/toggleIcon"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_medium"/>
 
 
                     <ImageView
@@ -317,6 +328,7 @@
                 android:background="@color/white"
                 android:textColor="@color/green"
                 android:text="Add To Cart"
+                android:fontFamily="@font/roboto_medium"
                 />
 
             <Button
@@ -328,6 +340,7 @@
                 android:background="@color/green"
                 android:textColor="@color/white"
                 android:text="Buy Now"
+                android:fontFamily="@font/roboto_medium"
                 />
         </LinearLayout>
 

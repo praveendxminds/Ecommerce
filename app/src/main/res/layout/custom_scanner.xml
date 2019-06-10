@@ -31,6 +31,7 @@
         android:textSize="16dp"
         android:text="Please Scan Using Camera"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/zxing_status_text" />
+        android:textColor="@color/zxing_status_text"
+        android:fontFamily="@font/roboto_regular"/>
 
 </merge>

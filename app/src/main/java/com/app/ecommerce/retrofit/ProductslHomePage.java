@@ -9,13 +9,13 @@ public class ProductslHomePage {
 
 
     @SerializedName("images")
-    public List<productslist> data = null;
+    public List<DealOfDayList> data = null;
 
 
     @SerializedName("slider")
     public List<imageslider> resultdata = null;
 
-    public class productslist
+    public class DealOfDayList
     {
 
 

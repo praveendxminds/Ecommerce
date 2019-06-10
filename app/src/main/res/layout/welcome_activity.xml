@@ -94,7 +94,8 @@
             android:layout_marginLeft="40dp"
             android:background="@drawable/round_gradient_btn"
             android:text="NEXT"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/roboto_medium"/>
 
     </LinearLayout>
 

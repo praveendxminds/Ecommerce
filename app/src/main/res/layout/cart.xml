@@ -34,7 +34,8 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:text="Total : "
-                android:textSize="20dp">
+                android:textSize="20dp"
+                android:fontFamily="@font/roboto_medium">
             </TextView>
 
             <TextView
@@ -43,7 +44,8 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:text="0 Rs"
-                android:textSize="20dp">
+                android:textSize="20dp"
+                android:fontFamily="@font/roboto_medium">
             </TextView>
         </LinearLayout>
 
@@ -76,6 +78,7 @@
                 android:textColor="@color/white"
                 android:onClick="billing"
                 android:text="Checkout"
+                android:fontFamily="@font/roboto_medium"
                 />
 
         </LinearLayout>

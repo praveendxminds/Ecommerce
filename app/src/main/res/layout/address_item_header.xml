@@ -28,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:textColor="@color/intercom_black"
                 android:text="1 Saved Address"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:fontFamily="@font/roboto_regular"/>
 
         </LinearLayout>
 
@@ -51,7 +52,8 @@
                 android:textAllCaps="false"
                 android:text="Add Address"
                 android:background="@color/zxing_transparent"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:fontFamily="@font/roboto_medium"/>
 
         </LinearLayout>
 

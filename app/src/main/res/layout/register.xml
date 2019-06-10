@@ -52,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="First Name" />
+            android:hint="First Name"
+            android:fontFamily="@font/roboto_regular"/>
     </android.support.design.widget.TextInputLayout>
 
     <!-- last Label -->
@@ -65,7 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="Last Name" />
+            android:hint="Last Name"
+            android:fontFamily="@font/roboto_regular"/>
     </android.support.design.widget.TextInputLayout>
 
     <!-- Email Label -->
@@ -78,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Email" />
+            android:hint="Email"
+            android:fontFamily="@font/roboto_regular"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -103,7 +106,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Mobile"/>
+                    android:hint="Mobile"
+                    android:fontFamily="@font/roboto_regular"/>
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
@@ -119,7 +123,8 @@
                 android:padding="10dp"
                 android:textColor="@color/green"
                 android:onClick="sendotp"
-                android:text="Send OTP"/>
+                android:text="Send OTP"
+                android:fontFamily="@font/roboto_medium"/>
 
 
         </LinearLayout>
@@ -138,7 +143,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="Enter OTP"/>
+            android:hint="Enter OTP"
+            android:fontFamily="@font/roboto_regular"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -156,7 +162,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:fontFamily="@font/roboto_regular"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -170,7 +177,8 @@
         android:background="@drawable/round_gradient_btn"
         android:padding="12dp"
         android:onClick="register"
-        android:text="Register"/>
+        android:text="Register"
+        android:fontFamily="@font/roboto_medium"/>
 
 
     <LinearLayout
@@ -186,7 +194,8 @@
             android:layout_centerInParent="true"
             android:textColor="@color/black"
             android:gravity="center"
-            android:text="Existing user?"/>
+            android:text="Existing user?"
+            android:fontFamily="@font/roboto_regular"/>
 
 
         <TextView
@@ -196,7 +205,8 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:onClick="login"
-            android:text="Log In"/>
+            android:text="Log In"
+            android:fontFamily="@font/roboto_medium"/>
 
     </LinearLayout>
 
@@ -212,7 +222,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="OR LOG IN WITH"/>
+            android:text="OR LOG IN WITH"
+            android:fontFamily="@font/roboto_medium"/>
 
         <View
             android:layout_width="match_parent"
@@ -242,7 +253,8 @@
         facebook:com_facebook_login_text="Login With Facebook"
         android:text="Login With Facebook"
         facebook:login_text="Login With Facebook"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"/>
 
 </LinearLayout>
 </ScrollView>

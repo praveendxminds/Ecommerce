@@ -193,25 +193,17 @@ public class HomeOne extends AppCompatActivity {
 
                     for (ProductslHomeOne.products product : datumList1) {
 
-
-                        list_items_home_one.addView(new HomeOneProductItem(mContext, product.title, product.url,product.price,product.qty));
+                        list_items_home_one.addView(new HomeOneProductItem(mContext, product.title, product.url, product.price, product.qty));
 
                         Log.e("-----imgurl--", product.url);
-
-
                     }
-
-
                 }
-
-
                 @Override
                 public void onFailure(Call<ProductslHomeOne> call, Throwable t) {
                     call.cancel();
                 }
             });
             //--------------------------------------product list-----------------------------------------------------
-
 
 
         } else {

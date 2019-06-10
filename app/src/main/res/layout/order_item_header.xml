@@ -22,7 +22,8 @@
             android:text="12 Dec 2018"
             android:gravity="center"
             android:layout_alignParentLeft="true"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_medium"/>
 
     </LinearLayout>
 

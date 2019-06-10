@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:background="@color/white"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="1dp"
-        android:id="@+id/prdItemCardView">
+        android:layout_margin="10dp"
+        app:cardCornerRadius="6dp"
+        android:id="@+id/productItemListProduct"
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,94 +23,91 @@
             android:paddingRight="5dp">
 
             <ImageView
-                android:id="@+id/imageViewHomeOne"
+                android:id="@+id/imageViewListProduct"
                 android:layout_width="180dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@android:color/holo_orange_dark"/>
+                android:src="@android:color/holo_orange_dark" />
 
             <TextView
-                android:id="@+id/item_titleHomeOne"
+                android:id="@+id/headingTxtListProduct"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
-                android:textColor="@android:color/black"
                 android:gravity="left"
                 android:text="Title"
-                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 android:fontFamily="@font/roboto_bold"/>
 
             <TextView
+                android:id="@+id/item_priceListProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/grey"
+                android:layout_marginTop="8dp"
                 android:text="Price"
-                android:textSize="15dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/item_priceHomeOne"
+                android:textColor="@color/grey"
+                android:textSize="15dp"
                 android:fontFamily="@font/roboto_medium"/>
-
-
 
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|center_horizontal"
                 android:layout_marginTop="4dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/qntyListProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey"
-                    android:text="Quantity"
-                    android:textSize="15dp"
-                    android:gravity="left"
                     android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Quantity"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/qntyHomeOne"
+                    android:textColor="@color/grey"
+                    android:textSize="15dp"
                     android:fontFamily="@font/roboto_medium"/>
-
 
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/decreaseHomeOne"
+                        android:id="@+id/decreaseListProduct"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@color/whiteshadow"
-                        android:textColor="@color/colorPrimary"
                         android:text="-"
+                        android:textColor="@color/colorPrimary"
                         android:fontFamily="@font/roboto_bold"/>
 
                     <TextView
-                        android:id="@+id/integer_numberHomeOne"
+                        android:id="@+id/integer_numberListProduct"
                         android:layout_width="35dp"
                         android:layout_height="30dp"
                         android:gravity="center"
-                        android:textColor="@color/colorPrimary"
                         android:text="0"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="13sp"
                         android:fontFamily="@font/roboto_medium"/>
 
                     <Button
-                        android:id="@+id/increaseHomeOne"
+                        android:id="@+id/increaseListProduct"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@color/whiteshadow"
-                        android:textColor="@color/colorPrimary"
                         android:onClick="increaseInteger"
                         android:text="+"
+                        android:textColor="@color/colorPrimary"
                         android:fontFamily="@font/roboto_bold"/>
                 </LinearLayout>
 
@@ -125,23 +115,19 @@
 
 
             <Button
-                android:id="@+id/cartHomeOne"
-                android:background="@color/green"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"
+                android:id="@+id/addcartListProduct"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:textSize="13dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/green"
                 android:text="Add to Cart"
+                android:textColor="@color/white"
+                android:textSize="13dp"
                 android:fontFamily="@font/roboto_medium"/>
 
 
         </LinearLayout>
 
 
-
-
-
     </android.support.v7.widget.CardView>
-
 </LinearLayout>

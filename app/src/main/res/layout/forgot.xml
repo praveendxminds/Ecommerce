@@ -52,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Email" />
+            android:hint="Email"
+            android:fontFamily="@font/roboto_regular"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -67,7 +68,8 @@
         android:textColor="@color/white"
         android:padding="12dp"
         android:onClick="forgot"
-        android:text="Submit"/>
+        android:text="Submit"
+        android:fontFamily="@font/roboto_medium"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,6 +85,7 @@
             android:textColor="@color/green"
             android:layout_weight="1"
             android:text="Log In"
+            android:fontFamily="@font/roboto_medium"
             />
 
         <TextView
@@ -93,6 +96,7 @@
             android:textColor="@color/green"
             android:layout_weight="1"
             android:text="Register Now"
+            android:fontFamily="@font/roboto_medium"
             />
     </LinearLayout>
 
@@ -107,7 +111,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="OR LOG IN WITH"/>
+            android:text="OR LOG IN WITH"
+            android:fontFamily="@font/roboto_medium"/>
 
         <View
             android:layout_width="match_parent"
@@ -137,7 +142,8 @@
         facebook:com_facebook_login_text="Login With Facebook"
         android:text="Login With Facebook"
         facebook:login_text="Login With Facebook"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"/>
 
 </LinearLayout>
 </ScrollView>

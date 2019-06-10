@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="Buy Groceries at Lowest Prices"
             android:textColor="#01cdc1"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:textSize="@dimen/slide_title" />
@@ -48,7 +48,8 @@
             android:text="India's First technology enabled grocery store"
             android:textAlignment="center"
             android:textColor="#cdcdcd"
-            android:textSize="@dimen/slide_desc" />
+            android:textSize="@dimen/slide_desc"
+            android:fontFamily="@font/roboto_medium"/>
 
     </LinearLayout>
 </RelativeLayout>

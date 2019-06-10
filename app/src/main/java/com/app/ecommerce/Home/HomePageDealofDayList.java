@@ -16,15 +16,15 @@ import java.util.List;
 
 @NonReusable
 @Layout(R.layout.home_page_deal_of_day)
-public class HomePageProductsContainer {
+public class HomePageDealofDayList {
 
     @View(R.id.placeholderviewDealofDay)
     private PlaceHolderView placeholderviewDealofDay;
 
     private Context mContext;
-    private List<ProductslHomePage.productslist> mImageList;
+    private List<ProductslHomePage.DealOfDayList> mImageList;
 
-    public HomePageProductsContainer(Context context, List<ProductslHomePage.productslist> imageList) {
+    public HomePageDealofDayList(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
         mImageList = imageList;
     }
@@ -36,8 +36,8 @@ public class HomePageProductsContainer {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        for(ProductslHomePage.productslist image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageProductsItem(mContext, placeholderviewDealofDay, image.url,image.title,image.price,image.qty));
+        for(ProductslHomePage.DealOfDayList image : mImageList) {
+            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay, image.url,image.title,image.price,image.qty));
         }
     }
 }

@@ -16,5 +16,6 @@
         android:text="Menu"
         android:textColor="@color/white"
         android:layout_gravity="center"
-        android:id="@+id/toolbar_title" />
+        android:id="@+id/toolbar_title"
+        android:fontFamily="@font/roboto_medium"/>
 </android.support.v7.widget.Toolbar>
