@@ -35,7 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
-        <activity android:name="com.app.ecommerce.Home3.HomeThree" >
+        <activity android:name="com.app.ecommerce.Home.HomePage"
+            android:label="Home Page"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,30 +46,39 @@
         </activity>
 
 
-      <!--  <activity android:name="com.app.ecommerce.Home2.HomeTwo" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <HomeTwoCategory android:name="android.intent.HomeTwoCategory.DEFAULT" />
-            </intent-filter>
-        </activity>
--->
-        <activity android:name="com.app.ecommerce.Home2.HomeTwoCategory"
-            android:label="Contact Us"
+        <activity android:name="com.app.ecommerce.Home1.HomeOne"
+            android:label="Home One"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.app.ecommerce.Home1.HomeOne"
+
+        <activity android:name="com.app.ecommerce.Home2.HomeTwo"
+            android:label="Home Two"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+
+        <activity android:name="com.app.ecommerce.Home2.HomeTwoCategory"
+            android:label="Home Two Category"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.app.ecommerce.Home3.HomeThree"
             android:label="Home Three"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-
-
 
 
         <activity android:name="com.app.ecommerce.contact"

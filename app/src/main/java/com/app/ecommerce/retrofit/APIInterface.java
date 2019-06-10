@@ -26,6 +26,9 @@ public interface APIInterface {
     Call<ProductslHomeOne> doGetProducts();
 
     @GET("json/products.json")
+    Call<ProductslHomePage> getHomePageProducts();
+
+    @GET("json/products.json")
     Call<ImageScroll> doGetListImages();
 
 
