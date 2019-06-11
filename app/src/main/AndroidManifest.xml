@@ -5,14 +5,14 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
-    <uses-sdk tools:overrideLibrary="com.mindorks.placeholderview"/>
+    <uses-sdk tools:overrideLibrary="com.mindorks.placeholderview" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
@@ -23,9 +23,11 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.NFC" />
+
     <uses-feature android:name="android.hardware.nfc" />
 
     <application
@@ -33,9 +35,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
-      <!--  <activity android:name="com.app.ecommerce.Home.HomePage"
+        <activity
+            android:name="com.app.ecommerce.Home.HomePage"
             android:label="Home Page"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -43,17 +46,27 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
 
-        <activity android:name="com.app.ecommerce.Home2.HomeTwo"
+        <activity
+            android:name="com.app.ecommerce.Home.HomeCategory"
+            android:label="Home Category"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.Home2.HomeTwo"
             android:label="Home Two"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.app.ecommerce.Home1.HomeOne"
+        <activity
+            android:name="com.app.ecommerce.Home1.HomeOne"
             android:label="Home One"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -62,10 +75,8 @@
         </activity>
 
 
-
-
-
-        <activity android:name="com.app.ecommerce.Home2.HomeTwoCategory"
+        <activity
+            android:name="com.app.ecommerce.Home2.HomeTwoCategory"
             android:label="Home Two Category"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -73,7 +84,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.Home3.HomeThree"
+        <activity
+            android:name="com.app.ecommerce.Home3.HomeThree"
             android:label="Home Three"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -82,7 +94,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.contact"
+        <activity
+            android:name="com.app.ecommerce.contact"
             android:label="Contact Us"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -91,8 +104,8 @@
         </activity>
 
 
-
-        <activity android:name="com.app.ecommerce.appIntro.WelcomeActivity"
+        <activity
+            android:name="com.app.ecommerce.appIntro.WelcomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -100,7 +113,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.about"
+        <activity
+            android:name="com.app.ecommerce.about"
             android:label="About Us"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -108,7 +122,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.profile"
+        <activity
+            android:name="com.app.ecommerce.profile"
             android:label="My Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -117,7 +132,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.EditProfile"
+        <activity
+            android:name="com.app.ecommerce.EditProfile"
             android:label="Edit Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -126,7 +142,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.ChangePassword"
+        <activity
+            android:name="com.app.ecommerce.ChangePassword"
             android:label="Change Password"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -134,7 +151,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.forgot"
+        <activity
+            android:name="com.app.ecommerce.forgot"
             android:label="Forgot Password"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -142,7 +160,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.MyOrder.MyOrders"
+        <activity
+            android:name="com.app.ecommerce.MyOrder.MyOrders"
             android:label="My Orders"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -151,7 +170,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.MyOrder.OrderDetial"
+        <activity
+            android:name="com.app.ecommerce.MyOrder.OrderDetial"
             android:label="Order Details"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -159,7 +179,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.notifications.MyNotifications"
+        <activity
+            android:name="com.app.ecommerce.notifications.MyNotifications"
             android:label="Notifications"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -167,7 +188,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.addresbook.AddressBook"
+        <activity
+            android:name="com.app.ecommerce.addresbook.AddressBook"
             android:label="AddressBook"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -176,7 +198,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.addresbook.AddAddress"
+        <activity
+            android:name="com.app.ecommerce.addresbook.AddAddress"
             android:label="Add Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -185,7 +208,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.franchiseRequest"
+        <activity
+            android:name="com.app.ecommerce.franchiseRequest"
             android:label="Francise Request"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -193,7 +217,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.preferences"
+        <activity
+            android:name="com.app.ecommerce.preferences"
             android:label="Preferences"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -201,7 +226,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.cart.cart"
+        <activity
+            android:name="com.app.ecommerce.cart.cart"
             android:label="Cart"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -209,7 +235,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.billing.billingAddress"
+        <activity
+            android:name="com.app.ecommerce.billing.billingAddress"
             android:label="Shipping And Billing Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -217,7 +244,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.search"
+        <activity
+            android:name="com.app.ecommerce.search"
             android:label="Search"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -226,7 +254,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.ccavenue.ccavenue"
+        <activity
+            android:name="com.app.ecommerce.ccavenue.ccavenue"
             android:label="Payment"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -235,7 +264,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.successOrder"
+        <activity
+            android:name="com.app.ecommerce.successOrder"
             android:label="Order Success"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -244,7 +274,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.failOrder"
+        <activity
+            android:name="com.app.ecommerce.failOrder"
             android:label="order Failed"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -253,7 +284,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.cancelledOrder"
+        <activity
+            android:name="com.app.ecommerce.cancelledOrder"
             android:label="Order Cancelled"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -262,7 +294,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.delivery"
+        <activity
+            android:name="com.app.ecommerce.delivery"
             android:label="Delivery"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -271,8 +304,8 @@
         </activity>
 
 
-
-        <activity android:name="com.app.ecommerce.location"
+        <activity
+            android:name="com.app.ecommerce.location"
             android:label="Delivery"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -281,7 +314,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.login"
+        <activity
+            android:name="com.app.ecommerce.login"
             android:label="Login"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -289,7 +323,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.productDetial"
+        <activity
+            android:name="com.app.ecommerce.productDetial"
             android:label="Product Title"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -298,7 +333,8 @@
         </activity>
 
 
-        <activity android:name="com.app.ecommerce.barcode.ScannerActivity"
+        <activity
+            android:name="com.app.ecommerce.barcode.ScannerActivity"
             android:label="Scan"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -306,7 +342,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.NoInternet"
+        <activity
+            android:name="com.app.ecommerce.NoInternet"
             android:label="Scan"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -314,7 +351,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.register"
+        <activity
+            android:name="com.app.ecommerce.register"
             android:label="Register"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -322,7 +360,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.app.ecommerce.barcode.nfc"
+        <activity
+            android:name="com.app.ecommerce.barcode.nfc"
             android:label="NFC"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -344,17 +383,16 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDLbezK1KFIlg8j_PWmSA_utSdyG-X_LtI"/>
+            android:value="AIzaSyDLbezK1KFIlg8j_PWmSA_utSdyG-X_LtI" />
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-
+            android:value="@integer/google_play_services_version" />
 
 
         <service
             android:name="com.app.ecommerce.GetAddressIntentService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Firebase Notifications -->
         <service android:name="com.app.ecommerce.fcm.MyFirebaseMessagingService">
@@ -370,20 +408,23 @@
         </service>
         <!-- ./Firebase Notifications -->
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>

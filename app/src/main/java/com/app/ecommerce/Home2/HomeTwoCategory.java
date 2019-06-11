@@ -113,8 +113,11 @@ public class HomeTwoCategory extends AppCompatActivity {
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Sort"));
-        tabLayout.addTab(tabLayout.newTab().setText("Filter"));
+        tabLayout.addTab(tabLayout.newTab().setText("tab1"));
+        tabLayout.addTab(tabLayout.newTab().setText("tab2"));
+        tabLayout.addTab(tabLayout.newTab().setText("tab3"));
+        tabLayout.addTab(tabLayout.newTab().setText("tab4"));
+
 
 
         // tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -245,7 +248,7 @@ public class HomeTwoCategory extends AppCompatActivity {
     public static HomeTwoCategory getInstance() {
         return instance;
     }
-//-----------------------------------------------------------------------Category menu settings------------------------------------
+    //-----------------------------------------------------------------------Category menu settings------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -377,5 +380,4 @@ public class HomeTwoCategory extends AppCompatActivity {
 
 
 }
-
 

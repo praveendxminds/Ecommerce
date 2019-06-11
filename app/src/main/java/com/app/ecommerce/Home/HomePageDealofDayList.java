@@ -1,11 +1,14 @@
 package com.app.ecommerce.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.app.ecommerce.R;
+import com.app.ecommerce.productDetial;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.mindorks.placeholderview.PlaceHolderView;
+import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
@@ -40,4 +43,12 @@ public class HomePageDealofDayList {
             placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay, image.url,image.title,image.price,image.qty));
         }
     }
+    @Click(R.id.dealofdayClick)
+    private void onClick(){
+        Intent intent = new Intent(mContext, HomeCategory.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+    }
+
+
 }

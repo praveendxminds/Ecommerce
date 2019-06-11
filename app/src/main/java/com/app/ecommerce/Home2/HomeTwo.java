@@ -218,7 +218,7 @@ public class HomeTwo extends AppCompatActivity {
         setupDrawer();
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
+       // BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener
