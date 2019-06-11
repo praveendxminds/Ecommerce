@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Home.HomeCategory">
+
+    <item
+        android:id="@+id/searchHomeCateg"
+        android:orderInCategory="300"
+        android:title="Search Product"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="ifRoom"></item>
+
+</menu>

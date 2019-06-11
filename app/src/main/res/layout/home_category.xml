@@ -1,39 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:background="@color/white"
     android:gravity="center"
-    android:background="@color/white">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/mainviewHomeCateg"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"
-        android:layout_height="?attr/actionBarSize"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="?attr/homeAsUpIndicator" />
-
-    <RelativeLayout android:background="#e1e1e1"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
+        <include
+            android:id="@+id/toolbarHomeCateg"
+            layout="@layout/search_toolbar_home_category" />
 
-        <com.mindorks.placeholderview.PlaceHolderView
-            android:id="@+id/recycler_order"
+        <LinearLayout
+            android:id="@+id/sortfilterSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/toolbarHomeCateg">
+
+            <Button
+                android:id="@+id/btn_sortHomeCateg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Sort"
+                android:textAllCaps="false"
+                android:textColor="@color/blackshadow"
+                android:textSize="20dp" />
+
+
+            <Button
+                android:id="@+id/btn_filterHomeCateg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Filter"
+                android:textAllCaps="false"
+                android:textColor="@color/blackshadow"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_above="@+id/navigation"
+            android:layout_below="@+id/sortfilterSection"
+            android:orientation="vertical">
 
-        </com.mindorks.placeholderview.PlaceHolderView>
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
+
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/recycler_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </com.mindorks.placeholderview.PlaceHolderView>
 
 
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/whiteshadow"
+            app:itemIconTint="@color/colorPrimary"
+            app:itemTextColor="@color/colorPrimary"
+            app:menu="@menu/bottom_navigation" />
 
     </RelativeLayout>
 </LinearLayout>
