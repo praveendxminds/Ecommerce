@@ -55,7 +55,10 @@ public class HomeCategoryItem {
     @ParentPosition
     private int mParentPosition;
 
-   private String murl,mprice,mqty,mtitle;
+   private String murl;
+    private String mprice;
+    private String mqty;
+   public String mtitle;
     private Context mContext;
     public static final String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
@@ -68,6 +71,17 @@ public class HomeCategoryItem {
         mtitle = title;
         mprice = price;
     }
+    public String getTitle() {
+        return mtitle;
+    }
+    public String getPrice() {
+        return mprice;
+    }
+    public String getUrl() {
+        return murl;
+    }
+
+
 
     @Resolve
     private void onResolved() {

@@ -29,7 +29,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -88,7 +90,8 @@ public class HomeCategory extends AppCompatActivity {
     int crt_cnt = 0;
     View view_count;
     Integer name_session;
-  
+    ArrayAdapter<String> adapter;
+    ArrayList<HomeCategoryItem> list = new ArrayList<HomeCategoryItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,7 @@ public class HomeCategory extends AppCompatActivity {
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         btn_filterHomeCateg = findViewById(R.id.btn_filterHomeCateg);
         btn_sortHomeCateg = findViewById(R.id.btn_sortHomeCateg);
+        List<ProductsHomeTwo.tab> mList=new ArrayList();
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -122,9 +126,19 @@ public class HomeCategory extends AppCompatActivity {
 
                     ProductsHomeTwo resource = response.body();
                     List<ProductsHomeTwo.tab> datumList = resource.data;
+
                     for (ProductsHomeTwo.tab imgs : datumList) {
-                        mCartView.addView(new HomeCategoryItem(mContext, imgs.url, imgs.title, imgs.price));
-                        Log.e("--------mcartview------", imgs.qty + "   " + imgs.price + "  " + imgs.title);
+                        if (response.isSuccessful()) {
+                            HomeCategoryItem pht = new HomeCategoryItem(mContext, imgs.url, imgs.title, imgs.price);
+
+                            mCartView.addView(new HomeCategoryItem(mContext, imgs.url, imgs.title, imgs.price));
+
+                            list.add(pht);
+
+
+
+                        }
+
                     }
 
                 }
@@ -205,6 +219,27 @@ public class HomeCategory extends AppCompatActivity {
                 }
             }
         });*/
+        final ArrayList<HomeCategoryItem> list2 = new ArrayList<HomeCategoryItem>();
+      btn_sortHomeCateg.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              if (list.size() > 0) {
+                  Collections.sort(list, new Comparator<HomeCategoryItem>() {
+
+                      @Override
+                      public int compare(HomeCategoryItem lhs, HomeCategoryItem rhs) {
+
+                           return lhs.getTitle().compareTo(rhs.getTitle());
+
+                      }
+
+
+                  });
+              }
+
+          }
+      });
+
     }
 //--------------------------------------toolbarmenu------------------------------------------------------------------
 //---------------------------------------for scanner popup-------------------------------------------------------
