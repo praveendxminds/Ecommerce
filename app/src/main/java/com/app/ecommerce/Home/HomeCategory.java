@@ -84,16 +84,11 @@ public class HomeCategory extends AppCompatActivity {
     public Context mContext;
     private static HomeCategory instance;
     public static BottomNavigationView bottomNavigationView;
-
-    public static String MyPREFERENCES = "sessiondata";
-    SharedPreferences sharedpreferences;
-
-    int crt_cnt = 0;
     View view_count;
-    Integer name_session;
-    ArrayAdapter<String> adapter;
-    ArrayList<HomeCategoryItem> list = new ArrayList<HomeCategoryItem>();
-    public boolean state = true;
+
+    public boolean state = true;Integer name_session;
+
+    UseSharedPreferences useSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +97,7 @@ public class HomeCategory extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarHomeCateg);
         setSupportActionBar(toolbar);
 
+        useSharedPreferences = new UseSharedPreferences(getApplication());
 
         AndroidNetworking.initialize(getApplicationContext());
         mContext = this.getApplicationContext();
@@ -119,7 +115,6 @@ public class HomeCategory extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-
 
             Call<ProductsHomeTwo> call = apiInterface.doGetListProducts();
             call.enqueue(new Callback<ProductsHomeTwo>() {
@@ -219,7 +214,7 @@ public class HomeCategory extends AppCompatActivity {
         btn_sortHomeCateg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (state==false) {
+                if (state == false) {
                     //sort
                     mCartView.sort(new Comparator<Object>() {
                         @Override
@@ -227,8 +222,9 @@ public class HomeCategory extends AppCompatActivity {
                             if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
                                 HomeCategoryItem view1 = (HomeCategoryItem) item1;
                                 HomeCategoryItem view2 = (HomeCategoryItem) item2;
-                                Log.e("----sorted------", view1.getTitle()+"  "+view2.getTitle());
+                                Log.e("----sorted------", view1.getTitle() + "  " + view2.getTitle());
                                 //v.setBackgroundResource(R.drawable.settings);
+                                //changing image after clicking...
                                 btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.settings, 0, 0, 0);
                                 return view1.getTitle().compareTo(view2.getTitle());
                             }
@@ -237,7 +233,7 @@ public class HomeCategory extends AppCompatActivity {
                     });
 
                     mCartView.refresh();
-                    state=true;
+                    state = true;
                 } else {
                     //reverse
                     mCartView.sort(new Comparator<Object>() {
@@ -246,9 +242,10 @@ public class HomeCategory extends AppCompatActivity {
                             if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
                                 HomeCategoryItem view1 = (HomeCategoryItem) item1;
                                 HomeCategoryItem view2 = (HomeCategoryItem) item2;
-                               // v.setBackgroundResource(R.drawable.phone);
+                                // v.setBackgroundResource(R.drawable.phone);
+                                //changing image after clicking
                                 btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);
-                                Log.e("----reversed------", view1.getTitle()+"  "+view2.getTitle());
+                                Log.e("----reversed------", view1.getTitle() + "  " + view2.getTitle());
                                 return view2.getTitle().compareToIgnoreCase(view1.getTitle());
                             }
                             return 0;
@@ -296,17 +293,14 @@ public class HomeCategory extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        name_session = sharedpreferences.getInt("count", 0);
-
+        name_session = useSharedPreferences.getCountValue();
 
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         view_count = bottomNavigationMenuView.getChildAt(4);
-        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
+        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources().getColor(R.color.white))
+                .setGravityOffset(15, -2, true).setBadgeNumber(name_session).setBadgeBackgroundColor
+                (mContext.getResources().getColor(R.color.colorPrimaryDark));
 
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -58,83 +59,80 @@ public class HomeCategoryItem {
     public String murl;
     public String mprice;
     public String mqty;
-   public String mtitle;
+    public String mtitle;
     public Context mContext;
-    public static String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
-   String[] qtyArray= {"100gm", "200gm", "300gm","50gm","500gm","1kg"};
+    UseSharedPreferences useSharedPreferences;
+    String[] qtyArray = {"100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
 
-    public HomeCategoryItem(Context context, String url,String title,String price) {
+    public HomeCategoryItem(Context context, String url, String title, String price) {
         mContext = context;
         murl = url;
         mtitle = title;
         mprice = price;
     }
+
     public String getTitle() {
         return mtitle;
     }
+
     public String getPrice() {
         return mprice;
     }
+
     public String getUrl() {
         return murl;
     }
 
 
-
     @Resolve
     public void onResolved() {
-        headingTxtHomePage.setText(mtitle+", Organically grown");
+        headingTxtHomePage.setText(mtitle + ", Organically grown");
         Glide.with(mContext).load(murl).into(itemIconHomePage);
-        priceNewHomePage.setText("Rs."+" "+mprice);
+        priceNewHomePage.setText("Rs." + " " + mprice);
 
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
 
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext,R.layout.spinner_product_qtylist_home_two,qtyList);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
 
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
         qntyHomePage.setAdapter(spinnerArrayAdapter);
 
+        useSharedPreferences = new UseSharedPreferences(mContext);
+
     }
 
     @Click(R.id.ord_itHomePage)
-    public void onCardClick()
-    {
+    public void onCardClick() {
         Intent myIntent = new Intent(mContext, productDetial.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 
     }
+
     @Click(R.id.addcartHomePage)
-    public void AddToCartClick()
-    {
+    public void AddToCartClick() {
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
+        Integer name_session = useSharedPreferences.getCountValue();
 
-        //  cart_count = cart_count + 1;
-
-        name_session = name_session +1;
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", name_session);
-        editor.commit();
-
-
-        countCartDisplay(name_session);
+        Integer value = useSharedPreferences.createCountValue(name_session);
+        Log.d("values of count", String.valueOf(value));
+        countCartDisplay(value);
     }
-    public void countCartDisplay(int number)
-    {
+
+    public void countCartDisplay(int number) {
 
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         android.view.View v = bottomNavigationMenuView.getChildAt(4);
+        Integer name_session = useSharedPreferences.getCountValue();
 
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources()
+                .getColor(R.color.white)).setGravityOffset(15, -2, true)
+                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
     }
 

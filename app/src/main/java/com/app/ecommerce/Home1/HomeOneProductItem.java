@@ -117,8 +117,14 @@ public class HomeOneProductItem {
 
     @Click(R.id.decrease)
     public void onDecreaseClick() {
-        minteger = minteger - 1;
-        display(minteger);
+        if(minteger==0)
+        {
+            display(0);
+        }
+        else {
+            minteger = minteger - 1;
+            display(minteger);
+        }
     }
 
 

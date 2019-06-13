@@ -426,7 +426,10 @@ public class HomeTwo extends AppCompatActivity {
                 break;
             case R.id.account:
 
-                Boolean login_st_session = sharedpreferences.getBoolean("status", false);
+                Intent myIntent = new Intent(mContext, profile.class);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(myIntent);
+                /*Boolean login_st_session = sharedpreferences.getBoolean("status", false);
                 if (login_st_session == true) {
                     Intent myIntent = new Intent(mContext, profile.class);
                     myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -436,7 +439,7 @@ public class HomeTwo extends AppCompatActivity {
                     myIntent.putExtra("Login_INTENT", "account");
                     myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(myIntent);
-                }
+                }*/
 
                 break;
 

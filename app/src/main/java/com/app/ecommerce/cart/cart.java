@@ -23,7 +23,7 @@ public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
     private PlaceHolderView mCartView;
-    public static String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
 
@@ -34,7 +34,7 @@ public class cart extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -42,8 +42,7 @@ public class cart extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
 
-
-        mCartView = (PlaceHolderView)findViewById(R.id.recycler_cart);
+        mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
 
 
         mCartView
@@ -68,21 +67,18 @@ public class cart extends AppCompatActivity {
         return true;
     }
 
-    public void billing(View v)
-    {
-        Boolean login_st_session = sharedpreferences.getBoolean("status",false);
-        if(login_st_session == true)
-        {
+    public void billing(View v) {
+        Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
+        startActivity(myIntent);
+        
+       /* Boolean login_st_session = sharedpreferences.getBoolean("status", false);
+        if (login_st_session == true) {
             Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
             startActivity(myIntent);
-        }
-        else
-        {
+        } else {
             Intent myIntent = new Intent(getBaseContext(), login.class);
             myIntent.putExtra("Login_INTENT", "cart");
             startActivity(myIntent);
-        }
-
+        }*/
     }
-
 }
