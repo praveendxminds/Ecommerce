@@ -27,21 +27,21 @@ import static com.app.ecommerce.R.id.profileImageView;
 @Layout(R.layout.drawer_header)
 public class DrawerHeader {
 
-    private Context mContext;
+    public Context mContext;
 
 
     @View(profileImageView)
-    private ImageView profileImage;
+    public ImageView profileImage;
 
     @View(R.id.nameTxt)
-    private TextView nameTxt;
+    public TextView nameTxt;
 
     @View(R.id.pro_title)
-    private TextView profile_title;
+    public TextView profile_title;
 
 
 
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     public DrawerHeader(Context context) {
@@ -71,7 +71,7 @@ public class DrawerHeader {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
 
 
 

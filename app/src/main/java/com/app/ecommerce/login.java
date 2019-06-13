@@ -63,7 +63,7 @@ public class login extends AppCompatActivity implements GoogleApiClient.OnConnec
     LoginButton loginButton;
     CallbackManager callbackManager;
 
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     Bundle intent_extras;

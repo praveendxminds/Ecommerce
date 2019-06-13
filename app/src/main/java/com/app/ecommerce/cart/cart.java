@@ -23,7 +23,7 @@ public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
     private PlaceHolderView mCartView;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
 

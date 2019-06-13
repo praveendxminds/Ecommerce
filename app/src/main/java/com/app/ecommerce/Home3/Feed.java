@@ -12,12 +12,12 @@ public class Feed {
 
     @SerializedName("HomeTwoCategory")
     @Expose
-    private String heading;
+    public String heading;
 
 
     @SerializedName("prdImg")
     @Expose
-    private String CategoryImgUrl;
+    public String CategoryImgUrl;
 
 
     public String getHeading() {

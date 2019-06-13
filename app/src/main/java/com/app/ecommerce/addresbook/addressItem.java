@@ -24,11 +24,11 @@ import com.app.ecommerce.R;
 public class addressItem {
 
     @View(R.id.imageView)
-    private ImageView imageView;
+    public ImageView imageView;
 
     PlaceHolderView mplaceHolderView;
 
-    private Context mContext;
+    public Context mContext;
 
 
     public addressItem(Context context,PlaceHolderView placeHolderView) {
@@ -37,7 +37,7 @@ public class addressItem {
     }
 
     @Resolve
-    private void onResolved()
+    public void onResolved()
     {
 
 

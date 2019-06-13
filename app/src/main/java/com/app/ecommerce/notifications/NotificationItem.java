@@ -23,16 +23,16 @@ import com.app.ecommerce.R;
 public class NotificationItem {
 
     @View(R.id.imageView)
-    private CircularImageView imageView;
+    public CircularImageView imageView;
 
-    private Context mContext;
+    public Context mContext;
 
     public NotificationItem(Context context) {
         mContext = context;
     }
 
     @Resolve
-    private void onResolved()
+    public void onResolved()
     {
 
     }

@@ -24,10 +24,10 @@ import com.app.ecommerce.R;
 public class orderItem {
 
     @View(R.id.imageView)
-    private ImageView imageView;
+    public ImageView imageView;
 
-    private Drawable mDrawable;
-    private Context mContext;
+    public Drawable mDrawable;
+    public Context mContext;
 
     public orderItem(Context context,Drawable drawable) {
         mContext = context;
@@ -35,7 +35,7 @@ public class orderItem {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         imageView.setImageDrawable(mDrawable);
     }
 

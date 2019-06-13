@@ -21,16 +21,16 @@ import com.app.ecommerce.R;
 public class cartItem {
 
     @View(R.id.imageView)
-    private ImageView imageView;
+    public ImageView imageView;
 
-    private Drawable mDrawable;
+    public Drawable mDrawable;
 
     public cartItem(Drawable drawable) {
         mDrawable = drawable;
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         imageView.setImageDrawable(mDrawable);
     }
 }

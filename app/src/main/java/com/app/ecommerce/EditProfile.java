@@ -19,7 +19,7 @@ import com.app.ecommerce.R;
 public class EditProfile extends AppCompatActivity {
 
     Toolbar toolbar;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     EditText fnme,lnme,email;

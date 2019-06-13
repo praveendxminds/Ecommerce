@@ -81,14 +81,14 @@ public class HomeThree extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private ExpandablePlaceHolderView list_items;
-    private Context mContext;
+    public Context mContext;
     private static HomeThree instance;
     APIInterface apiInterface;
     private String url;
     ProgressBar progressBar;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     AutoCompleteTextView searchEditText;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
   int crt_cnt = 0;

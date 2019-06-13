@@ -29,33 +29,33 @@ import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 public class HomePageRecommendedItemList {
 
     @View(R.id.imageViewRecommended)
-    private ImageView imageViewRecommended;
+    public ImageView imageViewRecommended;
 
     @View(R.id.headingTxtRecommended)
-    private TextView headingTxtRecommended;
+    public TextView headingTxtRecommended;
 
     @Toggle(R.id.productItemRecommended)
-    private CardView productItemRecommended;
+    public CardView productItemRecommended;
 
     @View(R.id.item_priceRecommended)
-    private TextView item_priceRecommended;
+    public TextView item_priceRecommended;
 
     @View(R.id.integer_numberRecommended)
-    private TextView integer_numberRecommended;
+    public TextView integer_numberRecommended;
 
     @View(R.id.qntyRecommended)
-    private TextView qntyRecommended;
+    public TextView qntyRecommended;
 
 
 
-    private String mUlr;
-    private Context mContext;
-    private PlaceHolderView mPlaceHolderView;
-    private String mHeading;
-    private String mPrdImgUrl,mPrice,mQty;
+    public String mUlr;
+    public Context mContext;
+    public PlaceHolderView mPlaceHolderView;
+    public String mHeading;
+    public String mPrdImgUrl,mPrice,mQty;
     int minteger = 0;
     int cart_count = 0;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     public HomePageRecommendedItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price, String qty) {
@@ -68,7 +68,7 @@ public class HomePageRecommendedItemList {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         Glide.with(mContext).load(mPrdImgUrl).into(imageViewRecommended);
         headingTxtRecommended.setText(mHeading);
         item_priceRecommended.setText("₹"+" "+mPrice);
@@ -76,7 +76,7 @@ public class HomePageRecommendedItemList {
 
     }
     @Click(R.id.productItemDealofDay)
-    private void onLongClick(){
+    public void onLongClick(){
         Intent intent = new Intent(mContext, productDetial.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
@@ -119,13 +119,13 @@ public class HomePageRecommendedItemList {
     }
 
 
-    private void display(int number)
+    public void display(int number)
     {
         integer_numberRecommended.setText("" + number);
     }
 
 
-    private void countCartDisplay(int number)
+    public void countCartDisplay(int number)
     {
 
         BottomNavigationMenuView bottomNavigationMenuView =
@@ -142,7 +142,7 @@ public class HomePageRecommendedItemList {
 
 
     /*@LongClick(R.id.imageViewDealofDay)
-    private void onLongClick(){
+    public void onLongClick(){
         mPlaceHolderView.removeView(this);
     }*/
 }

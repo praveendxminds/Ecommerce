@@ -19,10 +19,10 @@ import java.util.List;
 public class HomePageRecommended {
 
     @View(R.id.placeholderviewRecommended)
-    private PlaceHolderView placeholderviewRecommended;
+    public PlaceHolderView placeholderviewRecommended;
 
-    private Context mContext;
-    private List<ProductslHomePage.DealOfDayList> mImageList;
+    public Context mContext;
+    public List<ProductslHomePage.DealOfDayList> mImageList;
 
     public HomePageRecommended(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
@@ -30,7 +30,7 @@ public class HomePageRecommended {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         placeholderviewRecommended.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)

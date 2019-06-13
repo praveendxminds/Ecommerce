@@ -19,7 +19,7 @@ import com.app.ecommerce.R;
 @Layout(R.layout.address_item_header)
 public class AddressItemHeader {
 
-    private Context mContext;
+    public Context mContext;
 
     public AddressItemHeader(Context cnt)
     {
@@ -27,7 +27,7 @@ public class AddressItemHeader {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
 
     }
 

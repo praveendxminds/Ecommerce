@@ -61,7 +61,7 @@ public class AddAddress extends AppCompatActivity implements
     private CheckBox bill_chk,ship_chk;
 
 
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     @Override

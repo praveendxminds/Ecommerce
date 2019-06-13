@@ -33,7 +33,7 @@ import static com.app.ecommerce.Utils.CheckInternetConnection;
 public class TabFragment extends Fragment {
 
     APIInterface apiInterface;
-    private Context mContext;
+    public Context mContext;
     private PlaceHolderView mCartView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

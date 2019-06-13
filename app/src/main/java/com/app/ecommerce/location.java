@@ -68,7 +68,7 @@ public class location extends AppCompatActivity {
 
     DatePickerDialog.OnDateSetListener date;
 
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
     Bundle intent_extras;
     String loc_intent_val;

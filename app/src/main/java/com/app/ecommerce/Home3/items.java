@@ -10,19 +10,19 @@ public class items {
 
     @SerializedName("url")
     @Expose
-    private String imageUrl;
+    public String imageUrl;
 
     @SerializedName("title")
     @Expose
-    private String title;
+    public String title;
 
     @SerializedName("price")
     @Expose
-    private String price;
+    public String price;
 
     @SerializedName("qty")
     @Expose
-    private String qty;
+    public String qty;
 
 
     public String getImageUrl() {

@@ -29,33 +29,33 @@ import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 public class HomePageListOfProductsItemList {
 
     @View(R.id.imageViewListProduct)
-    private ImageView imageViewListProduct;
+    public ImageView imageViewListProduct;
 
     @View(R.id.headingTxtListProduct)
-    private TextView headingTxtListProduct;
+    public TextView headingTxtListProduct;
 
     @Toggle(R.id.productItemListProduct)
-    private CardView productItemListProduct;
+    public CardView productItemListProduct;
 
     @View(R.id.item_priceListProduct)
-    private TextView item_priceListProduct;
+    public TextView item_priceListProduct;
 
     @View(R.id.integer_numberListProduct)
-    private TextView integer_numberListProduct;
+    public TextView integer_numberListProduct;
 
     @View(R.id.qntyListProduct)
-    private TextView qntyListProduct;
+    public TextView qntyListProduct;
 
 
 
-    private String mUlr;
-    private Context mContext;
-    private PlaceHolderView mPlaceHolderView;
-    private String mHeading;
-    private String mPrdImgUrl,mPrice,mQty;
+    public String mUlr;
+    public Context mContext;
+    public PlaceHolderView mPlaceHolderView;
+    public String mHeading;
+    public String mPrdImgUrl,mPrice,mQty;
     int minteger = 0;
     int cart_count = 0;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     public HomePageListOfProductsItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price, String qty) {
@@ -68,7 +68,7 @@ public class HomePageListOfProductsItemList {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         Glide.with(mContext).load(mPrdImgUrl).into(imageViewListProduct);
         headingTxtListProduct.setText(mHeading);
         item_priceListProduct.setText("₹"+" "+mPrice);
@@ -76,7 +76,7 @@ public class HomePageListOfProductsItemList {
 
     }
     @Click(R.id.productItemDealofDay)
-    private void onLongClick(){
+    public void onLongClick(){
         Intent intent = new Intent(mContext, productDetial.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
@@ -119,13 +119,13 @@ public class HomePageListOfProductsItemList {
     }
 
 
-    private void display(int number)
+    public void display(int number)
     {
         integer_numberListProduct.setText("" + number);
     }
 
 
-    private void countCartDisplay(int number)
+    public void countCartDisplay(int number)
     {
 
         BottomNavigationMenuView bottomNavigationMenuView =
@@ -142,7 +142,7 @@ public class HomePageListOfProductsItemList {
 
 
     /*@LongClick(R.id.imageViewDealofDay)
-    private void onLongClick(){
+    public void onLongClick(){
         mPlaceHolderView.removeView(this);
     }*/
 }

@@ -19,7 +19,7 @@ import com.app.ecommerce.R;
 public class cartItem_footer {
 
     @View(R.id.prc)
-    private TextView imageView;
+    public TextView imageView;
 
 
     public cartItem_footer() {
@@ -27,7 +27,7 @@ public class cartItem_footer {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
 
     }
 }

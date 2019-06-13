@@ -42,7 +42,7 @@ public class forgot extends AppCompatActivity {
     EditText email;
     LoginButton loginButton;
     CallbackManager callbackManager;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
     Bundle intent_extras;
     String login_intent_val;

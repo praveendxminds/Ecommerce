@@ -29,17 +29,17 @@ import com.app.ecommerce.retrofit.APIInterface;
  * Created by janisharali on 19/08/16.
  */
 
-@Animate(Animation.CARD_TOP_IN_DESC)
+
 @NonReusable
 @Layout(R.layout.feed_item)
 public class ImageTypeSmallList {
 
     @View(R.id.galleryView)
-    private PlaceHolderView mPlaceHolderView;
+    public PlaceHolderView mPlaceHolderView;
 
-    private Context mContext;
+    public Context mContext;
 
-    private Integer mid;
+    public Integer mid;
     APIInterface apiInterface;
 
     public ImageTypeSmallList(Context context,Integer id) {
@@ -48,7 +48,7 @@ public class ImageTypeSmallList {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         mPlaceHolderView.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)

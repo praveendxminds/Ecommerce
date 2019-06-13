@@ -35,7 +35,7 @@ import com.app.ecommerce.addresbook.AddressBook;
 public class profile extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     Toolbar toolbar;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
     TextView nme,email,profile_title;
     private GoogleApiClient mGoogleApiClient;

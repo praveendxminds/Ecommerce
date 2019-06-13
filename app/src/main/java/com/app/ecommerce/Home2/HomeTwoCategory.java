@@ -63,12 +63,12 @@ public class HomeTwoCategory extends AppCompatActivity {
 
     Toolbar toolbar;
     View menuItemView;
-    public static final String MyPREFERENCES = "sessiondata";
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
     private static HomeTwoCategory instance;
-    private Context mContext;
+    public Context mContext;
     AutoCompleteTextView searchEditText;
     public static BottomNavigationView bottomNavigationView;
     int crt_cnt = 0;

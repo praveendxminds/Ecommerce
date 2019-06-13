@@ -82,7 +82,7 @@ public class HomeOne extends AppCompatActivity {
     private DrawerLayout mDrawerHomeOne;
     private Toolbar mToolbarHomeOne;
     private PlaceHolderView list_items_home_one;
-    private Context mContext;
+    public Context mContext;
     private ViewPager vpagerHomeOne;
     private static HomeOne instance;
     APIInterface apiInterface;
@@ -90,7 +90,7 @@ public class HomeOne extends AppCompatActivity {
     ProgressBar progressBarHomeOne;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     AutoCompleteTextView searchEditText;
-    public static final String MyPREFERENCES = "sessiondata";
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
 

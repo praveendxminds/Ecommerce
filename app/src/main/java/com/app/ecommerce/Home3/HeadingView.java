@@ -30,23 +30,23 @@ import com.app.ecommerce.R;
 public class HeadingView {
 
     @View(R.id.headingTxt)
-    private TextView headingTxt;
+    public TextView headingTxt;
 
     @View(R.id.toggleIcon)
-    private ImageView toggleIcon;
+    public ImageView toggleIcon;
 
     @View(R.id.itemIcon)
-    private CircularImageView imageView;
+    public CircularImageView imageView;
 
     @Toggle(R.id.toggleView)
-    private LinearLayout toggleView;
+    public LinearLayout toggleView;
 
     @ParentPosition
-    private int mParentPosition;
+    public int mParentPosition;
 
-    private Context mContext;
-    private String mHeading;
-    private String mCatImgUrl;
+    public Context mContext;
+    public String mHeading;
+    public String mCatImgUrl;
 
     public HeadingView(Context context, String heading,String CatImgUrl) {
         mContext = context;
@@ -55,7 +55,7 @@ public class HeadingView {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         toggleIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.right));
         headingTxt.setText(mHeading);
         Glide.with(mContext).load(mCatImgUrl).into(imageView);
@@ -63,12 +63,12 @@ public class HeadingView {
     }
 
     @Expand
-    private void onExpand(){
+    public void onExpand(){
         toggleIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down));
     }
 
     @Collapse
-    private void onCollapse(){
+    public void onCollapse(){
         toggleIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.right));
     }
 }

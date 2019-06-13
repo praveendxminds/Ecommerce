@@ -34,34 +34,34 @@ import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 public class HomeOneProductItem {
 
     @View(R.id.headingTxt)
-    private TextView headingTxt;
+    public TextView headingTxt;
 
 
     @View(R.id.itemIcon)
-    private ImageView imageView;
+    public ImageView imageView;
 
     @Toggle(R.id.productItem)
-    private CardView productItem;
+    public CardView productItem;
 
     @View(R.id.item_price)
-    private TextView item_price;
+    public TextView item_price;
 
     @View(R.id.integer_number)
-    private TextView integer_number;
+    public TextView integer_number;
 
     @View(R.id.qnty)
-    private TextView item_qty;
+    public TextView item_qty;
 
 
     @ParentPosition
-    private int mParentPosition;
+    public int mParentPosition;
 
-    private Context mContext;
-    private String mHeading;
-    private String mPrdImgUrl,mPrice,mQty;
+    public Context mContext;
+    public String mHeading;
+    public String mPrdImgUrl,mPrice,mQty;
     int minteger = 0;
     int cart_count = 0;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
 
@@ -75,7 +75,7 @@ public class HomeOneProductItem {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         headingTxt.setText(mHeading);
         Glide.with(mContext).load(mPrdImgUrl).into(imageView);
         item_price.setText("₹"+" "+mPrice);
@@ -84,7 +84,7 @@ public class HomeOneProductItem {
     }
 
     @Click(R.id.productItem)
-    private void onLongClick(){
+    public void onLongClick(){
         Intent intent = new Intent(mContext, productDetial.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
@@ -122,13 +122,13 @@ public class HomeOneProductItem {
     }
 
 
-    private void display(int number)
+    public void display(int number)
     {
         integer_number.setText("" + number);
     }
 
 
-    private void countCartDisplay(int number)
+    public void countCartDisplay(int number)
     {
 
         BottomNavigationMenuView bottomNavigationMenuView =

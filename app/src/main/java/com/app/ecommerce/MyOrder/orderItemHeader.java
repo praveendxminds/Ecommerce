@@ -22,7 +22,7 @@ public class orderItemHeader {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
 
     }
 }

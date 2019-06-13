@@ -43,18 +43,18 @@ public class DrawerMenuItem {
     public static final int DRAWER_MENU_ITEM_FEEDBACK = 8;
     public static final int DRAWER_MENU_ITEM_SHARE = 9;
 
-    private int mMenuPosition;
-    private Context mContext;
-    private DrawerCallBack mCallBack;
+    public int mMenuPosition;
+    public Context mContext;
+    public DrawerCallBack mCallBack;
 
     @View(R.id.itemNameTxt)
-    private TextView itemNameTxt;
+    public TextView itemNameTxt;
 
     @View(R.id.itemIcon)
-    private ImageView itemIcon;
+    public ImageView itemIcon;
 
     @View(R.id.mainView)
-    private LinearLayout mDrawer;
+    public LinearLayout mDrawer;
 
     public DrawerMenuItem(Context context, int menuPosition) {
         mContext = context;
@@ -63,7 +63,7 @@ public class DrawerMenuItem {
 
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         switch (mMenuPosition){
             case DRAWER_MENU_ITEM_PREFERENCE:
                 itemNameTxt.setText("Preferences");
@@ -105,7 +105,7 @@ public class DrawerMenuItem {
     }
 
     @Click(R.id.mainView)
-    private void onMenuItemClick(){
+    public void onMenuItemClick(){
         switch (mMenuPosition){
             case DRAWER_MENU_ITEM_PREFERENCE:
                 prefrences();

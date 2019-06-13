@@ -35,7 +35,7 @@ public class productDetial extends AppCompatActivity {
     int cart_count = 0;
 
     android.view.View menuItemView;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
 

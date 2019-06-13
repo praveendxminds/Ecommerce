@@ -29,22 +29,22 @@ import me.relex.circleindicator.CircleIndicator;
 public class HomePageImageSlider {
 
     @View(R.id.pager_home_1)
-    private ViewPager mPager;
+    public ViewPager mPager;
 
     @View(R.id.indicator_home_1)
-    private CircleIndicator indicator;
+    public CircleIndicator indicator;
 
-    private static int currentPage = 0;
-    private static final Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
-    private ArrayList<String> XMENArray = new ArrayList<String>();
+    public static int currentPage = 0;
+  public static Integer[] XMEN= {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
+    public ArrayList<String> XMENArray = new ArrayList<String>();
 
 
     @ParentPosition
-    private int mParentPosition;
+    public int mParentPosition;
 
-    private Context mContext;
-    private ArrayList<String> mHeading;
-    private ArrayList<String> mCatImgUrl;
+    public Context mContext;
+    public ArrayList<String> mHeading;
+    public ArrayList<String> mCatImgUrl;
 
     public HomePageImageSlider(Context context, ArrayList<String> heading, ArrayList<String> CatImgUrl) {
         mContext = context;
@@ -58,7 +58,7 @@ public class HomePageImageSlider {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
 
         mPager.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
 

@@ -22,10 +22,10 @@ import java.util.List;
 public class HomePageDealofDayList {
 
     @View(R.id.placeholderviewDealofDay)
-    private PlaceHolderView placeholderviewDealofDay;
+    public PlaceHolderView placeholderviewDealofDay;
 
-    private Context mContext;
-    private List<ProductslHomePage.DealOfDayList> mImageList;
+    public Context mContext;
+    public List<ProductslHomePage.DealOfDayList> mImageList;
 
     public HomePageDealofDayList(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
@@ -33,7 +33,7 @@ public class HomePageDealofDayList {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         placeholderviewDealofDay.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
@@ -44,7 +44,7 @@ public class HomePageDealofDayList {
         }
     }
     @Click(R.id.dealofdayClick)
-    private void onClick(){
+    public void onClick(){
         Intent intent = new Intent(mContext, HomeCategory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);

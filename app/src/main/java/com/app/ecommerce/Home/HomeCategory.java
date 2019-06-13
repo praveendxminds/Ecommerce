@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -78,13 +79,13 @@ public class HomeCategory extends AppCompatActivity {
 
     Toolbar toolbar;
     private PlaceHolderView mCartView;
-    private Button btn_sortHomeCateg,btn_filterHomeCateg;
+    private Button btn_sortHomeCateg, btn_filterHomeCateg;
     APIInterface apiInterface;
-    private Context mContext;
+    public Context mContext;
     private static HomeCategory instance;
     public static BottomNavigationView bottomNavigationView;
 
-    public static final String MyPREFERENCES = "sessiondata";
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
     int crt_cnt = 0;
@@ -92,6 +93,7 @@ public class HomeCategory extends AppCompatActivity {
     Integer name_session;
     ArrayAdapter<String> adapter;
     ArrayList<HomeCategoryItem> list = new ArrayList<HomeCategoryItem>();
+    public boolean state = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,7 @@ public class HomeCategory extends AppCompatActivity {
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         btn_filterHomeCateg = findViewById(R.id.btn_filterHomeCateg);
         btn_sortHomeCateg = findViewById(R.id.btn_sortHomeCateg);
-        List<ProductsHomeTwo.tab> mList=new ArrayList();
+        List<ProductsHomeTwo.tab> mList = new ArrayList();
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -129,17 +131,28 @@ public class HomeCategory extends AppCompatActivity {
 
                     for (ProductsHomeTwo.tab imgs : datumList) {
                         if (response.isSuccessful()) {
-                            HomeCategoryItem pht = new HomeCategoryItem(mContext, imgs.url, imgs.title, imgs.price);
 
                             mCartView.addView(new HomeCategoryItem(mContext, imgs.url, imgs.title, imgs.price));
-
-                            list.add(pht);
-
-
 
                         }
 
                     }
+
+
+                    mCartView.sort(new Comparator<Object>() {
+                        @Override
+                        public int compare(Object item1, Object item2) {
+                            if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
+                                HomeCategoryItem view1 = (HomeCategoryItem) item1;
+                                HomeCategoryItem view2 = (HomeCategoryItem) item2;
+                                return view1.getTitle().compareTo(view2.getTitle());
+                            }
+                            return 0;
+                        }
+                    });
+
+                    mCartView.refresh();
+
 
                 }
 
@@ -148,6 +161,8 @@ public class HomeCategory extends AppCompatActivity {
                     call.cancel();
                 }
             });
+
+
         } else {
             Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
@@ -200,48 +215,54 @@ public class HomeCategory extends AppCompatActivity {
                     }
                 });
 //-------------------------------sort and filter option--------------------------------------------
-      /*  final boolean[] state = {true};
+
         btn_sortHomeCateg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (state[0]) {
+            public void onClick(final View v) {
+                if (state==false) {
                     //sort
-                    Collections.sort(list, new Comparator<Double>() {
+                    mCartView.sort(new Comparator<Object>() {
                         @Override
-                        public int compare(Double o1, Double o2) {
-                            return Double.compare(o2, o1);
+                        public int compare(Object item1, Object item2) {
+                            if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
+                                HomeCategoryItem view1 = (HomeCategoryItem) item1;
+                                HomeCategoryItem view2 = (HomeCategoryItem) item2;
+                                Log.e("----sorted------", view1.getTitle()+"  "+view2.getTitle());
+                                //v.setBackgroundResource(R.drawable.settings);
+                                btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.settings, 0, 0, 0);
+                                return view1.getTitle().compareTo(view2.getTitle());
+                            }
+                            return 0;
                         }
                     });
-                    state[0] = false;
+
+                    mCartView.refresh();
+                    state=true;
                 } else {
                     //reverse
-                    state[0] = true;
+                    mCartView.sort(new Comparator<Object>() {
+                        @Override
+                        public int compare(Object item1, Object item2) {
+                            if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
+                                HomeCategoryItem view1 = (HomeCategoryItem) item1;
+                                HomeCategoryItem view2 = (HomeCategoryItem) item2;
+                               // v.setBackgroundResource(R.drawable.phone);
+                                btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);
+                                Log.e("----reversed------", view1.getTitle()+"  "+view2.getTitle());
+                                return view2.getTitle().compareToIgnoreCase(view1.getTitle());
+                            }
+                            return 0;
+                        }
+                    });
+                    mCartView.refresh();
+                    state = false;
                 }
             }
-        });*/
-        final ArrayList<HomeCategoryItem> list2 = new ArrayList<HomeCategoryItem>();
-      btn_sortHomeCateg.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              if (list.size() > 0) {
-                  Collections.sort(list, new Comparator<HomeCategoryItem>() {
-
-                      @Override
-                      public int compare(HomeCategoryItem lhs, HomeCategoryItem rhs) {
-
-                           return lhs.getTitle().compareTo(rhs.getTitle());
-
-                      }
-
-
-                  });
-              }
-
-          }
-      });
+        });
 
     }
-//--------------------------------------toolbarmenu------------------------------------------------------------------
+
+    //--------------------------------------toolbarmenu------------------------------------------------------------------
 //---------------------------------------for scanner popup-------------------------------------------------------
     public void showResultDialogue(final String result) {
         AlertDialog.Builder builder;
@@ -270,23 +291,25 @@ public class HomeCategory extends AppCompatActivity {
                 })
                 .show();
     }
-//----------------------------------------------------------------------------------------------------------------------------
-@Override
-protected void onResume() {
-    super.onResume();
+
+    //----------------------------------------------------------------------------------------------------------------------------
+    @Override
+    protected void onResume() {
+        super.onResume();
 
 
-    sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-    name_session = sharedpreferences.getInt("count", 0);
+        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        name_session = sharedpreferences.getInt("count", 0);
 
 
-    BottomNavigationMenuView bottomNavigationMenuView =
-            (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-    view_count = bottomNavigationMenuView.getChildAt(4);
-    new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        BottomNavigationMenuView bottomNavigationMenuView =
+                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        view_count = bottomNavigationMenuView.getChildAt(4);
+        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
 
-}
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

@@ -84,7 +84,7 @@ public class HomeTwo extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private PlaceHolderView list_items;
-    private Context mContext;
+    public Context mContext;
     private ViewPager vpagerhome;
     private static HomeTwo instance;
     APIInterface apiInterface;
@@ -92,7 +92,7 @@ public class HomeTwo extends AppCompatActivity {
     ProgressBar progressBar;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     AutoCompleteTextView searchEditText;
-    public static final String MyPREFERENCES = "sessiondata";
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
     int crt_cnt = 0;

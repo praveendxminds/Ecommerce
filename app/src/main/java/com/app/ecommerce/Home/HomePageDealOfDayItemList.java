@@ -32,33 +32,33 @@ import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 public class HomePageDealOfDayItemList {
 
     @View(R.id.imageViewDealofDay)
-    private ImageView imageViewDealofDay;
+    public ImageView imageViewDealofDay;
 
     @View(R.id.headingTxtDealofDay)
-    private TextView headingTxtDealofDay;
+    public TextView headingTxtDealofDay;
 
     @Toggle(R.id.productItemDealofDay)
-    private CardView productItemDealofDay;
+    public CardView productItemDealofDay;
 
     @View(R.id.item_priceDealofDay)
-    private TextView item_priceDealofDay;
+    public TextView item_priceDealofDay;
 
     @View(R.id.integer_numberDealofDay)
-    private TextView integer_numberDealofDay;
+    public TextView integer_numberDealofDay;
 
     @View(R.id.qntyDealofDay)
-    private TextView item_qtyDealofDay;
+    public TextView item_qtyDealofDay;
 
 
 
-    private String mUlr;
-    private Context mContext;
-    private PlaceHolderView mPlaceHolderView;
-    private String mHeading;
-    private String mPrdImgUrl,mPrice,mQty;
+    public String mUlr;
+    public Context mContext;
+    public PlaceHolderView mPlaceHolderView;
+    public String mHeading;
+    public String mPrdImgUrl,mPrice,mQty;
     int minteger = 0;
     int cart_count = 0;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     public HomePageDealOfDayItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price, String qty) {
@@ -71,7 +71,7 @@ public class HomePageDealOfDayItemList {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         Glide.with(mContext).load(mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
         item_priceDealofDay.setText("₹"+" "+mPrice);
@@ -79,7 +79,7 @@ public class HomePageDealOfDayItemList {
 
     }
     @Click(R.id.productItemDealofDay)
-    private void onLongClick(){
+    public void onLongClick(){
         Intent intent = new Intent(mContext, productDetial.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
@@ -87,7 +87,7 @@ public class HomePageDealOfDayItemList {
     @Click(R.id.addcartDealofDay)
     public void AddToCartClick()
     {
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+      /*  sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = sharedpreferences.getInt("count", 0);
 
         //  cart_count = cart_count + 1;
@@ -95,11 +95,11 @@ public class HomePageDealOfDayItemList {
         name_session = name_session +1;
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", name_session);
+        editor.putInt("count", 3);
         editor.commit();
+*/
 
-
-        countCartDisplay(name_session);
+        countCartDisplay(3);
     }
 
 
@@ -123,13 +123,13 @@ public class HomePageDealOfDayItemList {
     }
 
 
-    private void display(int number)
+    public void display(int number)
     {
         integer_numberDealofDay.setText("" + number);
     }
 
 
-    private void countCartDisplay(int number)
+    public void countCartDisplay(int number)
     {
 
         BottomNavigationMenuView bottomNavigationMenuView =
@@ -146,7 +146,7 @@ public class HomePageDealOfDayItemList {
 
 
     /*@LongClick(R.id.imageViewDealofDay)
-    private void onLongClick(){
+    public void onLongClick(){
         mPlaceHolderView.removeView(this);
     }*/
 }

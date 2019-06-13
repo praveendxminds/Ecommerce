@@ -19,10 +19,10 @@ import java.util.List;
 public class HomePageListofProducts {
 
     @View(R.id.placeholderviewListProducts)
-    private PlaceHolderView placeholderviewListProducts;
+    public PlaceHolderView placeholderviewListProducts;
 
-    private Context mContext;
-    private List<ProductslHomePage.DealOfDayList> mImageList;
+    public Context mContext;
+    public List<ProductslHomePage.DealOfDayList> mImageList;
 
     public HomePageListofProducts(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
@@ -30,7 +30,7 @@ public class HomePageListofProducts {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         placeholderviewListProducts.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)

@@ -41,28 +41,28 @@ import static com.app.ecommerce.R.layout.spinner_product_qtylist_home_two;
 public class HomeCategoryItem {
 
     @View(R.id.itemIconHomePage)
-    private ImageView itemIconHomePage;
+    public ImageView itemIconHomePage;
 
     @View(R.id.headingTxtHomePage)
-    private TextView headingTxtHomePage;
+    public TextView headingTxtHomePage;
 
     @View(R.id.qntyHomePage)
-    private Spinner qntyHomePage;
+    public Spinner qntyHomePage;
 
     @View(R.id.priceNewHomePage)
-    private TextView priceNewHomePage;
+    public TextView priceNewHomePage;
 
     @ParentPosition
-    private int mParentPosition;
+    public int mParentPosition;
 
-   private String murl;
-    private String mprice;
-    private String mqty;
+    public String murl;
+    public String mprice;
+    public String mqty;
    public String mtitle;
-    private Context mContext;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public Context mContext;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
-    final String[] qtyArray = {"100gm", "200gm", "300gm","50gm","500gm","1kg"};
+   String[] qtyArray= {"100gm", "200gm", "300gm","50gm","500gm","1kg"};
 
 
     public HomeCategoryItem(Context context, String url,String title,String price) {
@@ -84,7 +84,7 @@ public class HomeCategoryItem {
 
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         headingTxtHomePage.setText(mtitle+", Organically grown");
         Glide.with(mContext).load(murl).into(itemIconHomePage);
         priceNewHomePage.setText("Rs."+" "+mprice);
@@ -124,7 +124,7 @@ public class HomeCategoryItem {
 
         countCartDisplay(name_session);
     }
-    private void countCartDisplay(int number)
+    public void countCartDisplay(int number)
     {
 
         BottomNavigationMenuView bottomNavigationMenuView =

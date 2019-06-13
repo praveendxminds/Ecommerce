@@ -31,30 +31,30 @@ import static com.app.ecommerce.Home3.HomeThree.bottomNavigationView;
 public class ImageTypeSmall {
 
     @View(R.id.imageView)
-    private ImageView imageView;
+    public ImageView imageView;
 
     @View(R.id.item_title)
-    private TextView item_title;
+    public TextView item_title;
 
     @View(R.id.item_price)
-    private TextView item_price;
+    public TextView item_price;
 
     @View(R.id.integer_number)
-    private TextView integer_number;
+    public TextView integer_number;
 
 
     @View(R.id.qnty)
-    private TextView item_qty;
+    public TextView item_qty;
 
-    private String mUlr;
-    private String mItem_title;
-    private String mItem_price;
-    private String mItem_qty;
-    private Context mContext;
-    private PlaceHolderView mPlaceHolderView;
+    public String mUlr;
+    public String mItem_title;
+    public String mItem_price;
+    public String mItem_qty;
+    public Context mContext;
+    public PlaceHolderView mPlaceHolderView;
     int minteger = 0;
     int cart_count = 0;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     public ImageTypeSmall(Context context, PlaceHolderView placeHolderView, String ulr, String title, String price, String qty) {
@@ -70,7 +70,7 @@ public class ImageTypeSmall {
     }
 
     @Resolve
-    private void onResolved()
+    public void onResolved()
     {
 
         Glide.with(mContext).load(mUlr).into(imageView);
@@ -127,13 +127,13 @@ public class ImageTypeSmall {
     }
 
 
-    private void display(int number)
+    public void display(int number)
     {
         integer_number.setText("" + number);
     }
 
 
-    private void countCartDisplay(int number)
+    public void countCartDisplay(int number)
     {
 
         BottomNavigationMenuView bottomNavigationMenuView =

@@ -29,23 +29,23 @@ import com.mindorks.placeholderview.annotations.expand.Toggle;
 public class HomeTwoCategoryItem {
 
     @View(R.id.headingTxt)
-    private TextView headingTxt;
+    public TextView headingTxt;
 
    @View(R.id.toggleIcon)
-    private ImageView toggleIcon;
+   public ImageView toggleIcon;
 
     @View(R.id.itemIcon)
-    private ImageView imageView;
+    public ImageView imageView;
 
     @Toggle(R.id.productItem)
-    private CardView productItem;
+    public CardView productItem;
 
     @ParentPosition
-    private int mParentPosition;
+    public int mParentPosition;
 
-    private Context mContext;
-    private String mHeading;
-    private String mCatImgUrl;
+    public Context mContext;
+    public String mHeading;
+    public String mCatImgUrl;
 
     public HomeTwoCategoryItem(Context context, String heading, String CatImgUrl) {
         mContext = context;
@@ -54,7 +54,7 @@ public class HomeTwoCategoryItem {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
        // toggleIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.right));
         headingTxt.setText(mHeading);
         Glide.with(mContext).load(mCatImgUrl).into(imageView);
@@ -62,19 +62,19 @@ public class HomeTwoCategoryItem {
     }
 
     @Click(R.id.productItem)
-    private void onLongClick(){
+    public void onLongClick(){
         Intent intent = new Intent(mContext, HomeTwoCategory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
     @Expand
-    private void onExpand(){
+    public void onExpand(){
        // toggleIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down));
     }
 
     @Collapse
-    private void onCollapse(){
+    public void onCollapse(){
        // toggleIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.right));
     }
 }

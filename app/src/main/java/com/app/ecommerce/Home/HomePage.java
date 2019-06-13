@@ -84,7 +84,7 @@ public class HomePage extends AppCompatActivity {
     private DrawerLayout mDrawerHomePage;
     private Toolbar mToolbarHomePage;
     private PlaceHolderView list_items_homePage;
-    private Context mContext;
+    public Context mContext;
     private ViewPager vpagerHomePage;
     private static HomePage instance;
     APIInterface apiInterface;
@@ -92,7 +92,7 @@ public class HomePage extends AppCompatActivity {
     ProgressBar progressBarHomePage;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     AutoCompleteTextView searchEditText;
-    public static final String MyPREFERENCES = "sessiondata";
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
 

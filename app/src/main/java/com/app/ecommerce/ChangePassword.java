@@ -18,7 +18,7 @@ import com.app.ecommerce.R;
 public class ChangePassword extends AppCompatActivity {
 
     Toolbar toolbar;
-    public static final String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
 
     TextView profile_title;

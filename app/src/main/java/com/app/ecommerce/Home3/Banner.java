@@ -25,14 +25,14 @@ public class Banner {
 
 
     @View(R.id.banner)
-    private ImageView imageView;
+    public ImageView imageView;
 
 
 
 
-    private Drawable mDrawable;
-    private Context mContext;
-    private String mUrl;
+    public Drawable mDrawable;
+    public Context mContext;
+    public String mUrl;
 
     public Banner(Context context,String url)
     {
@@ -41,7 +41,7 @@ public class Banner {
     }
 
     @Resolve
-    private void onResolved() {
+    public void onResolved() {
         Glide.with(mContext).load(mUrl).into(imageView);
        // imageView.setImageDrawable(mDrawable);
     }
