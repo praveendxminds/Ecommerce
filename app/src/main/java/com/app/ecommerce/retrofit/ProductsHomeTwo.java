@@ -6,15 +6,10 @@ import java.util.List;
 
 public class ProductsHomeTwo {
 
-
-
     @SerializedName("images")
     public List<tab> data = null;
 
-
-    public class tab
-    {
-
+    public class tab {
 
         @SerializedName("url")
         public String url;
@@ -29,10 +24,5 @@ public class ProductsHomeTwo {
         public String qty;
 
     }
-
-
-
-
-
 }
 

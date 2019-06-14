@@ -131,8 +131,6 @@ public class HomeTwo extends AppCompatActivity {
         mDrawerView = (PlaceHolderView) findViewById(R.id.drawerView);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.loading);
-        //-----------------------------------------------------------AdapterFlipper------------------------------------------------------
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
         instance = this;
