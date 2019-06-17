@@ -53,9 +53,8 @@ import com.app.ecommerce.drawer.DrawerHeader;
 import com.app.ecommerce.drawer.DrawerMenuItem;
 import com.app.ecommerce.fcm.NotificationUtils;
 import com.app.ecommerce.fcm.fcmConfig;
-import com.app.ecommerce.login;
 import com.app.ecommerce.notifications.MyNotifications;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
@@ -400,7 +399,7 @@ public class HomeOne extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent prdIntent = new Intent(getBaseContext(), productDetial.class);
+                    Intent prdIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                     prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     Log.d("Firebase reg i: ", String.valueOf(i));
@@ -461,7 +460,7 @@ public class HomeOne extends AppCompatActivity {
                 //show dialogue with result
                 showResultDialogue(result.getContents());
 
-                Intent accountIntent = new Intent(getBaseContext(), productDetial.class);
+                Intent accountIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                 startActivity(accountIntent);
 
             }

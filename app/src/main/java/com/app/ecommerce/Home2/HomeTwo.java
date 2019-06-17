@@ -41,7 +41,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.app.ecommerce.BottomNavigationViewHelper;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
@@ -54,14 +53,12 @@ import com.app.ecommerce.drawer.DrawerHeader;
 import com.app.ecommerce.drawer.DrawerMenuItem;
 import com.app.ecommerce.fcm.NotificationUtils;
 import com.app.ecommerce.fcm.fcmConfig;
-import com.app.ecommerce.login;
 import com.app.ecommerce.notifications.MyNotifications;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.CategoriesHomeTwo;
-import com.app.ecommerce.retrofit.MultipleResources;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -403,7 +400,7 @@ public class HomeTwo extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent prdIntent = new Intent(getBaseContext(), productDetial.class);
+                    Intent prdIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                     prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     Log.d("Firebase reg i: ", String.valueOf(i));
@@ -465,7 +462,7 @@ public class HomeTwo extends AppCompatActivity {
                 //show dialogue with result
                 showResultDialogue(result.getContents());
 
-                Intent accountIntent = new Intent(getBaseContext(), productDetial.class);
+                Intent accountIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                 startActivity(accountIntent);
 
             }

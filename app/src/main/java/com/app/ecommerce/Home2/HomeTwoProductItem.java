@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -85,7 +85,7 @@ public class HomeTwoProductItem {
 
     @Click(R.id.productItem)
     public void onLongClick(){
-        Intent intent = new Intent(mContext, productDetial.class);
+        Intent intent = new Intent(mContext, ProductDetails_act.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

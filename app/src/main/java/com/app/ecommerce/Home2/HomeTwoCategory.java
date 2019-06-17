@@ -49,9 +49,8 @@ import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.delivery;
 import com.app.ecommerce.drawer.DrawerHeader;
 import com.app.ecommerce.drawer.DrawerMenuItem;
-import com.app.ecommerce.login;
 import com.app.ecommerce.notifications.MyNotifications;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.search;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -369,7 +368,7 @@ public class HomeTwoCategory extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent prdIntent = new Intent(getBaseContext(), productDetial.class);
+                    Intent prdIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                     prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     Log.d("Firebase reg i: ", String.valueOf(i));

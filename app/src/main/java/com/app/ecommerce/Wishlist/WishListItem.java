@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.app.ecommerce.R;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -79,7 +79,7 @@ public class WishListItem {
 
     @Click(R.id.ord_itWishList)
     public void onCardClick() {
-        Intent myIntent = new Intent(mContext, productDetial.class);
+        Intent myIntent = new Intent(mContext, ProductDetails_act.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 

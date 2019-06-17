@@ -33,7 +33,9 @@
 
         </com.mindorks.placeholderview.PlaceHolderView>
 
-
+        <include
+            android:id="@+id/navigation"
+            layout="@layout/bottom_navigation_main" />
 
     </RelativeLayout>
 </LinearLayout>

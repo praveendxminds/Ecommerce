@@ -9,14 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.bumptech.glide.Glide;
-import com.mindorks.placeholderview.Animation;
 import com.mindorks.placeholderview.PlaceHolderView;
-import com.mindorks.placeholderview.annotations.Animate;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
-import com.mindorks.placeholderview.annotations.LongClick;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
@@ -80,7 +77,7 @@ public class HomePageDealOfDayItemList {
     }
     @Click(R.id.productItemDealofDay)
     public void onLongClick(){
-        Intent intent = new Intent(mContext, productDetial.class);
+        Intent intent = new Intent(mContext, ProductDetails_act.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

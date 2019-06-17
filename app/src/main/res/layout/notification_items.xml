@@ -1,98 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/cart_shadow"
     android:id="@+id/notyfi_lt"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
     android:layout_marginBottom="10dp"
+    android:background="@drawable/cart_shadow"
+    android:orientation="vertical"
     android:padding="0dp">
 
-    <LinearLayout android:orientation="horizontal"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:padding="15dp"
-        android:layout_width="fill_parent">
-
-
-
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
             android:orientation="vertical"
-            android:layout_width="match_parent">
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp">
 
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_width="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/prd_name"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:textColor="@color/intercom_black"
-                    android:text="GF IDLY RICE"
-                    android:gravity="center"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginRight="10dp"
-                    android:textSize="17sp"
-                    android:fontFamily="@font/roboto_medium"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="top">
 
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/itemIconNotifi"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:civ_border_color="#FFFFFF"
+                        app:civ_border_width="4dp"
+                        app:civ_shadow="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/dayNotifi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Today"
+                        android:textAlignment="center"
+                        android:textColor="@color/grey"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/timeNotifi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="11:34 AM"
+                        android:textAllCaps="true"
+                        android:textColor="@color/blackshadow"
+                        android:textSize="12dp"
+                        android:textAlignment="center"/>
                 </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_width="wrap_content">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/blackshadow"
-                    android:text="Order Ref No :"
-                    android:gravity="center"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginRight="10dp"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/roboto_regular"/>
-
             </LinearLayout>
 
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/light_black"></View>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="7"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+
             <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="5dp"
-                android:layout_width="wrap_content">
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/blackshadow"
-                    android:text="01 Jan 2019"
-                    android:gravity="center"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginRight="10dp"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/roboto_regular"/>
+                    android:id="@+id/orderTitleNotifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="left"
+                    android:text="Your Order"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
 
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/orderNameNotifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Your order"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
 
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:id="@+id/orderDateNotifi"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="11 Jun 2019"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:gravity="center_vertical"/>
         </LinearLayout>
 
 
 
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

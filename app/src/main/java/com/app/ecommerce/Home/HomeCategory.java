@@ -1,15 +1,11 @@
 package com.app.ecommerce.Home;
 
-import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,47 +14,31 @@ import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuView;
-import android.support.v7.widget.SearchView;
+import android.support.v7.app.AppCompatActivity;;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.app.ecommerce.Home2.HomeTwo;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
-import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.barcode.ScannerActivity;
 import com.app.ecommerce.barcode.nfc;
 import com.app.ecommerce.cart.cart;
-import com.app.ecommerce.fcm.NotificationUtils;
-import com.app.ecommerce.fcm.fcmConfig;
-import com.app.ecommerce.productDetial;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
-import com.app.ecommerce.retrofit.CategoriesHomeTwo;
-import com.app.ecommerce.retrofit.ProductsHomeTwo;
-import com.app.ecommerce.search;
+import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -86,7 +66,8 @@ public class HomeCategory extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     View view_count;
 
-    public boolean state = true;Integer name_session;
+    public boolean state = true;
+    Integer name_session;
 
     UseSharedPreferences useSharedPreferences;
 
@@ -110,24 +91,44 @@ public class HomeCategory extends AppCompatActivity {
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         btn_filterHomeCateg = findViewById(R.id.btn_filterHomeCateg);
         btn_sortHomeCateg = findViewById(R.id.btn_sortHomeCateg);
-        List<ProductsHomeTwo.tab> mList = new ArrayList();
+        List<ProductslHomePage.DealOfDayList> mList = new ArrayList();
 
+        //--------------------------2 columns on placeholderview---------------------------------------
+      /*  GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+        // Create a custom SpanSizeLookup where the first item spans both columns
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position == 0)
+                    return 2;
+                else
+                    return 2;
+            }
+        });
+
+        mCartView.setLayoutManager(layoutManager);*/
+
+        final StaggeredGridLayoutManager layoutManager =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mCartView.setLayoutManager(layoutManager);
+//------------------------------------------------------------------------------------------------------
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 
-            Call<ProductsHomeTwo> call = apiInterface.doGetListProducts();
-            call.enqueue(new Callback<ProductsHomeTwo>() {
+            Call<ProductslHomePage> call = apiInterface.getHomePageProducts();
+            call.enqueue(new Callback<ProductslHomePage>() {
                 @Override
-                public void onResponse(Call<ProductsHomeTwo> call, Response<ProductsHomeTwo> response) {
+                public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
 
-                    ProductsHomeTwo resource = response.body();
-                    List<ProductsHomeTwo.tab> datumList = resource.data;
+                    ProductslHomePage resource = response.body();
+                    List<ProductslHomePage.DealOfDayList> datumList = resource.data;
 
-                    for (ProductsHomeTwo.tab imgs : datumList) {
+                    for (ProductslHomePage.DealOfDayList imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new HomeCategoryItem(mContext, imgs.url, imgs.title, imgs.price));
+                            mCartView.addView(new HomeCategoryItemGridView(mContext, imgs.prd_id, imgs.image, imgs.name, imgs.price));
 
                         }
 
@@ -152,7 +153,7 @@ public class HomeCategory extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<ProductsHomeTwo> call, Throwable t) {
+                public void onFailure(Call<ProductslHomePage> call, Throwable t) {
                     call.cancel();
                 }
             });
@@ -219,9 +220,9 @@ public class HomeCategory extends AppCompatActivity {
                     mCartView.sort(new Comparator<Object>() {
                         @Override
                         public int compare(Object item1, Object item2) {
-                            if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
-                                HomeCategoryItem view1 = (HomeCategoryItem) item1;
-                                HomeCategoryItem view2 = (HomeCategoryItem) item2;
+                            if (item1 instanceof HomeCategoryItemGridView && item2 instanceof HomeCategoryItemGridView) {
+                                HomeCategoryItemGridView view1 = (HomeCategoryItemGridView) item1;
+                                HomeCategoryItemGridView view2 = (HomeCategoryItemGridView) item2;
                                 Log.e("----sorted------", view1.getTitle() + "  " + view2.getTitle());
                                 //v.setBackgroundResource(R.drawable.settings);
                                 //changing image after clicking...
@@ -239,9 +240,9 @@ public class HomeCategory extends AppCompatActivity {
                     mCartView.sort(new Comparator<Object>() {
                         @Override
                         public int compare(Object item1, Object item2) {
-                            if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
-                                HomeCategoryItem view1 = (HomeCategoryItem) item1;
-                                HomeCategoryItem view2 = (HomeCategoryItem) item2;
+                            if (item1 instanceof HomeCategoryItemGridView && item2 instanceof HomeCategoryItemGridView) {
+                                HomeCategoryItemGridView view1 = (HomeCategoryItemGridView) item1;
+                                HomeCategoryItemGridView view2 = (HomeCategoryItemGridView) item2;
                                 // v.setBackgroundResource(R.drawable.phone);
                                 //changing image after clicking
                                 btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);

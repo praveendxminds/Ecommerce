@@ -42,7 +42,7 @@ import com.app.ecommerce.BottomNavigationViewHelper;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.delivery;
 import com.app.ecommerce.login;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -429,7 +429,7 @@ public class HomeThree extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent prdIntent = new Intent(getBaseContext(), productDetial.class);
+                    Intent prdIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                     prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     Log.d( "Firebase reg i: ", String.valueOf(i));
@@ -495,7 +495,7 @@ public class HomeThree extends AppCompatActivity {
                 //show dialogue with result
                 showResultDialogue(result.getContents());
 
-                Intent accountIntent = new Intent(getBaseContext(), productDetial.class);
+                Intent accountIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                 startActivity(accountIntent);
 
             }

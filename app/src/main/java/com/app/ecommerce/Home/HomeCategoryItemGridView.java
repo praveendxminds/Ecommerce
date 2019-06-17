@@ -29,25 +29,28 @@ import q.rorbin.badgeview.QBadgeView;
 import static com.app.ecommerce.Home2.HomeTwoCategory.bottomNavigationView;
 
 /**
- * Created by sushmita
+ * Created by sushmita on 17th June 2019
  */
 
 
 @NonReusable
-@Layout(R.layout.home_category_item)
-public class HomeCategoryItem {
+@Layout(R.layout.home_category_grid_item)
+public class HomeCategoryItemGridView {
 
-    @View(R.id.itemIconHomePage)
-    public ImageView itemIconHomePage;
+    @View(R.id.imageCategoryGrid)
+    public ImageView imageCategoryGrid;
 
-    @View(R.id.headingTxtHomePage)
-    public TextView headingTxtHomePage;
+    @View(R.id.titleCategoryGrid)
+    public TextView titleCategoryGrid;
 
-    @View(R.id.qntyHomePage)
-    public Spinner qntyHomePage;
+    @View(R.id.newPriceCategoryGrid)
+    public TextView newPriceCategoryGrid;
 
-    @View(R.id.priceNewHomePage)
-    public TextView priceNewHomePage;
+    @View(R.id.qtyCategoryGrid)
+    public Spinner qtyCategoryGrid;
+
+    @View(R.id.oldPriceCategoryGrid)
+    public TextView oldPriceCategoryGrid;
 
     @ParentPosition
     public int mParentPosition;
@@ -64,9 +67,9 @@ public class HomeCategoryItem {
     String[] qtyArray = {"100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
 
-    public HomeCategoryItem(Context context,String id, String url, String title, String price) {
+    public HomeCategoryItemGridView(Context context, String id, String url, String title, String price) {
         mContext = context;
-        mid=id;
+        mid = id;
         murl = url;
         mtitle = title;
         mprice = price;
@@ -87,9 +90,11 @@ public class HomeCategoryItem {
 
     @Resolve
     public void onResolved() {
-        headingTxtHomePage.setText(mtitle + ", Organically grown");
-        Glide.with(mContext).load("http://3.213.33.73/Ecommerce/upload/image/cache/catalog/product-square-tomatoes-200x200.jpg").into(itemIconHomePage);
-        priceNewHomePage.setText("Rs." + " " + mprice);
+        titleCategoryGrid.setText(mtitle);
+        Glide.with(mContext)
+                .load(murl)
+                .into(imageCategoryGrid);
+        newPriceCategoryGrid.setText("\u20B9" + " " + mprice);
 
 
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
@@ -98,22 +103,22 @@ public class HomeCategoryItem {
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
 
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
-        qntyHomePage.setAdapter(spinnerArrayAdapter);
+        qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
 
         useSharedPreferences = new UseSharedPreferences(mContext);
 
     }
 
-    @Click(R.id.ord_itHomePage)
+    @Click(R.id.ord_itCategoryGrid)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("id",mid);
+        myIntent.putExtra("prd_id", mid);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 
     }
 
-    @Click(R.id.addcartHomePage)
+    @Click(R.id.btnAddCategoryGrid)
     public void AddToCartClick() {
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = useSharedPreferences.getCountValue();
@@ -135,6 +140,4 @@ public class HomeCategoryItem {
                 .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
     }
-
-
 }

@@ -37,7 +37,7 @@ public class HomePageRecommended {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for(ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewRecommended.addView(new HomePageDealOfDayItemList(mContext, placeholderviewRecommended, image.url,image.title,image.price,image.qty));
+            placeholderviewRecommended.addView(new HomePageDealOfDayItemList(mContext, placeholderviewRecommended, image.image,image.name,image.price,image.qty));
         }
     }
 }

@@ -6,47 +6,31 @@ import java.util.List;
 
 public class ProductslHomePage {
 
+    @SerializedName("status")
+    public String string;
 
-
-    @SerializedName("images")
+    @SerializedName("result")
     public List<DealOfDayList> data = null;
 
-
-    @SerializedName("slider")
-    public List<imageslider> resultdata = null;
-
-    public class DealOfDayList
-    {
+    public class DealOfDayList {
 
 
-        @SerializedName("url")
-        public String url;
+        @SerializedName("product_id")
+        public String prd_id;
 
-        @SerializedName("title")
-        public String title;
+        @SerializedName("name")
+        public String name;
+
+        @SerializedName("quantity")
+        public String qty;
+
+        @SerializedName("image")
+        public String image;
 
         @SerializedName("price")
         public String price;
 
-        @SerializedName("qty")
-        public String qty;
-
     }
-
-    public class imageslider {
-
-        @SerializedName("slid")
-        public int slid;
-
-        @SerializedName("title")
-        public String title;
-
-        @SerializedName("slimg")
-        public String slimg;
-
-    }
-
-
 
 
 

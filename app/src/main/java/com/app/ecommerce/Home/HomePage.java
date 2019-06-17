@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,8 +28,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -55,9 +52,8 @@ import com.app.ecommerce.drawer.DrawerHeader;
 import com.app.ecommerce.drawer.DrawerMenuItem;
 import com.app.ecommerce.fcm.NotificationUtils;
 import com.app.ecommerce.fcm.fcmConfig;
-import com.app.ecommerce.login;
 import com.app.ecommerce.notifications.MyNotifications;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
@@ -69,7 +65,6 @@ import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
@@ -162,7 +157,7 @@ public class HomePage extends AppCompatActivity {
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
 
                     ProductslHomePage resource = response.body();
-
+/*
                     List<ProductslHomePage.imageslider> datumList = resource.resultdata;
                     for (ProductslHomePage.imageslider imageslider1 : datumList) {
 
@@ -173,8 +168,9 @@ public class HomePage extends AppCompatActivity {
                         headArray.add(imageslider1.title);
 
                     }
-                    list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));
+                    list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));*/
                     //-----------------------------------------deal of day ------------------------------------------
+/*
 
                     List<ProductslHomePage.DealOfDayList> imageListDeal = resource.data;
                     List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
@@ -201,6 +197,7 @@ public class HomePage extends AppCompatActivity {
                         Log.e("---recommended for you", String.valueOf(imageListRecommended.get(i)));
                     }
                     list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), newImageListRecommended));
+*/
 
                 }
 
@@ -411,7 +408,7 @@ public class HomePage extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent prdIntent = new Intent(getBaseContext(), productDetial.class);
+                    Intent prdIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                     prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     Log.d("Firebase reg i: ", String.valueOf(i));
@@ -472,7 +469,7 @@ public class HomePage extends AppCompatActivity {
                 //show dialogue with result
                 showResultDialogue(result.getContents());
 
-                Intent accountIntent = new Intent(getBaseContext(), productDetial.class);
+                Intent accountIntent = new Intent(getBaseContext(), ProductDetails_act.class);
                 startActivity(accountIntent);
 
             }

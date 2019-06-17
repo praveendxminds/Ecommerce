@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.app.ecommerce.R;
-import com.app.ecommerce.productDetial;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -40,7 +39,7 @@ public class HomePageDealofDayList {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for(ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay, image.url,image.title,image.price,image.qty));
+            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay, image.image,image.name,image.price,image.qty));
         }
     }
     @Click(R.id.dealofdayClick)

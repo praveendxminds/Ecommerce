@@ -1,0 +1,351 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarGrid"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/white"
+        android:layout_height="?attr/actionBarSize"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/toolbarGrid"
+        android:layout_above="@+id/footerGrid" >
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            />
+
+
+
+            <LinearLayout
+                android:id="@+id/prd_layoutGrid"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:background="@drawable/shadow"
+                android:layout_marginBottom="8dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/prd_imgGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:padding="8dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/price_layoutGrid"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_below="@+id/prd_layoutGrid"
+                android:background="@drawable/shadow"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:gravity="left">
+
+
+                    <TextView
+                        android:id="@+id/titleGrid"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/blackshadow"
+                        android:text="title"
+                        android:paddingBottom="5dp"
+                        android:gravity="left"
+                        android:textSize="24sp"
+                        android:fontFamily="@font/roboto_bold"/>
+
+
+                    <RelativeLayout
+                        android:id="@+id/price_viewGrid"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center|left">
+
+
+                        <TextView
+                            android:id="@+id/original_priceGrid"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/blackshadow"
+                            android:text="₹ 100"
+                            android:gravity="center"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginRight="10dp"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/roboto_medium"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blackshadow"
+                            android:text="₹ 500"
+                            android:background="@drawable/strike_through"
+                            android:gravity="center"
+                            android:layout_toRightOf="@id/original_priceGrid"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/roboto_medium"/>
+
+
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/share_layotGrid"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/price_viewGrid"
+                        android:background="@drawable/bodertop"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:textColor="@color/black"
+                            android:text="Share"
+                            android:fontFamily="@font/roboto_medium"
+                            />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/detil_layourGrid"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/qnt_layoutGrid"
+                android:background="@drawable/shadow"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:textColor="@color/grey"
+                    android:text="Quantity"
+                    android:textSize="15dp"
+                    android:gravity="center|left"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/qntyGrid"
+                    android:fontFamily="@font/roboto_medium"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:gravity="center|right"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/decreaseGrid"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@color/whiteshadow"
+                        android:textColor="@color/colorPrimary"
+                        android:text="-"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <TextView
+                        android:id="@+id/integer_numberGrid"
+                        android:layout_width="35dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="0"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_medium"/>
+
+                    <Button
+                        android:id="@+id/increaseGrid"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@color/whiteshadow"
+                        android:textColor="@color/colorPrimary"
+                        android:onClick="increaseInteger"
+                        android:text="+"
+                        android:fontFamily="@font/roboto_bold"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/qnt_layoutGrid"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_below="@+id/price_layoutGrid"
+                android:background="@drawable/shadow"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/toggleViewGrid"
+                    android:gravity="center|left">
+
+
+                    <TextView
+                        android:id="@+id/headingTxtGrid"
+                        android:layout_height="60dp"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/blackshadow"
+                        android:text="Chose an option"
+                        android:gravity="center"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_regular" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:textColor="@color/blackshadow"
+                        android:text="1Kg"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/toggleIconGrid"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/roboto_medium"/>
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_alignParentRight="true"
+                        android:tint="@color/blackshadow"
+                        android:padding="0dp"
+                        android:id="@+id/toggleIconGrid"
+                        android:gravity="center|right"
+                        android:src="@drawable/right"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/relativeGrid"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detil_layourGrid"
+                android:orientation="vertical"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:background="@color/white"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+                <com.mindorks.placeholderview.PlaceHolderView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/galleryViewGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/footerGrid"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/addtoCartGrid"
+                android:onClick="addcart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:textColor="@color/green"
+                android:text="Add To Cart"
+                android:fontFamily="@font/roboto_medium"
+                />
+
+            <Button
+                android:id="@+id/buynowGrid"
+                android:onClick="buynow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/green"
+                android:textColor="@color/white"
+                android:text="Buy Now"
+                android:fontFamily="@font/roboto_medium"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+

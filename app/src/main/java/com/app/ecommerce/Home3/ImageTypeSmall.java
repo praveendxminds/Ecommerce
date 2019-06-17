@@ -16,7 +16,7 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
 import q.rorbin.badgeview.QBadgeView;
-import com.app.ecommerce.productDetial;
+import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.R;
 
 import static com.app.ecommerce.Home3.HomeThree.bottomNavigationView;
@@ -103,7 +103,7 @@ public class ImageTypeSmall {
     @Click(R.id.imageView)
     public void ProductDetail()
     {
-        Intent accountIntent = new Intent(mContext, productDetial.class);
+        Intent accountIntent = new Intent(mContext, ProductDetails_act.class);
         accountIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(accountIntent);
     }

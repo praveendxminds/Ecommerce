@@ -37,7 +37,7 @@ public class HomePageListofProducts {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for(ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewListProducts.addView(new HomePageDealOfDayItemList(mContext, placeholderviewListProducts, image.url,image.title,image.price,image.qty));
+            placeholderviewListProducts.addView(new HomePageDealOfDayItemList(mContext, placeholderviewListProducts, image.image,image.name,image.price,image.qty));
         }
     }
 }

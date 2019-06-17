@@ -11,8 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 
-
-
 public class APIClient {
 
     private static Retrofit retrofit = null;
@@ -25,11 +23,10 @@ public class APIClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://3.213.33.73/ecommerce/")
+                .baseUrl("http://3.213.33.73/Ecommerce/upload/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-
 
 
         return retrofit;

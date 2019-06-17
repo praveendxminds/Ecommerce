@@ -18,6 +18,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.ImageScroll;
@@ -42,7 +43,7 @@ public class ImageTypeSmallList {
     public Integer mid;
     APIInterface apiInterface;
 
-    public ImageTypeSmallList(Context context,Integer id) {
+    public ImageTypeSmallList(Context context, Integer id) {
         mContext = context;
         mid = id;
     }
@@ -56,36 +57,30 @@ public class ImageTypeSmallList {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
-        if(Utils.CheckInternetConnection(mContext))
-        {
+        if (Utils.CheckInternetConnection(mContext)) {
 
 
             Call<ImageScroll> call = apiInterface.doGetListImages();
-        call.enqueue(new Callback<ImageScroll>() {
-            @Override
-            public void onResponse(Call<ImageScroll> call, Response<ImageScroll> response) {
+            call.enqueue(new Callback<ImageScroll>() {
+                @Override
+                public void onResponse(Call<ImageScroll> call, Response<ImageScroll> response) {
 
-                ImageScroll resource = response.body();
-                List<ImageScroll.Images> datumList = resource.data;
-                for (ImageScroll.Images imgs : datumList)
-                {
-                    mPlaceHolderView.addView(new ImageTypeSmall(mContext, mPlaceHolderView, imgs.imageUrl, imgs.title, imgs.price, imgs.qty));
+                    ImageScroll resource = response.body();
+                    List<ImageScroll.Images> datumList = resource.data;
+                    for (ImageScroll.Images imgs : datumList) {
+                        mPlaceHolderView.addView(new ImageTypeSmall(mContext, mPlaceHolderView, imgs.imageUrl, imgs.title, imgs.price, imgs.qty));
+                    }
+
                 }
 
-            }
-
-            @Override
-            public void onFailure(Call<ImageScroll> call, Throwable t) {
-                call.cancel();
-            }
-        });
+                @Override
+                public void onFailure(Call<ImageScroll> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            Toast.makeText(mContext,"No Internet. Please check internet connection",Toast.LENGTH_SHORT).show();
-        }
-
-
 
 
     }

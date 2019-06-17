@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
@@ -24,11 +25,11 @@ import com.app.ecommerce.cart.cart;
  */
 
 
-public class productDetial extends AppCompatActivity {
+public class ProductDetails_act extends AppCompatActivity {
 
     Toolbar toolbar;
-
     private ImageView pro_img;
+    private TextView title,original_price;
 
     private PlaceHolderView mPlaceHolderView;
 
@@ -52,16 +53,21 @@ public class productDetial extends AppCompatActivity {
         }
 
 
+        Intent intent = getIntent();
+        String temp = intent.getStringExtra("id");
+
+
 
         pro_img = (ImageView) findViewById(R.id.prd_img);
+        title = (TextView) findViewById(R.id.title);
+        original_price = (TextView) findViewById(R.id.original_price);
         mPlaceHolderView = (PlaceHolderView) findViewById(R.id.galleryView);
 
         Glide.with(getApplication()).load("https://5.imimg.com/data5/FQ/QY/MY-56156518/cashew-nut-500x500.jpg").into(pro_img);
 
 
 
-
-        mPlaceHolderView.addView(new ImageTypeSmallList(getApplicationContext(),0));
+       // mPlaceHolderView.addView(new ImageTypeSmallList(getApplicationContext(),0));
 
 
 
