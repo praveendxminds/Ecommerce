@@ -36,6 +36,9 @@ public interface APIInterface {
     @POST("index.php?route=api/custom/productdetails")
     Call<ProductDetailsModel> getProductDetails(@Body ProductDetailsModel id);
 
+    @POST("index.php?route=api/custom/pages")
+    Call<ContactUsModel> getContactUs(@Body ContactUsModel id);
+
     @FormUrlEncoded
     @POST("json/login.php")
     Call<User> doGetLogin(@Field("name") String name, @Field("password") String password);
