@@ -26,7 +26,7 @@ public class ContactUs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_us);
 
-        String prd_id = getIntent().getExtras().getString("contactus_id", "defaultKey");
+        String webpage_id = getIntent().getExtras().getString("webpage_id", "defaultKey");
 
         webview = findViewById(R.id.webView1);
         webview.getSettings().setJavaScriptEnabled(true);

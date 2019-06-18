@@ -24,6 +24,7 @@ import android.view.MenuItem;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -59,7 +60,7 @@ public class HomeCategory extends AppCompatActivity {
 
     Toolbar toolbar;
     private PlaceHolderView mCartView;
-    private Button btn_sortHomeCateg, btn_filterHomeCateg;
+    private ImageButton btn_sortHomeCateg, btn_filterHomeCateg;
     APIInterface apiInterface;
     public Context mContext;
     private static HomeCategory instance;
@@ -224,9 +225,9 @@ public class HomeCategory extends AppCompatActivity {
                                 HomeCategoryItemGridView view1 = (HomeCategoryItemGridView) item1;
                                 HomeCategoryItemGridView view2 = (HomeCategoryItemGridView) item2;
                                 Log.e("----sorted------", view1.getTitle() + "  " + view2.getTitle());
-                                //v.setBackgroundResource(R.drawable.settings);
+                                v.setBackgroundResource(R.drawable.settings);
                                 //changing image after clicking...
-                                btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.settings, 0, 0, 0);
+                               // btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.settings, 0, 0, 0);
                                 return view1.getTitle().compareTo(view2.getTitle());
                             }
                             return 0;
@@ -243,9 +244,9 @@ public class HomeCategory extends AppCompatActivity {
                             if (item1 instanceof HomeCategoryItemGridView && item2 instanceof HomeCategoryItemGridView) {
                                 HomeCategoryItemGridView view1 = (HomeCategoryItemGridView) item1;
                                 HomeCategoryItemGridView view2 = (HomeCategoryItemGridView) item2;
-                                // v.setBackgroundResource(R.drawable.phone);
+                                 v.setBackgroundResource(R.drawable.phone);
                                 //changing image after clicking
-                                btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);
+                               // btn_sortHomeCateg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.phone, 0, 0, 0);
                                 Log.e("----reversed------", view1.getTitle() + "  " + view2.getTitle());
                                 return view2.getTitle().compareToIgnoreCase(view1.getTitle());
                             }

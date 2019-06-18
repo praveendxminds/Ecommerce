@@ -21,28 +21,43 @@
         <LinearLayout
             android:id="@+id/sortfilterSection"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/toolbarHomeCateg">
+            android:layout_height="40dp"
+            android:layout_below="@+id/toolbarHomeCateg"
+            android:background="#9b9b9b"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_sortHomeCateg"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="8"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center|left"
+                android:text="100 Products found"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
+            <ImageButton
+                android:id="@+id/btn_sortHomeCateg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
+                android:background="@drawable/mail"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Sort"
                 android:textAllCaps="false"
                 android:textColor="@color/blackshadow"
-                android:textSize="20dp"
-                android:drawableLeft="@drawable/mail"/>
+                android:textSize="20dp" />
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_filterHomeCateg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
+                android:background="@drawable/settings"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Filter"
                 android:textAllCaps="false"
@@ -67,7 +82,8 @@
                 <com.mindorks.placeholderview.PlaceHolderView
                     android:id="@+id/recycler_order"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#dddddd">
 
                 </com.mindorks.placeholderview.PlaceHolderView>
 
