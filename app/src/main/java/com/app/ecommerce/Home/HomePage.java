@@ -57,6 +57,7 @@ import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.profile;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.ProductDetailsModel;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -408,7 +409,7 @@ public class HomePage extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent prdIntent = new Intent(getBaseContext(), ProductDetails_act.class);
+                    Intent prdIntent = new Intent(getBaseContext(), ProductDetailHome.class);
                     prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     Log.d("Firebase reg i: ", String.valueOf(i));
@@ -469,7 +470,7 @@ public class HomePage extends AppCompatActivity {
                 //show dialogue with result
                 showResultDialogue(result.getContents());
 
-                Intent accountIntent = new Intent(getBaseContext(), ProductDetails_act.class);
+                Intent accountIntent = new Intent(getBaseContext(), ProductDetailHome.class);
                 startActivity(accountIntent);
 
             }

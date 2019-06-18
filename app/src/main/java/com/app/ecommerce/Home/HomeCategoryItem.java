@@ -107,7 +107,7 @@ public class HomeCategoryItem {
     @Click(R.id.ord_itHomePage)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("id",mid);
+        myIntent.putExtra("prd_id",mid);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 

@@ -38,7 +38,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.app.ecommerce.ContactUs"
+            android:name="com.app.ecommerce.Home.HomePage"
             android:label="Home Page"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -48,8 +48,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.app.ecommerce.ContactUs"
+            android:label="Contact Us"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.app.ecommerce.Home.HomeCategory"
-            android:label="Wishlist"
+            android:label="Home Category"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />

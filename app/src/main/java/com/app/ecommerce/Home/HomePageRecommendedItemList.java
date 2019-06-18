@@ -77,7 +77,7 @@ public class HomePageRecommendedItemList {
     }
     @Click(R.id.productItemDealofDay)
     public void onLongClick(){
-        Intent intent = new Intent(mContext, ProductDetails_act.class);
+        Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

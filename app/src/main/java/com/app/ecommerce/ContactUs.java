@@ -20,7 +20,7 @@ public class ContactUs extends AppCompatActivity {
 
     WebView webview;
     APIInterface apiInterface;
-    String sUrl;
+    String sHtmlStr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class ContactUs extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ContactUsModel readContactUs = new ContactUsModel(prd_id);
+            final ContactUsModel readContactUs = new ContactUsModel("5");
 
             Call<ContactUsModel> call = apiInterface.getContactUs(readContactUs);
             call.enqueue(new Callback<ContactUsModel>() {
@@ -46,19 +46,9 @@ public class ContactUs extends AppCompatActivity {
                     List<ContactUsModel.DatumContact> datumList = productResponse.result;
                     for (ContactUsModel.DatumContact imgs : datumList) {
                         if (response.isSuccessful()) {
-                            sUrl = imgs.getDesc();
+                            sHtmlStr = imgs.getDesc();
 //------------------for load response to webview for redirecting to contact us html page---------------------------------------------------------------------
-                            webview.loadUrl(sUrl);
-
-                            webview.setWebViewClient(new WebViewClient() {
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return true;
-                                }
-                            });
-
+                            webview.loadData(sHtmlStr, "text/html", null);
                         }
                     }
 
