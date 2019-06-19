@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
         android:id="@+id/mainview"
         android:layout_width="match_parent"
@@ -16,74 +15,69 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar_wishlist" />
 
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/navigation"
             android:layout_below="@+id/toolbar"
             android:orientation="vertical">
 
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical">
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#e1e1e1"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/llDisplayBarWishList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/grey"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    <LinearLayout
+                        android:id="@+id/llDisplayBarWishList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/grey"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:id="@+id/veggiesWishListTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_weight="9"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Veggies"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
+                        <TextView
+                            android:id="@+id/veggiesWishListTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_weight="9"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Veggies"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
 
-                    <TextView
-                        android:id="@+id/totalWishList"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_gravity="right"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="6 items"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/totalWishList"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="right"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="6 items"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/llDisplayBarWishList">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/llDisplayBarWishList">
 
-                <com.mindorks.placeholderview.PlaceHolderView
-                    android:id="@+id/list_items"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical" />
-                </LinearLayout>
+                        <com.mindorks.placeholderview.PlaceHolderView
+                            android:id="@+id/list_items"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical" />
+                    </LinearLayout>
                 </RelativeLayout>
-
             </FrameLayout>
-
-
         </LinearLayout>
-
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
@@ -94,7 +88,6 @@
             app:itemIconTint="@color/colorPrimary"
             app:itemTextColor="@color/colorPrimary"
             app:menu="@menu/bottom_navigation" />
-
 
     </RelativeLayout>
 

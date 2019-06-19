@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContactUs extends AppCompatActivity {
+public class PrivacyPolicy extends AppCompatActivity {
 
     WebView webview;
     APIInterface apiInterface;
@@ -24,9 +24,9 @@ public class ContactUs extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.contact_us);
+        setContentView(R.layout.privacy_policy);
 
-        webview = findViewById(R.id.webViewContactUs);
+        webview = findViewById(R.id.webViewPrivacyPolicy);
         webview.getSettings().setJavaScriptEnabled(true);
 
 
@@ -34,7 +34,7 @@ public class ContactUs extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final WebPagesModel readContactUs = new WebPagesModel("4");
+            final WebPagesModel readContactUs = new WebPagesModel("3");
 
             Call<WebPagesModel> call = apiInterface.getContactUs(readContactUs);
             call.enqueue(new Callback<WebPagesModel>() {

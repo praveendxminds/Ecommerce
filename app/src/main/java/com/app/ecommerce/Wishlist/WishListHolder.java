@@ -33,6 +33,7 @@ import com.app.ecommerce.barcode.nfc;
 import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.GetWishList;
 import com.app.ecommerce.retrofit.ProductsHomeTwo;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.mindorks.placeholderview.PlaceHolderView;
@@ -50,8 +51,8 @@ import static android.Manifest.permission.CALL_PHONE;
 public class WishListHolder extends AppCompatActivity {
 
     APIInterface apiInterface;
-    private PlaceHolderView mCartView;
-    TextView veggiesWishListTitle, totalWishList;
+    private PlaceHolderView list_items;
+    private TextView veggiesWishListTitle, totalWishList;
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     public Context mContext;
@@ -61,6 +62,7 @@ public class WishListHolder extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     public static String MyPREFERENCES = "sessiondata";
     View view_count;
+    Integer scount;
 
 
     @Override
@@ -68,7 +70,7 @@ public class WishListHolder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wishlist_main);
 
-        mCartView = (PlaceHolderView) findViewById(R.id.list_items);
+        list_items = (PlaceHolderView) findViewById(R.id.list_items);
         veggiesWishListTitle = findViewById(R.id.veggiesWishListTitle);
         totalWishList = findViewById(R.id.totalWishList);
         AndroidNetworking.initialize(getApplicationContext());
@@ -80,13 +82,13 @@ public class WishListHolder extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 Intent i = new Intent(WishListHolder.this, WelcomeActivity.class);
                 startActivity(i);
 
             }
         });
         t.start();
+
         mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -104,25 +106,32 @@ public class WishListHolder extends AppCompatActivity {
             }
         });*/
 
-
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        //--------------------------wishlist placeholder list view---------------------------
-        Log.e("----checking------", "checking");
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<ProductsHomeTwo> call = apiInterface.doGetListProducts();
-            call.enqueue(new Callback<ProductsHomeTwo>() {
+            final GetWishList wishListItems = new GetWishList("1");
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<GetWishList> call = apiInterface.getWishList(wishListItems);
+            call.enqueue(new Callback<GetWishList>() {
                 @Override
-                public void onResponse(Call<ProductsHomeTwo> call, Response<ProductsHomeTwo> response) {
-                    ProductsHomeTwo resource = response.body();
-                    List<ProductsHomeTwo.tab> datumList = resource.data;
-                    for (ProductsHomeTwo.tab imgs : datumList) {
-                        mCartView.addView(new WishListItem(WishListHolder.this, imgs.url, imgs.title, imgs.price, imgs.qty));
-                        Log.e("--------mcartview----", imgs.qty + "   " + imgs.price + "  " + imgs.title);
+                public void onResponse(Call<GetWishList> call, Response<GetWishList> response) {
+                    GetWishList resource = response.body();
+                    List<GetWishList.WishListDatum> datumList = resource.result;
+                    for (GetWishList.WishListDatum imgs : datumList) {
+                        list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image, imgs.name,
+                                imgs.price, imgs.quantity, list_items));
+                        scount = resource.count;
+                        if (scount == 0) {
+                            totalWishList.setText("No Items");
+                        } else if (scount == 1) {
+                            totalWishList.setText(scount + " " + "Item");
+                        } else {
+                            totalWishList.setText(scount + " " + "Items");
+                        }
+
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ProductsHomeTwo> call, Throwable t) {
+                public void onFailure(Call<GetWishList> call, Throwable t) {
                     call.cancel();
                 }
             });
@@ -180,10 +189,12 @@ public class WishListHolder extends AppCompatActivity {
 
 
     }
+
     public static WishListHolder getInstance() {
         return instance;
     }
-//----------------------------------------------------------------------for go back to previous page-----------------
+
+    //----------------------------------------------------------------------for go back to previous page-----------------
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

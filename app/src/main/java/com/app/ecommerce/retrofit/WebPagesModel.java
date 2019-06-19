@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ContactUsModel {
+public class WebPagesModel {
 
 
     @SerializedName("id")
     @Expose
     public String id;
 
-    public ContactUsModel(String id) {
+    public WebPagesModel(String id) {
         this.id = id;
     }
 

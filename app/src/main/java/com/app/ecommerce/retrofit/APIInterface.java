@@ -6,7 +6,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
 /**
  * Created by praveen on 24/11/18.
@@ -37,7 +36,16 @@ public interface APIInterface {
     Call<ProductDetailsModel> getProductDetails(@Body ProductDetailsModel id);
 
     @POST("index.php?route=api/custom/pages")
-    Call<ContactUsModel> getContactUs(@Body ContactUsModel id);
+    Call<WebPagesModel> getContactUs(@Body WebPagesModel id);
+
+    @POST("index.php?route=account/wishlist/wishListProducts")
+    Call<GetWishList> getWishList(@Body GetWishList id);
+
+    @POST("index.php?route=account/wishlist/removeWishList")
+    Call<RemoveWishListItem> removeWishListItem(@Body RemoveWishListItem id);
+
+    @POST("index.php?route=account/wishlist/insertWishList")
+    Call<InsertWishListItems> addtoWishList(@Body InsertWishListItems id);
 
     @FormUrlEncoded
     @POST("json/login.php")

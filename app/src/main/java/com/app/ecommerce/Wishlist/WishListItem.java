@@ -4,23 +4,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
+import com.app.ecommerce.Utils;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.GetWishList;
+import com.app.ecommerce.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
+import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
+import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
-import com.mindorks.placeholderview.annotations.expand.Parent;
 import com.mindorks.placeholderview.annotations.expand.ParentPosition;
-import com.mindorks.placeholderview.annotations.expand.SingleTop;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Created by sushmita 14/06/2019
  */
 
-@Parent
-@SingleTop
+@NonReusable
 @Layout(R.layout.wishlist_items)
 public class WishListItem {
 
@@ -36,37 +49,35 @@ public class WishListItem {
     @View(R.id.priceNewWishList)
     public TextView priceNewWishList;
 
+    PlaceHolderView mPlaceHolderView;
 
     @ParentPosition
     public int mParentPosition;
 
+    public Context mContext;
+    public String prod_id;
     public String murl;
     public String mprice;
     public String mqty;
     public String mtitle;
-    public Context mContext;
+    public int count;
 
+    APIInterface apiInterface;
 
-    public WishListItem(Context context, String url, String title, String price,String qty) {
+    public WishListItem(Context context, String product_id, String url, String title, String price,
+                        String qty, PlaceHolderView placeHolderView) {
         mContext = context;
+        prod_id = product_id;
         murl = url;
         mtitle = title;
         mprice = price;
         mqty = qty;
+        mPlaceHolderView = placeHolderView;
     }
-
-    public String getTitle() {
-        return mtitle;
-    }
-
-    public String getPrice() {
-        return mprice;
-    }
-
-    public String getUrl() {
-        return murl;
-    }
-
+        public int getTotalItems()
+        {
+            return count;
+        }
 
     @Resolve
     public void onResolved() {
@@ -84,9 +95,33 @@ public class WishListItem {
         mContext.startActivity(myIntent);
 
     }
+
     @Click(R.id.btn_deleteWishList)
-    public void deleteWishListItem()
-    {
+    public void deleteWishListItem() {
+        if (Utils.CheckInternetConnection(mContext)) {
+            final RemoveWishListItem remove_item = new RemoveWishListItem("1", prod_id);
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<RemoveWishListItem> call = apiInterface.removeWishListItem(remove_item);
+            call.enqueue(new Callback<RemoveWishListItem>() {
+                @Override
+                public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
+                    RemoveWishListItem resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                        mPlaceHolderView.removeView(this);
+                    } else {
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

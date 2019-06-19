@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContactUs extends AppCompatActivity {
+public class AboutUs extends AppCompatActivity {
 
     WebView webview;
     APIInterface apiInterface;
@@ -24,9 +24,9 @@ public class ContactUs extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.contact_us);
+        setContentView(R.layout.about_us);
 
-        webview = findViewById(R.id.webViewContactUs);
+        webview = findViewById(R.id.webViewAboutUs);
         webview.getSettings().setJavaScriptEnabled(true);
 
 
