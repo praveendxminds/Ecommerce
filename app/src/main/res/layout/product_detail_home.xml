@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarGrid"
+        android:id="@+id/toolbarPrdDetail"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -22,19 +22,19 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/footerGrid"
-        android:layout_below="@+id/toolbarGrid">
+        android:layout_above="@+id/footerPrdDetail"
+        android:layout_below="@+id/toolbarPrdDetail">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
-            />
+            >
 
 
             <LinearLayout
-                android:id="@+id/prd_layoutGrid"
+                android:id="@+id/prd_layoutPrdDetail"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:layout_marginBottom="8dp"
@@ -53,20 +53,19 @@
                         android:layout_gravity="center">
 
                         <ImageView
-                            android:id="@+id/prd_imgGrid"
+                            android:id="@+id/prd_imgPrdDetail"
                             android:layout_width="match_parent"
                             android:layout_height="280dp"
                             android:adjustViewBounds="true"
-                            android:padding="8dp"
                             android:scaleType="centerCrop" />
 
                         <ImageButton
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="top|right"
-                            android:src="@drawable/settings"
+                            android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
-                            android:layout_marginTop="10dp"/>
+                            android:src="@drawable/settings" />
                     </FrameLayout>
                 </android.support.v7.widget.CardView>
 
@@ -78,15 +77,16 @@
                 android:id="@+id/price_layoutGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/prd_layoutGrid"
+                android:layout_below="@+id/prd_layoutPrdDetail"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/shadow"
-                android:paddingLeft="8dp"
+                android:background="#ccc"
+                android:paddingLeft="10dp"
                 android:paddingRight="8dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="#ccc"
                     android:gravity="left"
                     android:orientation="vertical"
                     android:paddingTop="10dp"
@@ -94,67 +94,111 @@
 
 
                     <TextView
-                        android:id="@+id/titleGrid"
+                        android:id="@+id/titlePrdDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="left"
                         android:paddingBottom="5dp"
-                        android:text="title"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="24sp" />
+                        android:text="Potato"
+                        android:textColor="@color/light_black"
+                        android:textSize="20sp" />
 
-
-                    <RelativeLayout
-                        android:id="@+id/price_viewGrid"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:gravity="center|left"
-                        android:orientation="horizontal">
-
-
-                        <TextView
-                            android:id="@+id/original_priceGrid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_marginRight="10dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="₹ 100"
-                            android:textColor="@color/blackshadow"
-                            android:textSize="13sp" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/original_priceGrid"
-                            android:background="@drawable/strike_through"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="₹ 500"
-                            android:textColor="@color/blackshadow"
-                            android:textSize="13sp" />
-
-
-                    </RelativeLayout>
 
                     <LinearLayout
-                        android:id="@+id/share_layotGrid"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/price_viewGrid"
-                        android:background="@drawable/bodertop">
+                        android:id="@+id/reviewLayoutPrdDetail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
 
-                        <Button
+                        <TextView
+                            android:id="@+id/reviewPrdDetail"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:layout_weight="4"
                             android:background="@color/white"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Share"
-                            android:textColor="@color/black" />
+                            android:gravity="center"
+                            android:text="100"
+                            android:textColor="@color/blackshadow"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/ratingsPrdDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@id/reviewPrdDetail"
+                            android:layout_weight="3"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="left|center"
+                            android:text="10,000 ratings"
+                            android:textColor="@color/blackshadow"
+                            android:textSize="18sp"
+                            android:layout_marginLeft="10dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:background="@color/white">
+
+                            <Spinner
+                                android:id="@+id/qntyPrdDetail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:spinnerMode="dropdown" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/priceViewPrdDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/originalPricePrdDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="left"
+                            android:text="₹ 50"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:textFontWeight="15dp"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="left|bottom"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <TextView
+                                android:id="@+id/oldPricePrdDetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/strike_through_1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="₹ 80"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/discountPrdDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center|left"
+                            android:text="Get 10% OFF"
+                            android:textColor="@color/light_black"
+                            android:textSize="15dp" />
+
 
                     </LinearLayout>
 
@@ -164,142 +208,18 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/detil_layourGrid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/qnt_layoutGrid"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/shadow"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="horizontal"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
-
-
-                <TextView
-                    android:id="@+id/qntyGrid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="center|left"
-                    android:text="Quantity"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="15dp" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:gravity="center|right"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/decreaseGrid"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@color/whiteshadow"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="-"
-                        android:textColor="@color/colorPrimary" />
-
-                    <TextView
-                        android:id="@+id/integer_numberGrid"
-                        android:layout_width="35dp"
-                        android:layout_height="30dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="13sp" />
-
-                    <Button
-                        android:id="@+id/increaseGrid"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@color/whiteshadow"
-                        android:fontFamily="@font/roboto_bold"
-                        android:onClick="increaseInteger"
-                        android:text="+"
-                        android:textColor="@color/colorPrimary" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/qnt_layoutGrid"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/relativePrdDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/price_layoutGrid"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/shadow"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
-
-                <RelativeLayout
-                    android:id="@+id/toggleViewGrid"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center|left"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:id="@+id/headingTxtGrid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="60dp"
-                        android:layout_alignParentLeft="true"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center"
-                        android:text="Chose an option"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="13sp" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="60dp"
-                        android:layout_toLeftOf="@id/toggleIconGrid"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="1Kg"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="13sp" />
-
-
-                    <ImageView
-                        android:id="@+id/toggleIconGrid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="60dp"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center|right"
-                        android:padding="0dp"
-                        android:src="@drawable/right"
-                        android:tint="@color/blackshadow" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/relativeGrid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/detil_layourGrid"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
 
                 <com.mindorks.placeholderview.PlaceHolderView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/galleryViewGrid"
+                    android:id="@+id/similarPrdDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="vertical" />
@@ -312,7 +232,7 @@
     </ScrollView>
 
     <RelativeLayout
-        android:id="@+id/footerGrid"
+        android:id="@+id/footerPrdDetail"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true">
@@ -324,7 +244,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/addtoCartGrid"
+                android:id="@+id/addtoCartPrdDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -335,7 +255,7 @@
                 android:textColor="@color/green" />
 
             <Button
-                android:id="@+id/buynowGrid"
+                android:id="@+id/buynowPrdDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -33,6 +33,10 @@ public class ProductDetailsModel {
         @Expose
         public String name;
 
+        @SerializedName("description")
+        @Expose
+        public String desc;
+
         @SerializedName("quantity")
         @Expose
         public String quantity;
@@ -45,6 +49,20 @@ public class ProductDetailsModel {
         @Expose
         public String price;
 
+        @SerializedName("reward")
+        @Expose
+        public String reward;
+
+        @SerializedName("points")
+        @Expose
+        public String points;
+
+        @SerializedName("reviews")
+        @Expose
+        public String reviews;
+
+
+
 
 
 
@@ -55,6 +73,15 @@ public class ProductDetailsModel {
         public void setName(String name) {
             this.name = name;
         }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String sdesc) {
+            this.desc = sdesc;
+        }
+
 
         public String getQuantity() {
             return quantity;
@@ -78,6 +105,30 @@ public class ProductDetailsModel {
 
         public void setPrice(String price) {
             this.price = price;
+        }
+
+        public String getReward() {
+            return reward;
+        }
+
+        public void setReward(String sreward) {
+            this.reward = sreward;
+        }
+
+        public String getPoints() {
+            return points;
+        }
+
+        public void setPoints(String spoints) {
+            this.points = spoints;
+        }
+
+        public String getReviews() {
+            return reviews;
+        }
+
+        public void setReviews(String sreviews) {
+            this.reviews = sreviews;
         }
     }
 }

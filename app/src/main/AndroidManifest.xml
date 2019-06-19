@@ -38,7 +38,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.app.ecommerce.Home.HomeCategory"
+            android:name="com.app.ecommerce.Home.ProductDetailHome"
             android:label="Home Page"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -72,7 +72,7 @@
         </intent-filter>
     </activity>
 
-        <activity
+       <!-- <activity
             android:name="com.app.ecommerce.Home.ProductDetailHome"
             android:label="Home Product"
             android:theme="@style/AppTheme">
@@ -80,7 +80,7 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-
+-->
         <activity
             android:name="com.app.ecommerce.Home2.HomeTwo"
             android:label="Home Two"
