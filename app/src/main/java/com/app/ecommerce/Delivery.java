@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.app.ecommerce.R;
 
 /**
  * Created by praveen on 15/11/18.
@@ -15,7 +14,7 @@ import com.app.ecommerce.R;
 
 
 
-public class delivery extends AppCompatActivity {
+public class Delivery extends AppCompatActivity {
 
     Toolbar toolbar;
 

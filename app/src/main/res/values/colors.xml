@@ -10,6 +10,7 @@
     <color name="blackshadow">#797979</color>
     <color name="grey">#9d9d9c</color>
     <color name="green">#56bf52</color>
+    <color name="dark_green">#006400</color>
     <color name="tabbackground">#e8e8e8</color>
 
     <color name="txtcolor">#8c91a4</color>
@@ -36,5 +37,10 @@
         <item>@color/dot_dark_screen2</item>
         <item>@color/dot_dark_screen3</item>
     </array>
+
+    <!-- profile section colors -->
+    <color name="sky_blue">#ecf7fc</color>
+    <color name="orange">#FF6600</color>
+    <color name="yellow">#f9d71c</color>
 
 </resources>

@@ -40,10 +40,8 @@ import android.widget.Toast;
 import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.BottomNavigationViewHelper;
 import com.app.ecommerce.Utils;
-import com.app.ecommerce.delivery;
-import com.app.ecommerce.login;
+import com.app.ecommerce.Delivery;
 import com.app.ecommerce.ProductDetails_act;
-import com.app.ecommerce.profile;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -448,11 +446,11 @@ public class HomeThree extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.Delivery:
-                Intent DeliveryIntent = new Intent(getBaseContext(), delivery.class);
+                Intent DeliveryIntent = new Intent(getBaseContext(), Delivery.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
                 break;
-            case R.id.account:
+           /* case R.id.account:
 
                 Boolean login_st_session = sharedpreferences.getBoolean("status",false);
                 if(login_st_session == true)
@@ -469,7 +467,7 @@ public class HomeThree extends AppCompatActivity {
                     mContext.startActivity(myIntent);
                 }
 
-                break;
+                break;*/
 
             case R.id.notification:
 

@@ -36,10 +36,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.app.ecommerce.Delivery;
+import com.app.ecommerce.ProfileSection.Navmenu_act;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
@@ -47,7 +50,6 @@ import com.app.ecommerce.appIntro.WelcomeActivity;
 import com.app.ecommerce.barcode.ScannerActivity;
 import com.app.ecommerce.barcode.nfc;
 import com.app.ecommerce.cart.cart;
-import com.app.ecommerce.delivery;
 import com.app.ecommerce.drawer.DrawerHeader;
 import com.app.ecommerce.drawer.DrawerMenuItem;
 import com.app.ecommerce.fcm.NotificationUtils;
@@ -66,6 +68,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
@@ -76,8 +79,6 @@ import static android.Manifest.permission.CALL_PHONE;
 
 public class HomePage extends AppCompatActivity {
 
-    private PlaceHolderView mDrawerViewHomePage;
-    private DrawerLayout mDrawerHomePage;
     private Toolbar mToolbarHomePage;
     private PlaceHolderView list_items_homePage;
     public Context mContext;
@@ -91,7 +92,7 @@ public class HomePage extends AppCompatActivity {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
-
+    LinearLayout llProfileIcon;
     int crt_cnt = 0;
     View view_count;
     Integer name_session;
@@ -124,8 +125,6 @@ public class HomePage extends AppCompatActivity {
 
         crt_cnt = 0;
 
-        mDrawerHomePage = (DrawerLayout) findViewById(R.id.drawerLayoutHomePage);
-        mDrawerViewHomePage = (PlaceHolderView) findViewById(R.id.drawerViewHomePage);
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
         progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
         //-----------------------------------------------------------AdapterFlipper------------------------------------------------------
@@ -171,7 +170,7 @@ public class HomePage extends AppCompatActivity {
                     }
                     list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));*/
                     //-----------------------------------------deal of day ------------------------------------------
-/*
+
 
                     List<ProductslHomePage.DealOfDayList> imageListDeal = resource.data;
                     List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
@@ -198,7 +197,7 @@ public class HomePage extends AppCompatActivity {
                         Log.e("---recommended for you", String.valueOf(imageListRecommended.get(i)));
                     }
                     list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), newImageListRecommended));
-*/
+
 
                 }
 
@@ -215,9 +214,19 @@ public class HomePage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
-        setupDrawer();
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
+
+        llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
+        llProfileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Navmenu_act.class);
+                startActivity(intent);
+            }
+        });
+
+
 //        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
 
@@ -304,38 +313,7 @@ public class HomePage extends AppCompatActivity {
 
 
     }
-    private void setupDrawer() {
-        mDrawerViewHomePage
-                .addView(new DrawerHeader(this.getApplicationContext()))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PREFERENCE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_ABOUT))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_FRANCHISE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_CALL))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_EMAIL))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_CONTACT))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_RATE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_FEEDBACK))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_SHARE));
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerHomePage, mToolbarHomePage, R.string.open_drawer, R.string.close_drawer) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-
-        mDrawerHomePage.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-    }
-
-    public void closeDrawer() {
-        mDrawerHomePage.closeDrawer(Gravity.LEFT);
-    }
 
 
     public static HomePage getInstance() {
@@ -420,38 +398,17 @@ public class HomePage extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         switch (item.getItemId()) {
-            case R.id.Delivery:
-                Intent DeliveryIntent = new Intent(getBaseContext(), delivery.class);
-                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(DeliveryIntent);
-                break;
-            case R.id.account:
-                Intent myIntent = new Intent(mContext, profile.class);
-                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(myIntent);
-               /* Boolean login_st_session = sharedpreferences.getBoolean("status", false);
-                if (login_st_session == true) {
-                    Intent myIntent = new Intent(mContext, profile.class);
-                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(myIntent);
-                } else {
-                    Intent myIntent = new Intent(mContext, login.class);
-                    myIntent.putExtra("Login_INTENT", "account");
-                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(myIntent);
-                }*/
-
-                break;
-
             case R.id.notification:
-
                 Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(notificationIntent);
+                break;
 
+            case R.id.delivery:
+                Intent DeliveryIntent = new Intent(getBaseContext(), Delivery.class);
+                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(DeliveryIntent);
                 break;
         }
         return true;
@@ -527,7 +484,6 @@ public class HomePage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        mDrawerViewHomePage.refresh();
 
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         name_session = sharedpreferences.getInt("count", 0);
@@ -536,9 +492,9 @@ public class HomePage extends AppCompatActivity {
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         view_count = bottomNavigationMenuView.getChildAt(4);
-        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources()
-                .getColor(R.color.white)).setGravityOffset(15, -2, true)
-                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+//        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources()
+//                .getColor(R.color.white)).setGravityOffset(15, -2, true)
+//                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
 
         // register GCM registration complete receiver

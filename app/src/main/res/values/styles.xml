@@ -1,13 +1,13 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorAccent">@color/dark_green</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/dark_green</item>
         <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
     </style>
     <!--use item name="drawerArrowStyle" if you are using dark primaryColor in your app, else remove it-->
@@ -32,6 +32,12 @@
         <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
         <!-- Set title color -->
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MyEditText" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
 </resources>
