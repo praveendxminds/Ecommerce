@@ -104,32 +104,34 @@ public class ProductDetailHome extends AppCompatActivity {
             btn_addtoWishlist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
+                        if(state==false) {
+                            //------------------------------------------for adding to wishlist-----------------------------
+                            final InsertWishListItems add_item = new InsertWishListItems("1", "46");
+                            Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+                            callAdd.enqueue(new Callback<InsertWishListItems>() {
+                                @Override
+                                public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                                    InsertWishListItems resource = response.body();
+                                    if (resource.status.equals("success")) {
+                                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                        v.setBackgroundResource(R.drawable.add_24dp);
 
-
-                        final InsertWishListItems add_item = new InsertWishListItems("1", "49");
-                        Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-                        callAdd.enqueue(new Callback<InsertWishListItems>() {
-                            @Override
-                            public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                                InsertWishListItems resource = response.body();
-                                if (resource.status.equals("success")) {
-                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                    v.setBackgroundResource(R.drawable.add_24dp);
-
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                                else {
-                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+
+                                @Override
+                                public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                                    call.cancel();
                                 }
-                            }
-
-                            @Override
-                            public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                                call.cancel();
-                            }
-                        });
-
-
-                       /* final RemoveWishListItem remove_item = new RemoveWishListItem("1", "49");
+                            });
+                            state=true;
+                        }
+                        else
+                        {
+                            //---------------------for removing from wishlist---------------------------
+                        final RemoveWishListItem remove_item = new RemoveWishListItem("1", "46");
                         Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
                         callRemove.enqueue(new Callback<RemoveWishListItem>() {
                             @Override
@@ -149,15 +151,15 @@ public class ProductDetailHome extends AppCompatActivity {
                                 call.cancel();
                             }
                         });
+                        state=false;
 
-
-                    }*/
+                    }
 
                 }
 
             });
             //-----------------------------------------------------------for product details ---------------------------------
-            final ProductDetailsModel productDetail = new ProductDetailsModel("42");
+            final ProductDetailsModel productDetail = new ProductDetailsModel("46");
 
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
             call.enqueue(new Callback<ProductDetailsModel>() {

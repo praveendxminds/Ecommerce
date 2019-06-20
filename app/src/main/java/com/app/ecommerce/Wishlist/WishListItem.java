@@ -2,7 +2,10 @@ package com.app.ecommerce.Wishlist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +17,7 @@ import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.GetWishList;
 import com.app.ecommerce.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.places.Place;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -22,11 +26,15 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.ParentPosition;
 
+import java.util.Collections;
 import java.util.List;
 
+import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -49,7 +57,10 @@ public class WishListItem {
     @View(R.id.priceNewWishList)
     public TextView priceNewWishList;
 
-    PlaceHolderView mPlaceHolderView;
+    @View(R.id.ord_itWishList)
+    public LinearLayout ord_itWishList;
+
+     PlaceHolderView mPlaceHolderView;
 
     @ParentPosition
     public int mParentPosition;
@@ -74,10 +85,10 @@ public class WishListItem {
         mqty = qty;
         mPlaceHolderView = placeHolderView;
     }
-        public int getTotalItems()
-        {
-            return count;
-        }
+
+    public int getTotalItems() {
+        return count;
+    }
 
     @Resolve
     public void onResolved() {
@@ -97,9 +108,12 @@ public class WishListItem {
     }
 
     @Click(R.id.btn_deleteWishList)
-    public void deleteWishListItem() {
+    public void deleteWishListItem()
+    {
+
+        mPlaceHolderView.removeView(this);
         if (Utils.CheckInternetConnection(mContext)) {
-            final RemoveWishListItem remove_item = new RemoveWishListItem("1", prod_id);
+            RemoveWishListItem remove_item = new RemoveWishListItem("1", prod_id);
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<RemoveWishListItem> call = apiInterface.removeWishListItem(remove_item);
             call.enqueue(new Callback<RemoveWishListItem>() {
@@ -107,8 +121,8 @@ public class WishListItem {
                 public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
                     RemoveWishListItem resource = response.body();
                     if (resource.status.equals("success")) {
+                      //  mPlaceHolderView.removeView(this);
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
-                        mPlaceHolderView.removeView(this);
                     } else {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -123,7 +137,11 @@ public class WishListItem {
             Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
 
+
+
+
     }
+
 
     @Click(R.id.btn_movetoCartWishList)
     public void moveToCartClick() {
