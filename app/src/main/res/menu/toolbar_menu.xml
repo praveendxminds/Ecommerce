@@ -6,7 +6,7 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
-        android:title="search"
+        android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
 
@@ -21,5 +21,4 @@
         android:icon="@drawable/ic_shopping_cart"
         android:title="Delivery"
         app:showAsAction="always" />
-
 </menu>

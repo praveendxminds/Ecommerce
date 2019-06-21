@@ -45,11 +45,10 @@ public class HomePageImageSliderAdapter extends PagerAdapter {
         View myImageLayout = inflater.inflate(R.layout.slide_home_2, view, false);
         ImageView myImage = (ImageView) myImageLayout.findViewById(R.id.image);
 
-        final int itemPos = position;
         final String fileUrl = images.get(position);
         Glide.with(context).load(fileUrl).error(R.drawable.deep).into(myImage);
-        // myImage.setImageResource(images.get(position));
         view.addView(myImageLayout, 0);
+
         return myImageLayout;
     }
 

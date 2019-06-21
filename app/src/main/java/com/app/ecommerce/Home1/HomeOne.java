@@ -340,7 +340,7 @@ public class HomeOne extends AppCompatActivity {
         menuInflater.inflate(R.menu.toolbar_menu, menu);
 
         //getting the search view from the menu
-        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+     /*   MenuItem searchViewItem = menu.findItem(R.id.action_search);
 
         //getting search manager from systemservice
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -386,7 +386,7 @@ public class HomeOne extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });
+        });*/
 
 
         return true;

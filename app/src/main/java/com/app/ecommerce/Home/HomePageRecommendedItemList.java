@@ -7,9 +7,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.app.ecommerce.R;
-import com.app.ecommerce.ProductDetails_act;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -46,103 +44,90 @@ public class HomePageRecommendedItemList {
     @View(R.id.qntyRecommended)
     public TextView qntyRecommended;
 
-
-
-    public String mUlr;
     public Context mContext;
     public PlaceHolderView mPlaceHolderView;
-    public String mHeading;
-    public String mPrdImgUrl,mPrice,mQty;
+    public String productId;
+    public String productImage;
+    public String title;
+    public String mPrice;
+    public String mQty;
+
     int minteger = 0;
-    int cart_count = 0;
-    public static String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
-    public HomePageRecommendedItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price, String qty) {
+    public HomePageRecommendedItemList(Context context, PlaceHolderView placeHolderView, String product_id, String image,
+                                       String name, String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
-        mPrdImgUrl = ulr;
-        mHeading = heading;
+        productId = product_id;
+        productImage = image;
+        title = name;
         mPrice = price;
         mQty = qty;
     }
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(mPrdImgUrl).into(imageViewRecommended);
-        headingTxtRecommended.setText(mHeading);
-        item_priceRecommended.setText("₹"+" "+mPrice);
+        Glide.with(mContext).load(productImage).into(imageViewRecommended);
+        headingTxtRecommended.setText(title);
+        item_priceRecommended.setText("₹" + " " + mPrice);
         qntyRecommended.setText(mQty);
 
     }
-    @Click(R.id.productItemDealofDay)
-    public void onLongClick(){
+
+    @Click(R.id.productItemRecommended)
+    public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
-    @Click(R.id.addcartDealofDay)
-    public void AddToCartClick()
-    {
+
+    @Click(R.id.addcartRecommended)
+    public void AddToCartClick() {
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = sharedpreferences.getInt("count", 0);
 
-        //  cart_count = cart_count + 1;
-
-        name_session = name_session +1;
+        name_session = name_session + 1;
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putInt("count", name_session);
         editor.commit();
 
-
         countCartDisplay(name_session);
     }
 
 
-    @Click(R.id.increaseDealofDay)
+    @Click(R.id.increaseRecommended)
     public void onIncreaseClick() {
         minteger = minteger + 1;
         display(minteger);
     }
 
-    @Click(R.id.decreaseDealofDay)
+    @Click(R.id.decreaseRecommended)
     public void onDecreaseClick() {
-        if(minteger==0)
-        {
+        if (minteger == 0) {
             display(0);
-        }
-        else {
+        } else {
             minteger = minteger - 1;
             display(minteger);
         }
     }
 
-
-    public void display(int number)
-    {
+    public void display(int number) {
         integer_numberRecommended.setText("" + number);
     }
 
-
-    public void countCartDisplay(int number)
-    {
-
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+    public void countCartDisplay(int number) {
+        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
         android.view.View v = bottomNavigationMenuView.getChildAt(4);
 
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = sharedpreferences.getInt("count", 0);
 
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white))
+                .setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor
+                (mContext.getResources().getColor(R.color.colorPrimaryDark));
 
     }
-
-
-
-    /*@LongClick(R.id.imageViewDealofDay)
-    public void onLongClick(){
-        mPlaceHolderView.removeView(this);
-    }*/
 }

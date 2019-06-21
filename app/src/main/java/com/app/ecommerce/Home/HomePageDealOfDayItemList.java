@@ -47,18 +47,18 @@ public class HomePageDealOfDayItemList {
     public TextView item_qtyDealofDay;
 
 
-
     public String mUlr;
     public Context mContext;
     public PlaceHolderView mPlaceHolderView;
     public String mHeading;
-    public String mPrdImgUrl,mPrice,mQty;
+    public String mPrdImgUrl, mPrice, mQty;
+
     int minteger = 0;
-    int cart_count = 0;
-    public static String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
-    public HomePageDealOfDayItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price, String qty) {
+    public HomePageDealOfDayItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading,
+                                     String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         mPrdImgUrl = ulr;
@@ -71,19 +71,20 @@ public class HomePageDealOfDayItemList {
     public void onResolved() {
         Glide.with(mContext).load(mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
-        item_priceDealofDay.setText("₹"+" "+mPrice);
+        item_priceDealofDay.setText("₹" + " " + mPrice);
         item_qtyDealofDay.setText(mQty);
 
     }
+
     @Click(R.id.productItemDealofDay)
-    public void onLongClick(){
+    public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
+
     @Click(R.id.addcartDealofDay)
-    public void AddToCartClick()
-    {
+    public void AddToCartClick() {
       /*  sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = sharedpreferences.getInt("count", 0);
 
@@ -109,25 +110,21 @@ public class HomePageDealOfDayItemList {
     @Click(R.id.decreaseDealofDay)
     public void onDecreaseClick() {
 
-        if(minteger==0)
-        {
+        if (minteger == 0) {
             display(0);
-        }
-        else {
+        } else {
             minteger = minteger - 1;
             display(minteger);
         }
     }
 
 
-    public void display(int number)
-    {
+    public void display(int number) {
         integer_numberDealofDay.setText("" + number);
     }
 
 
-    public void countCartDisplay(int number)
-    {
+    public void countCartDisplay(int number) {
 
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);

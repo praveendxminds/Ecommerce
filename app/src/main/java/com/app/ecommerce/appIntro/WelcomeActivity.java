@@ -1,29 +1,24 @@
 package com.app.ecommerce.appIntro;
 
-/**
- * Created by praveen on 04/01/19.
- */
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-
-        import android.content.Context;
-        import android.graphics.Color;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.support.v4.view.PagerAdapter;
-        import android.support.v4.view.ViewPager;
-        import android.support.v7.app.AppCompatActivity;
-        import android.text.Html;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.Window;
-        import android.view.WindowManager;
-        import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
-
-        import com.app.ecommerce.R;
+import com.app.ecommerce.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -38,8 +33,6 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -71,8 +64,6 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
 
-
-
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +74,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                   // launchHomeScreen();
+                    // launchHomeScreen();
                     finish();
                 }
             }
@@ -112,7 +103,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
-
 
 
     //  viewpager change listener

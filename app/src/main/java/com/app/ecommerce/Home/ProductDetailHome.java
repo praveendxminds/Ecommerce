@@ -159,8 +159,8 @@ public class ProductDetailHome extends AppCompatActivity {
 
             });
             //-----------------------------------------------------------for product details ---------------------------------
-            final ProductDetailsModel productDetail = new ProductDetailsModel("46");
 
+            final ProductDetailsModel productDetail = new ProductDetailsModel("46");
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
             call.enqueue(new Callback<ProductDetailsModel>() {
                 @Override
@@ -194,14 +194,14 @@ public class ProductDetailHome extends AppCompatActivity {
             });
             //-------------------------------------------------------------------------------------------------------------------------
             //----------------------------------------------------------similar product response---------------------------------------
-
-            Call<ProductslHomePage> callSimilarProducts = apiInterface.getHomePageProducts();
+            final ProductslHomePage productslHomePage = new ProductslHomePage("7");
+            Call<ProductslHomePage> callSimilarProducts = apiInterface.getHomePageProducts(productslHomePage);
             callSimilarProducts.enqueue(new Callback<ProductslHomePage>() {
                 @Override
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
 
                     ProductslHomePage resource = response.body();
-                    List<ProductslHomePage.DealOfDayList> datumList = resource.data;
+                    List<ProductslHomePage.DealOfDayList> datumList = resource.dealoftheday;
 
                     for (ProductslHomePage.DealOfDayList imgs : datumList) {
                         if (response.isSuccessful()) {

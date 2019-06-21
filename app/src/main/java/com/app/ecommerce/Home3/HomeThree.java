@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
@@ -223,6 +224,7 @@ public class HomeThree extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
@@ -355,7 +357,7 @@ public class HomeThree extends AppCompatActivity {
         menuInflater.inflate(R.menu.toolbar_menu, menu);
 
         //getting the search view from the menu
-        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+       /* MenuItem searchViewItem = menu.findItem(R.id.action_search);
 
         //getting search manager from systemservice
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -415,7 +417,7 @@ public class HomeThree extends AppCompatActivity {
 
 
 
-
+*/
         return true;
     }
 

@@ -22,9 +22,9 @@ public class HomePageListofProducts {
     public PlaceHolderView placeholderviewListProducts;
 
     public Context mContext;
-    public List<ProductslHomePage.DealOfDayList> mImageList;
+    public List<ProductslHomePage.RecommendedList> mImageList;
 
-    public HomePageListofProducts(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
+    public HomePageListofProducts(Context context, List<ProductslHomePage.RecommendedList> imageList) {
         mContext = context;
         mImageList = imageList;
     }
@@ -36,8 +36,9 @@ public class HomePageListofProducts {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        for(ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewListProducts.addView(new HomePageDealOfDayItemList(mContext, placeholderviewListProducts, image.image,image.name,image.price,image.qty));
+        for (ProductslHomePage.RecommendedList image : mImageList) {
+            placeholderviewListProducts.addView(new HomePageRecommendedItemList(mContext, placeholderviewListProducts,
+                    image.product_id, image.image, image.name, image.price, image.quantity));
         }
     }
 }

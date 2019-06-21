@@ -8,6 +8,7 @@
     <dimen name="slide_title">25dp</dimen>
     <dimen name="slide_desc">18dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
+    <dimen name="textSizePrimary">20dp</dimen>
 
 
 </resources>

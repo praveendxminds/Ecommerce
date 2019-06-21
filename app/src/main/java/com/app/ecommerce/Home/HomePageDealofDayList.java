@@ -3,6 +3,7 @@ package com.app.ecommerce.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.TextView;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.retrofit.ProductslHomePage;
@@ -15,13 +16,15 @@ import com.mindorks.placeholderview.annotations.View;
 
 import java.util.List;
 
-
 @NonReusable
 @Layout(R.layout.home_page_deal_of_day)
 public class HomePageDealofDayList {
 
     @View(R.id.placeholderviewDealofDay)
     public PlaceHolderView placeholderviewDealofDay;
+
+    @View(R.id.dealofdayClick)
+    public TextView dealofdayClick;
 
     public Context mContext;
     public List<ProductslHomePage.DealOfDayList> mImageList;
@@ -38,16 +41,16 @@ public class HomePageDealofDayList {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        for(ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay, image.image,image.name,image.price,image.qty));
+        for (ProductslHomePage.DealOfDayList image : mImageList) {
+            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay,
+                    image.image, image.name, image.price, image.qty));
         }
     }
+
     @Click(R.id.dealofdayClick)
-    public void onClick(){
+    public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
-
-
 }

@@ -35,7 +35,7 @@ public class HomePageImageSlider {
     public CircleIndicator indicator;
 
     public static int currentPage = 0;
-  public static Integer[] XMEN= {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
+    public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
     public ArrayList<String> XMENArray = new ArrayList<String>();
 
 
@@ -81,10 +81,7 @@ public class HomePageImageSlider {
                 handler.post(Update);
             }
         }, 2500, 2500);
-
-
     }
-
 }
 
 

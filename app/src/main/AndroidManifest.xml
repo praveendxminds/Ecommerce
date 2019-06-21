@@ -75,14 +75,14 @@
             </intent-filter>
         </activity>
 
-        <!--<activity-->
-            <!--android:name="com.app.ecommerce.Home.ProductDetailHome"-->
-            <!--android:label="Home Product"-->
-            <!--android:theme="@style/AppTheme">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <activity
+            android:name="com.app.ecommerce.Home.HomeCategory"
+            android:label="Home Product"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.app.ecommerce.Home2.HomeTwo"

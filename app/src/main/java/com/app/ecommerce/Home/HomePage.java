@@ -9,27 +9,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,19 +39,11 @@ import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.appIntro.WelcomeActivity;
-import com.app.ecommerce.barcode.ScannerActivity;
-import com.app.ecommerce.barcode.nfc;
-import com.app.ecommerce.cart.cart;
-import com.app.ecommerce.drawer.DrawerHeader;
-import com.app.ecommerce.drawer.DrawerMenuItem;
 import com.app.ecommerce.fcm.NotificationUtils;
 import com.app.ecommerce.fcm.fcmConfig;
 import com.app.ecommerce.notifications.MyNotifications;
-import com.app.ecommerce.ProductDetails_act;
-import com.app.ecommerce.profile;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
-import com.app.ecommerce.retrofit.ProductDetailsModel;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -70,154 +54,111 @@ import com.mindorks.placeholderview.PlaceHolderView;
 import java.util.ArrayList;
 import java.util.List;
 
-import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.Manifest.permission.CALL_PHONE;
-
 public class HomePage extends AppCompatActivity {
 
-    private Toolbar mToolbarHomePage;
-    private PlaceHolderView list_items_homePage;
     public Context mContext;
-    private ViewPager vpagerHomePage;
     private static HomePage instance;
     APIInterface apiInterface;
-    private String url;
-    ProgressBar progressBarHomePage;
+
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    AutoCompleteTextView searchEditText;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
-    LinearLayout llProfileIcon;
-    int crt_cnt = 0;
     View view_count;
     Integer name_session;
-    View menuItemView;
-    public static BottomNavigationView bottomNavigationView;
 
+    public static BottomNavigationView bottomNavigationView;
+    private Toolbar mToolbarHomePage;
+    private PlaceHolderView list_items_homePage;
+    ProgressBar progressBarHomePage;
+    LinearLayout llProfileIcon;
+    AutoCompleteTextView searchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
+        mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
+        setSupportActionBar(mToolbarHomePage);
+        getSupportActionBar().setTitle(null);
+        instance = this;
+        progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
+        llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
+        list_items_homePage = (PlaceHolderView) findViewById(R.id.list_items_homePage);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
+        // BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        mContext = this.getApplicationContext();
+
         AndroidNetworking.initialize(getApplicationContext());
 
-
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
 
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 Intent i = new Intent(HomePage.this, WelcomeActivity.class);
                 startActivity(i);
-
             }
         });
         t.start();
 
-
-        crt_cnt = 0;
-
-        mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
-        progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
-        //-----------------------------------------------------------AdapterFlipper------------------------------------------------------
-
-        setSupportActionBar(mToolbarHomePage);
-        getSupportActionBar().setTitle(null);
-        instance = this;
-
-
-        list_items_homePage = (PlaceHolderView) findViewById(R.id.list_items_homePage);
-
-        mContext = this.getApplicationContext();
-        url = "https://www.groceryfactory.in/media/em_minislideshow/1517843523_0_banner-1.jpg";
-
-        String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-
         final ArrayList<String> imageArray = new ArrayList<String>();
         final ArrayList<String> headArray = new ArrayList<String>();
-        Log.w("myApp", android_id);
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-//-------------------------------------image slider view----------------------------------------------------------------------
 
-            Call<ProductslHomePage> call = apiInterface.getHomePageProducts();
+            //-------------------------------------image slider view------------------------------------------------
+            final ProductslHomePage productslHomePage = new ProductslHomePage("7");
+            Call<ProductslHomePage> call = apiInterface.getHomePageProducts(productslHomePage);
             call.enqueue(new Callback<ProductslHomePage>() {
                 @Override
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
-
                     ProductslHomePage resource = response.body();
-/*
-                    List<ProductslHomePage.imageslider> datumList = resource.resultdata;
-                    for (ProductslHomePage.imageslider imageslider1 : datumList) {
-
+                    List<ProductslHomePage.BannerList> datumList = resource.banner;
+                    for (ProductslHomePage.BannerList imageslider1 : datumList) {
                         progressBarHomePage.setVisibility(View.INVISIBLE);
-                        Log.e("-----imgslider--", imageslider1.slimg);
-                        imageArray.add(imageslider1.slimg);
-                        Log.e("-----imgtitle--", imageslider1.title);
+                        imageArray.add(imageslider1.image);
                         headArray.add(imageslider1.title);
-
                     }
-                    list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));*/
+                    list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));
+
+                    //-----------------------------------------Recommended List-------------------------------------
+
+                    List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
+                    List<ProductslHomePage.RecommendedList> newImageRecommendProducts = new ArrayList<>();
+                    for (int i = 0; i < (imageRecomendProducts.size() > 10 ? 10 : imageRecomendProducts.size()); i++) {
+                        newImageRecommendProducts.add(imageRecomendProducts.get(i));
+                    }
+                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), newImageRecommendProducts));
+
                     //-----------------------------------------deal of day ------------------------------------------
 
-
-                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.data;
+                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
                     List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
-                    for (int i = 0; i <  (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
+                    for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
                         newImageListDeal.add(imageListDeal.get(i));
-                        Log.e("---deal of day---", String.valueOf(imageListDeal.get(i)));
                     }
                     list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), newImageListDeal));
-                    //-----------------------------------------list of products--------------------------------------
-
-                    List<ProductslHomePage.DealOfDayList> imageListProducts = resource.data;
-                    List<ProductslHomePage.DealOfDayList> newImageListProducts = new ArrayList<>();
-                    for (int i = 0; i <  (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
-                        newImageListProducts.add(imageListProducts.get(i));
-                        Log.e("---list of products---", String.valueOf(imageListProducts.get(i)));
-                    }
-                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), newImageListProducts));
-                    //---------------------------------------recommended for you----------------------------------
-
-                    List<ProductslHomePage.DealOfDayList> imageListRecommended = resource.data;
-                    List<ProductslHomePage.DealOfDayList> newImageListRecommended = new ArrayList<>();
-                    for (int i = 0; i <  (imageListRecommended.size() > 10 ? 10 : imageListProducts.size()); i++) {
-                        newImageListRecommended.add(imageListRecommended.get(i));
-                        Log.e("---recommended for you", String.valueOf(imageListRecommended.get(i)));
-                    }
-                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), newImageListRecommended));
-
-
                 }
 
                 @Override
                 public void onFailure(Call<ProductslHomePage> call, Throwable t) {
                     call.cancel();
                 }
-
             });
-            //--------------------------------------product list-----------------------------------------------------
-
 
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
-
-        llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
         llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,10 +167,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
-//        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -237,110 +174,61 @@ public class HomePage extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                //selectedFragment = ItemOneFragment.newInstance();
-                                Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
-
-
                                 break;
-                            case R.id.navigation_scan:
-                                //selectedFragment = ItemTwoFragment.newInstance();
 
-                                new IntentIntegrator(HomePage.this).setCaptureActivity(ScannerActivity.class).initiateScan();
+                            case R.id.navigation_wishlist:
                                 break;
-                            case R.id.navigation_tap:
-                                //selectedFragment = ItemThreeFragment.newInstance();
 
-                                Intent nfcIntent = new Intent(getBaseContext(), nfc.class);
-                                startActivity(nfcIntent);
-
-
+                            case R.id.navigation_wallet:
                                 break;
-                            case R.id.navigation_call:
-                                Intent i = new Intent(Intent.ACTION_CALL);
-                                i.setData(Uri.parse("tel:18001231947"));
-                                if (ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                                    startActivity(i);
-                                } else {
-                                    requestPermissions(new String[]{CALL_PHONE}, 1);
-                                }
-                                break;
-                            case R.id.navigation_cart:
-                                Intent myIntent = new Intent(getBaseContext(), cart.class);
-                                startActivity(myIntent);
 
+                            case R.id.navigation_profile:
                                 break;
                         }
                         return true;
                     }
                 });
 
-
         /*  FCM */
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 // checking for type intent filter
                 if (intent.getAction().equals(fcmConfig.REGISTRATION_COMPLETE)) {
                     // gcm successfully registered
                     // now subscribe to `global` topic to receive app wide notifications
                     FirebaseMessaging.getInstance().subscribeToTopic(fcmConfig.TOPIC_GLOBAL);
-
                     displayFirebaseRegId();
 
                 } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION)) {
                     // new push notification is received
-
                     String message = intent.getStringExtra("message");
-
                     Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
-
-                    //  txtMessage.setText(message);
                 }
             }
         };
 
         displayFirebaseRegId();
-
-
-        /*  FCM */
-
     }
-
-    private void setupGallery(){
-
-
-
-    }
-
-
 
     public static HomePage getInstance() {
         return instance;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menu);
-
         //getting the search view from the menu
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
-
         //getting search manager from systemservice
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
         //getting the search view
         final SearchView searchViews = (SearchView) searchViewItem.getActionView();
-
         //you can put a hint for the search input field
         searchViews.setQueryHint("Search...");
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         //by setting it true we are making it iconified
         //so the search input will show up after taping the search iconified
         //if you want to make it visible all the time make it false
@@ -351,7 +239,6 @@ public class HomePage extends AppCompatActivity {
         searchEditText.setHintTextColor(getResources().getColor(R.color.white));
         searchEditText.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
-
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.WHITE);
         searchEditText.setOnItemClickListener(onItemClickListener);
@@ -359,15 +246,12 @@ public class HomePage extends AppCompatActivity {
         RemoteData remoteData = new RemoteData(this);
         remoteData.getStoreData();
 
-
         //here we will get the search query
         searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 Intent accountIntent = new Intent(getBaseContext(), search.class);
                 startActivity(accountIntent);
-
                 return false;
             }
 
@@ -377,24 +261,19 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
         return true;
     }
 
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-    private AdapterView.OnItemClickListener onItemClickListener =
-            new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    Intent prdIntent = new Intent(getBaseContext(), ProductDetailHome.class);
-                    prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(prdIntent);
-                    Log.d("Firebase reg i: ", String.valueOf(i));
-
-                }
-            };
-
+            Intent prdIntent = new Intent(getBaseContext(), ProductDetailHome.class);
+            prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(prdIntent);
+            Log.d("Firebase reg i: ", String.valueOf(i));
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -484,10 +363,8 @@ public class HomePage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         name_session = sharedpreferences.getInt("count", 0);
-
 
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
@@ -512,13 +389,7 @@ public class HomePage extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-
-
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
-
-    //-----------------------------------------------------------------------Add-to-Cart----------------------------------------------------
-
-
 }

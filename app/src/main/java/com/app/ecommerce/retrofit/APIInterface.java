@@ -26,8 +26,8 @@ public interface APIInterface {
     @GET("json/products.json")
     Call<ProductslHomeOne> doGetProducts();
 
-    @GET("index.php?route=api/custom/products/")
-    Call<ProductslHomePage> getHomePageProducts();
+    @POST("index.php?route=api/custom/homepage")
+    Call<ProductslHomePage> getHomePageProducts(@Body ProductslHomePage id);
 
     @GET("json/products.json")
     Call<ImageScroll> doGetListImages();
