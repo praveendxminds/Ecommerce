@@ -307,9 +307,6 @@ public class HomePage extends AppCompatActivity {
         searchEditText.setHintTextColor(getResources().getColor(R.color.black));
 
 
-        searchEditText.setDropDownWidth(800);
-        searchEditText.setDropDownHorizontalOffset(-300);
-
 
 
 
