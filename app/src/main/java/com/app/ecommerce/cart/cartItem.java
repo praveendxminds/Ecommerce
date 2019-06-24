@@ -1,7 +1,9 @@
 package com.app.ecommerce.cart;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -20,17 +22,29 @@ import com.app.ecommerce.R;
 @Layout(R.layout.cart_items)
 public class cartItem {
 
-    @View(R.id.imageView)
-    public ImageView imageView;
+    @View(R.id.itemIconMyCart)
+    public ImageView itemIconMyCart;
 
-    public Drawable mDrawable;
+    @View(R.id.prd_nameMyCart)
+    public TextView prd_nameMyCart;
 
-    public cartItem(Drawable drawable) {
-        mDrawable = drawable;
+    @View(R.id.qntyMyCart)
+    public TextView qntyMyCart;
+
+    @View(R.id.priceNewMyCart)
+    public TextView priceNewMyCart;
+
+    @View(R.id.btn_deleteMyCart)
+    public TextView btn_deleteMyCart;
+
+    public Context mcontext;
+
+    public cartItem(Context context) {
+        mcontext=context;
     }
 
     @Resolve
     public void onResolved() {
-        imageView.setImageDrawable(mDrawable);
+
     }
 }

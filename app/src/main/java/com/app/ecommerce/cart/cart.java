@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.TextView;
 
 import com.mindorks.placeholderview.PlaceHolderView;
 
@@ -25,6 +27,7 @@ public class cart extends AppCompatActivity {
     private PlaceHolderView mCartView;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
+    TextView linkDeliveryTime;
 
 
     @Override
@@ -32,6 +35,9 @@ public class cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        linkDeliveryTime= (TextView) findViewById(R.id.linkDeliveryTime);
+        linkDeliveryTime.setMovementMethod(LinkMovementMethod.getInstance());
+
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -45,17 +51,10 @@ public class cart extends AppCompatActivity {
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
 
 
-        mCartView
-                .addView(new cartItem(getResources().getDrawable(R.drawable.home)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.call)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.tap)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.home)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.tap)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.call)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.call)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.tap)))
-                .addView(new cartItem(getResources().getDrawable(R.drawable.call)));
-
+     for(int i=0;i<=10;i++)
+     {
+         mCartView.addView(new cartItem(getApplicationContext()));
+     }
         mCartView.addView(new cartItem_footer());
 
 

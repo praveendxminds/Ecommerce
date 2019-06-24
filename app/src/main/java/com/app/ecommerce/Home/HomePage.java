@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,13 +34,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.app.ecommerce.Delivery;
 import com.app.ecommerce.ProfileSection.Navmenu_act;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Splash;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
-import com.app.ecommerce.appIntro.WelcomeActivity;
+import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.fcm.NotificationUtils;
 import com.app.ecommerce.fcm.fcmConfig;
 import com.app.ecommerce.notifications.MyNotifications;
@@ -317,7 +314,7 @@ public class HomePage extends AppCompatActivity {
                 break;
 
             case R.id.delivery:
-                Intent DeliveryIntent = new Intent(getBaseContext(), Delivery.class);
+                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
                 break;

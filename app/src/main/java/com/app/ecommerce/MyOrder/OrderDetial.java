@@ -83,8 +83,8 @@ public class OrderDetial extends AppCompatActivity {
                         grant_total_val.setText(orderDetail.mdquantity);
                         item_cnt.setText(orderDetail.mdname);
                         prc.setText(orderDetail.mdprice);
-                        del_charge.setText(orderDetail.mdtotal);
-                        amnt_pay.setText(orderDetail.mdtax);
+                        del_charge.setText(orderDetail.mdtax);
+                        amnt_pay.setText(orderDetail.mdtotal);
 
                         Log.e("-----OrdersList--", orderDetail.mdname+" "+orderDetail.mdmodel);
 
