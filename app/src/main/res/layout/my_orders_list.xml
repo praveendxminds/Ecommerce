@@ -169,7 +169,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="15dp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/btnReOrder"

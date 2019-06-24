@@ -54,28 +54,29 @@ public class orderItem {
      * created by sushmita on 23rd June 2019
      */
     public Context mContext;
-    public String mUrl,mstatus,morderId,mdeliveryDate;
+    public String mstatus,morderId,mdeliveryDate,mcancel;
     public  orderItem(Context context)
     {
         mContext=  context;
     }
 
-    public orderItem(Context context,String url,String status,String orderId,String deliveryDate) {
+    public orderItem(Context context,String orderId,String deliveryDate,String status,String cancel) {
         mContext = context;
-        mUrl = url;
         mstatus = status;
         morderId = orderId;
         mdeliveryDate = deliveryDate;
+        mcancel = cancel;
     }
 
-   /* @Resolve
+    @Resolve
     public void onResolved()
     {
-        Glide.with(mContext).load(mUrl).into(itemIconOrder);
-        statusOrder.setText(mstatus);
         orderIdOrder.setText(morderId);
         deliveryDateOrder.setText(mdeliveryDate);
-    }*/
+        statusOrder.setText(mstatus);
+       btnCancelOrder.setText(mcancel);
+
+    }
     @Click(R.id.myOrder_lt)
     public void onCardClick()
     {

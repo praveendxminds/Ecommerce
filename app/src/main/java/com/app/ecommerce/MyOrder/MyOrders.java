@@ -1,5 +1,6 @@
 package com.app.ecommerce.MyOrder;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,25 +9,37 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.app.ecommerce.Utils;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.MyOrderList;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import com.app.ecommerce.R;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by praveen on 15/11/18.
  */
 
 
-
 public class MyOrders extends AppCompatActivity {
 
     Toolbar toolbar;
     private PlaceHolderView mCartView;
-   public static BottomNavigationView navigationMyOrders;
+    public static BottomNavigationView navigationMyOrders;
     View view_count;
+    APIInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +47,48 @@ public class MyOrders extends AppCompatActivity {
         setContentView(R.layout.my_orders);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationMyOrders = findViewById(R.id.navigationMyOrders);
+        mCartView = findViewById(R.id.recycler_order);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        mCartView = (PlaceHolderView)findViewById(R.id.recycler_order);
-        for(int i=0;i<=10;i++) {
-            mCartView.addView(new orderItem(getApplicationContext()));
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//-------------------------------------image slider view----------------------------------------------------------------------
+            final MyOrderList get_order_list = new MyOrderList("1");
+            Call<MyOrderList> call = apiInterface.getMyOrdersList(get_order_list);
+            call.enqueue(new Callback<MyOrderList>() {
+                @Override
+                public void onResponse(Call<MyOrderList> call, Response<MyOrderList> response) {
+
+                    MyOrderList resource = response.body();
+
+                    List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
+
+                    for (MyOrderList.MyOrderListDatum orderList : datumList1) {
+
+                        mCartView.addView(new orderItem(getApplicationContext(),orderList.sorder_id,orderList.sdate_added,
+                                orderList.sstatus,orderList.scancel ));
+
+                        Log.e("-----OrdersList--",orderList.sfirstname+" "+orderList.scancel);
+
+
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<MyOrderList> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
           /* mCartView
                 .addView(new orderItemHeader())
@@ -56,7 +101,7 @@ public class MyOrders extends AppCompatActivity {
                 .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.call)))
                 .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.tap)));
 */
-          //----------bottom navigation-----------------------------
+        //----------bottom navigation-----------------------------
         navigationMyOrders.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -90,6 +135,7 @@ public class MyOrders extends AppCompatActivity {
                 (BottomNavigationMenuView) navigationMyOrders.getChildAt(0);
         view_count = bottomNavigationMenuView.getChildAt(4);
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
