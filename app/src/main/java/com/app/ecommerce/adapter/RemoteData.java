@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -64,6 +65,10 @@ public class RemoteData {
                         AutoCompleteTextView storeTV =
                                 (AutoCompleteTextView)((Activity)context).findViewById(android.support.v7.appcompat.R.id.search_src_text);
 
+                     //   ListView lvstoreTV =
+                            //    (ListView)((Activity)context).findViewById(R.id.lv);
+
+
                     //    ArrayAdapter<String> adapteo = new ArrayAdapter<String>(context,
                              //   android.R.layout.simple_dropdown_item_1line, str.toArray(new String[0]));
 
@@ -86,6 +91,7 @@ public class RemoteData {
 
 
                        storeTV.setAdapter(adapter);
+                      //  lvstoreTV.setAdapter(adapter);
 
                     }
 
