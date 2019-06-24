@@ -67,7 +67,7 @@ public class Navmenu_act extends AppCompatActivity {
                     Intent intent = new Intent(Navmenu_act.this, HomePage.class);
                     startActivity(intent);
                 } else if (position == 1) {
-                    Intent intent = new Intent(Navmenu_act.this, Login_act.class);
+                    Intent intent = new Intent(Navmenu_act.this, MyOrders.class);
                     startActivity(intent);
                 } else if (position == 2) {
                     Intent intent = new Intent(Navmenu_act.this, SignUp_act.class);

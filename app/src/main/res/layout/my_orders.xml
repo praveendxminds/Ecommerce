@@ -34,7 +34,15 @@
         </com.mindorks.placeholderview.PlaceHolderView>
 
 
-
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigationMyOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/whiteshadow"
+            app:itemIconTint="@color/colorPrimary"
+            app:itemTextColor="@color/colorPrimary"
+            app:menu="@menu/bottom_navigation_menu" />
     </RelativeLayout>
 </LinearLayout>
 

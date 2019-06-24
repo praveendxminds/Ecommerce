@@ -47,6 +47,9 @@ public interface APIInterface {
     @POST("index.php?route=account/wishlist/insertWishList")
     Call<InsertWishListItems> addtoWishList(@Body InsertWishListItems id);
 
+    @POST("index.php?route=api/order/cusOrder")
+    Call<MyOrderList> getMyOrdersList(@Body MyOrderList id);
+
     @FormUrlEncoded
     @POST("json/login.php")
     Call<User> doGetLogin(@Field("name") String name, @Field("password") String password);
