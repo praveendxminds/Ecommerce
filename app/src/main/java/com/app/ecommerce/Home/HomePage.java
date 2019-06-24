@@ -116,6 +116,24 @@ public class HomePage extends AppCompatActivity {
         });
         t.start();
 
+
+        /* serach */
+
+
+        searchEditText = (AutoCompleteTextView) findViewById(R.id.serchviews);
+        searchEditText.setThreshold(1);//will start working from first character
+        searchEditText.setTextColor(Color.BLACK);
+        searchEditText.setOnItemClickListener(onItemClickListener);
+        searchEditText.clearFocus();
+
+        RemoteData remoteData = new RemoteData(this);
+        remoteData.getStoreData();
+
+
+
+
+        /* search */
+
         final ArrayList<String> imageArray = new ArrayList<String>();
         final ArrayList<String> headArray = new ArrayList<String>();
 
@@ -227,6 +245,8 @@ public class HomePage extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menu);
+
+        /*
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchViews = (SearchView) searchViewItem.getActionView();
@@ -268,8 +288,6 @@ public class HomePage extends AppCompatActivity {
 
 
 
-
-
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.BLACK);
         searchEditText.setOnItemClickListener(onItemClickListener);
@@ -292,7 +310,7 @@ public class HomePage extends AppCompatActivity {
                 return false;
             }
         });
-
+*/
         return true;
     }
 
