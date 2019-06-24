@@ -3,6 +3,8 @@ package com.app.ecommerce.MyOrder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +18,13 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
 import com.app.ecommerce.R;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * Created by praveen on 19/12/18.
@@ -71,10 +80,10 @@ public class orderItem {
     @Resolve
     public void onResolved()
     {
-        orderIdOrder.setText(morderId);
-        deliveryDateOrder.setText(mdeliveryDate);
-        statusOrder.setText(mstatus);
-       btnCancelOrder.setText(mcancel);
+        orderIdOrder.setText("Order Id"+" "+morderId);
+        deliveryDateOrder.setText ("Delivered on"+" "+ mdeliveryDate);
+        pendingOrder.setText(mstatus);
+        btnCancelOrder.setText(mcancel);
 
     }
     @Click(R.id.myOrder_lt)
@@ -87,3 +96,4 @@ public class orderItem {
     }
 
 }
+

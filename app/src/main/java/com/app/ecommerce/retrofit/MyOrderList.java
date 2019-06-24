@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MyOrderList {
+public class MyOrderList extends  java.util.Date{
 
     @SerializedName("customer_id")
     public  String scustomer_id;
