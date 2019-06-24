@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -118,7 +120,11 @@ public class HomePage extends AppCompatActivity {
 
 
         /* serach */
+/*
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchViews = (SearchView) findViewById(R.id.searchView123);
 
+        searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         searchEditText = (AutoCompleteTextView) findViewById(R.id.serchviews);
         searchEditText.setThreshold(1);//will start working from first character
@@ -129,9 +135,22 @@ public class HomePage extends AppCompatActivity {
         RemoteData remoteData = new RemoteData(this);
         remoteData.getStoreData();
 
+        //here we will get the search query
+        searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent accountIntent = new Intent(getBaseContext(), search.class);
+                startActivity(accountIntent);
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
-
+*/
         /* search */
 
         final ArrayList<String> imageArray = new ArrayList<String>();
@@ -246,15 +265,21 @@ public class HomePage extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menu);
 
-        /*
+
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchViews = (SearchView) searchViewItem.getActionView();
         searchViews.setQueryHint("Search...");
         searchViews.setBackgroundColor(getResources().getColor(R.color.white));
 
-        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams(600,
-                100);
+        int actionBarHeight = mToolbarHomePage.getLayoutParams().height;
+        int actionBarwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+
+        Log.d("ccccc", String.valueOf(actionBarwidth));
+        Log.d("aaaaaa", String.valueOf(actionBarHeight));
+        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams((int)(actionBarwidth/1.8),
+                (int)(actionBarHeight/1.9));
+        searchViews.setBackground(ContextCompat.getDrawable(this, R.drawable.search_border));
         searchViews.setLayoutParams(tvLay);
 
 
@@ -274,14 +299,13 @@ public class HomePage extends AppCompatActivity {
 
 
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchViews.setMaxWidth(600);
+      //  searchViews.setMaxWidth(600);
 
         searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setHintTextColor(getResources().getColor(R.color.black));
 
 
-        searchEditText.setBackgroundColor(getResources().getColor(R.color.black));
         searchEditText.setDropDownWidth(800);
         searchEditText.setDropDownHorizontalOffset(-300);
 
@@ -310,7 +334,7 @@ public class HomePage extends AppCompatActivity {
                 return false;
             }
         });
-*/
+
         return true;
     }
 
