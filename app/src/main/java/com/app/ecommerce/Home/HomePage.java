@@ -45,6 +45,7 @@ import com.app.ecommerce.Splash;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.appIntro.WelcomeActivity;
+import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.fcm.NotificationUtils;
 import com.app.ecommerce.fcm.fcmConfig;
 import com.app.ecommerce.notifications.MyNotifications;
@@ -359,7 +360,7 @@ public class HomePage extends AppCompatActivity {
                 break;
 
             case R.id.delivery:
-                Intent DeliveryIntent = new Intent(getBaseContext(), Delivery.class);
+                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
                 break;
