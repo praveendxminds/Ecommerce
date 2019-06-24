@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -83,6 +86,9 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
+
+
+
 
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
         setSupportActionBar(mToolbarHomePage);
@@ -221,28 +227,53 @@ public class HomePage extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menu);
-        //getting the search view from the menu
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
-        //getting search manager from systemservice
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        //getting the search view
         final SearchView searchViews = (SearchView) searchViewItem.getActionView();
-        //you can put a hint for the search input field
         searchViews.setQueryHint("Search...");
+        searchViews.setBackgroundColor(getResources().getColor(R.color.white));
+
+        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams(600,
+                100);
+        searchViews.setLayoutParams(tvLay);
+
+
+        searchViews.setIconifiedByDefault(false);
+        searchViews.setFocusable(false);
+        searchViews.setIconified(false);
+     //   searchViews.setIconifiedByDefault(false);
+
+//        ImageView closeBtn = (ImageView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+//        closeBtn.setVisibility(View.GONE);
+//        closeBtn.setEnabled(false);
+//        closeBtn.setImageDrawable(null);
+
+
+        ImageView searchMagIcon = (ImageView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+        searchMagIcon.setImageResource(R.drawable.ic_search_black);
+
+
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //by setting it true we are making it iconified
-        //so the search input will show up after taping the search iconified
-        //if you want to make it visible all the time make it false
-        searchViews.setMaxWidth(Integer.MAX_VALUE);
+        searchViews.setMaxWidth(600);
 
         searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setTextColor(getResources().getColor(R.color.white));
-        searchEditText.setHintTextColor(getResources().getColor(R.color.white));
-        searchEditText.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        searchEditText.setTextColor(getResources().getColor(R.color.black));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.black));
+
+
+        searchEditText.setBackgroundColor(getResources().getColor(R.color.black));
+        searchEditText.setDropDownWidth(800);
+        searchEditText.setDropDownHorizontalOffset(-300);
+
+
+
+
+
 
         searchEditText.setThreshold(1);//will start working from first character
-        searchEditText.setTextColor(Color.WHITE);
+        searchEditText.setTextColor(Color.BLACK);
         searchEditText.setOnItemClickListener(onItemClickListener);
+        searchEditText.clearFocus();
 
         RemoteData remoteData = new RemoteData(this);
         remoteData.getStoreData();

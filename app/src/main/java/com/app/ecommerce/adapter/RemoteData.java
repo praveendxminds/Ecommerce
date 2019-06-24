@@ -84,7 +84,8 @@ public class RemoteData {
                         }
                     };
 
-                        storeTV.setAdapter(adapter);
+
+                       storeTV.setAdapter(adapter);
 
                     }
 
