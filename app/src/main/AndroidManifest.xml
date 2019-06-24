@@ -139,6 +139,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.app.ecommerce.Splash"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name="com.app.ecommerce.about"

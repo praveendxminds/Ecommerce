@@ -36,6 +36,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.Delivery;
 import com.app.ecommerce.ProfileSection.Navmenu_act;
 import com.app.ecommerce.R;
+import com.app.ecommerce.Splash;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.appIntro.WelcomeActivity;
@@ -103,7 +104,7 @@ public class HomePage extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(HomePage.this, WelcomeActivity.class);
+                Intent i = new Intent(HomePage.this, Splash.class);
                 startActivity(i);
             }
         });
