@@ -42,31 +42,35 @@ public class cart extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //-----delivery time link------------------
         linkDeliveryTime = (TextView) findViewById(R.id.linkDeliveryTime);
-       /* String str_links = "<a href='http://google.com'>Delivery Time</a>";
-        linkDeliveryTime.setLinksClickable(true);
-        linkDeliveryTime.setMovementMethod(LinkMovementMethod.getInstance());
-        linkDeliveryTime.setText( Html.fromHtml( str_links ) );
-*/
-        final String[] Company = {"Apple", "Genpack", "Microsoft", "HP", "HCL", "Ericsson"};
+        final String[] Day = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
+        final String[] Time = {"6-11AM","11-3PM","3-9PM","9-12AM"};
         linkDeliveryTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
                 LayoutInflater inflater = getLayoutInflater();
                 View alertLayout = inflater.inflate(R.layout.delivery_time_popup, null);
-                final TextView title = alertLayout.findViewById(R.id.title);
-                final ImageView image = alertLayout.findViewById(R.id.image);
-                final Spinner spinner = alertLayout.findViewById(R.id.popupspinner);
-                final Button dismiss = alertLayout.findViewById(R.id.dismiss);
-                ArrayAdapter<String> adapter =
+                final TextView deliveryTimeDialog = alertLayout.findViewById(R.id.deliveryTimeDialog);
+                final TextView closeDialog = alertLayout.findViewById(R.id.closeDialog);
+//----day spinner--------
+                final Spinner dayspinner = alertLayout.findViewById(R.id.dayspinner);
+                final Button dismiss = alertLayout.findViewById(R.id.btnDismiss);
+                ArrayAdapter<String> adapterDay =
                         new ArrayAdapter<String>(cart.this,
-                                android.R.layout.simple_spinner_item, Company);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-
+                                android.R.layout.simple_spinner_item, Day);
+                adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                dayspinner.setAdapter(adapterDay);
+//---time spinner-----
+                final Spinner timespinner = alertLayout.findViewById(R.id.timespinner);
+                ArrayAdapter<String> adapterTime =
+                        new ArrayAdapter<String>(cart.this,
+                                android.R.layout.simple_spinner_item, Time);
+                adapterTime.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                timespinner.setAdapter(adapterTime);
+                //-----------
                 final AlertDialog alertDialog = new AlertDialog.Builder(cart.this).create();
                 alertDialog.setView(alertLayout);
-                dismiss.setOnClickListener(new Button.OnClickListener() {
+                closeDialog.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         alertDialog.dismiss();
