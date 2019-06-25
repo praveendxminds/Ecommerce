@@ -36,6 +36,7 @@ public class cart extends AppCompatActivity {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     TextView linkDeliveryTime;
+    String storeDayTime;
 
 
     @Override
@@ -90,7 +91,7 @@ public class cart extends AppCompatActivity {
 
 
                     }
-                    
+
                 });
 
 //---time spinner-----
@@ -129,6 +130,17 @@ public class cart extends AppCompatActivity {
                 });
                 //-----------
                 final AlertDialog alertDialog = new AlertDialog.Builder(cart.this).create();
+                schedule.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        storeDayTime = dayspinner.getSelectedItem().toString();
+                        storeDayTime = storeDayTime+" "+timespinner.getSelectedItem().toString();
+                        linkDeliveryTime.setText(storeDayTime);
+                        alertDialog.dismiss();
+                    }
+                });
+
+
                 alertDialog.setView(alertLayout);
                 closeDialog1.setOnClickListener(new Button.OnClickListener() {
                     @Override
@@ -139,6 +151,7 @@ public class cart extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
