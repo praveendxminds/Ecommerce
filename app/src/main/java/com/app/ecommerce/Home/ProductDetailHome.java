@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
@@ -59,10 +60,9 @@ public class ProductDetailHome extends AppCompatActivity {
     String sname, sprice, sqty, simage, sreviews, spoints;
     int cart_count = 0;
     public boolean state=true;
+    SessionManager session;
 
     android.view.View menuItemView;
-    public static String MyPREFERENCES = "sessiondata";
-    SharedPreferences sharedpreferences;
 
 
     @Override
@@ -90,6 +90,8 @@ public class ProductDetailHome extends AppCompatActivity {
         mPlaceHolderView = (PlaceHolderView) findViewById(R.id.similarPrdDetail);
         tv_review = findViewById(R.id.reviewPrdDetail);
         tv_points = findViewById(R.id.ratingsPrdDetail);
+
+        session = new SessionManager(getApplicationContext());
 
         mPlaceHolderView.getBuilder()
                 .setHasFixedSize(false)
@@ -241,21 +243,6 @@ public class ProductDetailHome extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.cart_menu, menu);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                menuItemView = findViewById(R.id.cart_menu_item);
-
-                sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-                Integer name_session = sharedpreferences.getInt("count", 0);
-
-                new QBadgeView(getApplicationContext()).bindTarget(menuItemView).setBadgeTextColor(getApplicationContext().getResources().getColor(R.color.white)).setGravityOffset(15, -5, true).setBadgeNumber(name_session).setBadgeBackgroundColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-
-
-            }
-        }, 200);
-
 
         return true;
     }
@@ -267,23 +254,11 @@ public class ProductDetailHome extends AppCompatActivity {
     }
 
 
-    public void addcart(android.view.View v) {
-        // cart_count = cart_count + 1;
-        //  countCartDisplay(cart_count);
-
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-
-        name_session = name_session + 1;
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", name_session);
-        editor.commit();
-
-
-        countCartDisplay(name_session);
-
+    public void addcart(android.view.View v)
+    {
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;
+        session.cartcount(cnt);
 
     }
 
@@ -311,13 +286,7 @@ public class ProductDetailHome extends AppCompatActivity {
     }
 
 
-    private void countCartDisplay(int number) {
 
-
-        new QBadgeView(getApplicationContext()).bindTarget(menuItemView).setBadgeTextColor(getApplicationContext().getResources().getColor(R.color.white)).setGravityOffset(15, -5, true).setBadgeNumber(number).setBadgeBackgroundColor(getApplicationContext().getResources().getColor(R.color.colorPrimaryDark));
-
-
-    }
 
 
 }
