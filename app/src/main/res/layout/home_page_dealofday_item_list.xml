@@ -60,10 +60,10 @@
 
                     <TextView
                         android:id="@+id/item_priceDealofDay"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:gravity="right"
+                        android:layout_gravity="right"
                         android:text="50$"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/light_black"
@@ -72,10 +72,11 @@
 
                     <TextView
                         android:id="@+id/item_old_priceDealofDay"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:gravity="right"
+                        android:layout_gravity="right"
+                        android:background="@drawable/strike_through"
                         android:text="20$"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/light_black"
