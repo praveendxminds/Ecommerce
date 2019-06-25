@@ -72,8 +72,6 @@ public class HomePage extends AppCompatActivity {
     APIInterface apiInterface;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    public static String MyPREFERENCES = "sessiondata";
-    SharedPreferences sharedpreferences;
 
     View view_count;
     Integer name_session;
@@ -108,7 +106,6 @@ public class HomePage extends AppCompatActivity {
 
         AndroidNetworking.initialize(getApplicationContext());
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -435,8 +432,8 @@ public class HomePage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        name_session = sharedpreferences.getInt("count", 0);
+//        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+//        name_session = sharedpreferences.getInt("count", 0);
 
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
