@@ -98,13 +98,13 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical">
@@ -118,7 +118,7 @@
                         android:gravity="left"
                         android:text="Order Id"
                         android:textAllCaps="false"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/light_black"
                         android:textSize="18dp" />
 
 
@@ -126,7 +126,7 @@
 
 
                 <LinearLayout
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginBottom="5dp">
 
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Delivered on"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blackshadow"
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -169,7 +169,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="15dp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/btnReOrder"
