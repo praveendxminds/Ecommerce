@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -29,6 +30,7 @@ public class HomePageRecommended {
 
     public Context mContext;
     public List<ProductslHomePage.RecommendedList> mImageList;
+    SessionManager session;
 
     public HomePageRecommended(Context context, List<ProductslHomePage.RecommendedList> imageList) {
         mContext = context;
@@ -54,4 +56,7 @@ public class HomePageRecommended {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
+
+
+
 }
