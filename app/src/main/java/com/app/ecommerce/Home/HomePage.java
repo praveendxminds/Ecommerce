@@ -255,6 +255,18 @@ public class HomePage extends AppCompatActivity {
         textCartItemCount.setText(String.valueOf(cnt));
 
 
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
+                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(DeliveryIntent);
+
+            }
+        });
+
+
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchViews = (SearchView) searchViewItem.getActionView();
