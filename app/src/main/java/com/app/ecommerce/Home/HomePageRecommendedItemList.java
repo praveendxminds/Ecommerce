@@ -7,6 +7,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.app.ecommerce.R;
 import com.app.ecommerce.SessionManager;
 import com.bumptech.glide.Glide;
@@ -21,6 +22,7 @@ import com.mindorks.placeholderview.annotations.expand.Toggle;
 import q.rorbin.badgeview.QBadgeView;
 
 import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
+
 
 
 @NonReusable
@@ -53,12 +55,15 @@ public class HomePageRecommendedItemList {
     public String mPrice;
     public String mQty;
     SessionManager session;
+    public TextView mtextCartItemCount;
+
+
 
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
 
-    public HomePageRecommendedItemList(Context context, PlaceHolderView placeHolderView, String product_id, String image,
+    public HomePageRecommendedItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String image,
                                        String name, String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
@@ -67,6 +72,7 @@ public class HomePageRecommendedItemList {
         title = name;
         mPrice = price;
         mQty = qty;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -92,6 +98,7 @@ public class HomePageRecommendedItemList {
         Integer cnt = session.getCartCount();
         cnt = cnt +1;
         session.cartcount(cnt);
+        mtextCartItemCount.setText(String.valueOf(cnt));
     }
 
 
@@ -121,6 +128,7 @@ public class HomePageRecommendedItemList {
 
         sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = sharedpreferences.getInt("count", 0);
+
 
         new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white))
                 .setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor

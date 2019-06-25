@@ -22,7 +22,7 @@ import com.mindorks.placeholderview.annotations.expand.Toggle;
 
 import q.rorbin.badgeview.QBadgeView;
 
-import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
+import static com.app.ecommerce.Home.HomePage.bottomNavigationView;
 
 
 @NonReusable
@@ -58,8 +58,9 @@ public class HomePageDealOfDayItemList {
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
+    public TextView mtextCartItemCount;
 
-    public HomePageDealOfDayItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading,
+    public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String ulr, String heading,
                                      String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
@@ -67,6 +68,7 @@ public class HomePageDealOfDayItemList {
         mHeading = heading;
         mPrice = price;
         mQty = qty;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -94,6 +96,8 @@ public class HomePageDealOfDayItemList {
         cnt = cnt +1;
         session.cartcount(cnt);
 
+        mtextCartItemCount.setText(String.valueOf(cnt));
+
     }
 
     @Click(R.id.increaseDealofDay)
@@ -119,18 +123,7 @@ public class HomePageDealOfDayItemList {
     }
 
 
-    public void countCartDisplay(int number) {
 
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(4);
-
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
-    }
 
 
 

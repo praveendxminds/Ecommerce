@@ -3,19 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.home.activities.TransactionSearchActivity">
 
-    <!--<item-->
-        <!--android:id="@+id/action_search"-->
-        <!--android:icon="@drawable/ic_search"-->
-        <!--android:title="Search"-->
-        <!--app:actionViewClass="android.support.v7.widget.SearchView"-->
-        <!--app:showAsAction="always" />-->
-
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="Search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+
 
     <item
         android:id="@+id/notification"
@@ -24,8 +18,10 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/delivery"
+        android:id="@+id/cartmenu"
         android:icon="@drawable/ic_shopping_cart"
-        android:title="Delivery"
+        android:title="Cart"
+        app:actionLayout="@layout/custom_action_item_layout"
         app:showAsAction="always" />
+
 </menu>

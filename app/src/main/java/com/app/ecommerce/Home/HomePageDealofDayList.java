@@ -26,12 +26,14 @@ public class HomePageDealofDayList {
     @View(R.id.dealofdayClick)
     public TextView dealofdayClick;
 
+    public TextView mtextCartItemCount;
     public Context mContext;
     public List<ProductslHomePage.DealOfDayList> mImageList;
 
-    public HomePageDealofDayList(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
+    public HomePageDealofDayList(Context context,TextView textCartItemCount, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
         mImageList = imageList;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -42,7 +44,7 @@ public class HomePageDealofDayList {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext, placeholderviewDealofDay,
+            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,
                     image.image, image.name, image.price, image.qty));
         }
     }

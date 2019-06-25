@@ -28,13 +28,15 @@ public class HomePageRecommended {
     @View(R.id.tvRecommendList)
     public TextView tvRecommendList;
 
+    public TextView mtextCartItemCount;
     public Context mContext;
     public List<ProductslHomePage.RecommendedList> mImageList;
     SessionManager session;
 
-    public HomePageRecommended(Context context, List<ProductslHomePage.RecommendedList> imageList) {
+    public HomePageRecommended(Context context,TextView textCartItemCount, List<ProductslHomePage.RecommendedList> imageList) {
         mContext = context;
         mImageList = imageList;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -45,7 +47,7 @@ public class HomePageRecommended {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
-            placeholderviewRecommended.addView(new HomePageRecommendedItemList(mContext, placeholderviewRecommended,
+            placeholderviewRecommended.addView(new HomePageRecommendedItemList(mContext,mtextCartItemCount, placeholderviewRecommended,
                     image.product_id, image.image, image.name, image.price, image.quantity));
         }
     }
