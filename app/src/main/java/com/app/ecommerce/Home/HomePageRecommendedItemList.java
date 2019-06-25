@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -51,6 +52,7 @@ public class HomePageRecommendedItemList {
     public String title;
     public String mPrice;
     public String mQty;
+    SessionManager session;
 
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
@@ -84,17 +86,12 @@ public class HomePageRecommendedItemList {
     }
 
     @Click(R.id.addcartRecommended)
-    public void AddToCartClick() {
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-        name_session = name_session + 1;
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", name_session);
-        editor.commit();
-
-        countCartDisplay(name_session);
+    public void AddToCartClick()
+    {
+        session = new SessionManager(mContext);
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;
+        session.cartcount(cnt);
     }
 
 

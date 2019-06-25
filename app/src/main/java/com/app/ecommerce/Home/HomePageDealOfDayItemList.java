@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
+import com.app.ecommerce.SessionManager;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -46,6 +47,7 @@ public class HomePageDealOfDayItemList {
     @View(R.id.qntyDealofDay)
     public TextView item_qtyDealofDay;
 
+    SessionManager session;
 
     public String mUlr;
     public Context mContext;
@@ -83,23 +85,16 @@ public class HomePageDealOfDayItemList {
         mContext.startActivity(intent);
     }
 
+
     @Click(R.id.addcartDealofDay)
-    public void AddToCartClick() {
-      /*  sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
+    public void addtocart()
+    {
+        session = new SessionManager(mContext);
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;
+        session.cartcount(cnt);
 
-        //  cart_count = cart_count + 1;
-
-        name_session = name_session +1;
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", 3);
-        editor.commit();
-*/
-
-        countCartDisplay(3);
     }
-
 
     @Click(R.id.increaseDealofDay)
     public void onIncreaseClick() {

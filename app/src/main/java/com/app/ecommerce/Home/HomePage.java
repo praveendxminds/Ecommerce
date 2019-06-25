@@ -41,6 +41,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.Delivery;
 import com.app.ecommerce.ProfileSection.Navmenu_act;
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Splash;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.adapter.RemoteData;
@@ -70,11 +71,11 @@ public class HomePage extends AppCompatActivity {
     public Context mContext;
     private static HomePage instance;
     APIInterface apiInterface;
+    SessionManager session;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     View view_count;
-    Integer name_session;
 
     public static BottomNavigationView bottomNavigationView;
     private Toolbar mToolbarHomePage;
@@ -88,8 +89,11 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
+        session = new SessionManager(getApplicationContext());
 
 
+        Integer cnt = session.getCartCount();
+        Log.d("cartcnt", String.valueOf(cnt));
 
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
         setSupportActionBar(mToolbarHomePage);
@@ -115,41 +119,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
         t.start();
-
-
-        /* serach */
-/*
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchViews = (SearchView) findViewById(R.id.searchView123);
-
-        searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-        searchEditText = (AutoCompleteTextView) findViewById(R.id.serchviews);
-        searchEditText.setThreshold(1);//will start working from first character
-        searchEditText.setTextColor(Color.BLACK);
-        searchEditText.setOnItemClickListener(onItemClickListener);
-        searchEditText.clearFocus();
-
-        RemoteData remoteData = new RemoteData(this);
-        remoteData.getStoreData();
-
-        //here we will get the search query
-        searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Intent accountIntent = new Intent(getBaseContext(), search.class);
-                startActivity(accountIntent);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-*/
-        /* search */
 
         final ArrayList<String> imageArray = new ArrayList<String>();
         final ArrayList<String> headArray = new ArrayList<String>();
@@ -431,16 +400,6 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-//        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-//        name_session = sharedpreferences.getInt("count", 0);
-
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        view_count = bottomNavigationMenuView.getChildAt(4);
-//        new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources()
-//                .getColor(R.color.white)).setGravityOffset(15, -2, true)
-//                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
 
 
         // register GCM registration complete receiver

@@ -34,12 +34,24 @@ public class SessionManager {
 
     public static final String KEY_SPLASH = "firstrun";
 
+    public static final String KEY_Cart_COUNT = "cartcount";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
+
+    public void cartcount(Integer cnt)
+    {
+        editor.putInt(KEY_Cart_COUNT,cnt);
+        editor.commit();
+    }
+
+    public Integer getCartCount() {
+        return pref.getInt(KEY_Cart_COUNT, 0);
+    }
 
     public boolean isFirstrun()
     {
