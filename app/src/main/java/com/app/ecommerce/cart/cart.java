@@ -8,14 +8,17 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.app.ecommerce.R;
@@ -33,6 +36,7 @@ public class cart extends AppCompatActivity {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     TextView linkDeliveryTime;
+    String storeDayTime;
 
 
     @Override
@@ -51,26 +55,94 @@ public class cart extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
                 View alertLayout = inflater.inflate(R.layout.delivery_time_popup, null);
                 final TextView deliveryTimeDialog = alertLayout.findViewById(R.id.deliveryTimeDialog);
-                final TextView closeDialog = alertLayout.findViewById(R.id.closeDialog);
+                final TextView closeDialog1 = alertLayout.findViewById(R.id.closeDialog);
 //----day spinner--------
                 final Spinner dayspinner = alertLayout.findViewById(R.id.dayspinner);
-                final Button dismiss = alertLayout.findViewById(R.id.btnDismiss);
-                ArrayAdapter<String> adapterDay =
-                        new ArrayAdapter<String>(cart.this,
-                                android.R.layout.simple_spinner_item, Day);
+                final Button schedule = alertLayout.findViewById(R.id.btnSchedule);
+                final SpinnerAdapter adapterDay = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
                 adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                adapterDay.addAll(Day);
+                adapterDay.add("Select");
                 dayspinner.setAdapter(adapterDay);
+                dayspinner.setSelection(adapterDay.getCount());
+                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+
+
+                        if(dayspinner.getSelectedItem() == "Select")
+                        {
+
+                            Toast.makeText(cart.this,"you have selected nothing",Toast.LENGTH_LONG).show();
+                            //Do nothing.
+                        }
+                        else{
+
+                            Log.e("-----day selected-----","----day selected---");
+                            Toast.makeText(cart.this, dayspinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+
+                    }
+
+                });
+
 //---time spinner-----
-                final Spinner timespinner = alertLayout.findViewById(R.id.timespinner);
-                ArrayAdapter<String> adapterTime =
-                        new ArrayAdapter<String>(cart.this,
-                                android.R.layout.simple_spinner_item, Time);
+              final Spinner timespinner = alertLayout.findViewById(R.id.timespinner);
+                SpinnerAdapter adapterTime = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
                 adapterTime.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                adapterTime.addAll(Time);
+                adapterTime.add("Select");
                 timespinner.setAdapter(adapterTime);
+                timespinner.setSelection(adapterTime.getCount());
+                timespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+
+
+                        if(timespinner.getSelectedItem() == "Select")
+                        {
+                            Toast.makeText(cart.this,"no time selected",Toast.LENGTH_LONG).show();
+                            //Do nothing.
+                        }
+                        else{
+                            Log.e("-----time selected-----","----time selected---");
+                            Toast.makeText(cart.this, timespinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+
+                    }
+
+                });
                 //-----------
                 final AlertDialog alertDialog = new AlertDialog.Builder(cart.this).create();
+                schedule.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        storeDayTime = dayspinner.getSelectedItem().toString();
+                        storeDayTime = storeDayTime+" "+timespinner.getSelectedItem().toString();
+                        linkDeliveryTime.setText(storeDayTime);
+                        alertDialog.dismiss();
+                    }
+                });
+
+
                 alertDialog.setView(alertLayout);
-                closeDialog.setOnClickListener(new Button.OnClickListener() {
+                closeDialog1.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         alertDialog.dismiss();
@@ -79,6 +151,7 @@ public class cart extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -99,6 +172,7 @@ public class cart extends AppCompatActivity {
 
 
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

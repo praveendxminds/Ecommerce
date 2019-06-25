@@ -7,8 +7,8 @@
     android:elevation="10dp">
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:background="@color/white"
         android:orientation="vertical">
@@ -102,12 +102,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="5dp">
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
+                android:paddingRight="10dp">
                 <Button
-                    android:id="@+id/btnDismiss"
+                    android:id="@+id/btnSchedule"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Dismiss"
+                    android:text="Schedule"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
