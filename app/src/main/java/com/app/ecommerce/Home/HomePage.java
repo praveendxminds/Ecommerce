@@ -19,6 +19,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -30,9 +31,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -68,6 +71,8 @@ public class HomePage extends AppCompatActivity {
     private static HomePage instance;
     APIInterface apiInterface;
     SessionManager session;
+
+    TextView textCartItemCount;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -223,10 +228,27 @@ public class HomePage extends AppCompatActivity {
         return instance;
     }
 
+
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//
+//        MenuItem item = menu.findItem(R.id.cart);
+//        FrameLayout rootView = (FrameLayout)item.getActionView();
+//
+//        return true;
+//    }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_menu, menu);
+        menuInflater.inflate(R.menu.toolbar_search, menu);
+
+        MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
+        FrameLayout rootView = (FrameLayout)cart_menuItem.getActionView();
+        textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+        textCartItemCount.setText("54");
 
 
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
@@ -318,7 +340,7 @@ public class HomePage extends AppCompatActivity {
                 startActivity(notificationIntent);
                 break;
 
-            case R.id.delivery:
+            case R.id.cartmenu:
                 Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
