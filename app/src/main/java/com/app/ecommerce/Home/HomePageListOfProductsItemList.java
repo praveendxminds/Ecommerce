@@ -84,39 +84,28 @@ public class HomePageListOfProductsItemList {
     @Click(R.id.addcartDealofDay)
     public void AddToCartClick()
     {
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-        //  cart_count = cart_count + 1;
-
-        name_session = name_session +1;
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", name_session);
-        editor.commit();
 
 
-        countCartDisplay(name_session);
     }
 
 
-    @Click(R.id.increaseDealofDay)
-    public void onIncreaseClick() {
-        minteger = minteger + 1;
-        display(minteger);
-    }
-
-    @Click(R.id.decreaseDealofDay)
-    public void onDecreaseClick() {
-        if(minteger==0)
-        {
-            display(0);
-        }
-        else {
-            minteger = minteger - 1;
-            display(minteger);
-        }
-    }
+//    @Click(R.id.increaseDealofDay)
+//    public void onIncreaseClick() {
+//        minteger = minteger + 1;
+//        display(minteger);
+//    }
+//
+//    @Click(R.id.decreaseDealofDay)
+//    public void onDecreaseClick() {
+//        if(minteger==0)
+//        {
+//            display(0);
+//        }
+//        else {
+//            minteger = minteger - 1;
+//            display(minteger);
+//        }
+//    }
 
 
     public void display(int number)
@@ -125,19 +114,7 @@ public class HomePageListOfProductsItemList {
     }
 
 
-    public void countCartDisplay(int number)
-    {
 
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(4);
-
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
-    }
 
 
 

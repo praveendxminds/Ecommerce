@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
@@ -19,6 +21,10 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.Toggle;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
 
@@ -41,11 +47,14 @@ public class HomePageDealOfDayItemList {
     @View(R.id.item_priceDealofDay)
     public TextView item_priceDealofDay;
 
-    @View(R.id.integer_numberDealofDay)
-    public TextView integer_numberDealofDay;
+    @View(R.id.qtydealSpinner)
+    public Spinner qtyCategoryGrid;
 
-    @View(R.id.qntyDealofDay)
-    public TextView item_qtyDealofDay;
+//    @View(R.id.integer_numberDealofDay)
+//    public TextView integer_numberDealofDay;
+//
+//    @View(R.id.qntyDealofDay)
+//    public TextView item_qtyDealofDay;
 
     SessionManager session;
 
@@ -59,6 +68,7 @@ public class HomePageDealOfDayItemList {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     public TextView mtextCartItemCount;
+    String[] qtyArray = {"100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
     public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String ulr, String heading,
                                      String price, String qty) {
@@ -76,7 +86,16 @@ public class HomePageDealOfDayItemList {
         Glide.with(mContext).load(mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
         item_priceDealofDay.setText("₹" + " " + mPrice);
-        item_qtyDealofDay.setText(mQty);
+       // item_qtyDealofDay.setText(mQty);
+
+        final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
+
+        // Initializing an ArrayAdapter
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
+
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
+
 
     }
 
@@ -100,27 +119,27 @@ public class HomePageDealOfDayItemList {
 
     }
 
-    @Click(R.id.increaseDealofDay)
-    public void onIncreaseClick() {
-        minteger = minteger + 1;
-        display(minteger);
-    }
+//    @Click(R.id.increaseDealofDay)
+//    public void onIncreaseClick() {
+//        minteger = minteger + 1;
+//        display(minteger);
+//    }
+//
+//    @Click(R.id.decreaseDealofDay)
+//    public void onDecreaseClick() {
+//
+//        if (minteger == 0) {
+//            display(0);
+//        } else {
+//            minteger = minteger - 1;
+//            display(minteger);
+//        }
+//    }
 
-    @Click(R.id.decreaseDealofDay)
-    public void onDecreaseClick() {
 
-        if (minteger == 0) {
-            display(0);
-        } else {
-            minteger = minteger - 1;
-            display(minteger);
-        }
-    }
-
-
-    public void display(int number) {
-        integer_numberDealofDay.setText("" + number);
-    }
+//    public void display(int number) {
+//        integer_numberDealofDay.setText("" + number);
+//    }
 
 
 
