@@ -248,7 +248,11 @@ public class HomePage extends AppCompatActivity {
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout)cart_menuItem.getActionView();
         textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-        //textCartItemCount.setText("54");
+
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;
+        session.cartcount(cnt);
+        textCartItemCount.setText(String.valueOf(cnt));
 
 
         MenuItem searchViewItem = menu.findItem(R.id.action_search);

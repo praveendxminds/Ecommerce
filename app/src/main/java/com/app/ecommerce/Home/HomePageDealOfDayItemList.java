@@ -123,15 +123,7 @@ public class HomePageDealOfDayItemList {
     }
 
 
-    public void countCartDisplay(int number) {
 
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(1);
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white)).setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
-    }
 
 
 
