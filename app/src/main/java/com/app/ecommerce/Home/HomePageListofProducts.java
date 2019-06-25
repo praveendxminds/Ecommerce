@@ -2,6 +2,7 @@ package com.app.ecommerce.Home;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.TextView;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.retrofit.ProductslHomePage;
@@ -23,10 +24,12 @@ public class HomePageListofProducts {
 
     public Context mContext;
     public List<ProductslHomePage.RecommendedList> mImageList;
+    public TextView mtextCartItemCount;
 
-    public HomePageListofProducts(Context context, List<ProductslHomePage.RecommendedList> imageList) {
+    public HomePageListofProducts(Context context, TextView textCartItemCount, List<ProductslHomePage.RecommendedList> imageList) {
         mContext = context;
         mImageList = imageList;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -37,7 +40,7 @@ public class HomePageListofProducts {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
-            placeholderviewListProducts.addView(new HomePageRecommendedItemList(mContext, placeholderviewListProducts,
+            placeholderviewListProducts.addView(new HomePageRecommendedItemList(mContext,mtextCartItemCount, placeholderviewListProducts,
                     image.product_id, image.image, image.name, image.price, image.quantity));
         }
     }

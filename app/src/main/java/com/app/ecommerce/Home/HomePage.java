@@ -72,7 +72,7 @@ public class HomePage extends AppCompatActivity {
     APIInterface apiInterface;
     SessionManager session;
 
-    TextView textCartItemCount;
+    public static TextView textCartItemCount;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -148,7 +148,7 @@ public class HomePage extends AppCompatActivity {
                     for (int i = 0; i < (imageRecomendProducts.size() > 10 ? 10 : imageRecomendProducts.size()); i++) {
                         newImageRecommendProducts.add(imageRecomendProducts.get(i));
                     }
-                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), newImageRecommendProducts));
+                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(),textCartItemCount, newImageRecommendProducts));
 
                     //-----------------------------------------deal of day ------------------------------------------
 
@@ -157,7 +157,7 @@ public class HomePage extends AppCompatActivity {
                     for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
                         newImageListDeal.add(imageListDeal.get(i));
                     }
-                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), newImageListDeal));
+                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(),textCartItemCount, newImageListDeal));
                 }
 
                 @Override
@@ -248,7 +248,7 @@ public class HomePage extends AppCompatActivity {
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout)cart_menuItem.getActionView();
         textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-        textCartItemCount.setText("54");
+        //textCartItemCount.setText("54");
 
 
         MenuItem searchViewItem = menu.findItem(R.id.action_search);

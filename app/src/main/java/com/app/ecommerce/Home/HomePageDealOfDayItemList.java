@@ -58,8 +58,9 @@ public class HomePageDealOfDayItemList {
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
+    public TextView mtextCartItemCount;
 
-    public HomePageDealOfDayItemList(Context context, PlaceHolderView placeHolderView, String ulr, String heading,
+    public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String ulr, String heading,
                                      String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
@@ -67,6 +68,7 @@ public class HomePageDealOfDayItemList {
         mHeading = heading;
         mPrice = price;
         mQty = qty;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -94,7 +96,7 @@ public class HomePageDealOfDayItemList {
         cnt = cnt +1;
         session.cartcount(cnt);
 
-        countCartDisplay(cnt);
+        mtextCartItemCount.setText(String.valueOf(cnt));
 
     }
 
