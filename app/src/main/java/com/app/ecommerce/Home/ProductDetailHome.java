@@ -61,10 +61,6 @@ public class ProductDetailHome extends AppCompatActivity {
     SessionManager session;
 
     android.view.View menuItemView;
-
-    //--------------------
-    ImageFragmentPagerAdapter imageFragmentPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
