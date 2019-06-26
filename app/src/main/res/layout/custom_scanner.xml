@@ -20,7 +20,7 @@
         app:zxing_viewfinder_laser="@color/colorPrimaryDark"
         app:zxing_viewfinder_mask="@color/white" />
 
-    <!--Help Text-->
+    <!--help Text-->
     <TextView
         android:id="@+id/zxing_status_view"
         android:layout_width="wrap_content"

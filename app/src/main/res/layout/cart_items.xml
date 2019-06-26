@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ord_itMyCart"
@@ -8,9 +7,9 @@
     android:layout_height="150dp"
     android:layout_marginBottom="10dp"
     android:background="@drawable/cart_shadow"
+    android:elevation="5dp"
     android:orientation="vertical"
-    android:padding="0dp"
-    android:elevation="5dp">
+    android:padding="0dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -117,16 +116,18 @@
             </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4">
+            android:layout_weight="4"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/lldeletebtn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="2"
                 android:gravity="right">
 
                 <Button
@@ -145,40 +146,39 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/lldeletebtn"
-                android:gravity="right|bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="6"
                 android:orientation="horizontal">
 
 
                 <ImageButton
                     android:id="@+id/idMinusICon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_remove_circle_outline_black_24dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_gravity="left|bottom"
-                    android:background="@color/zxing_transparent"/>
+                    android:background="@drawable/blackdecre" />
+
                 <TextView
                     android:id="@+id/idProductCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text="2"
-                    tools:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
                     android:layout_gravity="center|bottom"
-                    android:textAlignment="center"/>
+                    android:layout_weight="1"
+                    android:text="2"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    tools:textColor="@android:color/black" />
+
                 <ImageButton
                     android:id="@+id/idPlusIcon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_circle_outline_black_24dp"
-                    android:layout_weight="1"
                     android:layout_gravity="right|bottom"
-                    android:background="@color/zxing_transparent"/>
+                    android:layout_weight="1"
+                    android:background="@drawable/blackincr" />
 
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

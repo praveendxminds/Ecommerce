@@ -1,14 +1,12 @@
 package com.app.ecommerce.Home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,19 +29,17 @@ import com.app.ecommerce.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 
-import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import com.app.ecommerce.Home3.ImageTypeSmallList;
 import com.app.ecommerce.cart.cart;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by praveen on 15/11/18.
+ * Created by sushmita 25/06/2019
  */
 
 
@@ -56,22 +52,29 @@ public class ProductDetailHome extends AppCompatActivity {
     private ImageButton btn_addtoWishlist;
     private Spinner qtyPrdDetail;
     APIInterface apiInterface;
-    private PlaceHolderView mPlaceHolderView;
+    private PlaceHolderView mPlaceHolderView,img_list_PrdDetails;
+    private ViewPager viewPagerProductDetail;
+    private TabLayout tabLayoutProductDetail;
     String sname, sprice, sqty, simage, sreviews, spoints;
     int cart_count = 0;
-    public boolean state=true;
+    public boolean state = true;
     SessionManager session;
 
     android.view.View menuItemView;
 
+    //--------------------
+    ImageFragmentPagerAdapter imageFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail_home);
-        btn_addtoWishlist = findViewById(R.id.btn_addtoWishlistPrdDetail);
+        //btn_addtoWishlist = findViewById(R.id.btn_addtoWishlistPrdDetail);
+        img_list_PrdDetails=findViewById(R.id.img_list_PrdDetails);
         toolbar = (Toolbar) findViewById(R.id.toolbarPrdDetail);
         similar_prd_view = findViewById(R.id.similarPrdDetail);
+        tabLayoutProductDetail = findViewById(R.id.tabLayoutProductDetail);
+        viewPagerProductDetail= findViewById(R.id.viewPagerProductDetail);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -83,7 +86,7 @@ public class ProductDetailHome extends AppCompatActivity {
         final String prd_id = getIntent().getExtras().getString("prd_id", "defaultKey");
 
 
-        pro_img = (ImageView) findViewById(R.id.prd_imgPrdDetail);
+        //pro_img = (ImageView) findViewById(R.id.prd_imgPrdDetail);
         tv_title = (TextView) findViewById(R.id.titlePrdDetail);
         tv_original_price = (TextView) findViewById(R.id.originalPricePrdDetail);
         qtyPrdDetail = findViewById(R.id.qntyPrdDetail);
@@ -103,36 +106,40 @@ public class ProductDetailHome extends AppCompatActivity {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------------------------------------------add to wishlist--------------------------------------
 
-            btn_addtoWishlist.setOnClickListener(new View.OnClickListener() {
+            //------------------------imageview_product----------------
+            String[] imgarray ={"https://www.gstatic.com/webp/gallery3/1.png",
+                    "https://www.gstatic.com/webp/gallery3/2.png",
+                    "https://www.gstatic.com/webp/gallery3/4.png"};
+            img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(),imgarray));
+            //---------------------------------------------------------
+          /*  btn_addtoWishlist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                        if(state==false) {
-                            //------------------------------------------for adding to wishlist-----------------------------
-                            final InsertWishListItems add_item = new InsertWishListItems("1", "46");
-                            Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-                            callAdd.enqueue(new Callback<InsertWishListItems>() {
-                                @Override
-                                public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                                    InsertWishListItems resource = response.body();
-                                    if (resource.status.equals("success")) {
-                                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                        v.setBackgroundResource(R.drawable.add_24dp);
+                    if (state == false) {
+                        //------------------------------------------for adding to wishlist-----------------------------
+                        final InsertWishListItems add_item = new InsertWishListItems("1", "46");
+                        Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+                        callAdd.enqueue(new Callback<InsertWishListItems>() {
+                            @Override
+                            public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                                InsertWishListItems resource = response.body();
+                                if (resource.status.equals("success")) {
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                    v.setBackgroundResource(R.drawable.like);
 
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                                 }
+                            }
 
-                                @Override
-                                public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                                    call.cancel();
-                                }
-                            });
-                            state=true;
-                        }
-                        else
-                        {
-                            //---------------------for removing from wishlist---------------------------
+                            @Override
+                            public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                                call.cancel();
+                            }
+                        });
+                        state = true;
+                    } else {
+                        //---------------------for removing from wishlist---------------------------
                         final RemoveWishListItem remove_item = new RemoveWishListItem("1", "46");
                         Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
                         callRemove.enqueue(new Callback<RemoveWishListItem>() {
@@ -142,7 +149,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                 if (resource.status.equals("success")) {
                                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                                     mPlaceHolderView.removeView(this);
-                                    v.setBackgroundResource(R.drawable.remove_24dp);
+                                    v.setBackgroundResource(R.drawable.addwishlist);
                                 } else {
                                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                                 }
@@ -153,14 +160,15 @@ public class ProductDetailHome extends AppCompatActivity {
                                 call.cancel();
                             }
                         });
-                        state=false;
+                        state = false;
 
                     }
 
                 }
 
-            });
+            });*/
             //-----------------------------------------------------------for product details ---------------------------------
+
 
             final ProductDetailsModel productDetail = new ProductDetailsModel("46");
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
@@ -171,16 +179,18 @@ public class ProductDetailHome extends AppCompatActivity {
                     List<ProductDetailsModel.Datum> datumList = productResponse.result;
                     for (ProductDetailsModel.Datum imgs : datumList) {
                         if (response.isSuccessful()) {
-                            sname = imgs.getName();
+
+                           // sname = imgs.getName();
                             simage = imgs.getImage();
                             sprice = imgs.getPrice();
                             sqty = imgs.getQuantity();
                             spoints = imgs.getPoints();
                             sreviews = imgs.getReviews();
 
-                            Glide.with(getApplication()).load(simage).into(pro_img);
+                               // Glide.with(getApplication()).load(sname).into(pro_img);
+
                             tv_title.setText(sname);
-                            tv_original_price.setText(sprice);
+                            tv_original_price.setText("₹"+" "+sprice);
                             tv_points.setText(spoints + " " + "Ratings");
                             tv_review.setText(sreviews);
                             //qtyPrdDetail.setAdapter(sqty);
@@ -223,11 +233,32 @@ public class ProductDetailHome extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
+        //----tbfragment about and benefits-----
+        tabLayoutProductDetail.addTab(tabLayoutProductDetail.newTab().setText("About"));
+        tabLayoutProductDetail.addTab(tabLayoutProductDetail.newTab().setText("Benefits"));
 
+        tabLayoutProductDetail.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        // mPlaceHolderView.addView(new ImageTypeSmallList(getApplicationContext(),0));
+        final TabAdapterProductDetail adapter = new TabAdapterProductDetail(getSupportFragmentManager(), tabLayoutProductDetail.getTabCount());
+        viewPagerProductDetail.setAdapter(adapter);
+        viewPagerProductDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutProductDetail));
+        tabLayoutProductDetail.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPagerProductDetail.setCurrentItem(tab.getPosition());
 
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -254,10 +285,9 @@ public class ProductDetailHome extends AppCompatActivity {
     }
 
 
-    public void addcart(android.view.View v)
-    {
+    public void addcart(android.view.View v) {
         Integer cnt = session.getCartCount();
-        cnt = cnt +1;
+        cnt = cnt + 1;
         session.cartcount(cnt);
 
     }
@@ -274,6 +304,11 @@ public class ProductDetailHome extends AppCompatActivity {
                 finish();
                 return true;
 
+            case R.id.help_menu_item:
+
+
+                break;
+
             case R.id.cart_menu_item:
 
                 Intent myctIntent = new Intent(getBaseContext(), cart.class);
@@ -284,9 +319,6 @@ public class ProductDetailHome extends AppCompatActivity {
         }
         return true;
     }
-
-
-
 
 
 }

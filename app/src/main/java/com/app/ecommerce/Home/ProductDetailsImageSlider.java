@@ -25,14 +25,14 @@ import me.relex.circleindicator.CircleIndicator;
 
 @Parent
 @SingleTop
-@Layout(R.layout.image_gallary_home_1)
-public class HomePageImageSlider {
+@Layout(R.layout.image_slider_product_details)
+public class ProductDetailsImageSlider {
 
-    @View(R.id.pager_home_1)
-    public ViewPager mPager;
+    @View(R.id.pager_PrdDetails)
+    public ViewPager pager_PrdDetails;
 
-    @View(R.id.indicator_home_1)
-    public CircleIndicator indicator;
+    @View(R.id.indicator_PrdDetails)
+    public CircleIndicator indicator_PrdDetails;
 
     public static int currentPage = 0;
     public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
@@ -44,33 +44,32 @@ public class HomePageImageSlider {
 
     public Context mContext;
     public ArrayList<String> mHeading;
-    public ArrayList<String> mCatImgUrl;
+    public String[] mCatImgUrl;
 
-    public HomePageImageSlider(Context context, ArrayList<String> heading, ArrayList<String> CatImgUrl) {
+    public ProductDetailsImageSlider(Context context,String[] CatImgUrl) {
         mContext = context;
-        mHeading = heading;
         mCatImgUrl = CatImgUrl;
 
-        for (int i = 0; i < mCatImgUrl.size(); i++) {
-            XMENArray.add(mCatImgUrl.get(i));
-            Log.e("---images----", String.valueOf(mCatImgUrl.get(i)));
+        for (int i = 0; i < mCatImgUrl.length; i++) {
+            XMENArray.add(mCatImgUrl[i]);
+            Log.e("---images----", String.valueOf(mCatImgUrl[i]));
         }
     }
 
     @Resolve
     public void onResolved() {
 
-        mPager.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
+        pager_PrdDetails.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
 
-        indicator.setViewPager(mPager);
+        indicator_PrdDetails.setViewPager(pager_PrdDetails);
 
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == mCatImgUrl.size()) {
+                if (currentPage == mCatImgUrl.length) {
                     currentPage = 0;
                 }
-                mPager.setCurrentItem(currentPage++, true);
+                pager_PrdDetails.setCurrentItem(currentPage++, true);
             }
         };
 
