@@ -1,5 +1,7 @@
 package com.app.ecommerce.retrofit;
 
+import android.widget.TextView;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -34,7 +36,6 @@ public class ProductDetailsModel {
         public String name;
 
         @SerializedName("description")
-        @Expose
         public String desc;
 
         @SerializedName("quantity")

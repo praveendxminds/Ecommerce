@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,26 +16,21 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:theme="@style/ToolbarColoredBackArrow"
         app:title="Potato"
-        app:titleTextColor="@color/white">
-
-
-    </android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/white" />
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/footerPrdDetail"
         android:layout_below="@+id/toolbarPrdDetail"
         android:layout_alignParentStart="true"
         android:layout_marginTop="-3dp"
         android:layout_marginBottom="3dp">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
-
 
             <LinearLayout
                 android:id="@+id/prd_layoutPrdDetail"
@@ -47,58 +41,49 @@
                 android:orientation="vertical"
                 android:padding="30dp">
 
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <com.mindorks.placeholderview.PlaceHolderView
-                            android:id="@+id/img_list_PrdDetails"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scrollbars="horizontal" />
-
-                    </FrameLayout>
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/img_list_PrdDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/price_layoutGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/prd_layoutPrdDetail"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/white"
                 android:paddingLeft="10dp"
-                android:paddingRight="8dp">
+                android:paddingRight="10dp">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:gravity="left"
                     android:orientation="vertical"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:layout_marginBottom="5dp">
 
                     <TextView
                         android:id="@+id/titlePrdDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="left"
-                        android:paddingBottom="5dp"
+                        android:padding="5dp"
                         android:text="Potato"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
-
 
                     <LinearLayout
                         android:id="@+id/reviewLayoutPrdDetail"
                         android:layout_width="fill_parent"
                         android:layout_height="30dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -304,36 +289,33 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@id/relativePrdDetail"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tabLayoutProductDetail"
-                    style="@style/tab_layout_product_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:elevation="0dp"
                     android:minHeight="?attr/actionBarSize"
                     app:elevation="0dp"
                     app:tabBackground="@drawable/tab_background_color"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabSelectedTextColor="@color/txtcolor"
-                    app:tabTextColor="@color/txtcolor" >
-                </android.support.design.widget.TabLayout>
+                    app:tabIndicatorColor="@color/darkGrey"
+                    app:tabIndicatorHeight="1dp"
+                    app:tabSelectedTextColor="@color/darkGrey"
+                    app:tabTextAppearance="@style/tab_layout_product_details"
+                    app:tabTextColor="@color/txtcolor" />
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewPagerProductDetail"
                     style="@style/viewpager_layout_product_details"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
-
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </RelativeLayout>
-
-
     </ScrollView>
 
     <RelativeLayout

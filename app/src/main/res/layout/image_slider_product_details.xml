@@ -6,36 +6,46 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewPrdDetails"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="5dp"
+        card_view:cardElevation="10dp"
+        card_view:cardUseCompatPadding="true">
 
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|right"
+            android:padding="10dp">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            card_view:cardElevation="10dp"
-            app:cardCornerRadius="5dp"
-            card_view:cardUseCompatPadding="true">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager_PrdDetails"
+            <ImageButton
+                android:id="@+id/btn_addtoWishlistPrdDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                app:ci_drawable="@drawable/circle_indicator_color"
-                app:ci_height="10dp"
-                app:ci_width="10dp" />
-        </android.support.v7.widget.CardView>
+                android:background="@drawable/addwishlist"
+                android:clickable="true" />
+        </LinearLayout>
 
-
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/indicator_PrdDetails"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_PrdDetails"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            app:tabBackground="@drawable/dot_selector"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            />
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            app:ci_drawable="@drawable/circle_indicator_color"
+            app:ci_height="10dp"
+            app:ci_width="10dp" />
 
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/indicator_PrdDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:tabBackground="@drawable/dot_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 </LinearLayout>

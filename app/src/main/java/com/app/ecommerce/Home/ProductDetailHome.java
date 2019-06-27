@@ -1,8 +1,10 @@
 package com.app.ecommerce.Home;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,7 +51,6 @@ public class ProductDetailHome extends AppCompatActivity {
     private PlaceHolderView similar_prd_view;
     private ImageView pro_img;
     private TextView tv_title, tv_original_price, tv_review, tv_points;
-    private ImageButton btn_addtoWishlist;
     private Spinner qtyPrdDetail;
     APIInterface apiInterface;
     private PlaceHolderView mPlaceHolderView,img_list_PrdDetails;
@@ -57,7 +58,7 @@ public class ProductDetailHome extends AppCompatActivity {
     private TabLayout tabLayoutProductDetail;
     String sname, sprice, sqty, simage, sreviews, spoints;
     int cart_count = 0;
-    public boolean state = true;
+
     SessionManager session;
 
     public static TextView textCartItemCount;
@@ -67,7 +68,6 @@ public class ProductDetailHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail_home);
-        //btn_addtoWishlist = findViewById(R.id.btn_addtoWishlistPrdDetail);
         img_list_PrdDetails=findViewById(R.id.img_list_PrdDetails);
         toolbar = (Toolbar) findViewById(R.id.toolbarPrdDetail);
         similar_prd_view = findViewById(R.id.similarPrdDetail);
@@ -84,7 +84,6 @@ public class ProductDetailHome extends AppCompatActivity {
         final String prd_id = getIntent().getExtras().getString("prd_id", "defaultKey");
 
 
-        //pro_img = (ImageView) findViewById(R.id.prd_imgPrdDetail);
         tv_title = (TextView) findViewById(R.id.titlePrdDetail);
         tv_original_price = (TextView) findViewById(R.id.originalPricePrdDetail);
         qtyPrdDetail = findViewById(R.id.qntyPrdDetail);
@@ -109,62 +108,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     "https://www.gstatic.com/webp/gallery3/2.png",
                     "https://www.gstatic.com/webp/gallery3/4.png"};
             img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(),imgarray));
-            //---------------------------------------------------------
-          /*  btn_addtoWishlist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    if (state == false) {
-                        //------------------------------------------for adding to wishlist-----------------------------
-                        final InsertWishListItems add_item = new InsertWishListItems("1", "46");
-                        Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-                        callAdd.enqueue(new Callback<InsertWishListItems>() {
-                            @Override
-                            public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                                InsertWishListItems resource = response.body();
-                                if (resource.status.equals("success")) {
-                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                    v.setBackgroundResource(R.drawable.like);
 
-                                } else {
-                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                                call.cancel();
-                            }
-                        });
-                        state = true;
-                    } else {
-                        //---------------------for removing from wishlist---------------------------
-                        final RemoveWishListItem remove_item = new RemoveWishListItem("1", "46");
-                        Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
-                        callRemove.enqueue(new Callback<RemoveWishListItem>() {
-                            @Override
-                            public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
-                                RemoveWishListItem resource = response.body();
-                                if (resource.status.equals("success")) {
-                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                    mPlaceHolderView.removeView(this);
-                                    v.setBackgroundResource(R.drawable.addwishlist);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
-                                call.cancel();
-                            }
-                        });
-                        state = false;
-
-                    }
-
-                }
-
-            });*/
             //-----------------------------------------------------------for product details ---------------------------------
 
 
@@ -178,10 +122,10 @@ public class ProductDetailHome extends AppCompatActivity {
                     for (ProductDetailsModel.Datum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                           // sname = imgs.getName();
-                            simage = imgs.getImage();
+                            sname = imgs.getName();
+                          //  simage = imgs.getImage();
                             sprice = imgs.getPrice();
-                            sqty = imgs.getQuantity();
+                           // sqty = imgs.getQuantity();
                             spoints = imgs.getPoints();
                             sreviews = imgs.getReviews();
 
@@ -191,7 +135,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             tv_original_price.setText("₹"+" "+sprice);
                             tv_points.setText(spoints + " " + "Ratings");
                             tv_review.setText(sreviews);
-                            //qtyPrdDetail.setAdapter(sqty);
+                          //  qtyPrdDetail.setAdapter(sqty);
 
                         }
                     }
@@ -246,6 +190,7 @@ public class ProductDetailHome extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPagerProductDetail.setCurrentItem(tab.getPosition());
+
 
             }
 

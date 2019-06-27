@@ -14,7 +14,7 @@
     <color name="dark_green">#4CBB17</color>
     <color name="darkerGreen">#34773C</color>
     <color name="tabbackground">#e8e8e8</color>
-
+<color name="darkGrey">#666666</color>
     <color name="txtcolor">#8c91a4</color>
 
     <!-- dots inactive colors -->

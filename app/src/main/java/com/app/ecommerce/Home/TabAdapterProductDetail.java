@@ -29,27 +29,6 @@ public class TabAdapterProductDetail extends FragmentStatePagerAdapter {
             case 1:
                 BenefitsFragmentProductDetail tab2 = new BenefitsFragmentProductDetail();
                 return tab2;
-            case 2:
-                TabFragment tab3 = new TabFragment();
-                return tab3;
-            case 3:
-                TabFragment tab4 = new TabFragment();
-                return tab4;
-            case 4:
-                TabFragment tab5 = new TabFragment();
-                return tab5;
-            case 5:
-                TabFragment tab6 = new TabFragment();
-                return tab6;
-            case 6:
-                TabFragment tab7 = new TabFragment();
-                return tab7;
-            case 7:
-                TabFragment tab8 = new TabFragment();
-                return tab8;
-            case 8:
-                TabFragment tab9 = new TabFragment();
-                return tab9;
             default:
                 return null;
         }
