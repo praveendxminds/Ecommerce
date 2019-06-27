@@ -60,6 +60,8 @@ public class ProductDetailHome extends AppCompatActivity {
     public boolean state = true;
     SessionManager session;
 
+    public static TextView textCartItemCount;
+
     android.view.View menuItemView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,14 +212,16 @@ public class ProductDetailHome extends AppCompatActivity {
 
                     ProductslHomePage resource = response.body();
                     List<ProductslHomePage.DealOfDayList> datumList = resource.dealoftheday;
-
-                    for (ProductslHomePage.DealOfDayList imgs : datumList) {
-                        if (response.isSuccessful()) {
-
-                            mPlaceHolderView.addView(new HomeCategoryItemGridView(getApplicationContext(), imgs.prd_id, imgs.image, imgs.name, imgs.price));
-
-                        }
+                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
+                    //for (ProductslHomePage.DealOfDayList imgs : datumList) {  if (response.isSuccessful()) {
+                    for (int i = 0; i < (datumList.size() > 10 ? 10 : datumList.size()); i++) {
+                        newImageListDeal.add(datumList.get(i));
                     }
+
+
+                    mPlaceHolderView.addView(new HomePageDealofDayList(getApplicationContext(), textCartItemCount, newImageListDeal));
+                //}
+                   // }
 
                 }
 

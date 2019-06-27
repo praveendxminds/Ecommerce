@@ -8,9 +8,9 @@
         android:padding="10dp"
         android:layout_marginTop="10dp"
         android:text="The Potato is starchy,tuberos crop from the perennial nightshade Solanum tuberosum."
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/black"
+        android:textColor="@color/blackshadow"
         android:justificationMode="inter_word"/>
 
 </RelativeLayout>
