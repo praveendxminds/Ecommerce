@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="200dp"
     xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_margin="10dp">
+
         <android.support.v7.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            card_view:cardElevation="7dp"
-            android:layout_gravity="center">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager_PrdDetails"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            app:ci_drawable="@drawable/circle_indicator_color"
-            app:ci_height="10dp"
-            app:ci_width="10dp"
-            android:background="@color/green"/>
+            android:layout_gravity="center"
+            card_view:cardElevation="10dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager_PrdDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                app:ci_drawable="@drawable/circle_indicator_color"
+                app:ci_height="10dp"
+                app:ci_width="10dp" />
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="20dp">
 
-        <me.relex.circleindicator.CircleIndicator
+        <android.support.design.widget.TabLayout
             android:id="@+id/indicator_PrdDetails"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/grey"/>
-    </LinearLayout>
+            app:tabBackground="@drawable/dot_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+    </LinearLayout>-->
 
 </LinearLayout>

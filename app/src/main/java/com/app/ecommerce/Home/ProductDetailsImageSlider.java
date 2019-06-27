@@ -2,6 +2,7 @@ package com.app.ecommerce.Home;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -32,7 +33,7 @@ public class ProductDetailsImageSlider {
     public ViewPager pager_PrdDetails;
 
     @View(R.id.indicator_PrdDetails)
-    public CircleIndicator indicator_PrdDetails;
+    public TabLayout indicator_PrdDetails;
 
     public static int currentPage = 0;
     public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
@@ -61,7 +62,7 @@ public class ProductDetailsImageSlider {
 
         pager_PrdDetails.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
 
-        indicator_PrdDetails.setViewPager(pager_PrdDetails);
+        indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);//for tab layout
 
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
