@@ -140,7 +140,21 @@ public class HomePage extends AppCompatActivity {
                         headArray.add(imageslider1.title);
                     }
                     list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));
+                    //-----------------------------------------deal of day ------------------------------------------
 
+                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
+                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
+                    for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
+                        newImageListDeal.add(imageListDeal.get(i));
+                    }
+                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(),textCartItemCount, newImageListDeal));
+                    //--------------------------------------------Products-------------------------------------------
+                    List<ProductslHomePage.RecommendedList> imageListProducts = resource.recommended;
+                    List<ProductslHomePage.RecommendedList> newImageListPrd = new ArrayList<>();
+                    for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
+                        newImageListPrd.add(imageListProducts.get(i));
+                    }
+                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(),textCartItemCount, newImageListPrd));
                     //-----------------------------------------Recommended List-------------------------------------
 
                     List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
@@ -150,14 +164,7 @@ public class HomePage extends AppCompatActivity {
                     }
                     list_items_homePage.addView(new HomePageRecommended(getApplicationContext(),textCartItemCount, newImageRecommendProducts));
 
-                    //-----------------------------------------deal of day ------------------------------------------
 
-                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
-                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
-                    for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
-                        newImageListDeal.add(imageListDeal.get(i));
-                    }
-                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(),textCartItemCount, newImageListDeal));
                 }
 
                 @Override

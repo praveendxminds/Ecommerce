@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -18,6 +20,10 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.Toggle;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
 
@@ -47,23 +53,28 @@ public class SimilarProductsListItem {
     public Spinner qtyCategorySimilarPrd;
 
 
+    SessionManager session;
 
     public String mUlr;
     public Context mContext;
     public PlaceHolderView mPlaceHolderView;
+    public TextView mtextCartItemCount;
     public String mHeading;
     public String mPrdImgUrl,mPrice,mQty;
     int minteger = 0;
     int cart_count = 0;
     public static String MyPREFERENCES = "sessiondata" ;
     SharedPreferences sharedpreferences;
+    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
-    public SimilarProductsListItem(Context context, PlaceHolderView placeHolderView, String ulr, String heading, String price) {
+    public SimilarProductsListItem(Context context, TextView textCartItemCount,PlaceHolderView placeHolderView, String url, String heading, String price,String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
-        mPrdImgUrl = ulr;
+        mPrdImgUrl = url;
         mHeading = heading;
         mPrice = price;
+        mQty = qty;
+        mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
@@ -71,6 +82,15 @@ public class SimilarProductsListItem {
         Glide.with(mContext).load(mPrdImgUrl).into(imageCategorySimilarPrd);
         titleCategorySimilarPrd.setText(mHeading);
         newPriceCategorySimilarPrd.setText("₹"+" "+mPrice);
+        qtyArray[0]=mQty;
+        final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
+        // Initializing an ArrayAdapter
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        qtyCategorySimilarPrd.setAdapter(spinnerArrayAdapter);
+
+
+
 
     }
     @Click(R.id.ord_itCategorySimilarPrd)
@@ -82,34 +102,35 @@ public class SimilarProductsListItem {
     @Click(R.id.btnAddCategorySimilarPrd)
     public void AddToCartClick()
     {
-      /*  sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
+        session = new SessionManager(mContext);
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;
+        session.cartcount(cnt);
 
-        //  cart_count = cart_count + 1;
-
-        name_session = name_session +1;
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putInt("count", 3);
-        editor.commit();
-*/
-
-        countCartDisplay(3);
-    }
-    public void countCartDisplay(int number)
-    {
-
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(4);
-
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white))
-                .setGravityOffset(15, -2, true).setBadgeNumber(number)
-                .setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+        mtextCartItemCount.setText(String.valueOf(cnt));
 
     }
+   // @Click(R.id.increaseDealofDay)
+//    public void onIncreaseClick() {
+//        minteger = minteger + 1;
+//        display(minteger);
+//    }
+//
+//    @Click(R.id.decreaseDealofDay)
+//    public void onDecreaseClick() {
+//
+//        if (minteger == 0) {
+//            display(0);
+//        } else {
+//            minteger = minteger - 1;
+//            display(minteger);
+//        }
+//    }
+
+
+//    public void display(int number) {
+//        integer_numberDealofDay.setText("" + number);
+//    }
+
 
 }

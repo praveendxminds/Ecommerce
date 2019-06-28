@@ -60,6 +60,7 @@ public class HomePageDealOfDayItemList {
 
     public String mUlr;
     public Context mContext;
+    public String productId;
     public PlaceHolderView mPlaceHolderView;
     public String mHeading;
     public String mPrdImgUrl, mPrice, mQty;
@@ -68,13 +69,14 @@ public class HomePageDealOfDayItemList {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     public TextView mtextCartItemCount;
-    String[] qtyArray = {"100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
-    public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String ulr, String heading,
+    public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView,String product_id, String url, String heading,
                                      String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
-        mPrdImgUrl = ulr;
+        productId=product_id;
+        mPrdImgUrl = url;
         mHeading = heading;
         mPrice = price;
         mQty = qty;
@@ -87,12 +89,10 @@ public class HomePageDealOfDayItemList {
         headingTxtDealofDay.setText(mHeading);
         item_priceDealofDay.setText("₹" + " " + mPrice);
        // item_qtyDealofDay.setText(mQty);
-
+        qtyArray[0]=mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
-
         // Initializing an ArrayAdapter
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
         qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
 

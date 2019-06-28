@@ -25,9 +25,6 @@ public class HomePageRecommended {
     @View(R.id.placeholderviewRecommended)
     public PlaceHolderView placeholderviewRecommended;
 
-    @View(R.id.tvRecommendList)
-    public TextView tvRecommendList;
-
     public TextView mtextCartItemCount;
     public Context mContext;
     public List<ProductslHomePage.RecommendedList> mImageList;
@@ -52,7 +49,7 @@ public class HomePageRecommended {
         }
     }
 
-    @Click(R.id.tvRecommendList)
+    @Click(R.id.tvSeeAllRecomnd)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

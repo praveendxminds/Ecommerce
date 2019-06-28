@@ -7,6 +7,5 @@
     android:padding="10dp"
     android:fontFamily="@font/roboto_medium"
     android:textColor="@color/blackshadow"
-    android:textSize="15dp"
-    android:background="@color/white"
-    />
+    android:textSize="15sp"
+    android:background="@color/white" />

@@ -12,7 +12,7 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         app:cardCornerRadius="5dp"
-        card_view:cardElevation="10dp"
+        android:elevation="30dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout

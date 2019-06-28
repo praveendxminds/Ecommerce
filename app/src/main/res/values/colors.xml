@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FBD249</color>
+
     <color name="colorPrimaryDark">#4a4a4a</color>
     <color name="colorAccent">#34773C</color>
-    <color name="whiteshadow">#e8e8e8</color>
-    <color name="white">#FFFFFF</color>
+    <color name="darkerGreen">#34773C</color>
+    <color name="green">#55AE3A</color>
+    <color name="dark_green">#4CBB17</color>
+    <color name="greenLightShade">#C6DACB</color>
+
     <color name="black">#483649</color>
     <color name="light_black">#555</color>
+    <color name="darkGrey">#666666</color>
     <color name="blackshadow">#797979</color>
-    <color name="grey">#9d9d9c</color>
-    <color name="green">#55AE3A</color>
-    <color name="greenLightShade">#C6DACB</color>
-    <color name="dark_green">#4CBB17</color>
-    <color name="darkerGreen">#34773C</color>
-    <color name="tabbackground">#e8e8e8</color>
-<color name="darkGrey">#666666</color>
     <color name="txtcolor">#8c91a4</color>
+    <color name="grey">#9d9d9c</color>
+    <color name="lightGrey">#ababac</color>
+    <color name="tabbackground">#e8e8e8</color>
+    <color name="whiteshadow">#e8e8e8</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#eff0ef</color>

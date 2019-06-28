@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -38,6 +39,7 @@ import retrofit2.Response;
 import com.app.ecommerce.cart.cart;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,31 +50,31 @@ import java.util.List;
 public class ProductDetailHome extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private PlaceHolderView similar_prd_view;
     private ImageView pro_img;
-    private TextView tv_title, tv_original_price, tv_review, tv_points;
+    private TextView tv_title, tv_original_price, tv_review, tv_points, tv_productCount;
     private Spinner qtyPrdDetail;
     APIInterface apiInterface;
-    private PlaceHolderView mPlaceHolderView,img_list_PrdDetails;
+    private PlaceHolderView mPlaceHolderView, img_list_PrdDetails;
     private ViewPager viewPagerProductDetail;
     private TabLayout tabLayoutProductDetail;
+    private ImageButton imgBtn_decre, imgBtn_incre;
     String sname, sprice, sqty, simage, sreviews, spoints;
-    int cart_count = 0;
-
+    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
     SessionManager session;
-
+    public TextView mtextCartItemCount;
     public static TextView textCartItemCount;
-
+    int minteger = 0;
+    int cart_count = 0;
     android.view.View menuItemView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail_home);
-        img_list_PrdDetails=findViewById(R.id.img_list_PrdDetails);
+        img_list_PrdDetails = findViewById(R.id.img_list_PrdDetails);
         toolbar = (Toolbar) findViewById(R.id.toolbarPrdDetail);
-        similar_prd_view = findViewById(R.id.similarPrdDetail);
         tabLayoutProductDetail = findViewById(R.id.tabLayoutProductDetail);
-        viewPagerProductDetail= findViewById(R.id.viewPagerProductDetail);
+        viewPagerProductDetail = findViewById(R.id.viewPagerProductDetail);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -90,6 +92,9 @@ public class ProductDetailHome extends AppCompatActivity {
         mPlaceHolderView = (PlaceHolderView) findViewById(R.id.similarPrdDetail);
         tv_review = findViewById(R.id.reviewPrdDetail);
         tv_points = findViewById(R.id.ratingsPrdDetail);
+        imgBtn_decre = findViewById(R.id.imgBtn_decre);
+        imgBtn_incre = findViewById(R.id.imgBtn_incre);
+        tv_productCount= findViewById(R.id.tv_productCount);
 
         session = new SessionManager(getApplicationContext());
 
@@ -101,17 +106,12 @@ public class ProductDetailHome extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-//-------------------------------------------------------------------------add to wishlist--------------------------------------
-
             //------------------------imageview_product----------------
-            String[] imgarray ={"https://www.gstatic.com/webp/gallery3/1.png",
+            String[] imgarray = {"https://www.gstatic.com/webp/gallery3/1.png",
                     "https://www.gstatic.com/webp/gallery3/2.png",
                     "https://www.gstatic.com/webp/gallery3/4.png"};
-            img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(),imgarray));
-
+            img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(), imgarray));
             //-----------------------------------------------------------for product details ---------------------------------
-
-
             final ProductDetailsModel productDetail = new ProductDetailsModel("46");
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
             call.enqueue(new Callback<ProductDetailsModel>() {
@@ -123,19 +123,25 @@ public class ProductDetailHome extends AppCompatActivity {
                         if (response.isSuccessful()) {
 
                             sname = imgs.getName();
-                          //  simage = imgs.getImage();
+                            //  simage = imgs.getImage();
                             sprice = imgs.getPrice();
-                           // sqty = imgs.getQuantity();
+                            sqty = imgs.getQuantity();
                             spoints = imgs.getPoints();
                             sreviews = imgs.getReviews();
 
-                               // Glide.with(getApplication()).load(sname).into(pro_img);
+                            // Glide.with(getApplication()).load(sname).into(pro_img);
 
                             tv_title.setText(sname);
-                            tv_original_price.setText("₹"+" "+sprice);
+                            tv_original_price.setText("₹" + " " + sprice);
                             tv_points.setText(spoints + " " + "Ratings");
                             tv_review.setText(sreviews);
-                          //  qtyPrdDetail.setAdapter(sqty);
+                            qtyArray[0]=sqty;
+                            final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
+                            //adding qty to spinner and adding response value as a first value
+                            final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.prd_detail_spinner_items, qtyList);
+                            spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+                            qtyPrdDetail.setAdapter(spinnerArrayAdapter);
 
                         }
                     }
@@ -146,7 +152,27 @@ public class ProductDetailHome extends AppCompatActivity {
                     call.cancel();
                 }
             });
-            //-------------------------------------------------------------------------------------------------------------------------
+            //------------------------------------------------------------number of products-------------------------------------------------------------
+            imgBtn_incre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    minteger = minteger + 1;
+                    display(minteger);
+                }
+            });
+            imgBtn_decre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (minteger == 0) {
+                        display(0);
+                    } else {
+                        minteger = minteger - 1;
+                        display(minteger);
+                    }
+                }
+            });
+
+
             //----------------------------------------------------------similar product response---------------------------------------
             final ProductslHomePage productslHomePage = new ProductslHomePage("7");
             Call<ProductslHomePage> callSimilarProducts = apiInterface.getHomePageProducts(productslHomePage);
@@ -156,16 +182,13 @@ public class ProductDetailHome extends AppCompatActivity {
 
                     ProductslHomePage resource = response.body();
                     List<ProductslHomePage.DealOfDayList> datumList = resource.dealoftheday;
-                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
-                    //for (ProductslHomePage.DealOfDayList imgs : datumList) {  if (response.isSuccessful()) {
-                    for (int i = 0; i < (datumList.size() > 10 ? 10 : datumList.size()); i++) {
-                        newImageListDeal.add(datumList.get(i));
+                    for (ProductslHomePage.DealOfDayList imgs : datumList) {
+                        if (response.isSuccessful()) {
+
+                            mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), mtextCartItemCount, mPlaceHolderView,
+                                    imgs.image, imgs.name, imgs.price, imgs.qty));
+                        }
                     }
-
-
-                    mPlaceHolderView.addView(new HomePageDealofDayList(getApplicationContext(), textCartItemCount, newImageListDeal));
-                //}
-                   // }
 
                 }
 
@@ -205,7 +228,9 @@ public class ProductDetailHome extends AppCompatActivity {
             }
         });
     }
-
+    public void display(int number) {
+        tv_productCount.setText("" + number);
+    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

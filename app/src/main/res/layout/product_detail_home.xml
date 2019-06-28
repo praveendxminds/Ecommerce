@@ -217,7 +217,7 @@
                             android:orientation="horizontal">
 
                             <ImageButton
-                                android:id="@+id/idMinusICon"
+                                android:id="@+id/imgBtn_decre"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="left|bottom"
@@ -226,7 +226,7 @@
                                 android:background="@drawable/blackdecre" />
 
                             <TextView
-                                android:id="@+id/idProductCount"
+                                android:id="@+id/tv_productCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight=".6"
@@ -237,7 +237,7 @@
                                 tools:textColor="@android:color/black" />
 
                             <ImageButton
-                                android:id="@+id/idPlusIcon"
+                                android:id="@+id/imgBtn_incre"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="right|bottom"
@@ -306,7 +306,7 @@
                     app:tabIndicatorHeight="1dp"
                     app:tabSelectedTextColor="@color/darkGrey"
                     app:tabTextAppearance="@style/tab_layout_product_details"
-                    app:tabTextColor="@color/txtcolor" />
+                    app:tabTextColor="@color/darkGrey" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewPagerProductDetail"
@@ -335,12 +335,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/green"
+                android:background="@color/colorAccent"
                 android:fontFamily="@font/roboto_medium"
                 android:onClick="buynow"
-                android:text="Add To WishList"
+                android:text="Add WishList"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/tabbackground"
                 android:textSize="15dp" />
 
             <Button
@@ -348,12 +348,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@color/colorAccent"
                 android:fontFamily="@font/roboto_medium"
                 android:onClick="addcart"
                 android:text="Add To Cart"
                 android:textAllCaps="false"
-                android:textColor="@color/green"
+                android:textColor="@color/tabbackground"
                 android:textSize="15dp" />
         </LinearLayout>
 

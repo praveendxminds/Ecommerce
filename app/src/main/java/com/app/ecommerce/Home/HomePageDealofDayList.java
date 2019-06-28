@@ -23,9 +23,6 @@ public class HomePageDealofDayList {
     @View(R.id.placeholderviewDealofDay)
     public PlaceHolderView placeholderviewDealofDay;
 
-    @View(R.id.dealofdayClick)
-    public TextView dealofdayClick;
-
     public TextView mtextCartItemCount;
     public Context mContext;
     public List<ProductslHomePage.DealOfDayList> mImageList;
@@ -44,12 +41,12 @@ public class HomePageDealofDayList {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,
+            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,image.prd_id,
                     image.image, image.name, image.price, image.qty));
         }
     }
 
-    @Click(R.id.dealofdayClick)
+    @Click(R.id.tv_seeAllDealofDay)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
