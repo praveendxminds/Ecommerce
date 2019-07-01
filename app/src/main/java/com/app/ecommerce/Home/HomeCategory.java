@@ -39,6 +39,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.Delivery;
 import com.app.ecommerce.R;
 import com.app.ecommerce.Utils;
+import com.app.ecommerce.Wishlist.WishListHolder;
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.barcode.ScannerActivity;
 import com.app.ecommerce.barcode.nfc;
@@ -100,10 +101,10 @@ public class HomeCategory extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbarHomeCateg);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
+      /*  if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        }*/
 
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         btn_filterHomeCateg = findViewById(R.id.btn_filterHomeCateg);
@@ -147,7 +148,7 @@ public class HomeCategory extends AppCompatActivity {
                         if (response.isSuccessful()) {
 
                             mCartView.addView(new HomeCategoryItemGridView(mContext, imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price));
+                                    imgs.name, imgs.price,imgs.qty));
                         }
                     }
 
@@ -187,6 +188,9 @@ public class HomeCategory extends AppCompatActivity {
                                 break;
 
                             case R.id.navigation_wishlist:
+                                Intent intentWishlist = new Intent(getBaseContext(),WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
@@ -286,13 +290,13 @@ public class HomeCategory extends AppCompatActivity {
                 (mContext.getResources().getColor(R.color.colorPrimaryDark));*/
     }
 
-    @Override
+   /* @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
-
-    @Override
+*/
+   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menu);
@@ -360,8 +364,8 @@ public class HomeCategory extends AppCompatActivity {
                 startActivity(notificationIntent);
                 break;
 
-            case R.id.delivery:
-                Intent DeliveryIntent = new Intent(getBaseContext(), Delivery.class);
+            case R.id.cart:
+                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
                 break;

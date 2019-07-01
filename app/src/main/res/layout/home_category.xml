@@ -29,39 +29,43 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="8"
+                android:layout_weight="6"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center|left"
                 android:text="100 Products found"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
             <ImageButton
                 android:id="@+id/btn_sortHomeCateg"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/mail"
+                android:background="@drawable/settings"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Sort"
                 android:textAllCaps="false"
                 android:textColor="@color/blackshadow"
                 android:textSize="20dp" />
-
-
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp">
             <ImageButton
                 android:id="@+id/btn_filterHomeCateg"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/settings"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Filter"
-                android:textAllCaps="false"
-                android:textColor="@color/blackshadow"
-                android:textSize="20dp" />
+                android:background="@drawable/filter"
+               />
+        </LinearLayout>
         </LinearLayout>
 
 

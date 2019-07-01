@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -14,16 +11,17 @@ import android.widget.Spinner;
 import com.app.ecommerce.R;
 import com.app.ecommerce.ccavenue.ccavenue;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by praveen on 15/11/18.
+ * Created by sushmita on 28th June 2019
  */
 
 
-public class billingAddress extends AppCompatActivity {
+public class ShippingDetailsMyCart extends AppCompatActivity {
 
     Toolbar toolbar;
     private Spinner spnr_delivTym;
@@ -61,23 +59,4 @@ public class billingAddress extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.instruction_menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId())
-        {
-            case R.id.help_menu_item:
-            Intent intentHelp = new Intent(getBaseContext(),billingAddress.class);
-            intentHelp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intentHelp);
-            break;
-        }
-        return true;
-    }
 }

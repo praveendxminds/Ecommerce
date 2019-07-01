@@ -212,37 +212,33 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="6"
-                            android:orientation="horizontal">
+                            android:layout_weight="8"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp">
 
                             <ImageButton
                                 android:id="@+id/imgBtn_decre"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
                                 android:layout_gravity="left|bottom"
-                                android:layout_margin="1dp"
-                                android:layout_weight="1"
                                 android:background="@drawable/blackdecre" />
 
                             <TextView
                                 android:id="@+id/tv_productCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight=".6"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/roboto_medium"
-                                android:gravity="center|bottom"
+                                android:gravity="center_horizontal|bottom"
                                 android:text="2"
-                                android:textSize="15sp"
+                                android:textSize="13sp"
                                 tools:textColor="@android:color/black" />
 
                             <ImageButton
                                 android:id="@+id/imgBtn_incre"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
                                 android:layout_gravity="right|bottom"
-                                android:layout_margin="1dp"
-                                android:layout_weight="1"
                                 android:background="@drawable/blackincr" />
 
                         </LinearLayout>
@@ -312,7 +308,7 @@
                     android:id="@+id/viewPagerProductDetail"
                     style="@style/viewpager_layout_product_details"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="200dp"/>
             </LinearLayout>
 
         </RelativeLayout>

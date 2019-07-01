@@ -6,12 +6,20 @@ import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.InsertWishListItems;
+import com.app.ecommerce.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -25,8 +33,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.app.ecommerce.Home2.HomeTwoCategory.bottomNavigationView;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by sushmita on 17th June 2019
@@ -52,6 +64,24 @@ public class HomeCategoryItemGridView {
     @View(R.id.oldPriceCategoryGrid)
     public TextView oldPriceCategoryGrid;
 
+    @View(R.id.likeCategoryGrid)
+    public ImageButton likeCategoryGrid;
+
+    @View(R.id.llCountPrd)
+    public LinearLayout llCountPrd;
+
+    @View(R.id.imgBtn_decre)
+    public ImageButton imgBtn_decre;
+
+    @View(R.id.imgBtn_incre)
+    public ImageButton imgBtn_incre;
+
+    @View(R.id.tv_count)
+    public TextView tv_count;
+
+    @View(R.id.btnAddCategoryGrid)
+    public Button btnAddCategoryGrid;
+
     @ParentPosition
     public int mParentPosition;
 
@@ -64,15 +94,21 @@ public class HomeCategoryItemGridView {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     UseSharedPreferences useSharedPreferences;
-    String[] qtyArray = {"100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
+    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    int countVal=0;
 
+    public boolean status = true;
+    public boolean state = false;
+    APIInterface apiInterface;
 
-    public HomeCategoryItemGridView(Context context, String id, String url, String title, String price) {
+    public HomeCategoryItemGridView(Context context, String id, String url, String title, String price,String qty) {
         mContext = context;
         mid = id;
         murl = url;
         mtitle = title;
         mprice = price;
+        mqty=qty;
     }
 
     public String getTitle() {
@@ -92,16 +128,14 @@ public class HomeCategoryItemGridView {
     public void onResolved() {
         titleCategoryGrid.setText(mtitle);
         Glide.with(mContext)
-                .load(murl)
+                .load(imgUrl+murl)
                 .into(imageCategoryGrid);
         newPriceCategoryGrid.setText("\u20B9" + " " + mprice);
 
-
+        qtyArray[0]=mqty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
-
         // Initializing an ArrayAdapter
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
         qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
 
@@ -120,14 +154,94 @@ public class HomeCategoryItemGridView {
 
     @Click(R.id.btnAddCategoryGrid)
     public void AddToCartClick() {
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+       /* sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = useSharedPreferences.getCountValue();
 
         Integer value = useSharedPreferences.createCountValue(name_session);
         Log.d("values of count", String.valueOf(value));
-        countCartDisplay(value);
+        countCartDisplay(value);*/
+       if(status == true)
+       {
+           btnAddCategoryGrid.setVisibility(android.view.View.GONE);
+           llCountPrd.setVisibility(android.view.View.VISIBLE);
+           status = false;
+
+       }
     }
 
+    @Click(R.id.imgBtn_incre)
+    public void addCount()
+    {
+        countVal = countVal + 1;
+        display(countVal);
+    }
+    @Click(R.id.imgBtn_decre)
+    public void removeCount()
+    {
+        if (countVal == 0) {
+            display(0);
+        } else {
+            countVal = countVal - 1;
+            display(countVal);
+        }
+    }
+    @Click(R.id.likeCategoryGrid)
+    public void onClick()
+    {
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        //---------------------------------------------------------
+        if (state == false) {
+            //------------------------------------------for adding to wishlist-----------------------------
+            final InsertWishListItems add_item = new InsertWishListItems("1", "46");
+            Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+            callAdd.enqueue(new Callback<InsertWishListItems>() {
+                @Override
+                public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                    InsertWishListItems resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        likeCategoryGrid.setBackgroundResource(R.drawable.like);
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+            state = true;
+        } else {
+            //---------------------for removing from wishlist---------------------------
+            final RemoveWishListItem remove_item = new RemoveWishListItem("1", "46");
+            Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
+            callRemove.enqueue(new Callback<RemoveWishListItem>() {
+                @Override
+                public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
+                    RemoveWishListItem resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        likeCategoryGrid.setBackgroundResource(R.drawable.addwishlist);
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+            state = false;
+
+        }
+    }
+
+    public void display(int number) {
+        tv_count.setText("" + number);
+    }
     public void countCartDisplay(int number) {
 
         BottomNavigationMenuView bottomNavigationMenuView =

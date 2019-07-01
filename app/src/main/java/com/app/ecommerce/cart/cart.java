@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.notifications.MyNotifications;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.app.ecommerce.R;
 import com.app.ecommerce.billing.billingAddress;
@@ -36,7 +40,7 @@ public class cart extends AppCompatActivity {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     TextView linkDeliveryTime;
-    String storeDayTime;
+    private String storeDayTime;
 
 
     @Override
@@ -135,7 +139,6 @@ public class cart extends AppCompatActivity {
                     public void onClick(View v) {
                         storeDayTime = dayspinner.getSelectedItem().toString();
                         storeDayTime = storeDayTime+" "+timespinner.getSelectedItem().toString();
-                        linkDeliveryTime.setText(storeDayTime);
                         alertDialog.dismiss();
                     }
                 });
@@ -193,5 +196,28 @@ public class cart extends AppCompatActivity {
             myIntent.putExtra("Login_INTENT", "cart");
             startActivity(myIntent);
         }*/
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.notify_and_cart_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.notification:
+                Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(notificationIntent);
+                break;
+
+            case R.id.cart:
+                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
+                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(DeliveryIntent);
+                break;
+        }
+        return true;
     }
 }

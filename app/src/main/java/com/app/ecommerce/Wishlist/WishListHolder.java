@@ -78,17 +78,6 @@ public class WishListHolder extends AppCompatActivity {
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(WishListHolder.this, WelcomeActivity.class);
-                startActivity(i);
-
-            }
-        });
-        t.start();
-
         mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

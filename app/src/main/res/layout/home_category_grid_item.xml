@@ -3,112 +3,146 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ord_itCategoryGrid"
     android:layout_width="180dp"
-    android:layout_height="280dp"
-    android:layout_margin="5dp"
-    android:background="@drawable/cart_shadow"
-    android:orientation="vertical">
+    android:layout_height="250dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="20dp"
+    android:elevation="25dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/shadow"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="2"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/titleCategoryGrid"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Potato"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/light_black"
-                    android:textSize="15dp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/likeCategoryGrid"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/ic_insert_emoticon_black_24dp" />
+                    <TextView
+                        android:id="@+id/titleCategoryGrid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="left"
+                        android:text="Potato"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_black"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:gravity="right">
+
+                    <ImageButton
+                        android:id="@+id/likeCategoryGrid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/addwishlist" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:gravity="center">
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <ImageView
                     android:id="@+id/imageCategoryGrid"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
                     android:src="@drawable/deep" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:gravity="center_horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/qtyCategoryGrid"
+                    android:layout_width="100dp"
                     android:layout_height="40dp"
-                    android:gravity="center">
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="100Gms"
+                    android:textColor="@color/light_black"
+                    android:textSize="12dp" />
+            </LinearLayout>
 
-                    <Spinner
-                        android:id="@+id/qtyCategoryGrid"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="100Gms"
-                        android:textColor="@color/light_black"
-                        android:textSize="12dp"
-                        />
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/newPriceCategoryGrid"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="right|bottom"
                         android:text="50"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/light_black"
-                        android:textSize="15dp" />
+                        android:textSize="13dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="left|bottom">
 
                     <TextView
                         android:id="@+id/oldPriceCategoryGrid"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/strike_through"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center"
-                        android:text="Rs. 80"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="12dp" />
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="20"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_black"
+                        android:textSize="10dp" />
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -116,16 +150,66 @@
             android:layout_height="match_parent"
             android:layout_weight="8">
 
-            <Button
-                android:id="@+id/btnAddCategoryGrid"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/green"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Add To Cart"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/llCountPrd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp">
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_decre"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/minus"
+                        android:layout_weight="2"
+                        android:layout_margin="5dp"
+                       />
+
+                    <TextView
+                        android:id="@+id/tv_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_weight="1"
+                       android:gravity="center"/>
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_incre"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/plus"
+                        android:layout_weight="2"
+                        android:layout_margin="5dp"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAddCategoryGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Add To Cart"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:visibility="visible" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
+
+

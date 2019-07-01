@@ -6,7 +6,10 @@ import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -52,6 +55,22 @@ public class SimilarProductsListItem {
     @View(R.id.qtyCategorySimilarPrd)
     public Spinner qtyCategorySimilarPrd;
 
+    @View(R.id.llCountSimPrd)
+    public LinearLayout llCountSimPrd;
+
+    @View(R.id.imgBtn_decreSimPrd)
+    public ImageButton imgBtn_decreSimPrd;
+
+    @View(R.id.imgBtn_increSimPrd)
+    public ImageButton imgBtn_increSimPrd;
+
+    @View(R.id.tv_countSimPrd)
+    public TextView tv_countSimPrd;
+
+    @View(R.id.btnAddCategorySimilarPrd)
+    public Button btnAddCategorySimilarPrd;
+
+
 
     SessionManager session;
 
@@ -61,13 +80,15 @@ public class SimilarProductsListItem {
     public TextView mtextCartItemCount;
     public String mHeading;
     public String mPrdImgUrl,mPrice,mQty;
+    public Boolean status = true;
     int minteger = 0;
-    int cart_count = 0;
     public static String MyPREFERENCES = "sessiondata" ;
+    public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
     SharedPreferences sharedpreferences;
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
-    public SimilarProductsListItem(Context context, TextView textCartItemCount,PlaceHolderView placeHolderView, String url, String heading, String price,String qty) {
+    public SimilarProductsListItem(Context context, TextView textCartItemCount,
+                                   PlaceHolderView placeHolderView, String url, String heading, String price,String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         mPrdImgUrl = url;
@@ -79,7 +100,7 @@ public class SimilarProductsListItem {
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(mPrdImgUrl).into(imageCategorySimilarPrd);
+        Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageCategorySimilarPrd);
         titleCategorySimilarPrd.setText(mHeading);
         newPriceCategorySimilarPrd.setText("₹"+" "+mPrice);
         qtyArray[0]=mQty;
@@ -102,6 +123,12 @@ public class SimilarProductsListItem {
     @Click(R.id.btnAddCategorySimilarPrd)
     public void AddToCartClick()
     {
+        if (status == true) {
+            btnAddCategorySimilarPrd.setVisibility(android.view.View.GONE);
+            llCountSimPrd.setVisibility(android.view.View.VISIBLE);
+            status = false;
+
+        }
         session = new SessionManager(mContext);
         Integer cnt = session.getCartCount();
         cnt = cnt +1;
@@ -110,27 +137,28 @@ public class SimilarProductsListItem {
         mtextCartItemCount.setText(String.valueOf(cnt));
 
     }
-   // @Click(R.id.increaseDealofDay)
-//    public void onIncreaseClick() {
-//        minteger = minteger + 1;
-//        display(minteger);
-//    }
-//
-//    @Click(R.id.decreaseDealofDay)
-//    public void onDecreaseClick() {
-//
-//        if (minteger == 0) {
-//            display(0);
-//        } else {
-//            minteger = minteger - 1;
-//            display(minteger);
-//        }
-//    }
+
+    @Click(R.id.imgBtn_increSimPrd)
+    public void onIncreaseClick() {
+        minteger = minteger + 1;
+        display(minteger);
+    }
+
+    @Click(R.id.imgBtn_decreSimPrd)
+    public void onDecreaseClick() {
+
+        if (minteger == 0) {
+            display(0);
+        } else {
+            minteger = minteger - 1;
+            display(minteger);
+        }
+    }
 
 
-//    public void display(int number) {
-//        integer_numberDealofDay.setText("" + number);
-//    }
+    public void display(int number) {
+        tv_countSimPrd.setText("" + number);
+    }
 
 
 }

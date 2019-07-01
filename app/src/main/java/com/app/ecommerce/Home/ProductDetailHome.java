@@ -61,11 +61,8 @@ public class ProductDetailHome extends AppCompatActivity {
     String sname, sprice, sqty, simage, sreviews, spoints;
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
     SessionManager session;
-    public TextView mtextCartItemCount;
-    public static TextView textCartItemCount;
+    public static TextView mtextCartItemCount;
     int minteger = 0;
-    int cart_count = 0;
-    android.view.View menuItemView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +127,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             sreviews = imgs.getReviews();
 
                             // Glide.with(getApplication()).load(sname).into(pro_img);
-
+                            toolbar.setTitle(sname);
                             tv_title.setText(sname);
                             tv_original_price.setText("₹" + " " + sprice);
                             tv_points.setText(spoints + " " + "Ratings");

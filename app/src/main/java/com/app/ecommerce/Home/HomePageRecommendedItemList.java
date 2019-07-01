@@ -6,7 +6,10 @@ import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,7 +33,6 @@ import q.rorbin.badgeview.QBadgeView;
 import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 
 
-
 @NonReusable
 @Layout(R.layout.home_page_recommended_item_list)
 public class HomePageRecommendedItemList {
@@ -50,11 +52,24 @@ public class HomePageRecommendedItemList {
     @View(R.id.item_OldPriceRecommended)
     public TextView item_OldPriceRecommended;
 
- /*   @View(R.id.integer_numberRecommended)
-    public TextView integer_numberRecommended;
-*/
     @View(R.id.qntyRecommended)
     public Spinner qntyRecommended;
+
+    @View(R.id.llCountPrdRecomnd)
+    public LinearLayout llCountPrdRecomnd;
+
+    @View(R.id.imgBtn_decreRecomnd)
+    public ImageButton imgBtn_decreRecomnd;
+
+    @View(R.id.imgBtn_increRecomnd)
+    public ImageButton imgBtn_increRecomnd;
+
+    @View(R.id.tv_countRecomnd)
+    public TextView tv_countRecomnd;
+
+    @View(R.id.addcartRecommended)
+    public Button addcartRecommended;
+
 
     public Context mContext;
     public PlaceHolderView mPlaceHolderView;
@@ -65,14 +80,15 @@ public class HomePageRecommendedItemList {
     public String mQty;
     SessionManager session;
     public TextView mtextCartItemCount;
-    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
-
-  /*  int minteger = 0;*/
+    public Boolean status = true;
+    int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
+    public String imgUrl = "http://3.213.33.73/Ecommerce/upload/image/";
     SharedPreferences sharedpreferences;
 
-    public HomePageRecommendedItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String image,
+    public HomePageRecommendedItemList(Context context, TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String image,
                                        String name, String price, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
@@ -86,10 +102,10 @@ public class HomePageRecommendedItemList {
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(productImage).into(imageViewRecommended);
+        Glide.with(mContext).load(imgUrl + productImage).into(imageViewRecommended);
         headingTxtRecommended.setText(title);
         item_NewPriceRecommended.setText("₹" + " " + mPrice);
-        qtyArray[0]=mQty;
+        qtyArray[0] = mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
@@ -106,48 +122,56 @@ public class HomePageRecommendedItemList {
         mContext.startActivity(intent);
     }
 
+
     @Click(R.id.addcartRecommended)
-    public void AddToCartClick()
-    {
+    public void addtocart() {
+
+        if (status == true) {
+            addcartRecommended.setVisibility(android.view.View.GONE);
+            llCountPrdRecomnd.setVisibility(android.view.View.VISIBLE);
+            status = false;
+
+        }
         session = new SessionManager(mContext);
         Integer cnt = session.getCartCount();
-        cnt = cnt +1;
+        cnt = cnt + 1;
         session.cartcount(cnt);
+
+        mtextCartItemCount.setText(String.valueOf(cnt));
+
+    }
+
+    @Click(R.id.imgBtn_increRecomnd)
+    public void onIncreaseClick() {
+        minteger = minteger + 1;//display number in place of add to cart
+        session = new SessionManager(mContext);
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;//display number in cart icon
+        session.cartcount(cnt);
+        display(minteger);
         mtextCartItemCount.setText(String.valueOf(cnt));
     }
 
-/*
-    @Click(R.id.increaseRecommended)
-    public void onIncreaseClick() {
-        minteger = minteger + 1;
-        display(minteger);
-    }
-
-    @Click(R.id.decreaseRecommended)
+    @Click(R.id.imgBtn_decreRecomnd)
     public void onDecreaseClick() {
+
         if (minteger == 0) {
             display(0);
         } else {
             minteger = minteger - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
             display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
         }
     }
 
+
     public void display(int number) {
-        integer_numberRecommended.setText("" + number);
+        tv_countRecomnd.setText("" + number);
     }
 
-    public void countCartDisplay(int number) {
-        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(4);
 
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = sharedpreferences.getInt("count", 0);
-
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources().getColor(R.color.white))
-                .setGravityOffset(15, -2, true).setBadgeNumber(number).setBadgeBackgroundColor
-                (mContext.getResources().getColor(R.color.colorPrimaryDark));
-
-    }*/
 }

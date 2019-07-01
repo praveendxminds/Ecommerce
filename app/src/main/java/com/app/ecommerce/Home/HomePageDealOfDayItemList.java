@@ -6,7 +6,10 @@ import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,11 +53,20 @@ public class HomePageDealOfDayItemList {
     @View(R.id.qtydealSpinner)
     public Spinner qtyCategoryGrid;
 
-//    @View(R.id.integer_numberDealofDay)
-//    public TextView integer_numberDealofDay;
-//
-//    @View(R.id.qntyDealofDay)
-//    public TextView item_qtyDealofDay;
+    @View(R.id.llCountPrd)
+    public LinearLayout llCountPrd;
+
+    @View(R.id.decreaseDealofDay)
+    public ImageButton decreaseDealofDay;
+
+    @View(R.id.increaseDealofDay)
+    public ImageButton increaseDealofDay;
+
+    @View(R.id.tv_countDealofDay)
+    public TextView tv_countDealofDay;
+
+    @View(R.id.addcartDealofDay)
+    public Button addcartDealofDay;
 
     SessionManager session;
 
@@ -64,11 +76,12 @@ public class HomePageDealOfDayItemList {
     public PlaceHolderView mPlaceHolderView;
     public String mHeading;
     public String mPrdImgUrl, mPrice, mQty;
-
+    public Boolean status = true;
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     public TextView mtextCartItemCount;
+    public String imgUrl = "http://3.213.33.73/Ecommerce/upload/image/";
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
     public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView,String product_id, String url, String heading,
@@ -85,7 +98,7 @@ public class HomePageDealOfDayItemList {
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(mPrdImgUrl).into(imageViewDealofDay);
+        Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
         item_priceDealofDay.setText("₹" + " " + mPrice);
        // item_qtyDealofDay.setText(mQty);
@@ -110,36 +123,49 @@ public class HomePageDealOfDayItemList {
     @Click(R.id.addcartDealofDay)
     public void addtocart()
     {
-        session = new SessionManager(mContext);
-        Integer cnt = session.getCartCount();
-        cnt = cnt +1;
-        session.cartcount(cnt);
 
-        mtextCartItemCount.setText(String.valueOf(cnt));
+        if(status == true)
+        {
+            addcartDealofDay.setVisibility(android.view.View.GONE);
+            llCountPrd.setVisibility(android.view.View.VISIBLE);
+            status = false;
+
+        }
+
 
     }
 
-//    @Click(R.id.increaseDealofDay)
-//    public void onIncreaseClick() {
-//        minteger = minteger + 1;
-//        display(minteger);
-//    }
-//
-//    @Click(R.id.decreaseDealofDay)
-//    public void onDecreaseClick() {
-//
-//        if (minteger == 0) {
-//            display(0);
-//        } else {
-//            minteger = minteger - 1;
-//            display(minteger);
-//        }
-//    }
+    @Click(R.id.increaseDealofDay)
+    public void onIncreaseClick() {
+        minteger = minteger + 1;//display number in place of add to cart
+        session = new SessionManager(mContext);
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;//display number in cart icon
+        session.cartcount(cnt);
+        display(minteger);
+        mtextCartItemCount.setText(String.valueOf(cnt));
+    }
+
+    @Click(R.id.decreaseDealofDay)
+    public void onDecreaseClick() {
+
+        if (minteger == 0) {
+            display(0);
+        } else {
+           minteger = minteger - 1;
+            session = new SessionManager(mContext);
+           Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+        }
+    }
 
 
-//    public void display(int number) {
-//        integer_numberDealofDay.setText("" + number);
-//    }
+    public void display(int number) {
+        tv_countDealofDay.setText("" + number);
+    }
 
 
 

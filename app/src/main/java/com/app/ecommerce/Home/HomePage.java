@@ -44,6 +44,7 @@ import com.app.ecommerce.R;
 import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Splash;
 import com.app.ecommerce.Utils;
+import com.app.ecommerce.Wishlist.WishListHolder;
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.fcm.NotificationUtils;
@@ -196,6 +197,9 @@ public class HomePage extends AppCompatActivity {
                                 break;
 
                             case R.id.navigation_wishlist:
+                                Intent intentWishlist = new Intent(getBaseContext(),WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:

@@ -13,6 +13,6 @@
         android:padding="10dp"
         android:text="Potatoes are edible tubers, available worldwide and all year long. They are relatively cheap to grow, rich in nutrients, and they can make a delicious treat."
         android:textColor="@color/txtcolor"
-        android:textSize="18sp" />
+        android:textSize="15sp"/>
 
 </LinearLayout>
