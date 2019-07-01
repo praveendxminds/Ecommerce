@@ -30,14 +30,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.Delivery;
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.Wishlist.WishListHolder;
 import com.app.ecommerce.adapter.RemoteData;
@@ -84,7 +87,8 @@ public class HomeCategory extends AppCompatActivity {
 
     public boolean state = true;
     Integer name_session;
-
+    SessionManager session;
+    public static TextView textCartItemCount;
     UseSharedPreferences useSharedPreferences;
 
     @Override
@@ -94,6 +98,12 @@ public class HomeCategory extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         mContext = this.getApplicationContext();
+
+        session = new SessionManager(getApplicationContext());
+
+
+        Integer cnt = session.getCartCount();
+        Log.d("cartcnt", String.valueOf(cnt));
 
         useSharedPreferences = new UseSharedPreferences(getApplication());
 
@@ -147,7 +157,7 @@ public class HomeCategory extends AppCompatActivity {
                     for (ProductslHomePage.DealOfDayList imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new HomeCategoryItemGridView(mContext, imgs.prd_id, imgs.image,
+                            mCartView.addView(new HomeCategoryItemGridView(mContext,textCartItemCount, imgs.prd_id, imgs.image,
                                     imgs.name, imgs.price,imgs.qty));
                         }
                     }
@@ -300,6 +310,26 @@ public class HomeCategory extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menu);
+
+       MenuItem cart_menuItem = menu.findItem(R.id.cart);
+       FrameLayout rootView = (FrameLayout)cart_menuItem.getActionView();
+       textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+
+       Integer cnt = session.getCartCount();
+       cnt = cnt +1;
+       session.cartcount(cnt);
+       textCartItemCount.setText(String.valueOf(cnt));
+       rootView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v)
+           {
+               Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
+               DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               startActivity(DeliveryIntent);
+
+           }
+       });
+
 
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
         //getting search manager from systemservice

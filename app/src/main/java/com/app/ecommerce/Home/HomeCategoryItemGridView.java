@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.InsertWishListItems;
@@ -85,6 +86,8 @@ public class HomeCategoryItemGridView {
     @ParentPosition
     public int mParentPosition;
 
+    SessionManager session;
+
     public String murl;
     public String mprice;
     public String mqty;
@@ -93,6 +96,7 @@ public class HomeCategoryItemGridView {
     public Context mContext;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
+    public TextView mtextCartItemCount;
     UseSharedPreferences useSharedPreferences;
     public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
@@ -102,13 +106,14 @@ public class HomeCategoryItemGridView {
     public boolean state = false;
     APIInterface apiInterface;
 
-    public HomeCategoryItemGridView(Context context, String id, String url, String title, String price,String qty) {
+    public HomeCategoryItemGridView(Context context,TextView textCartItemCount, String id, String url, String title, String price,String qty) {
         mContext = context;
         mid = id;
         murl = url;
         mtitle = title;
         mprice = price;
         mqty=qty;
+        mtextCartItemCount = textCartItemCount;
     }
 
     public String getTitle() {
@@ -172,8 +177,13 @@ public class HomeCategoryItemGridView {
     @Click(R.id.imgBtn_incre)
     public void addCount()
     {
-        countVal = countVal + 1;
+        countVal = countVal + 1;//display number in place of add to cart
+        session = new SessionManager(mContext);
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;//display number in cart icon
+        session.cartcount(cnt);
         display(countVal);
+        mtextCartItemCount.setText(String.valueOf(cnt));
     }
     @Click(R.id.imgBtn_decre)
     public void removeCount()
@@ -182,7 +192,12 @@ public class HomeCategoryItemGridView {
             display(0);
         } else {
             countVal = countVal - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
             display(countVal);
+            mtextCartItemCount.setText(String.valueOf(cnt));
         }
     }
     @Click(R.id.likeCategoryGrid)
