@@ -1,10 +1,23 @@
 package com.app.ecommerce;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.Home.HomePage;
+import com.app.ecommerce.MyOrder.MyOrders;
+import com.app.ecommerce.ProfileSection.AboutAndContactUs_act;
+import com.app.ecommerce.ProfileSection.EditProfile_act;
+import com.app.ecommerce.ProfileSection.Faqs_act;
+import com.app.ecommerce.ProfileSection.GoogleFeedback_act;
+import com.app.ecommerce.ProfileSection.Offers_act;
+import com.app.ecommerce.ProfileSection.Policy_act;
+import com.app.ecommerce.ProfileSection.RateUs_act;
+import com.app.ecommerce.ProfileSection.RefersAndEarn_act;
+import com.app.ecommerce.ProfileSection.SignUp_act;
+import com.app.ecommerce.ProfileSection.TermsAndCondition_act;
 import com.app.ecommerce.drawer.DrawerMenuItem;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.annotations.Click;
@@ -63,7 +76,7 @@ public class NavMenuItems {
             case DRAWER_MENU_ITEM_MY_ADDRESS:
                 title.setText("My Address");
                 icon.setImageDrawable(contxt.getResources().getDrawable(R.drawable.home));
-break;
+                break;
 
             case DRAWER_MENU_ITEM_MY_WALLET:
                 title.setText("My Wallet");
@@ -120,61 +133,97 @@ break;
             case DRAWER_MENU_ITEM_HOME:
                 Toast.makeText(contxt, "Home", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onHomeMenuSelected();
+                Intent intentHome = new Intent(contxt,HomePage.class);
+                intentHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentHome);
                 break;
 
             case DRAWER_MENU_ITEM_MY_ORDER:
                 Toast.makeText(contxt, "My Order", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onMyOrderMenuSelected();
+                Intent intentOrder = new Intent(contxt,MyOrders.class);
+                intentOrder.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentOrder);
                 break;
 
             case DRAWER_MENU_ITEM_MY_ADDRESS:
                 Toast.makeText(contxt, "Address", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onMyAddressMenuSelected();
+                Intent intentAddress = new Intent(contxt,SignUp_act.class);
+                intentAddress.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentAddress);
                 break;
 
             case DRAWER_MENU_ITEM_MY_WALLET:
                 Toast.makeText(contxt, "My Wallet", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onMyWalletMenuSelected();
+                Intent intentWallet = new Intent(contxt,EditProfile_act.class);
+                intentWallet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentWallet);
                 break;
 
             case DRAWER_MENU_ITEM_OFFERS:
                 Toast.makeText(contxt, "Offers", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onOffersMenuSelected();
+                Intent intentOffers = new Intent(contxt,Offers_act.class);
+                intentOffers.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentOffers);
                 break;
 
             case DRAWER_MENU_ITEM_REFER_EARN:
                 Toast.makeText(contxt, "Refer & Earn", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onReferEarnMenuSelected();
+                Intent intentReferEarn = new Intent(contxt,RefersAndEarn_act.class);
+                intentReferEarn.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentReferEarn);
                 break;
 
             case DRAWER_MENU_ITEM_RATE_US:
                 Toast.makeText(contxt, "Rate Us", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onRateUsMenuSelected();
+                Intent intentRateUs = new Intent(contxt,RateUs_act.class);
+                intentRateUs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentRateUs);
                 break;
 
             case DRAWER_MENU_ITEM_ABT_CONTACT:
                 Toast.makeText(contxt, "About & Contact Us", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onAboutContactMenuSelected();
+                Intent intentAboutContact = new Intent(contxt,AboutAndContactUs_act.class);
+                intentAboutContact.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentAboutContact);
                 break;
 
             case DRAWER_MENU_ITEM_FAQ:
                 Toast.makeText(contxt, "FAQs", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onFaqsMenuSelected();
+                Intent intentFaq = new Intent(contxt,Faqs_act.class);
+                intentFaq.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentFaq);
                 break;
 
             case DRAWER_MENU_ITEM_TERMS:
                 Toast.makeText(contxt, "Terms & Conditions", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onTermsConditionsMenuSelected();
+                Intent intentTerms = new Intent(contxt,TermsAndCondition_act.class);
+                intentTerms.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentTerms);
                 break;
 
             case DRAWER_MENU_ITEM_GFEEDBACK:
                 Toast.makeText(contxt, "Google feedback", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onGoogleFeedbackMenuSelected();
+                Intent intentFeedback = new Intent(contxt,GoogleFeedback_act.class);
+                intentFeedback.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentFeedback);
                 break;
 
             case DRAWER_MENU_ITEM_POLICY:
                 Toast.makeText(contxt, "Policy", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onPolicyMenuSelected();
+                Intent intentPolicy = new Intent(contxt,Policy_act.class);
+                intentPolicy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contxt.startActivity(intentPolicy);
                 break;
 
         }
@@ -183,18 +232,34 @@ break;
     public void setDrawerCallBack(NavMenuItems.DrawerCallBack callBack) {
         mCallBack = callBack;
     }
-    public interface DrawerCallBack{
+
+    public void onHomeMenuSelected() {
+
+    }
+
+    public interface DrawerCallBack {
         void onHomeMenuSelected();
+
         void onMyOrderMenuSelected();
+
         void onMyAddressMenuSelected();
+
         void onMyWalletMenuSelected();
+
         void onOffersMenuSelected();
+
         void onReferEarnMenuSelected();
+
         void onRateUsMenuSelected();
+
         void onAboutContactMenuSelected();
+
         void onFaqsMenuSelected();
+
         void onTermsConditionsMenuSelected();
+
         void onGoogleFeedbackMenuSelected();
+
         void onPolicyMenuSelected();
     }
 }
