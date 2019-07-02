@@ -50,6 +50,7 @@ import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.notifications.MyNotifications;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.ProductListModel;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.search;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -146,15 +147,14 @@ public class HomeCategory extends AppCompatActivity {
         mCartView.setLayoutManager(layoutManager);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ProductslHomePage productslHomePage = new ProductslHomePage("7");
-            Call<ProductslHomePage> call = apiInterface.getHomePageProducts(productslHomePage);
-            call.enqueue(new Callback<ProductslHomePage>() {
+            Call<ProductListModel> call = apiInterface.getProductsList();
+            call.enqueue(new Callback<ProductListModel>() {
                 @Override
-                public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
-                    ProductslHomePage resource = response.body();
-                    List<ProductslHomePage.DealOfDayList> datumList = resource.dealoftheday;
+                public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
+                    ProductListModel resource = response.body();
+                    List<ProductListModel.ProductListDatum> datumList = resource.result;
 
-                    for (ProductslHomePage.DealOfDayList imgs : datumList) {
+                    for (ProductListModel.ProductListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
                             mCartView.addView(new HomeCategoryItemGridView(mContext,textCartItemCount, imgs.prd_id, imgs.image,
@@ -178,7 +178,7 @@ public class HomeCategory extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<ProductslHomePage> call, Throwable t) {
+                public void onFailure(Call<ProductListModel> call, Throwable t) {
                     call.cancel();
                 }
             });

@@ -32,6 +32,10 @@ public interface APIInterface {
     @GET("json/products.json")
     Call<ImageScroll> doGetListImages();
 
+
+    @GET("index.php?route=api/custom/products/")
+    Call<ProductListModel> getProductsList();
+
     @POST("index.php?route=api/custom/productdetails")
     Call<ProductDetailsModel> getProductDetails(@Body ProductDetailsModel id);
 

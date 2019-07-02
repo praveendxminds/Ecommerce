@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.Home.HomePage;
 import com.app.ecommerce.notifications.MyNotifications;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.app.ecommerce.R;
@@ -48,6 +49,20 @@ public class cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pIntent = new Intent(getBaseContext(), HomePage.class);
+                startActivity(pIntent);
+            }
+        });
+
         //-----delivery time link------------------
         linkDeliveryTime = (TextView) findViewById(R.id.linkDeliveryTime);
         final String[] Day = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
@@ -155,12 +170,6 @@ public class cart extends AppCompatActivity {
             }
         });
 
-        setSupportActionBar(toolbar);
-        // add back arrow to toolbar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 

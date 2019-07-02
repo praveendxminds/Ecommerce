@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal"
+    android:padding="10dp">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/white">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/itemIconProfile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/deep"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            app:civ_shadow="false" />
+
+        <Button
+            android:id="@+id/tvProPicEdit"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|bottom"
+            android:background="@drawable/intercom_rounded_rect"
+            android:backgroundTint="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:text="User Name"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tvUserMailId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_regular"
+            android:text="user123@gmail.com"
+            android:textColor="@color/blackshadow"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tvContactNo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_regular"
+            android:text="+91 9876546781"
+            android:textColor="@color/blackshadow"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="right|center">
+
+        <ImageButton
+            android:id="@+id/imgBtnEdit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/edit"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+</LinearLayout>

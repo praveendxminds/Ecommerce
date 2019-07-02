@@ -1,6 +1,5 @@
 package com.app.ecommerce.ProfileSection;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,15 +8,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.app.ecommerce.Home.HomePage;
-import com.app.ecommerce.MyOrder.MyOrders;
+import com.app.ecommerce.NavMenuHeader;
+import com.app.ecommerce.NavMenuItems;
 import com.app.ecommerce.R;
+import com.mindorks.placeholderview.PlaceHolderView;
 
 public class Navmenu_act extends AppCompatActivity {
     @Override
@@ -30,7 +27,7 @@ public class Navmenu_act extends AppCompatActivity {
     Toolbar toolbar;
     ImageView ivProfile;
     TextView tvProPicEdit, tvLogout;
-    ListView lvMenuList;
+    PlaceHolderView lvMenuList;
 
     Integer[] icon = {R.drawable.ic_person, R.drawable.ic_person, R.drawable.ic_person,
             R.drawable.ic_person, R.drawable.ic_person, R.drawable.ic_person, R.drawable.ic_person,
@@ -57,7 +54,23 @@ public class Navmenu_act extends AppCompatActivity {
         lvMenuList = findViewById(R.id.lvMenuList);
         tvLogout = findViewById(R.id.tvLogout);
 
-        MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
+        lvMenuList.addView(new NavMenuHeader(getApplicationContext()))
+        .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_HOME))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_MY_ORDER))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_MY_ADDRESS))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_MY_WALLET))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_OFFERS))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_REFER_EARN))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_RATE_US))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_ABT_CONTACT))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_FAQ))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_TERMS))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_GFEEDBACK))
+                .addView(new NavMenuItems(this.getApplicationContext(),NavMenuItems.DRAWER_MENU_ITEM_POLICY));
+
+
+
+     /*   MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
         lvMenuList.setAdapter(adapter);
 
         lvMenuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,7 +114,7 @@ public class Navmenu_act extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });
+        });*/
     }
 
     @Override

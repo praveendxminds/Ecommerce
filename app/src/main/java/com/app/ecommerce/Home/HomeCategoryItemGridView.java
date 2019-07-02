@@ -133,7 +133,7 @@ public class HomeCategoryItemGridView {
     public void onResolved() {
         titleCategoryGrid.setText(mtitle);
         Glide.with(mContext)
-                .load(imgUrl+murl)
+                .load(murl)
                 .into(imageCategoryGrid);
         newPriceCategoryGrid.setText("\u20B9" + " " + mprice);
 
@@ -207,7 +207,7 @@ public class HomeCategoryItemGridView {
         //---------------------------------------------------------
         if (state == false) {
             //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems("1", "46");
+            final InsertWishListItems add_item = new InsertWishListItems("1", mid);
             Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
             callAdd.enqueue(new Callback<InsertWishListItems>() {
                 @Override
@@ -230,7 +230,7 @@ public class HomeCategoryItemGridView {
             state = true;
         } else {
             //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem("1", "46");
+            final RemoveWishListItem remove_item = new RemoveWishListItem("1", mid);
             Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
             callRemove.enqueue(new Callback<RemoveWishListItem>() {
                 @Override

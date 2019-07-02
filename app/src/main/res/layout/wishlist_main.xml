@@ -59,7 +59,7 @@
                             android:layout_height="30dp"
                             android:layout_gravity="right"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="6 items"
+                            android:text="No items"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
                     </LinearLayout>
