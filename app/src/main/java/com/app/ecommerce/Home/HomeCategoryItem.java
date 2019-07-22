@@ -6,12 +6,15 @@ import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
+import com.app.ecommerce.SessionManager;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -40,14 +43,42 @@ public class HomeCategoryItem {
     @View(R.id.itemIconHomePage)
     public ImageView itemIconHomePage;
 
-    @View(R.id.headingTxtHomePage)
-    public TextView headingTxtHomePage;
+    @View(R.id.prd_name)
+    public TextView prd_name;
 
-    @View(R.id.qntyHomePage)
-    public Spinner qntyHomePage;
+    @View(R.id.lltvQnty)
+    public LinearLayout lltvQnty;
+
+    @View(R.id.tv_qntyHomePage)
+    public TextView tv_qntyHomePage;
+
+    @View(R.id.llspnrQnty)
+    public LinearLayout llspnrQnty;
+
+    @View(R.id.spnr_qntyHomePage)
+    public Spinner spnr_qntyHomePage;
 
     @View(R.id.priceNewHomePage)
     public TextView priceNewHomePage;
+
+    @View(R.id.priceOldHomePage)
+    public TextView priceOldHomePage;
+
+    @View(R.id.lladdItem)
+    public LinearLayout lladdItem;
+
+    @View(R.id.llcountItem)
+    public LinearLayout llcountItem;
+
+    @View(R.id.imgBtn_incre)
+    public ImageButton imgBtn_inc;
+
+    @View(R.id.imgBtn_decre)
+    public ImageButton imgBtn_dec;
+
+    @View(R.id.tv_productCount)
+    public TextView tv_productCount;
+
 
     @ParentPosition
     public int mParentPosition;
@@ -61,15 +92,21 @@ public class HomeCategoryItem {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     UseSharedPreferences useSharedPreferences;
-    String[] qtyArray = {"100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    String[] qtyArray = {"100gm","200gm","300gm","500gm","1kg","2kg","500kg","1000kg"};
+    boolean status1 = true;
+    SessionManager session;
+    int countVal = 0;
+    public TextView mtextCartItemCount;
 
 
-    public HomeCategoryItem(Context context,String id, String url, String title, String price) {
+    public HomeCategoryItem(Context context, TextView textCartItemCount, String id, String url, String title, String price, String qty) {
         mContext = context;
-        mid=id;
+        mid = id;
         murl = url;
         mtitle = title;
         mprice = price;
+        mqty = qty;
+        mtextCartItemCount=textCartItemCount;
     }
 
     public String getTitle() {
@@ -87,40 +124,97 @@ public class HomeCategoryItem {
 
     @Resolve
     public void onResolved() {
-        headingTxtHomePage.setText(mtitle + ", Organically grown");
-        Glide.with(mContext).load("http://3.213.33.73/Ecommerce/upload/image/cache/catalog/product-square-tomatoes-200x200.jpg").into(itemIconHomePage);
-        priceNewHomePage.setText("Rs." + " " + mprice);
+        prd_name.setText(mtitle);
+        Glide.with(mContext).load(murl).into(itemIconHomePage);
+        priceNewHomePage.setText("\u20B9" + " " + mprice);
 
 
-        final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
+        if (qtyArray.length > 1) {
+            llspnrQnty.setVisibility(android.view.View.VISIBLE);
+            lltvQnty.setVisibility(android.view.View.GONE);
+            qtyArray[0]=mqty;
+            final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
 
-        // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
+            // Initializing an ArrayAdapter
+            final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spnr_listitem_categ, qtyList);
+            spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+            spnr_qntyHomePage.setAdapter(spinnerArrayAdapter);
 
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
-        qntyHomePage.setAdapter(spinnerArrayAdapter);
 
-        useSharedPreferences = new UseSharedPreferences(mContext);
+
+        } else {
+            qtyArray[0]=mqty;
+            tv_qntyHomePage.setText(qtyArray[0]);
+            lltvQnty.setVisibility(android.view.View.VISIBLE);
+            llspnrQnty.setVisibility(android.view.View.GONE);
+        }
+
 
     }
 
-    @Click(R.id.ord_itHomePage)
+    @Click(R.id.llProductsListView)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id",mid);
+        myIntent.putExtra("prd_id", mid);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 
     }
 
-    @Click(R.id.addcartHomePage)
+    @Click(R.id.btnAddItem)
     public void AddToCartClick() {
-        sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = useSharedPreferences.getCountValue();
+        if (status1 == true) {
+            session = new SessionManager(mContext);
+            countVal = countVal + 1;//display number in place of add to cart
+            Integer cnt = session.getCartCount();
+            cnt = cnt +1;//display number in cart icon
+            session.cartcount(cnt);
+            display(countVal);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            lladdItem.setVisibility(android.view.View.GONE);
+            llcountItem.setVisibility(android.view.View.VISIBLE);
+            status1 = false;
+        }
+    }
 
-        Integer value = useSharedPreferences.createCountValue(name_session);
-        Log.d("values of count", String.valueOf(value));
-        countCartDisplay(value);
+    @Click(R.id.imgBtn_incre)
+    public void AddItem() {
+        session = new SessionManager(mContext);
+        countVal = countVal + 1;//display number in place of add to cart
+        Integer cnt = session.getCartCount();
+        cnt = cnt + 1;//display number in cart icon
+        session.cartcount(cnt);
+        display(countVal);
+        mtextCartItemCount.setText(String.valueOf(cnt));
+    }
+
+    @Click(R.id.imgBtn_decre)
+    public void removeItem() {
+        if (countVal <= 1) {
+            countVal = countVal - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt - 1;
+            session.cartcount(cnt);
+            display(countVal);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            lladdItem.setVisibility(android.view.View.VISIBLE);
+            llcountItem.setVisibility(android.view.View.GONE);
+            status1=true;
+
+        } else {
+            countVal = countVal - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt - 1;
+            session.cartcount(cnt);
+            display(countVal);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+        }
+    }
+
+    public void display(int number) {
+        tv_productCount.setText("" + number);
     }
 
     public void countCartDisplay(int number) {

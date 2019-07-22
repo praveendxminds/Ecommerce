@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:fontFamily="@font/roboto_medium"
-    android:textColor="@color/blackshadow"
-    android:textSize="13sp"
-    android:background="@color/white" />
+    android:textColor="@color/light_black_2"
+    android:textSize="12sp"
+    android:background="@color/white"
+    android:textAlignment="center"/>

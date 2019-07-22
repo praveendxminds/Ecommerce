@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/myOrder_lt"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="100dp"
     android:layout_marginBottom="10dp"
     android:orientation="vertical"
     android:padding="0dp"
-    app:cardElevation="5dp">
+    android:elevation="30dp"
+    app:cardUseCompatPadding="true">
+    <View
+        android:layout_width="4dp"
+        android:background="@color/green_1"
+        android:layout_height="match_parent"></View>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,12 +25,13 @@
             android:layout_weight="3"
             android:orientation="vertical"
             android:paddingLeft="5dp"
-            android:paddingTop="10dp"
+            android:paddingTop="6dp"
             android:paddingRight="5dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="8dp">
 
 
             <LinearLayout
+                android:id="@+id/llMyorder1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
@@ -34,15 +40,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:gravity="top">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/itemIconOrder"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@mipmap/ic_launcher"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/delivery_truck"
                         app:civ_border_color="#FFFFFF"
                         app:civ_border_width="4dp"
                         app:civ_shadow="false" />
@@ -59,23 +64,50 @@
                         android:id="@+id/statusOrder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Status"
                         android:textAlignment="center"
-                        android:textColor="@color/grey"
-                        android:textSize="12dp" />
+                        android:textColor="@color/light_black_2"
+                        android:textSize="8sp"
+                        android:layout_marginBottom="2dp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/pendingOrder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Pending"
                         android:textAlignment="center"
                         android:textAllCaps="false"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="12dp" />
+                        android:textColor="#FFFA990E"
+                        android:textSize="10sp"
+                        android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/canceledOrder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Canceled"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="#FFFA5400"
+                            android:textSize="10sp"
+                            android:visibility="visible"/>
+                        <TextView
+                            android:id="@+id/deliveredOrder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Delivered"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="#FF34773C"
+                            android:textSize="10sp"
+                            android:visibility="gone"/>
+                    </RelativeLayout>
                 </LinearLayout>
 
 
@@ -87,39 +119,40 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/blackshadow"></View>
+            android:background="#FFD8D8D8"></View>
 
         <LinearLayout
+            android:id="@+id/llMyOrder2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
             android:layout_weight="8"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:layout_marginLeft="10dp"
-                android:orientation="vertical">
+                android:layout_marginRight="8dp"
+                android:layout_weight="2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/orderIdOrder"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:gravity="left"
-                        android:text="Order Id"
+                        android:text="Order Id:767845563"
                         android:textAllCaps="false"
-                        android:textColor="@color/light_black"
-                        android:textSize="18dp" />
+                        android:textColor="@color/light_black_4"
+                        android:textSize="12sp" />
 
 
                 </LinearLayout>
@@ -127,17 +160,17 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="5dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:id="@+id/deliveryDateOrder"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Delivered on"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="15dp" />
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Delivered on Tue, June 11th’19"
+                        android:textColor="@color/light_black_5"
+                        android:textSize="10sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -145,65 +178,56 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/blackshadow"></View>
+                android:background="#FFD8D8D8"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="2"
+                android:layout_marginRight="8dp"
+                android:layout_weight="3"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:gravity="right|bottom">
 
                 <Button
                     android:id="@+id/btnCancelOrder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="54dp"
+                    android:layout_height="24dp"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_border"
-                    android:fontFamily="@font/roboto_medium"
+                    android:background="@drawable/order_buttons"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="15dp"
-                    android:textAlignment="center" />
+                    android:textSize="10sp"
+                    android:textAlignment="center"
+                    android:visibility="visible"/>
 
                 <Button
                     android:id="@+id/btnReOrder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="54dp"
+                    android:layout_height="24dp"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_border_add"
+                    android:background="@drawable/reorder_buttons"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Re-Order"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="15dp"
+                    android:textSize="10sp"
                     android:textAlignment="center"/>
 
                 <Button
                     android:id="@+id/btnDetails"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_border_add"
-                    android:fontFamily="@font/roboto_medium"
+                    android:layout_width="54dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/order_details_button"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Details"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="15dp"
+                    android:textSize="10sp"
                     android:textAlignment="center"/>
             </LinearLayout>
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </android.support.v7.widget.CardView>

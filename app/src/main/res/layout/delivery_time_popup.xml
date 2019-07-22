@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/checkout_border"
     android:orientation="vertical"
-    android:elevation="10dp">
+    android:elevation="10dp"
+    android:layout_margin="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,104 +18,76 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
 
             <TextView
                 android:id="@+id/deliveryTimeDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Delivery Time"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textColor="@color/light_black_1"
+                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/closeDialog"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Close"
-                android:textAlignment="viewEnd"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/blackshadow" />
+            android:background="#FFD8D8D8" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="16dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Day"
-                    android:textColor="@color/black"
+                    android:textColor="@color/light_black_2"
                     android:textSize="12sp"
-                    android:paddingLeft="5dp"/>
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
 
                 <Spinner
                     android:id="@+id/dayspinner"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:spinnerMode="dialog"
                     style="@style/spinner_style"
                     />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Time"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:paddingLeft="5dp"/>
-
-                <Spinner
-                    android:id="@+id/timespinner"
-                    android:spinnerMode="dialog"
-                    style="@style/spinner_style" />
             </LinearLayout>
         </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="20dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="20dp"
+                android:paddingBottom="25dp"
+                android:paddingRight="20dp">
                 <Button
                     android:id="@+id/btnSchedule"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:text="Schedule"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
-                    android:textSize="15sp" />
+                    android:textSize="14sp"
+                    android:background="@drawable/btn_schedule"/>
             </LinearLayout>
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.app.ecommerce.notifications;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -35,11 +36,13 @@ public class NotificationItem {
     @View(R.id.orderTitleNotifi)
     public TextView orderTitleNotifi;
 
-    @View(R.id.orderNameNotifi)
-    public TextView orderNameNotifi;
-
     @View(R.id.orderDateNotifi)
     public TextView orderDateNotifi;
+
+    @View(R.id.iv_warning)
+    public ImageView iv_warning;
+
+
 
     public Context mContext;
     String mUrl,mday,mtime,mdate,morderTitle,morderName;

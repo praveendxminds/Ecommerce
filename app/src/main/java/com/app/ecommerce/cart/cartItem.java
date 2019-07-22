@@ -1,10 +1,23 @@
 package com.app.ecommerce.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.app.ecommerce.Home.ProductDetailHome;
+import com.app.ecommerce.SessionManager;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.InsertWishListItems;
+import com.app.ecommerce.retrofit.RemoveWishListItem;
+import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -14,6 +27,17 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
 import com.app.ecommerce.R;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Sushmita on 24/06/2019.
@@ -30,56 +54,214 @@ public class cartItem {
     @View(R.id.prd_nameMyCart)
     public TextView prd_nameMyCart;
 
-    @View(R.id.qntyMyCart)
-    public TextView qntyMyCart;
+    @View(R.id.lltvQntyMyCart)
+    public LinearLayout lltvQntyMyCart;
 
-    @View(R.id.priceNewMyCart)
-    public TextView priceNewMyCart;
+    @View(R.id.tvqntyMyCart)
+    public TextView tvqntyMyCart;
 
-    @View(R.id.btn_deleteMyCart)
-    public TextView btn_deleteMyCart;
+    @View(R.id.llspnrQntyMyCart)
+    public LinearLayout llspnrQntyMyCart;
 
-    @View(R.id.idProductCount)
-    public  TextView idProductCount;
+    @View(R.id.spnr_qntyMyCart)
+    public Spinner spnr_qntyMyCart;
+
+    @View(R.id.tvpriceNewMyCart)
+    public TextView tvpriceNewMyCart;
+
+    @View(R.id.addWishListMyCart)
+    public ImageButton addWishListMyCart;
+
+    @View(R.id.tvProductCountMyCart)
+    public TextView tvProductCountMyCart;
+
+    @View(R.id.imgBtn_decreMyCart)
+    public ImageButton imgBtnDecrMyCart;
+
+    @View(R.id.imgBtn_increMyCart)
+    public ImageButton imgBtnIncreMyCart;
+
+    @View(R.id.lladdItemMyCart)
+    public LinearLayout lladdItemMyCart;
+
+    @View(R.id.llcountItemMyCart)
+    public LinearLayout llcountItemMyCart;
 
     public Context mcontext;
-    int minteger = 0;
+    int intCount = 0;
     public PlaceHolderView mplaceholderView;
+    boolean statusCount = true;
+    public static String MyPREFERENCES = "sessiondata";
+    SessionManager session;
+    public TextView mtextCartItemCount;
+    public String mid;
+    public String murl,mtitle,mprice,mqty;
+    String[] qtyArray = {"100gm", "200gm", "300gm", "500gm", "1kg", "2kg", "500kg", "1000kg"};
+    APIInterface apiInterface;
+    public boolean chkState = false;
 
 
-    public cartItem(Context context) {
-        mcontext=context;
+    public cartItem(Context context, TextView textCartItemCount, String id, String url, String title, String price, String qty) {
+        mcontext = context;
+        mid = id;
+        murl = url;
+        mtitle = title;
+        mprice = price;
+        mqty = qty;
+        mtextCartItemCount = textCartItemCount;
     }
 
+    public String getTitle() {
+        return mtitle;
+    }
+
+    public String getPrice() {
+        return mprice;
+    }
+
+    public String getUrl() {
+        return murl;
+    }
     @Resolve
     public void onResolved() {
+        prd_nameMyCart.setText(mtitle);
+        Glide.with(mcontext).load(murl).into(itemIconMyCart);
+        tvpriceNewMyCart.setText(mprice);
+
+        if (qtyArray.length > 1) {
+            llspnrQntyMyCart.setVisibility(android.view.View.VISIBLE);
+            lltvQntyMyCart.setVisibility(android.view.View.GONE);
+            qtyArray[0] = mqty;
+            final List<String> listQty = new ArrayList<>(Arrays.asList(qtyArray));
+            //initializing array adapter
+            final ArrayAdapter<String> arrayAdapterQty = new ArrayAdapter<String>(mcontext, R.layout.spnr_listitem_categ, listQty);
+            arrayAdapterQty.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+            spnr_qntyMyCart.setAdapter(arrayAdapterQty);
+        } else {
+            qtyArray[0] = mqty;
+            tvqntyMyCart.setText(qtyArray[0]);
+            lltvQntyMyCart.setVisibility(android.view.View.VISIBLE);
+            llspnrQntyMyCart.setVisibility(android.view.View.GONE);
+        }
+    }
+
+    @Click(R.id.llProductsListViewMyCart)
+    public void onCardClick() {
+        Intent myIntent = new Intent(mcontext, ProductDetailHome.class);
+        myIntent.putExtra("prd_id", mid);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mcontext.startActivity(myIntent);
 
     }
-    @Click(R.id.idPlusIcon)
+
+    @Click(R.id.addWishListMyCart)
+    public void onClick()
+    {
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        //---------------------------------------------------------
+        if (chkState == false) {
+            //------------------------------------------for adding to wishlist-----------------------------
+            final InsertWishListItems add_item = new InsertWishListItems("1", mid);
+            Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+            callAdd.enqueue(new Callback<InsertWishListItems>() {
+                @Override
+                public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                    InsertWishListItems resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        addWishListMyCart.setBackgroundResource(R.drawable.wishlist_red);
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+            chkState = true;
+        } else {
+            //---------------------for removing from wishlist---------------------------
+            final RemoveWishListItem remove_item = new RemoveWishListItem("1", mid);
+            Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
+            callRemove.enqueue(new Callback<RemoveWishListItem>() {
+                @Override
+                public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
+                    RemoveWishListItem resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        addWishListMyCart.setBackgroundResource(R.drawable.wishlistgrey);
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+            chkState = false;
+
+        }
+    }
+
+    @Click(R.id.btnAddItemMyCart)
+    public void AddToCartClick() {
+       /* if (statusCount == true) {
+            session = new SessionManager(mcontext);
+            intCount = intCount + 1;//display number in place of add to cart
+            Integer cnt = session.getCartCount();
+            cnt = cnt + 1;//display number in cart icon
+            session.cartcount(cnt);
+            display(intCount);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            lladdItemMyCart.setVisibility(android.view.View.GONE);
+            llcountItemMyCart.setVisibility(android.view.View.VISIBLE);
+            statusCount = false;
+        }*/
+        lladdItemMyCart.setVisibility(android.view.View.GONE);
+        llcountItemMyCart.setVisibility(android.view.View.VISIBLE);
+        intCount = intCount+1;
+        display(intCount);
+    }
+
+    @Click(R.id.imgBtn_increMyCart)
     public void onIncreaseClick() {
-        minteger = minteger + 1;
-        display(minteger);
+       /* session = new SessionManager(mcontext);
+        intCount = intCount + 1;//display number in place of add to cart
+        Integer cnt = session.getCartCount();
+        cnt = cnt + 1;//display number in cart icon
+        session.cartcount(cnt);
+        display(intCount);
+        mtextCartItemCount.setText(String.valueOf(cnt));*/
+       intCount=intCount+1;
+       display(intCount);
     }
 
-    @Click(R.id.idMinusICon)
+    @Click(R.id.imgBtn_decreMyCart)
     public void onDecreaseClick() {
-        if(minteger==0)
-        {
-            display(0);
+        if (intCount == 0) {
+         display(0);
+        } else {
+            /*intCount = intCount - 1;
+            session = new SessionManager(mcontext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt - 1;
+            session.cartcount(cnt);
+            display(intCount);
+            mtextCartItemCount.setText(String.valueOf(cnt));*/
+            intCount= intCount-1;
+            display(intCount);
         }
-        else {
-            minteger = minteger - 1;
-            display(minteger);
-        }
-    }
-    public void display(int number)
-    {
-        idProductCount.setText("" + number);
+
     }
 
-    @Click(R.id.btn_deleteMyCart)
-    public void deleteRow()
-    {
-        mplaceholderView.removeView(this);
+    public void display(int number) {
+        tvProductCountMyCart.setText("" + number);
     }
+
+
 }

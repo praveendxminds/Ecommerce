@@ -3,6 +3,7 @@ package com.app.ecommerce.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.widget.CardView;
 import android.widget.ArrayAdapter;
@@ -38,6 +39,9 @@ import static com.app.ecommerce.Home.HomePage.bottomNavigationView;
 @Layout(R.layout.home_page_dealofday_item_list)
 public class HomePageDealOfDayItemList {
 
+    @View(R.id.llDealOfDay)
+    public LinearLayout llDealOfDay;
+
     @View(R.id.imageViewDealofDay)
     public ImageView imageViewDealofDay;
 
@@ -47,8 +51,11 @@ public class HomePageDealOfDayItemList {
     @Toggle(R.id.productItemDealofDay)
     public CardView productItemDealofDay;
 
-    @View(R.id.item_priceDealofDay)
+    @View(R.id.item_NewpriceDealofDay)
     public TextView item_priceDealofDay;
+
+    @View(R.id.item_OldpriceDealofDay)
+    public TextView item_OldpriceDealofDay;
 
     @View(R.id.qtydealSpinner)
     public Spinner qtyCategoryGrid;
@@ -75,7 +82,7 @@ public class HomePageDealOfDayItemList {
     public String productId;
     public PlaceHolderView mPlaceHolderView;
     public String mHeading;
-    public String mPrdImgUrl, mPrice, mQty;
+    public String mPrdImgUrl, mPrice, mQty,str_priceValue;
     public Boolean status = true;
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
@@ -100,7 +107,9 @@ public class HomePageDealOfDayItemList {
     public void onResolved() {
         Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
-        item_priceDealofDay.setText("₹" + " " + mPrice);
+        double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
+        str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
+        item_priceDealofDay.setText("₹" + " " + str_priceValue);
        // item_qtyDealofDay.setText(mQty);
         qtyArray[0]=mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
@@ -112,7 +121,7 @@ public class HomePageDealOfDayItemList {
 
     }
 
-    @Click(R.id.productItemDealofDay)
+    @Click(R.id.llDealOfDay)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -126,6 +135,13 @@ public class HomePageDealOfDayItemList {
 
         if(status == true)
         {
+            session = new SessionManager(mContext);
+            minteger = minteger + 1;//display number in place of add to cart
+            Integer cnt = session.getCartCount();
+            cnt = cnt +1;//display number in cart icon
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
             addcartDealofDay.setVisibility(android.view.View.GONE);
             llCountPrd.setVisibility(android.view.View.VISIBLE);
             status = false;
@@ -135,10 +151,11 @@ public class HomePageDealOfDayItemList {
 
     }
 
-    @Click(R.id.increaseDealofDay)
+    @Click(R.id.fl_increaseDealofDay)
     public void onIncreaseClick() {
-        minteger = minteger + 1;//display number in place of add to cart
+        //fl_increase.setBackgroundColor(Color.parseColor("#ffbb00")); //obackground color change on touch event
         session = new SessionManager(mContext);
+        minteger = minteger + 1;//display number in place of add to cart
         Integer cnt = session.getCartCount();
         cnt = cnt +1;//display number in cart icon
         session.cartcount(cnt);
@@ -146,11 +163,21 @@ public class HomePageDealOfDayItemList {
         mtextCartItemCount.setText(String.valueOf(cnt));
     }
 
-    @Click(R.id.decreaseDealofDay)
+    @Click(R.id.fl_decreaseDealofDay)
     public void onDecreaseClick() {
 
-        if (minteger == 0) {
-            display(0);
+        if (minteger <= 1) {
+            minteger = minteger - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            addcartDealofDay.setVisibility(android.view.View.VISIBLE);
+            llCountPrd.setVisibility(android.view.View.GONE);
+            status=true;
+
         } else {
            minteger = minteger - 1;
             session = new SessionManager(mContext);

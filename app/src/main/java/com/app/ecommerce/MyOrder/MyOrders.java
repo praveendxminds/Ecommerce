@@ -1,6 +1,7 @@
 package com.app.ecommerce.MyOrder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,11 +11,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.app.ecommerce.Home.CategoriesBottomNav;
+import com.app.ecommerce.Home.HomePage;
 import com.app.ecommerce.Utils;
+import com.app.ecommerce.Wishlist.WishListHolder;
+import com.app.ecommerce.notifications.MyNotifications;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.MyOrderList;
@@ -50,10 +57,8 @@ public class MyOrders extends AppCompatActivity {
         mCartView = findViewById(R.id.recycler_order);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
-        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -90,17 +95,7 @@ public class MyOrders extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
-          /* mCartView
-                .addView(new orderItemHeader())
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.home)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.call)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.tap)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.home)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.tap)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.call)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.call)))
-                .addView(new orderItem(getApplicationContext(),getResources().getDrawable(R.drawable.tap)));
-*/
+
         //----------bottom navigation-----------------------------
         navigationMyOrders.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,15 +104,21 @@ public class MyOrders extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
+                                Intent intentHome = new Intent(getBaseContext(),HomePage.class);
+                                startActivity(intentHome);
+                                break;
+
+                            case R.id.navigation_categories:
+                                Intent intentCateg = new Intent(getBaseContext(),CategoriesBottomNav.class);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
+                                Intent intentWishlist = new Intent(getBaseContext(),WishListHolder.class);
+                                startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
-                                break;
-
-                            case R.id.navigation_profile:
                                 break;
                         }
                         return true;
@@ -142,4 +143,25 @@ public class MyOrders extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater miMyOrders = getMenuInflater();
+        miMyOrders.inflate(R.menu.notifi_and_info_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.menu_notifi:
+                Intent intentNotifi = new Intent(getBaseContext(),MyNotifications.class);
+                startActivity(intentNotifi);
+                break;
+            case R.id.menu_info:
+                finish();
+                break;
+        }
+        return true;
+    }
 }

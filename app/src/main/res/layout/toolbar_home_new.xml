@@ -6,31 +6,25 @@
     android:background="@color/colorPrimary"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
+    app:contentInsetEnd="0dp"
+    app:contentInsetRight="0dp"
     app:contentInsetStartWithNavigation="0dp"
     app:subtitleTextColor="@color/white"
-    app:theme="@style/AppTheme.Toolbar"
-    app:titleTextAppearance="@style/AppTheme.Toolbar.Title">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
+    app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
+    android:theme="@style/AppTheme1">
         <LinearLayout
             android:id="@+id/llProfileIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/round_gradient_btn"
-            android:backgroundTint="@color/white"
-            android:padding="5dp">
+            android:layout_marginLeft="18dp"
+            android:layout_gravity="left">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_person" />
+            <ImageButton
+                android:id="@+id/imgBtnProfile"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/profile_icon"
+                android:duplicateParentState="true"/>
         </LinearLayout>
 
-    </LinearLayout>
 </android.support.v7.widget.Toolbar>

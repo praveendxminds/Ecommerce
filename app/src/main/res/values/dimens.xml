@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:app="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
@@ -9,6 +9,7 @@
     <dimen name="slide_desc">18dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
     <dimen name="textSizePrimary">20dp</dimen>
-
-
+   <!-- <dimen name="design_navigation_icon_size" tools:override="true">10dp</dimen>
+    <dimen name="menu_item_icon_size" tools:override="true">24dp</dimen>
+    <dimen name="menu_item_size" tools:override="true">10dp</dimen>-->
 </resources>

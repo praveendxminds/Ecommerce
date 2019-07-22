@@ -3,6 +3,7 @@ package com.app.ecommerce.Wishlist;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.widget.CardView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +45,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 @NonReusable
 @Layout(R.layout.wishlist_items)
 public class WishListItem {
+    @View(R.id.llWishlist)
+    public  LinearLayout llWishlist;
 
     @View(R.id.prd_nameWishList)
     public TextView prd_nameWishList;
@@ -58,7 +61,7 @@ public class WishListItem {
     public TextView priceNewWishList;
 
     @View(R.id.ord_itWishList)
-    public LinearLayout ord_itWishList;
+    public CardView ord_itWishList;
 
      PlaceHolderView mPlaceHolderView;
 
@@ -72,6 +75,7 @@ public class WishListItem {
     public String mqty;
     public String mtitle;
     public int count;
+    public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
 
     APIInterface apiInterface;
 
@@ -93,13 +97,13 @@ public class WishListItem {
     @Resolve
     public void onResolved() {
         prd_nameWishList.setText(mtitle);
-        Glide.with(mContext).load(murl).into(itemIconWishList);
+        Glide.with(mContext).load(imgUrl+murl).into(itemIconWishList);
         priceNewWishList.setText("\u20B9" + " " + mprice);
         qntyWishList.setText(mqty);
 
     }
 
-    @Click(R.id.ord_itWishList)
+    @Click(R.id.llWishlist)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetails_act.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -107,12 +111,12 @@ public class WishListItem {
 
     }
 
-    @Click(R.id.btn_deleteWishList)
+    @Click(R.id.btn_Remove)
     public void deleteWishListItem()
     {
 
         mPlaceHolderView.removeView(this);
-        if (Utils.CheckInternetConnection(mContext)) {
+       /* if (Utils.CheckInternetConnection(mContext)) {
             RemoveWishListItem remove_item = new RemoveWishListItem("1", prod_id);
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<RemoveWishListItem> call = apiInterface.removeWishListItem(remove_item);
@@ -135,7 +139,7 @@ public class WishListItem {
             });
         } else {
             Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
 
 
@@ -143,7 +147,7 @@ public class WishListItem {
     }
 
 
-    @Click(R.id.btn_movetoCartWishList)
+    @Click(R.id.btn_moveToCart)
     public void moveToCartClick() {
         /*sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Integer name_session = useSharedPreferences.getCountValue();

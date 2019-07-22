@@ -136,7 +136,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
                             //adding qty to spinner and adding response value as a first value
                             final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.prd_detail_spinner_items, qtyList);
+                                    R.layout.spnr_listitem_categ, qtyList);
                             spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
                             qtyPrdDetail.setAdapter(spinnerArrayAdapter);
 

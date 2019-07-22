@@ -9,5 +9,5 @@
     <string name="txt_Recommended">Recommended</string>
     <string name="txt_seeAll">See All</string>
     <string name="Rs">\u20B9</string>
-    <string name="delivery_time"><a href="#">Delivery Time</a></string>
+    <string name="delivery_day"><a href="#">Delivery Day</a></string>
 </resources>

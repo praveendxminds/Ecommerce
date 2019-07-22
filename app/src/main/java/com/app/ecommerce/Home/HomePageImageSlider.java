@@ -2,6 +2,7 @@ package com.app.ecommerce.Home;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -32,7 +33,7 @@ public class HomePageImageSlider {
     public ViewPager mPager;
 
     @View(R.id.indicator_home_1)
-    public CircleIndicator indicator;
+    public TabLayout indicator;
 
     public static int currentPage = 0;
     public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
@@ -42,6 +43,7 @@ public class HomePageImageSlider {
     @ParentPosition
     public int mParentPosition;
 
+    public int defaultGap=30;
     public Context mContext;
     public ArrayList<String> mHeading;
     public ArrayList<String> mCatImgUrl;
@@ -59,10 +61,12 @@ public class HomePageImageSlider {
 
     @Resolve
     public void onResolved() {
-
+        mPager.setPadding(defaultGap,0,defaultGap,0);
+        mPager.setClipToPadding(false);
+        mPager.setPageMargin(15);
         mPager.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
 
-        indicator.setViewPager(mPager);
+        indicator.setupWithViewPager(mPager);
 
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {

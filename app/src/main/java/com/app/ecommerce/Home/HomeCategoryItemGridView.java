@@ -22,6 +22,7 @@ import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.InsertWishListItems;
 import com.app.ecommerce.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
+import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
@@ -101,6 +102,7 @@ public class HomeCategoryItemGridView {
     public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
     int countVal=0;
+    public String str_priceValue;
 
     public boolean status = true;
     public boolean state = false;
@@ -135,20 +137,23 @@ public class HomeCategoryItemGridView {
         Glide.with(mContext)
                 .load(murl)
                 .into(imageCategoryGrid);
-        newPriceCategoryGrid.setText("\u20B9" + " " + mprice);
+        double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal
+        str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
+        newPriceCategoryGrid.setText("₹" + " " + str_priceValue);
 
         qtyArray[0]=mqty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_item_categ, qtyList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_item_categ);
         qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
 
         useSharedPreferences = new UseSharedPreferences(mContext);
 
+
     }
 
-    @Click(R.id.ord_itCategoryGrid)
+    @Click(R.id.llProductsGrid)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
         myIntent.putExtra("prd_id", mid);
@@ -159,26 +164,26 @@ public class HomeCategoryItemGridView {
 
     @Click(R.id.btnAddCategoryGrid)
     public void AddToCartClick() {
-       /* sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = useSharedPreferences.getCountValue();
-
-        Integer value = useSharedPreferences.createCountValue(name_session);
-        Log.d("values of count", String.valueOf(value));
-        countCartDisplay(value);*/
        if(status == true)
        {
+           session = new SessionManager(mContext);
+           countVal = countVal + 1;//display number in place of add to cart
+           Integer cnt = session.getCartCount();
+           cnt = cnt +1;//display number in cart icon
+           session.cartcount(cnt);
+           display(countVal);
+           mtextCartItemCount.setText(String.valueOf(cnt));
            btnAddCategoryGrid.setVisibility(android.view.View.GONE);
            llCountPrd.setVisibility(android.view.View.VISIBLE);
            status = false;
-
        }
     }
 
     @Click(R.id.imgBtn_incre)
     public void addCount()
     {
-        countVal = countVal + 1;//display number in place of add to cart
         session = new SessionManager(mContext);
+        countVal = countVal + 1;//display number in place of add to cart
         Integer cnt = session.getCartCount();
         cnt = cnt +1;//display number in cart icon
         session.cartcount(cnt);
@@ -188,8 +193,18 @@ public class HomeCategoryItemGridView {
     @Click(R.id.imgBtn_decre)
     public void removeCount()
     {
-        if (countVal == 0) {
-            display(0);
+        if (countVal <= 1) {
+            countVal = countVal - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
+            display(countVal);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            btnAddCategoryGrid.setVisibility(android.view.View.VISIBLE);
+            llCountPrd.setVisibility(android.view.View.GONE);
+            status=true;
+
         } else {
             countVal = countVal - 1;
             session = new SessionManager(mContext);
@@ -215,7 +230,7 @@ public class HomeCategoryItemGridView {
                     InsertWishListItems resource = response.body();
                     if (resource.status.equals("success")) {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        likeCategoryGrid.setBackgroundResource(R.drawable.like);
+                        likeCategoryGrid.setBackgroundResource(R.drawable.wishlist_red);
 
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -238,7 +253,7 @@ public class HomeCategoryItemGridView {
                     RemoveWishListItem resource = response.body();
                     if (resource.status.equals("success")) {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        likeCategoryGrid.setBackgroundResource(R.drawable.addwishlist);
+                        likeCategoryGrid.setBackgroundResource(R.drawable.wishlistgrey);
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }

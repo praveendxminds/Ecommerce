@@ -11,13 +11,16 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"
-        android:layout_height="?attr/actionBarSize"
-        app:theme="@style/ToolbarColoredBackArrow"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="?attr/homeAsUpIndicator"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="?attr/homeAsUpIndicator" />
+        app:subtitleTextColor="@color/white"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
+        app:title="Notification"
+        android:layout_height="?attr/actionBarSize" />
 
     <RelativeLayout android:background="#e1e1e1"
         android:layout_height="fill_parent"
@@ -29,13 +32,24 @@
         <com.mindorks.placeholderview.PlaceHolderView
             android:id="@+id/recycler_notify"
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:background="@color/white">
 
         </com.mindorks.placeholderview.PlaceHolderView>
 
-        <include
-            android:id="@+id/navigation"
-            layout="@layout/bottom_navigation_main" />
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bnav_Notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/whiteshadow"
+            app:itemTextColor="@color/light_black_2"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation_menu" />
 
     </RelativeLayout>
 </LinearLayout>

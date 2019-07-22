@@ -81,7 +81,7 @@ public class ProductDetailsImageSlider {
     @Resolve
     public void onResolved() {
 
-        pager_PrdDetails.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
+        pager_PrdDetails.setAdapter(new ProductDetailImageSliderAdapter(mContext, XMENArray));
 
         indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);//for tab layout
 

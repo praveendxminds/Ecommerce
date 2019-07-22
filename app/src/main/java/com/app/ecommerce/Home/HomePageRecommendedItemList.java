@@ -36,6 +36,8 @@ import static com.app.ecommerce.Home1.HomeOne.bottomNavigationView;
 @NonReusable
 @Layout(R.layout.home_page_recommended_item_list)
 public class HomePageRecommendedItemList {
+    @View(R.id.llRecommended)
+    public LinearLayout llRecommended;
 
     @View(R.id.imageViewRecommended)
     public ImageView imageViewRecommended;
@@ -78,6 +80,7 @@ public class HomePageRecommendedItemList {
     public String title;
     public String mPrice;
     public String mQty;
+    public String str_PriceValue;
     SessionManager session;
     public TextView mtextCartItemCount;
     String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
@@ -104,7 +107,9 @@ public class HomePageRecommendedItemList {
     public void onResolved() {
         Glide.with(mContext).load(imgUrl + productImage).into(imageViewRecommended);
         headingTxtRecommended.setText(title);
-        item_NewPriceRecommended.setText("₹" + " " + mPrice);
+        double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
+        str_PriceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
+        item_NewPriceRecommended.setText("₹" + " " + str_PriceValue);
         qtyArray[0] = mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
@@ -115,7 +120,7 @@ public class HomePageRecommendedItemList {
 
     }
 
-    @Click(R.id.productItemRecommended)
+    @Click(R.id.llRecommended)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -127,24 +132,25 @@ public class HomePageRecommendedItemList {
     public void addtocart() {
 
         if (status == true) {
+            session = new SessionManager(mContext);
+            minteger = minteger + 1;//display number in place of add to cart
+            Integer cnt = session.getCartCount();
+            cnt = cnt +1;//display number in cart icon
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
             addcartRecommended.setVisibility(android.view.View.GONE);
             llCountPrdRecomnd.setVisibility(android.view.View.VISIBLE);
             status = false;
 
         }
-        session = new SessionManager(mContext);
-        Integer cnt = session.getCartCount();
-        cnt = cnt + 1;
-        session.cartcount(cnt);
-
-        mtextCartItemCount.setText(String.valueOf(cnt));
 
     }
 
-    @Click(R.id.imgBtn_increRecomnd)
+    @Click(R.id.fl_increase)
     public void onIncreaseClick() {
-        minteger = minteger + 1;//display number in place of add to cart
         session = new SessionManager(mContext);
+        minteger = minteger + 1;//display number in place of add to cart
         Integer cnt = session.getCartCount();
         cnt = cnt +1;//display number in cart icon
         session.cartcount(cnt);
@@ -152,11 +158,21 @@ public class HomePageRecommendedItemList {
         mtextCartItemCount.setText(String.valueOf(cnt));
     }
 
-    @Click(R.id.imgBtn_decreRecomnd)
+    @Click(R.id.fl_decrease)
     public void onDecreaseClick() {
 
-        if (minteger == 0) {
-            display(0);
+        if (minteger  <= 1) {
+            minteger = minteger - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            addcartRecommended.setVisibility(android.view.View.VISIBLE);
+            llCountPrdRecomnd.setVisibility(android.view.View.GONE);
+            status=true;
+
         } else {
             minteger = minteger - 1;
             session = new SessionManager(mContext);

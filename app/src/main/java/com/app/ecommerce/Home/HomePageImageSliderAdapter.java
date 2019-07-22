@@ -42,9 +42,9 @@ public class HomePageImageSliderAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup view, int position) {
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View myImageLayout = inflater.inflate(R.layout.slide_home_2, view, false);
+        View myImageLayout = inflater.inflate(R.layout.slider_home_page, view, false);
         ImageView myImage = (ImageView) myImageLayout.findViewById(R.id.image);
-
+        myImage.setClipToOutline(true); //for rounded image corner it will clip image with rounded drawable background
         final String fileUrl = images.get(position);
         Glide.with(context).load(fileUrl).error(R.drawable.deep).into(myImage);
         view.addView(myImageLayout, 0);

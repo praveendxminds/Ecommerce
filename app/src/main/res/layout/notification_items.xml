@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notyfi_lt"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/cart_shadow"
-    android:orientation="vertical"
-    android:padding="0dp">
+    android:layout_height="90dp"
+    android:layout_marginBottom="4dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="0dp"
+    android:elevation="30dp"
+    app:cardUseCompatPadding="true">
+
+    <View
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@color/green_1"></View>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -17,12 +24,11 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp">
+            android:paddingLeft="11dp"
+            android:paddingTop="9dp"
+            android:paddingRight="11dp">
 
 
             <LinearLayout
@@ -34,15 +40,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:gravity="top">
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/itemIconNotifi"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@mipmap/ic_launcher"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/delivery_truck"
                         app:civ_border_color="#FFFFFF"
                         app:civ_border_width="4dp"
                         app:civ_shadow="false" />
@@ -53,115 +58,104 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="bottom"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginBottom="8dp">
 
                     <TextView
                         android:id="@+id/dayNotifi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Today"
                         android:textAlignment="center"
-                        android:textColor="@color/grey"
-                        android:textSize="12dp" />
+                        android:textColor="@color/light_black_3"
+                        android:textSize="8sp" />
 
                     <TextView
                         android:id="@+id/timeNotifi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="11:34 AM"
-                        android:textAllCaps="true"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="12dp"
-                        android:textAlignment="center"/>
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="11:34 Am"
+                        android:textAlignment="center"
+                        android:textColor="@color/light_black_2"
+                        android:textSize="10sp" />
                 </LinearLayout>
 
 
             </LinearLayout>
 
 
-
         </LinearLayout>
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/light_black"></View>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="7"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#FFD8D8D8"></View>
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="7"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/orderTitleNotifi"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="left"
-                    android:text="Your Order"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/black"
-                    android:textSize="18dp" />
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:id="@+id/orderNameNotifi"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Your order"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/orderTitleNotifi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="left"
+                        android:text="Ordered vegetables are not available in market"
+                        android:textAllCaps="false"
+                        android:textColor="@color/light_black_2"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom">
+
+                    <TextView
+                        android:id="@+id/orderDateNotifi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="11th June 2019"
+                        android:textColor="@color/light_black_2"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/orderDateNotifi"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="11 Jun 2019"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:gravity="center_vertical"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center|top">
+            <ImageView
+                android:id="@+id/iv_warning"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/warning"
+                android:padding="5dp"
+                android:visibility="visible"/>
         </LinearLayout>
-
-
-
     </LinearLayout>
-
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

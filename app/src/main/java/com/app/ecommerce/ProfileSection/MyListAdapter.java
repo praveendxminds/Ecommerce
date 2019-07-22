@@ -1,6 +1,8 @@
 package com.app.ecommerce.ProfileSection;
 
 import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ public class MyListAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final Integer[] icon;
     private final String[] menu_name;
+
 
 
     public MyListAdapter(Context mContext, Integer[] icon_items, String[] menu_items) {
@@ -34,6 +37,8 @@ public class MyListAdapter extends ArrayAdapter<String> {
 
         imageView.setImageResource(icon[position]);
         titleText.setText(menu_name[position]);
+
+
 
         return view;
     }

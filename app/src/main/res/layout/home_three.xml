@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
 
     <RelativeLayout
@@ -16,42 +14,38 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_home"/>
+            layout="@layout/toolbar_home" />
 
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
             android:layout_above="@+id/navigation"
-            android:orientation="vertical"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+            android:layout_below="@+id/toolbar"
+            android:orientation="vertical">
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
 
 
                 <com.mindorks.placeholderview.ExpandablePlaceHolderView
                     android:id="@+id/list_items"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical" />
 
                 <ProgressBar
                     android:id="@+id/loading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity = "center"
+                    android:layout_gravity="center"
                     android:indeterminate="true" />
 
 
             </FrameLayout>
-
-
-
 
 
         </LinearLayout>
@@ -65,26 +59,24 @@
             android:background="@color/whiteshadow"
             app:itemIconTint="@color/colorPrimary"
             app:itemTextColor="@color/colorPrimary"
-            app:menu="@menu/bottom_navigation"/>
+            app:menu="@menu/bottom_navigation" />
 
 
     </RelativeLayout>
-
-
-
 
 
     <FrameLayout
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:paddingBottom="10dp"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:paddingBottom="10dp">
+
         <com.mindorks.placeholderview.PlaceHolderView
             android:id="@+id/drawerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
     </FrameLayout>
 
 

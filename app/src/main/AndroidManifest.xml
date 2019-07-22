@@ -32,26 +32,42 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true">
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name="com.app.ecommerce.Splash"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.app.ecommerce.Home.HomePage"
             android:label="Home Page"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.app.ecommerce.ContactUs"
             android:label="Contact Us"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.Home.CategoriesBottomNav"
+            android:label="Categories List"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -102,7 +118,6 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name="com.app.ecommerce.Home2.HomeTwoCategory"
             android:label="Home Two Category"
@@ -123,35 +138,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.contact"
-            android:label="Contact Us"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-
-        <activity
             android:name="com.app.ecommerce.appIntro.WelcomeActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="com.app.ecommerce.Splash"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-
-        <activity
-            android:name="com.app.ecommerce.about"
-            android:label="About Us"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -205,6 +192,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.app.ecommerce.Home.CategoryFilter"
+            android:label="Filters"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.app.ecommerce.MyOrder.OrderDetial"
@@ -288,7 +283,6 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-
 
         <activity
             android:name="com.app.ecommerce.ccavenue.ccavenue"
@@ -497,16 +491,8 @@
         <activity
             android:name="com.app.ecommerce.ProfileSection.EditProfile_act"
             android:label="Login_act"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="com.app.ecommerce.ProfileSection.Navmenu_act"
-            android:label="Login_act"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
@@ -558,15 +544,6 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.AboutAndContactUs_act"
-            android:label="Login_act"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name="com.app.ecommerce.ProfileSection.Faqs_act"
             android:label="Login_act"
             android:theme="@style/AppTheme">
@@ -576,25 +553,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.TermsAndCondition_act"
-            android:label="Login_act"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name="com.app.ecommerce.ProfileSection.GoogleFeedback_act"
-            android:label="Login_act"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="com.app.ecommerce.ProfileSection.Policy_act"
             android:label="Login_act"
             android:theme="@style/AppTheme">
             <intent-filter>

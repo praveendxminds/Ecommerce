@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ord_itMyCart"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/cart_shadow"
-    android:elevation="5dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="0dp">
 
@@ -16,178 +15,232 @@
         android:layout_height="fill_parent"
         android:orientation="horizontal"
         android:padding="15dp">
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".7"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/itemIconMyCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/deep" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/llProductsListViewMyCart"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight=".4"
-            android:orientation="vertical">
+            android:layout_weight="8">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/prd_nameMyCart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="left"
-                    android:text="Potato"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/black"
-                    android:textSize="22dp" />
-
-                <LinearLayout
-                    android:id="@+id/lldeletebtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="right">
-
-                    <Button
-                        android:id="@+id/btn_deleteMyCart"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/ic_delete_black_24dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="13dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/qntyMyCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="1Kg"
-                    android:textColor="@color/blackshadow"
-                    android:textSize="18dp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp">
 
-                    <TextView
-                        android:id="@+id/priceOldMyCart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/strike_through"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Rs.80"
-                        android:textColor="@color/blackshadow"
-                        android:textSize="15dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/itemIconMyCart"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerCrop"
+                        android:src="@android:color/holo_orange_dark" />
+
                 </LinearLayout>
 
+
+            </LinearLayout>
+
+
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/priceNewMyCart"
+                        android:id="@+id/prd_nameMyCart"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Rs. 50"
-                        android:textColor="@color/light_black"
-                        android:textSize="18dp"
-                        android:layout_weight="1" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="left"
+                        android:text="Potato"
+                        android:textAllCaps="false"
+                        android:textColor="@color/light_black_3"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp">
+
+                    <LinearLayout
+                        android:id="@+id/lltvQntyMyCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+
+                        <TextView
+                            android:id="@+id/tvqntyMyCart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="1000kg"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="@color/light_black_1"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llspnrQntyMyCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:background="@color/white"
+                        android:padding="0dp"
+                        android:visibility="visible">
+
+                        <Spinner
+                            android:id="@+id/spnr_qntyMyCart"
+                            android:layout_width="90dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/prd_name"
+                            android:padding="0dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@android:drawable/dialog_holo_light_frame" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-
-                        <ImageButton
-                            android:id="@+id/idMinusICon"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="left|bottom"
-                            android:layout_weight="1"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitCenter"
-                            android:background="@drawable/blackdecre" />
-
+                        <TextView
+                            android:id="@+id/tvpriceNewMyCart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="$ 5000.0000"
+                            android:textColor="@color/green_1"
+                            android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/idProductCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight=".6"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center|bottom"
-                            android:text="2"
-                            android:textSize="18sp"
-                            tools:textColor="@android:color/black" />
-
-
-                        <ImageButton
-                            android:id="@+id/idPlusIcon"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="right|bottom"
-                            android:layout_weight="1"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitCenter"
-                            android:background="@drawable/blackincr" />
-
+                            android:id="@+id/tvpriceOldMyCart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/strike_through"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="$ 80"
+                            android:textColor="@color/light_black_1"
+                            android:textSize="9sp" />
                     </LinearLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|right">
+                <ImageButton
+                    android:id="@+id/addWishListMyCart"
+                    android:layout_width="18dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/wishlistgrey" />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/lladdItemMyCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|right"
+                    android:visibility="visible">
+
+                    <ImageButton
+                        android:id="@+id/btnAddItemMyCart"
+                        android:layout_width="48dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/addbutton" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llcountItemMyCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|right"
+                    android:visibility="gone">
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_decreMyCart"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="left|bottom"
+                        android:background="@drawable/blackdecre" />
+
+                    <TextView
+                        android:id="@+id/tvProductCountMyCart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center|bottom"
+                        android:text="2"
+                        android:textSize="13sp"
+                        tools:textColor="@color/light_black_2" />
+
+                    <ImageButton
+                        android:id="@+id/imgBtn_increMyCart"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="right|bottom"
+                        android:background="@drawable/blackincr" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
+
+
 </android.support.v7.widget.CardView>

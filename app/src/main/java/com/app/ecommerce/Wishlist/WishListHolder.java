@@ -17,12 +17,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.app.ecommerce.Home.CategoriesBottomNav;
+import com.app.ecommerce.Home.HomeCategory;
 import com.app.ecommerce.Home.HomePage;
 import com.app.ecommerce.Home.UseSharedPreferences;
 import com.app.ecommerce.R;
@@ -31,6 +35,7 @@ import com.app.ecommerce.appIntro.WelcomeActivity;
 import com.app.ecommerce.barcode.ScannerActivity;
 import com.app.ecommerce.barcode.nfc;
 import com.app.ecommerce.cart.cart;
+import com.app.ecommerce.notifications.MyNotifications;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.GetWishList;
@@ -81,7 +86,6 @@ public class WishListHolder extends AppCompatActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(null);
         instance = this;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,9 +133,6 @@ public class WishListHolder extends AppCompatActivity {
         }
         //------------------------------Bottom Navigation---------------------------------------------------------------------
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        // BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -139,37 +140,22 @@ public class WishListHolder extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                //selectedFragment = ItemOneFragment.newInstance();
-                                Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
-
-
+                                Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
+                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentHomePage);
                                 break;
-                            case R.id.navigation_scan:
-                                //selectedFragment = ItemTwoFragment.newInstance();
 
-                                new IntentIntegrator(WishListHolder.this).setCaptureActivity(ScannerActivity.class).initiateScan();
+                            case R.id.navigation_categories:
+                                Intent intentCategories = new Intent(getBaseContext(), CategoriesBottomNav.class);
+                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentCategories);
                                 break;
-                            case R.id.navigation_tap:
-                                //selectedFragment = ItemThreeFragment.newInstance();
 
-                                Intent nfcIntent = new Intent(getBaseContext(), nfc.class);
-                                startActivity(nfcIntent);
-
-
+                            case R.id.navigation_wishlist:
+                               finish();
                                 break;
-                            case R.id.navigation_call:
-                                Intent i = new Intent(Intent.ACTION_CALL);
-                                i.setData(Uri.parse("tel:18001231947"));
-                                if (ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                                    startActivity(i);
-                                } else {
-                                    requestPermissions(new String[]{CALL_PHONE}, 1);
-                                }
-                                break;
-                            case R.id.navigation_cart:
-                                Intent myIntent = new Intent(getBaseContext(), cart.class);
-                                startActivity(myIntent);
 
+                            case R.id.navigation_wallet:
                                 break;
                         }
                         return true;
@@ -187,6 +173,28 @@ public class WishListHolder extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater miWishlist =  getMenuInflater();
+        miWishlist.inflate(R.menu.notifi_and_info_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.menu_notifi:
+                Intent intentNotifications = new Intent(getBaseContext(),MyNotifications.class);
+                startActivity(intentNotifications);
+                break;
+
+            case R.id.menu_info:
+                break;
+        }
         return true;
     }
 }

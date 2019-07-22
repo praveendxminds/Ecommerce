@@ -133,21 +133,11 @@ public class HomeThree extends AppCompatActivity {
         getSupportActionBar().setTitle(null);
         instance = this;
 
-
         list_items = (ExpandablePlaceHolderView)findViewById(R.id.list_items);
         mContext = this.getApplicationContext();
         url = "https://www.groceryfactory.in/media/em_minislideshow/1517843523_0_banner-1.jpg";
 
-
-
-
-
-
-
-        String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-
-
+        String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.w("myApp", android_id);
 
 
@@ -178,14 +168,8 @@ public class HomeThree extends AppCompatActivity {
 
                         list_items
                                 .addView(new HeadingView(mContext, category.name,category.product_url));
-
                             list_items.addView(new ImageTypeSmallList(mContext,category.id));
-
-
                        // Toast.makeText(getApplicationContext(),String.valueOf(HomeTwoCategory.id),Toast.LENGTH_SHORT).show();
-
-
-
                     }
 
                 }
@@ -202,24 +186,10 @@ public class HomeThree extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"No Internet. Please Check Internet Connection",Toast.LENGTH_SHORT).show();
         }
 
-
-
-
-
-
-
-
         setupDrawer();
-
-
 
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.navigation);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
-
-
-
-
-
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener

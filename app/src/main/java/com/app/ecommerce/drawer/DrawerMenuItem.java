@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.ecommerce.ContactUs;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
-import com.app.ecommerce.about;
-import com.app.ecommerce.contact;
+
 import com.app.ecommerce.franchiseRequest;
 import com.app.ecommerce.preferences;
 import com.app.ecommerce.Home3.HomeThree;
@@ -228,7 +228,7 @@ public class DrawerMenuItem {
     {
         HomeThree.getInstance().closeDrawer();
 
-        Intent myIntent = new Intent(mContext, about.class);
+        Intent myIntent = new Intent(mContext, ContactUs.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
@@ -238,7 +238,7 @@ public class DrawerMenuItem {
     {
         HomeThree.getInstance().closeDrawer();
 
-        Intent myIntent = new Intent(mContext, contact.class);
+        Intent myIntent = new Intent(mContext, ContactUs.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
