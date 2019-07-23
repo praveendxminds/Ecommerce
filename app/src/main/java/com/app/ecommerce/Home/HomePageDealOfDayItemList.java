@@ -76,13 +76,11 @@ public class HomePageDealOfDayItemList {
     public Button addcartDealofDay;
 
     SessionManager session;
-
-    public String mUlr;
     public Context mContext;
     public String productId;
     public PlaceHolderView mPlaceHolderView;
     public String mHeading;
-    public String mPrdImgUrl, mPrice, mQty,str_priceValue;
+    public String mPrdImgUrl, mPrice, mQty,str_priceValue,str_disValue,mdiscount;
     public Boolean status = true;
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata";
@@ -92,13 +90,14 @@ public class HomePageDealOfDayItemList {
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
     public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView,String product_id, String url, String heading,
-                                     String price, String qty) {
+                                     String price, String discount, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         productId=product_id;
         mPrdImgUrl = url;
         mHeading = heading;
         mPrice = price;
+        mdiscount=discount;
         mQty = qty;
         mtextCartItemCount = textCartItemCount;
     }
@@ -107,15 +106,27 @@ public class HomePageDealOfDayItemList {
     public void onResolved() {
         Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
+
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
         str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
         item_priceDealofDay.setText("₹" + " " + str_priceValue);
-       // item_qtyDealofDay.setText(mQty);
+
+
+
+        if(mdiscount.equals("null")) {
+        item_OldpriceDealofDay.setVisibility(android.view.View.INVISIBLE);
+        }
+        else {
+            double dbl_Discount = Double.parseDouble(mdiscount);//need to convert string to decimal
+            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            item_OldpriceDealofDay.setVisibility(android.view.View.VISIBLE);
+            item_OldpriceDealofDay.setText("₹" + " " + str_disValue);
+        }
         qtyArray[0]=mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_home_page, qtyList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_home_page);
         qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
 
 

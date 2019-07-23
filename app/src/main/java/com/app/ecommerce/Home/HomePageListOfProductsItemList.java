@@ -72,63 +72,74 @@ public class HomePageListOfProductsItemList {
     public Button addcartListPrd;
 
 
-
-
     public String mUlr;
     public Context mContext;
     public String productId;
     public PlaceHolderView mPlaceHolderView;
     public String mHeading;
-    public String mPrdImgUrl,mPrice,mQty,str_PriceValue;
+    public String mPrdImgUrl, mPrice, mQty, str_PriceValue, mdiscount, str_disValue;
     SessionManager session;
     public Boolean status = true;
     int minteger = 0;
-    public static String MyPREFERENCES = "sessiondata" ;
+    public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     public TextView mtextCartItemCount;
-    public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
-    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    public String imgUrl = "http://3.213.33.73/Ecommerce/upload/image/";
+    String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
 
-    public HomePageListOfProductsItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String url, String heading, String price, String qty) {
+    public HomePageListOfProductsItemList(Context context, TextView textCartItemCount, PlaceHolderView placeHolderView,
+                                          String product_id, String url, String heading, String price, String discount, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
-        productId=product_id;
+        productId = product_id;
         mPrdImgUrl = url;
         mHeading = heading;
         mPrice = price;
+        mdiscount = discount;
         mQty = qty;
         mtextCartItemCount = textCartItemCount;
     }
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageViewListProduct);
+        Glide.with(mContext).load(imgUrl + mPrdImgUrl).into(imageViewListProduct);
         headingTxtListProduct.setText(mHeading);
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
-        str_PriceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
-        item_NewPriceListProduct.setText("₹"+" "+str_PriceValue);
-        qtyArray[0]=mQty;
+        str_PriceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+        item_NewPriceListProduct.setText("₹" + " " + str_PriceValue);
+
+
+        if (mdiscount.equals("null")) {
+            item_OldPriceListProduct.setVisibility(android.view.View.INVISIBLE);
+        } else {
+            item_OldPriceListProduct.setVisibility(android.view.View.VISIBLE);
+            double dbl_Discount = Double.parseDouble(mdiscount);//need to convert string to decimal
+            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            item_OldPriceListProduct.setText("₹" + " " + str_disValue);
+        }
+        qtyArray[0] = mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_home_page, qtyList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_home_page);
         qntyListProduct.setAdapter(spinnerArrayAdapter);
 
     }
+
     @Click(R.id.llListOfProducts)
-    public void onLongClick(){
+    public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
+
     @Click(R.id.addcartListPrd)
-    public void AddToCartClick()
-    {
+    public void AddToCartClick() {
         if (status == true) {
             session = new SessionManager(mContext);
             minteger = minteger + 1;//display number in place of add to cart
             Integer cnt = session.getCartCount();
-            cnt = cnt +1;//display number in cart icon
+            cnt = cnt + 1;//display number in cart icon
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));
@@ -144,7 +155,7 @@ public class HomePageListOfProductsItemList {
         session = new SessionManager(mContext);
         minteger = minteger + 1;//display number in place of add to cart
         Integer cnt = session.getCartCount();
-        cnt = cnt +1;//display number in cart icon
+        cnt = cnt + 1;//display number in cart icon
         session.cartcount(cnt);
         display(minteger);
         mtextCartItemCount.setText(String.valueOf(cnt));
@@ -157,19 +168,19 @@ public class HomePageListOfProductsItemList {
             minteger = minteger - 1;
             session = new SessionManager(mContext);
             Integer cnt = session.getCartCount();
-            cnt = cnt -1;
+            cnt = cnt - 1;
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));
             addcartListPrd.setVisibility(android.view.View.VISIBLE);
             llCountListPrd.setVisibility(android.view.View.GONE);
-            status=true;
+            status = true;
 
         } else {
             minteger = minteger - 1;
             session = new SessionManager(mContext);
             Integer cnt = session.getCartCount();
-            cnt = cnt -1;
+            cnt = cnt - 1;
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));

@@ -42,7 +42,7 @@ public class HomePageDealofDayList {
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
             placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,image.prd_id,
-                    image.image, image.name, image.price, image.qty));
+                    image.image, image.name, image.price,image.discount_price, image.qty));
         }
     }
 

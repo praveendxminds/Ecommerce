@@ -7,7 +7,7 @@
     <string name="txt_DealOfDay">Deal of the day</string>
     <string name="txt_ListProducts">Products</string>
     <string name="txt_Recommended">Recommended</string>
-    <string name="txt_seeAll">See All</string>
+    <string name="txt_seeAll">View All</string>
     <string name="Rs">\u20B9</string>
     <string name="delivery_day"><a href="#">Delivery Day</a></string>
 </resources>

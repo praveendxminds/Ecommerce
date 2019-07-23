@@ -31,9 +31,9 @@
                 android:id="@+id/tv_totalPrds"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="6"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="center|left"
                 android:text="100 Products found"
                 android:textColor="@color/white"
@@ -48,26 +48,22 @@
                 <ImageButton
                     android:id="@+id/btn_listViewHomeCateg"
                     android:layout_width="22dp"
-                    android:layout_height="15dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:background="@drawable/listview"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Sort"
-                    android:textAllCaps="false"
-                    android:textColor="@color/blackshadow"
-                    android:textSize="20dp" />
+                    android:duplicateParentState="true"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="5dp">
+                android:layout_marginRight="3dp">
 
                 <ImageButton
                     android:id="@+id/btn_filterHomeCateg"
                     android:layout_width="22dp"
-                    android:layout_height="15dp"
+                    android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:background="@drawable/filter"
                     android:duplicateParentState="true"/>

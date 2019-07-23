@@ -43,7 +43,7 @@ public class HomePageListofProducts {
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
             placeholderviewListProducts.addView(new HomePageRecommendedItemList(mContext,mtextCartItemCount, placeholderviewListProducts,
-                    image.product_id, image.image, image.name, image.price, image.quantity));
+                    image.product_id, image.image, image.name, image.price,image.discount_price, image.quantity));
         }
     }
     @Click(R.id.tv_seeAllPrd)

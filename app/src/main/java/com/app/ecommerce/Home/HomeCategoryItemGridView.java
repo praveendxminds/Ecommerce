@@ -66,6 +66,9 @@ public class HomeCategoryItemGridView {
     @View(R.id.oldPriceCategoryGrid)
     public TextView oldPriceCategoryGrid;
 
+    @View(R.id.llAddwishlist)
+    public LinearLayout llAddWishlist;
+
     @View(R.id.likeCategoryGrid)
     public ImageButton likeCategoryGrid;
 
@@ -215,7 +218,7 @@ public class HomeCategoryItemGridView {
             mtextCartItemCount.setText(String.valueOf(cnt));
         }
     }
-    @Click(R.id.likeCategoryGrid)
+    @Click(R.id.llAddwishlist)
     public void onClick()
     {
         apiInterface = APIClient.getClient().create(APIInterface.class);

@@ -79,8 +79,9 @@ public class HomePageRecommendedItemList {
     public String productImage;
     public String title;
     public String mPrice;
+    public String mdisPrice;
     public String mQty;
-    public String str_PriceValue;
+    public String str_PriceValue,str_disValue;
     SessionManager session;
     public TextView mtextCartItemCount;
     String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
@@ -92,13 +93,14 @@ public class HomePageRecommendedItemList {
     SharedPreferences sharedpreferences;
 
     public HomePageRecommendedItemList(Context context, TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String image,
-                                       String name, String price, String qty) {
+                                       String name, String price,String discount, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         productId = product_id;
         productImage = image;
         title = name;
         mPrice = price;
+        mdisPrice = discount;
         mQty = qty;
         mtextCartItemCount = textCartItemCount;
     }
@@ -110,11 +112,23 @@ public class HomePageRecommendedItemList {
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
         str_PriceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
         item_NewPriceRecommended.setText("₹" + " " + str_PriceValue);
+
+        if(mdisPrice.equals("null")) {
+            item_OldPriceRecommended.setVisibility(android.view.View.INVISIBLE);
+        }
+        else
+        {
+            item_OldPriceRecommended.setVisibility(android.view.View.VISIBLE);
+            double dbl_Discount = Double.parseDouble(mdisPrice);//need to convert string to decimal
+            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            item_OldPriceRecommended.setText("₹" + " " + str_disValue);
+        }
+
         qtyArray[0] = mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_home_page, qtyList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_home_page);
         qntyRecommended.setAdapter(spinnerArrayAdapter);
 
 

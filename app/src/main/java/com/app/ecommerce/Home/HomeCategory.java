@@ -303,7 +303,7 @@ public class HomeCategory extends AppCompatActivity {
                         return true;
                     }
                 });
-        bottomNavigationView.setItemIconSize(40);
+        bottomNavigationView.setItemIconSize(38);
     }
 
     public void showListView() {

@@ -53,6 +53,9 @@ public class ProductslHomePage {
 
         @SerializedName("price")
         public String price;
+
+        @SerializedName("discount_price")
+        public String discount_price;
     }
 
     public class DealOfDayList {
@@ -72,6 +75,8 @@ public class ProductslHomePage {
         @SerializedName("price")
         public String price;
 
+        @SerializedName("discount_price")
+        public String discount_price;
     }
 }
 

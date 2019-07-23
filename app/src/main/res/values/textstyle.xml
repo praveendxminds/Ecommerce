@@ -8,7 +8,7 @@
     </style>
     <style name="CodeFontSeeAll" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">#FF34773C</item>
-        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
