@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:gravity="bottom"
+        android:elevation="50dp"
         android:paddingLeft="10dp">
 
         <ImageView

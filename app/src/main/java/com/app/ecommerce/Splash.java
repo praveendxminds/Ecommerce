@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
@@ -26,17 +28,22 @@ public class Splash extends AppCompatActivity {
         ivVehicle = findViewById(R.id.ivVehicle);
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ObjectAnimator objectani = ObjectAnimator.ofFloat(ivVehicle, "x", 500f);
-                objectani.setDuration(animactionDuraction);
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(objectani);
-                animatorSet.start();
+        Animation animation1 =
+                AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
+        ivVehicle.startAnimation(animation1);
 
-            }
-        }, 800);
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                ObjectAnimator objectani = ObjectAnimator.ofFloat(ivVehicle, "x", 500f);
+//                objectani.setDuration(animactionDuraction);
+//                AnimatorSet animatorSet = new AnimatorSet();
+//                animatorSet.playTogether(objectani);
+//                animatorSet.start();
+//
+//            }
+//        }, 800);
 
         new Handler().postDelayed(new Runnable() {
             @Override
