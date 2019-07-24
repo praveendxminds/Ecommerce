@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/menuLeftGroup1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuleft_home"
+            android:icon="@drawable/round_home_24px"
+            android:title="Home"></item>
+        <item
+            android:id="@+id/menuleft_myorders"
+            android:icon="@drawable/my_order_yellow"
+            android:title="My Orders"></item>
+        <item
+            android:id="@+id/menuleft_myaddress"
+            android:icon="@drawable/location_yellow"
+            android:title="My Address"></item>
+        <item
+            android:id="@+id/menuleft_mywallet"
+            android:icon="@drawable/walletyellow"
+            android:title="My Wallet"></item>
+        <item
+            android:id="@+id/menuleft_offers"
+            android:icon="@drawable/offers_yellow"
+            android:title="Offers"></item>
+    </group>
+    <group
+        android:id="@+id/menuLeftGroup2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuleft_referearn"
+            android:icon="@drawable/refer_earn_yellow"
+            android:title="Refer &amp; Earn"></item>
+        <item
+            android:id="@+id/menuleft_rateus"
+            android:icon="@drawable/rateus_yellow"
+            android:title="Rate Us"></item>
+        <item
+            android:id="@+id/menuleft_aboutcontact"
+            android:icon="@drawable/abt_contact_yellow"
+            android:title="About &amp; Contact Us"></item>
+        <item
+            android:id="@+id/menuleft_faqs"
+            android:icon="@drawable/faqs_yellow"
+            android:title="FAQs"></item>
+        <item
+            android:id="@+id/menuleft_terms"
+            android:icon="@drawable/terms_yellow"
+            android:title="Terms &amp; Conditions"></item>
+        <item
+            android:id="@+id/menuleft_gfeedback"
+            android:icon="@drawable/google_feedback_yellow"
+            android:title="Google Feedback"></item>
+        <item
+            android:id="@+id/menuleft_policy"
+            android:icon="@drawable/privacy_policy_yellow"
+            android:title="Policy"></item>
+    </group>
+</menu>

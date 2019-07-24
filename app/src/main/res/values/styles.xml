@@ -24,22 +24,31 @@
     <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">@color/white</item>
-
     </style>
     <!---->
     <style name="AppTheme1" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
         <item name="actionButtonStyle">@style/MyActionButtonStyle</item>
     </style>
+<style name="LeftNavTheme" parent="Widget.Design.BottomNavigationView">
+    <item name="android:fontFamily">@font/roboto_regular</item>
+    <item name="android:textSize">14sp</item>
+    <item name="listPreferredItemHeightSmall">45dp</item>
 
+</style>
+    <style name="NavigationView"  parent="Base.Theme.AppCompat">
+        <item name="android:listDivider">@color/light_black_6</item>
+    </style>
     <style name="MyActionButtonStyle" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:minWidth">0dip</item>
         <item name="android:paddingEnd">8dip</item>
     </style>
+
     <style name="AppTheme.ToolbarFilter" parent="ThemeOverlay.AppCompat.ActionBar">
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">@color/light_black_2</item>
     </style>
+
     <style name="SpinnerTheme" parent="Base.Widget.AppCompat.Spinner">
         <item name="android:elevation">5dp</item>
     </style>

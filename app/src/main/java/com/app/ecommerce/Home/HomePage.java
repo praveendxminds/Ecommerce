@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -21,15 +22,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -80,6 +87,7 @@ import com.app.ecommerce.search;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.lang.reflect.Field;
@@ -93,7 +101,7 @@ import retrofit2.Response;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     APIInterface apiInterface;
     SessionManager session;
 
@@ -110,11 +118,14 @@ public class HomePage extends AppCompatActivity {
     private LinearLayout llProfileIcon, llProfileDesc;
     private AutoCompleteTextView searchEditText;
     private DrawerLayout drwLayout;
-    private ImageView ivProfilePic, ivEditProfile;
+    private CircularImageView ivProfilePic;
+    private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
     private ListView lvMenuList;
     private Button btnEditProfilePic;
     private ImageButton imgBtnProfile;
+    NavigationView navigationView;
+    private LinearLayout llLeftMenuLogOut;
 
 
     Integer[] icon = {R.drawable.round_home_24px, R.drawable.my_order_yellow, R.drawable.location_yellow,
@@ -182,7 +193,9 @@ public class HomePage extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         tvEmail = findViewById(R.id.tvEmail);
         tvMobileNo = findViewById(R.id.tvMobileNo);
-        lvMenuList = findViewById(R.id.lvMenuList);
+
+        llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
+      /*  lvMenuList = findViewById(R.id.lvMenuList);*/
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,13 +211,29 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intentEditProfile);
             }
         });
+        llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
+            }
+        });
+        //-----------------------------------------------------------------------------------
+        navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
+        navigationView.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2,R.color.green);
+        /*final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drwLayout, mToolbarHomePage, R.string.open_drawer, R.string.close_drawer);
+        drwLayout.addDrawerListener(toggle);
+        toggle.syncState();*/
+        //--------------------------------------------------------------------------------
         imgBtnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drwLayout.openDrawer(Gravity.LEFT);
             }
         });
-        MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
+       /* MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
         lvMenuList.setAdapter(adapter);
         lvMenuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -250,7 +279,7 @@ public class HomePage extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });
+        });*/
     }
 
     private void initBottomNavigation() {
@@ -284,7 +313,7 @@ public class HomePage extends AppCompatActivity {
                         return true;
                     }
                 });
-        bottomNavigationView.setItemIconSize(40);
+        bottomNavigationView.setItemIconSize(38);
     }
     private void initApiCall() {
         final ArrayList<String> imageArray = new ArrayList<String>();
@@ -502,5 +531,67 @@ public class HomePage extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        drwLayout.closeDrawers();
     }
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.menuleft_home) {
+            menuItem.setEnabled(true);
+            Intent intentHome = new Intent(HomePage.this, HomePage.class);
+            startActivity(intentHome);
+        } else if (id == R.id.menuleft_myorders) {
+            Intent intentMyOrder = new Intent(HomePage.this, MyOrders.class);
+            startActivity(intentMyOrder);
+        } else if (id == R.id.menuleft_myaddress) {
+
+        } else if (id == R.id.menuleft_mywallet) {
+
+        } else if (id == R.id.menuleft_offers) {
+
+        } else if (id == R.id.menuleft_referearn) {
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    public void setNavMenuItemThemeColors(int color,int icolor){
+        //Setting default colors for menu item Text and Icon
+        int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
+        int navDefaultIconColor = Color.parseColor("#FFFBD249");
+        int navActiveIconColor = Color.parseColor("#FF34773C");
+
+        //Defining ColorStateList for menu item Text
+        ColorStateList navMenuTextList = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+
+                },
+                new int[] {
+                        navDefaultTextColor,
+                        navDefaultTextColor
+                }
+        );
+
+        //Defining ColorStateList for menu item Icon
+        ColorStateList navMenuIconList = new ColorStateList(
+                new int[][]{
+
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[] {
+                        navActiveIconColor,
+                        navDefaultIconColor
+                }
+        );
+
+        navigationView.setItemTextColor(navMenuTextList);
+        navigationView.setItemIconTintList(navMenuIconList);
+    }
+
 }

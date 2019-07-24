@@ -4,7 +4,7 @@
     android:id="@+id/productItemDealofDay"
     android:layout_width="115dp"
     android:layout_height="130dp"
-    android:layout_marginLeft="0dp"
+    android:layout_marginLeft="1dp"
     android:layout_marginTop="0dp"
     android:layout_marginRight="15dp"
     android:layout_marginBottom="10dp"
