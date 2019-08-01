@@ -2,6 +2,7 @@ package com.app.ecommerce;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ public class PrivacyPolicy extends AppCompatActivity {
     WebView webview;
     APIInterface apiInterface;
     String sHtmlStr;
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,13 @@ public class PrivacyPolicy extends AppCompatActivity {
 
         webview = findViewById(R.id.webViewPrivacyPolicy);
         webview.getSettings().setJavaScriptEnabled(true);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
 
         //----------------------------contact us json response-----------------------
@@ -65,6 +74,13 @@ public class PrivacyPolicy extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
 
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
 
     }
 }

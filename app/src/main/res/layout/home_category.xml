@@ -51,14 +51,14 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:background="@drawable/listview"
-                    android:duplicateParentState="true"/>
+                    android:duplicateParentState="true" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="3dp">
+                android:layout_marginRight="3dp"
+                android:layout_weight="1">
 
                 <ImageButton
                     android:id="@+id/btn_filterHomeCateg"
@@ -66,7 +66,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:background="@drawable/filter"
-                    android:duplicateParentState="true"/>
+                    android:duplicateParentState="true" />
             </LinearLayout>
         </LinearLayout>
 
@@ -114,6 +114,7 @@
             app:menu="@menu/bottom_navigation_menu" />
 
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/rlNavMenu"
         android:layout_width="300dp"
@@ -122,126 +123,60 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <LinearLayout
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_viewHomeCateg"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_margin="0dp"
+            android:background="@color/white"
+            android:fitsSystemWindows="true"
+            android:theme="@style/NavigationView"
+            app:itemBackground="@color/white"
+            app:itemIconPadding="12dp"
+            app:headerLayout="@layout/left_nav_header"
+            app:menu="@menu/left_menu_drawer"
+            app:theme="@style/LeftNavTheme">
 
             <LinearLayout
+                android:id="@+id/llleftMenuLogOut"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".55"
-                android:gravity="center"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
                 android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#454A4A4A" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:paddingLeft="16dp">
 
-                    <FrameLayout
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:background="@drawable/rounded_login_button"
-                        android:backgroundTint="@color/grey">
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/logout_yellow"
+                        android:scaleType="fitCenter" />
 
-                        <ImageView
-                            android:id="@+id/ivProfilePic"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_person" />
-
-                        <Button
-                            android:id="@+id/btnEditProfilePic"
-                            android:layout_width="20dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="right|bottom"
-                            android:background="@drawable/edit_btn_border"
-                            android:backgroundTint="#FFFA990E"
-                            android:gravity="center"
-                            android:text="Edit"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textSize="5sp"
-                            android:fontFamily="@font/roboto_bold"/>
-                    </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Logout"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llProfileDesc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".3"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center"
-                    android:text="Amaresh Chandra"
-                    android:textColor="@color/light_black_3"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/roboto_bold" />
-
-                <TextView
-                    android:id="@+id/tvEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center"
-                    android:singleLine="true"
-                    android:text="amaresh.chandra@gmail.com"
-                    android:textColor="@color/light_black_1"
-                    android:textSize="10sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/tvMobileNo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center"
-                    android:text="+918335960237"
-                    android:textColor="@color/light_black_1"
-                    android:textSize="10sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".7"
-                android:gravity="center"
-                android:layout_marginRight="10dp">
-
-                <ImageView
-                    android:id="@+id/ivEditProfile"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
-                    android:src="@drawable/edit_profile" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#78000000" />
-
-        <ListView
-            android:id="@+id/lvMenuList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp"/>
+        </android.support.design.widget.NavigationView>
     </LinearLayout>
-
-
 </android.support.v4.widget.DrawerLayout>
 
 

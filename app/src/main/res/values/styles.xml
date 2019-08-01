@@ -36,6 +36,12 @@
     <item name="listPreferredItemHeightSmall">45dp</item>
 
 </style>
+
+    <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <style name="NavigationView"  parent="Base.Theme.AppCompat">
         <item name="android:listDivider">@color/light_black_6</item>
     </style>

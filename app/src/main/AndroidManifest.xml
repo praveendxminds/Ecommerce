@@ -64,6 +64,30 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.app.ecommerce.TermsConditions"
+            android:label="Terms and Conditions"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.PrivacyPolicy"
+            android:label="Privacy Policy"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.DeliveryInformation"
+            android:label="Faqs"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.app.ecommerce.Home.CategoriesBottomNav"
@@ -186,6 +210,31 @@
         <activity
             android:name="com.app.ecommerce.MyOrder.MyOrders"
             android:label="My Orders"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.MyOrder.ReorderHolder"
+            android:label="ReOrders"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.MyOrder.CheckoutOrder"
+            android:label="Checkout Order"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.MyOrder.OrderDetailsHolder"
+            android:label="ReOrders"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -462,18 +511,10 @@
 
         <!-- New Section-->
         <activity
-            android:name="com.app.ecommerce.ProfileSection.Login_act"
-            android:label="Login_act"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="com.app.ecommerce.ProfileSection.SignUp_act"
-            android:label="Login_act"
-            android:theme="@style/AppTheme">
+            android:name="com.app.ecommerce.ProfileSection.LoginSignup_act"
+            android:label="LoginSignup_act"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
@@ -481,7 +522,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.MyProfile_act"
-            android:label="Login_act"
+            android:label="My Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -490,7 +531,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.EditProfile_act"
-            android:label="Login_act"
+            android:label="Edit Profile"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -500,7 +541,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.MyAddress_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -509,7 +550,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.MyWallet_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -518,7 +559,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.Offers_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -527,7 +568,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.RefersAndEarn_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -536,7 +577,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.RateUs_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -545,7 +586,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.Faqs_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -554,7 +595,7 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.GoogleFeedback_act"
-            android:label="Login_act"
+            android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />

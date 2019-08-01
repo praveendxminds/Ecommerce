@@ -103,12 +103,12 @@
                                 android:gravity="right|bottom"
                                 android:orientation="vertical">
 
-                                <ImageView
+                                <ImageButton
                                     android:id="@+id/ivEditProfile"
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:padding="2dp"
-                                    android:src="@drawable/editwhite" />
+                                    android:background="@drawable/editwhite" />
 
                             </LinearLayout>
                         </RelativeLayout>

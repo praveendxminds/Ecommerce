@@ -43,7 +43,7 @@ import com.app.ecommerce.PrivacyPolicy;
 import com.app.ecommerce.ProfileSection.EditProfile_act;
 import com.app.ecommerce.ProfileSection.Faqs_act;
 import com.app.ecommerce.ProfileSection.GoogleFeedback_act;
-import com.app.ecommerce.ProfileSection.Login_act;
+import com.app.ecommerce.ProfileSection.LoginSignup_act;
 import com.app.ecommerce.ProfileSection.MyListAdapter;
 import com.app.ecommerce.ProfileSection.MyProfile_act;
 import com.app.ecommerce.ProfileSection.Offers_act;
@@ -161,7 +161,7 @@ public class CategoriesBottomNav extends AppCompatActivity {
                     Intent intent = new Intent(CategoriesBottomNav.this, MyOrders.class);
                     startActivity(intent);
                 } else if (position == 2) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, Login_act.class);
+                    Intent intent = new Intent(CategoriesBottomNav.this, LoginSignup_act.class);
                     startActivity(intent);
                 } else if (position == 3) {
                     Intent intent = new Intent(CategoriesBottomNav.this, EditProfile_act.class);

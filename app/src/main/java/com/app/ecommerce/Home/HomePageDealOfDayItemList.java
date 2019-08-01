@@ -111,8 +111,6 @@ public class HomePageDealOfDayItemList {
         str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
         item_priceDealofDay.setText("₹" + " " + str_priceValue);
 
-
-
         if(mdiscount.equals("null")) {
         item_OldpriceDealofDay.setVisibility(android.view.View.INVISIBLE);
         }
@@ -135,6 +133,7 @@ public class HomePageDealOfDayItemList {
     @Click(R.id.llDealOfDay)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
+        intent.putExtra("product_id",productId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

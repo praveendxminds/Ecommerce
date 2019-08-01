@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.se.omapi.Session;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -30,6 +31,7 @@ import com.app.ecommerce.Home.HomeCategory;
 import com.app.ecommerce.Home.HomePage;
 import com.app.ecommerce.Home.UseSharedPreferences;
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.appIntro.WelcomeActivity;
 import com.app.ecommerce.barcode.ScannerActivity;
@@ -64,6 +66,7 @@ public class WishListHolder extends AppCompatActivity {
     private static WishListHolder instance;
     public static BottomNavigationView bottomNavigationView;
     Integer name_session;
+    SessionManager session;
     SharedPreferences sharedpreferences;
     public static String MyPREFERENCES = "sessiondata";
     View view_count;
@@ -74,6 +77,7 @@ public class WishListHolder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wishlist_main);
+        session = new SessionManager(getApplicationContext());
 
         list_items = (PlaceHolderView) findViewById(R.id.list_items);
         veggiesWishListTitle = findViewById(R.id.veggiesWishListTitle);

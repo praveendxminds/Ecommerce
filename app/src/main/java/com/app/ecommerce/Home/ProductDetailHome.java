@@ -1,6 +1,8 @@
 package com.app.ecommerce.Home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -29,6 +33,7 @@ import com.app.ecommerce.retrofit.InsertWishListItems;
 import com.app.ecommerce.retrofit.ProductDetailsModel;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.retrofit.RemoveWishListItem;
+import com.app.ecommerce.retrofit.SimilarProductsModel;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 
@@ -58,16 +63,22 @@ public class ProductDetailHome extends AppCompatActivity {
     private ViewPager viewPagerProductDetail;
     private TabLayout tabLayoutProductDetail;
     private ImageButton imgBtn_decre, imgBtn_incre;
-    String sname, sprice, sqty, simage, sreviews, spoints;
-    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    String sprd_id, getPrd_id, sname, sprice, sqty, simage, sreviews, spoints;
+    String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
     SessionManager session;
     public static TextView mtextCartItemCount;
     int minteger = 0;
+    SharedPreferences sharedpreferences;
+    public static final String mypreference = "mypref";
+    private String callPrdId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail_home);
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         img_list_PrdDetails = findViewById(R.id.img_list_PrdDetails);
         toolbar = (Toolbar) findViewById(R.id.toolbarPrdDetail);
         tabLayoutProductDetail = findViewById(R.id.tabLayoutProductDetail);
@@ -79,8 +90,8 @@ public class ProductDetailHome extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
-        final String prd_id = getIntent().getExtras().getString("prd_id", "defaultKey");
+        // final SharedPreferences.Editor editor = sharedpreferences.edit();
+        // final String prd_id = getIntent().getExtras().getString("prd_id", "defaultKey");
 
 
         tv_title = (TextView) findViewById(R.id.titlePrdDetail);
@@ -91,7 +102,7 @@ public class ProductDetailHome extends AppCompatActivity {
         tv_points = findViewById(R.id.ratingsPrdDetail);
         imgBtn_decre = findViewById(R.id.imgBtn_decre);
         imgBtn_incre = findViewById(R.id.imgBtn_incre);
-        tv_productCount= findViewById(R.id.tv_productCount);
+        tv_productCount = findViewById(R.id.tv_productCount);
 
         session = new SessionManager(getApplicationContext());
 
@@ -109,7 +120,8 @@ public class ProductDetailHome extends AppCompatActivity {
                     "https://www.gstatic.com/webp/gallery3/4.png"};
             img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(), imgarray));
             //-----------------------------------------------------------for product details ---------------------------------
-            final ProductDetailsModel productDetail = new ProductDetailsModel("46");
+            callPrdId = getIntent().getStringExtra("product_id");
+            final ProductDetailsModel productDetail = new ProductDetailsModel(callPrdId);
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
             call.enqueue(new Callback<ProductDetailsModel>() {
                 @Override
@@ -118,7 +130,9 @@ public class ProductDetailHome extends AppCompatActivity {
                     List<ProductDetailsModel.Datum> datumList = productResponse.result;
                     for (ProductDetailsModel.Datum imgs : datumList) {
                         if (response.isSuccessful()) {
-
+                            sprd_id = imgs.getProduct_id();
+                            // editor.putString("product_id", sprd_id); //store product id in shared preference
+                            // editor.commit(); //save product id in shared preference
                             sname = imgs.getName();
                             //  simage = imgs.getImage();
                             sprice = imgs.getPrice();
@@ -132,7 +146,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             tv_original_price.setText("₹" + " " + sprice);
                             tv_points.setText(spoints + " " + "Ratings");
                             tv_review.setText(sreviews);
-                            qtyArray[0]=sqty;
+                            qtyArray[0] = sqty;
                             final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
                             //adding qty to spinner and adding response value as a first value
                             final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -171,26 +185,28 @@ public class ProductDetailHome extends AppCompatActivity {
 
 
             //----------------------------------------------------------similar product response---------------------------------------
-            final ProductslHomePage productslHomePage = new ProductslHomePage("7");
-            Call<ProductslHomePage> callSimilarProducts = apiInterface.getHomePageProducts(productslHomePage);
-            callSimilarProducts.enqueue(new Callback<ProductslHomePage>() {
+            // getPrd_id = sharedpreferences.getString("product_id", "");
+            final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel("42");
+            // Log.e("----------similar_products_prd_id--------",sprd_id);
+            Call<SimilarProductsModel> callSimilarProducts = apiInterface.getSimilarProducts(productslSimilarPrd);
+            callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
                 @Override
-                public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
+                public void onResponse(Call<SimilarProductsModel> call, Response<SimilarProductsModel> response) {
 
-                    ProductslHomePage resource = response.body();
-                    List<ProductslHomePage.DealOfDayList> datumList = resource.dealoftheday;
-                    for (ProductslHomePage.DealOfDayList imgs : datumList) {
+                    SimilarProductsModel resource = response.body();
+                    List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
+                    for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), mtextCartItemCount, mPlaceHolderView,
-                                    imgs.image, imgs.name, imgs.price, imgs.qty));
+                            mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), mtextCartItemCount,
+                                    mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
                         }
                     }
 
                 }
 
                 @Override
-                public void onFailure(Call<ProductslHomePage> call, Throwable t) {
+                public void onFailure(Call<SimilarProductsModel> call, Throwable t) {
                     call.cancel();
                 }
             });
@@ -225,9 +241,11 @@ public class ProductDetailHome extends AppCompatActivity {
             }
         });
     }
+
     public void display(int number) {
         tv_productCount.setText("" + number);
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -237,11 +255,25 @@ public class ProductDetailHome extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.cart_menu, menu);
 
+        MenuItem cart_menuItem = menu.findItem(R.id.cart_menu_item);
+        FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
+        mtextCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
+        Integer cnt = session.getCartCount();
+        mtextCartItemCount.setText(String.valueOf(cnt));
+
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
+                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(DeliveryIntent);
+
+            }
+        });
         return true;
     }
 
@@ -265,23 +297,12 @@ public class ProductDetailHome extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
-            case android.R.id.home:
-                // todo: goto back activity from here
-
-                finish();
-                return true;
-
             case R.id.help_menu_item:
-
-
                 break;
 
             case R.id.cart_menu_item:
-
                 Intent myctIntent = new Intent(getBaseContext(), cart.class);
                 startActivity(myctIntent);
-
-
                 break;
         }
         return true;

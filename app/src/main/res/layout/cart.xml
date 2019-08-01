@@ -16,7 +16,7 @@
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:theme="@style/AppTheme1"
+        app:theme="@style/ToolbarColoredBackArrow"
         app:title="My Cart"
         app:titleTextAppearance="@style/toolbar_text"
         app:titleTextColor="@color/white" />

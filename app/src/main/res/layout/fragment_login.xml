@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_border_add"
+            android:backgroundTint="#FFFFFFFF"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/login_reg_border"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="left|center"
+                    android:hint="Email Id/ Mobile Number"
+                    android:inputType="text"
+                    android:padding="16dp"
+                    android:textColor="#5E4A4A4A"
+                    android:textColorHint="#5E4A4A4A"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:background="@drawable/login_reg_border"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="left|center"
+                        android:hint="Enter your Password"
+                        android:inputType="textPassword"
+                        android:padding="16dp"
+                        android:textColor="#5E4A4A4A"
+                        android:textColorHint="#5E4A4A4A"
+                        android:textSize="14sp"
+                        android:layout_weight="1"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ivHidePass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/hide_password" />
+
+                    <ImageView
+                        android:id="@+id/ivShowPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/show_password"
+                        android:visibility="gone" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cbRememberMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".6"
+                    android:gravity="left|center"
+                    android:text="Remember me"
+                    android:textColor="#914A4A4A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvForgetPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".4"
+                    android:gravity="center|right"
+                    android:text="Forget Password ?"
+                    android:textColor="#FFFA5400"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ibtnSave"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center|bottom"
+                android:src="@drawable/login_button" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

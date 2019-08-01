@@ -63,7 +63,9 @@ public class ProductDetailsModel {
         public String reviews;
 
 
-
+        public String getProduct_id(){
+            return product_id;
+        }
 
 
 

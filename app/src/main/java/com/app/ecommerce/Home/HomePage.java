@@ -59,13 +59,15 @@ import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.ContactUs;
+import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.MyOrder.MyOrders;
 import com.app.ecommerce.PrivacyPolicy;
 import com.app.ecommerce.ProfileSection.EditProfile_act;
 import com.app.ecommerce.ProfileSection.Faqs_act;
 import com.app.ecommerce.ProfileSection.GoogleFeedback_act;
-import com.app.ecommerce.ProfileSection.Login_act;
+import com.app.ecommerce.ProfileSection.LoginSignup_act;
 import com.app.ecommerce.ProfileSection.MyListAdapter;
+import com.app.ecommerce.ProfileSection.MyProfileModel;
 import com.app.ecommerce.ProfileSection.MyProfile_act;
 import com.app.ecommerce.ProfileSection.Offers_act;
 import com.app.ecommerce.ProfileSection.RateUs_act;
@@ -121,21 +123,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private CircularImageView ivProfilePic;
     private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
-    private ListView lvMenuList;
     private Button btnEditProfilePic;
     private ImageButton imgBtnProfile;
     NavigationView navigationView;
     private LinearLayout llLeftMenuLogOut;
-
-
-    Integer[] icon = {R.drawable.round_home_24px, R.drawable.my_order_yellow, R.drawable.location_yellow,
-            R.drawable.walletyellow, R.drawable.offers_yellow, R.drawable.refer_earn_yellow, R.drawable.rateus_yellow,
-            R.drawable.abt_contact_yellow, R.drawable.faqs_yellow, R.drawable.terms_yellow, R.drawable.google_feedback_yellow,
-            R.drawable.privacy_policy_yellow, R.drawable.logout_yellow};
-
-    String[] menu_list = new String[]{"Home", "My Orders", "My Address", "My Wallet", "Offers",
-            "Refer & Earn", "Rate Us", "About & Contact Us", "FAQs", "Terms & Conditions",
-            "Google Feedback", "Policy", "Logout"};
+    View headerView;
+    String custId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +138,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         session = new SessionManager(getApplicationContext());
         mContext = this.getApplicationContext();
         instance = this;
+
+
 
         AndroidNetworking.initialize(getApplicationContext());
         init();
@@ -180,22 +175,28 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
         llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
         imgBtnProfile = findViewById(R.id.imgBtnProfile);
-        llProfileDesc = (LinearLayout) findViewById(R.id.llProfileDesc);
+
         list_items_homePage = (PlaceHolderView) findViewById(R.id.list_items_homePage);
         list_items_homePage.setPadding(0, 0, 0, 0);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
         drwLayout = findViewById(R.id.drwLayout);
 
-        ivProfilePic = findViewById(R.id.ivProfilePic);
-        ivEditProfile = findViewById(R.id.ivEditProfile);
 
-        btnEditProfilePic = findViewById(R.id.btnEditProfilePic);
-        tvName = findViewById(R.id.tvName);
-        tvEmail = findViewById(R.id.tvEmail);
-        tvMobileNo = findViewById(R.id.tvMobileNo);
 
+        //-----------------------------------------------------------------------------------
+        navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
+        headerView = navigationView.getHeaderView(0);
+        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        tvName = headerView.findViewById(R.id.tvName);
+        tvEmail = headerView.findViewById(R.id.tvEmail);
+        tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
+        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
+        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
+        navigationView.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
-      /*  lvMenuList = findViewById(R.id.lvMenuList);*/
+        //--------------------------------------------------------------------------------
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,72 +215,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                finish();
+                session.checkLogin();
+                session.logoutUser();
             }
         });
-        //-----------------------------------------------------------------------------------
-        navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2,R.color.green);
-        /*final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drwLayout, mToolbarHomePage, R.string.open_drawer, R.string.close_drawer);
-        drwLayout.addDrawerListener(toggle);
-        toggle.syncState();*/
-        //--------------------------------------------------------------------------------
         imgBtnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drwLayout.openDrawer(Gravity.LEFT);
             }
         });
-       /* MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
-        lvMenuList.setAdapter(adapter);
-        lvMenuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(HomePage.this, HomePage.class);
-                    startActivity(intent);
-                } else if (position == 1) {
-                    Intent intent = new Intent(HomePage.this, MyOrders.class);
-                    startActivity(intent);
-                } else if (position == 2) {
-                    Intent intent = new Intent(HomePage.this, Login_act.class);
-                    startActivity(intent);
-                } else if (position == 3) {
-                    Intent intent = new Intent(HomePage.this, EditProfile_act.class);
-                    startActivity(intent);
-                } else if (position == 4) {
-                    Intent intent = new Intent(HomePage.this, Offers_act.class);
-                    startActivity(intent);
-                } else if (position == 5) {
-                    Intent intent = new Intent(HomePage.this, RefersAndEarn_act.class);
-                    startActivity(intent);
-                } else if (position == 6) {
-                    Intent intent = new Intent(HomePage.this, RateUs_act.class);
-                    startActivity(intent);
-                } else if (position == 7) {
-                    Intent intent = new Intent(HomePage.this, ContactUs.class);
-                    startActivity(intent);
-                } else if (position == 8) {
-                    Intent intent = new Intent(HomePage.this, Faqs_act.class);
-                    startActivity(intent);
-                } else if (position == 9) {
-                    Intent intent = new Intent(HomePage.this, TermsConditions.class);
-                    startActivity(intent);
-                } else if (position == 10) {
-                    Intent intent = new Intent(HomePage.this, GoogleFeedback_act.class);
-                    startActivity(intent);
-                } else if (position == 11) {
-                    Intent intent = new Intent(HomePage.this, PrivacyPolicy.class);
-                    startActivity(intent);
-                } else if (position == 12) {
-                    Intent intent = new Intent(HomePage.this, PrivacyPolicy.class);
-                    startActivity(intent);
-                }
-            }
-        });*/
+
     }
 
     private void initBottomNavigation() {
@@ -313,8 +259,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         return true;
                     }
                 });
-        bottomNavigationView.setItemIconSize(38);
+        bottomNavigationView.setItemIconSize(40);
     }
+
     private void initApiCall() {
         final ArrayList<String> imageArray = new ArrayList<String>();
         final ArrayList<String> headArray = new ArrayList<String>();
@@ -368,6 +315,43 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            custId = session.getCustomerId();
+            final MyProfileModel myProfileModel = new MyProfileModel(custId);
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if(resourceMyProfile.status.equals("success"))
+                    {
+                       // Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for(MyProfileModel.Datum mpmResult : mpmDatum)
+                        {
+                            tvName.setText(mpmResult.firstname+" "+mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                        }
+
+                    }
+                    else if(resourceMyProfile.status.equals("failure"))
+                    {
+                        Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+
+                }
+            });
+            }
+        else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static HomePage getInstance() {
@@ -419,15 +403,15 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         final ImageView searchMagIcon = (ImageView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
         searchMagIcon.setImageResource(R.drawable.ic_search_black_24dp);
         searchMagIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        searchMagIcon.setPadding(0,0,0,0);
-        searchViews.setPadding(-16,0,0,0);//removing extraa space and align icon to leftmost of searchview
+        searchMagIcon.setPadding(0, 0, 0, 0);
+        searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         //  searchViews.setMaxWidth(600);
         //searchViews.setMaxWidth(Integer.MAX_VALUE);
 
         searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
-        searchEditText.setPadding(0,2,2,2);
+        searchEditText.setPadding(0, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
@@ -465,6 +449,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Log.d("Firebase reg i: ", String.valueOf(i));
         }
     };
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -483,6 +468,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         }
         return true;
     }
+
     // Fetches reg id from shared preferences
     // and displays on the screen
     private void displayFirebaseRegId() {
@@ -533,6 +519,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         startActivity(intent);
         drwLayout.closeDrawers();
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -545,20 +532,43 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else if (id == R.id.menuleft_myorders) {
             Intent intentMyOrder = new Intent(HomePage.this, MyOrders.class);
             startActivity(intentMyOrder);
-        } else if (id == R.id.menuleft_myaddress) {
-
         } else if (id == R.id.menuleft_mywallet) {
-
+            Intent intentMyWallet = new Intent(HomePage.this, LoginSignup_act.class);
+            startActivity(intentMyWallet);
         } else if (id == R.id.menuleft_offers) {
-
+            Intent intentMyOffers = new Intent(HomePage.this, Offers_act.class);
+            startActivity(intentMyOffers);
         } else if (id == R.id.menuleft_referearn) {
-
+            Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
+            startActivity(intentMyReferEarn);
+        } else if (id == R.id.menuleft_rateus) {
+            Intent intentMyRateUs = new Intent(HomePage.this, RateUs_act.class);
+            startActivity(intentMyRateUs);
+        } else if (id == R.id.menuleft_aboutcontact) {
+            Intent intentAbtContact = new Intent(HomePage.this, ContactUs.class);
+            startActivity(intentAbtContact);
+        } else if (id == R.id.menuleft_faqs) {
+            Intent intentFaqs = new Intent(HomePage.this, DeliveryInformation.class);
+            startActivity(intentFaqs);
+        } else if (id == R.id.menuleft_terms) {
+            Intent intentTerms = new Intent(HomePage.this, TermsConditions.class);
+            startActivity(intentTerms);
+        } else if (id == R.id.menuleft_gfeedback) {
+            Intent intentFeedback = new Intent(HomePage.this, GoogleFeedback_act.class);
+            startActivity(intentFeedback);
+        } else if (id == R.id.menuleft_policy) {
+            Intent intentPolicy = new Intent(HomePage.this, PrivacyPolicy.class);
+            startActivity(intentPolicy);
         }
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void setNavMenuItemThemeColors(int color,int icolor){
+
+
+    public void setNavMenuItemThemeColors(int color, int icolor) {
         //Setting default colors for menu item Text and Icon
         int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
         int navDefaultIconColor = Color.parseColor("#FFFBD249");
@@ -571,7 +581,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         new int[]{-android.R.attr.state_checked}
 
                 },
-                new int[] {
+                new int[]{
                         navDefaultTextColor,
                         navDefaultTextColor
                 }
@@ -584,7 +594,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         new int[]{android.R.attr.state_checked},
                         new int[]{-android.R.attr.state_checked}
                 },
-                new int[] {
+                new int[]{
                         navActiveIconColor,
                         navDefaultIconColor
                 }

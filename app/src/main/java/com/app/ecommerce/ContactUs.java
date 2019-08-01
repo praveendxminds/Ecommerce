@@ -2,6 +2,7 @@ package com.app.ecommerce;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ public class ContactUs extends AppCompatActivity {
     WebView webview;
     APIInterface apiInterface;
     String sHtmlStr;
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,13 @@ public class ContactUs extends AppCompatActivity {
 
         webview = findViewById(R.id.webViewContactUs);
         webview.getSettings().setJavaScriptEnabled(true);
-
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         //----------------------------contact us json response-----------------------
         apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -49,10 +57,7 @@ public class ContactUs extends AppCompatActivity {
                             webview.loadData(sHtmlStr, "text/html", null);
                         }
                     }
-
-
                 }
-
 
                 @Override
                 public void onFailure(Call<WebPagesModel> call, Throwable t) {
@@ -60,11 +65,14 @@ public class ContactUs extends AppCompatActivity {
                 }
             });
 
-
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
-
-
+    }
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        onBackPressed();
+        return true;
     }
 }

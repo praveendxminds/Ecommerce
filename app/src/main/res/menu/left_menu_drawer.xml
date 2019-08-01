@@ -13,10 +13,6 @@
             android:icon="@drawable/my_order_yellow"
             android:title="My Orders"></item>
         <item
-            android:id="@+id/menuleft_myaddress"
-            android:icon="@drawable/location_yellow"
-            android:title="My Address"></item>
-        <item
             android:id="@+id/menuleft_mywallet"
             android:icon="@drawable/walletyellow"
             android:title="My Wallet"></item>

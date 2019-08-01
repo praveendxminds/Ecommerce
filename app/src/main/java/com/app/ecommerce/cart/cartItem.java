@@ -87,6 +87,9 @@ public class cartItem {
     @View(R.id.llcountItemMyCart)
     public LinearLayout llcountItemMyCart;
 
+    @View(R.id.btnAddItemMyCart)
+    public ImageButton btnAddItemMyCart;
+
     public Context mcontext;
     int intCount = 0;
     public PlaceHolderView mplaceholderView;
@@ -210,52 +213,34 @@ public class cartItem {
 
     @Click(R.id.btnAddItemMyCart)
     public void AddToCartClick() {
-       /* if (statusCount == true) {
-            session = new SessionManager(mcontext);
+        if(statusCount == true) {
             intCount = intCount + 1;//display number in place of add to cart
-            Integer cnt = session.getCartCount();
-            cnt = cnt + 1;//display number in cart icon
-            session.cartcount(cnt);
             display(intCount);
-            mtextCartItemCount.setText(String.valueOf(cnt));
             lladdItemMyCart.setVisibility(android.view.View.GONE);
             llcountItemMyCart.setVisibility(android.view.View.VISIBLE);
             statusCount = false;
-        }*/
-        lladdItemMyCart.setVisibility(android.view.View.GONE);
-        llcountItemMyCart.setVisibility(android.view.View.VISIBLE);
-        intCount = intCount+1;
-        display(intCount);
+        }
     }
 
     @Click(R.id.imgBtn_increMyCart)
     public void onIncreaseClick() {
-       /* session = new SessionManager(mcontext);
         intCount = intCount + 1;//display number in place of add to cart
-        Integer cnt = session.getCartCount();
-        cnt = cnt + 1;//display number in cart icon
-        session.cartcount(cnt);
         display(intCount);
-        mtextCartItemCount.setText(String.valueOf(cnt));*/
-       intCount=intCount+1;
-       display(intCount);
     }
 
     @Click(R.id.imgBtn_decreMyCart)
     public void onDecreaseClick() {
-        if (intCount == 0) {
-         display(0);
+        if (intCount <= 1) {
+            intCount = intCount - 1;
+            display(intCount);
+            lladdItemMyCart.setVisibility(android.view.View.VISIBLE);
+            llcountItemMyCart.setVisibility(android.view.View.GONE);
+            statusCount=true;
+
         } else {
-            /*intCount = intCount - 1;
-            session = new SessionManager(mcontext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
+            intCount = intCount - 1;
             display(intCount);
-            mtextCartItemCount.setText(String.valueOf(cnt));*/
-            intCount= intCount-1;
-            display(intCount);
-        }
+            }
 
     }
 

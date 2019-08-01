@@ -10,4 +10,10 @@
     <string name="txt_seeAll">View All</string>
     <string name="Rs">\u20B9</string>
     <string name="delivery_day"><a href="#">Delivery Day</a></string>
+    <string name="privacy_and_policy">Privacy &amp; Policy</string>
+    <string name="term_and_conditions">Term &amp; Conditions</string>
+    <string name="delivery_info">FAQs</string>
+    <string name="about_contact_us">About &amp; Contact us</string>
+    <string name="my_address">My Address</string>
+
 </resources>

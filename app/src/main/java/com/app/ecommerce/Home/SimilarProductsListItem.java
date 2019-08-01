@@ -55,8 +55,8 @@ public class SimilarProductsListItem {
     @View(R.id.qtyCategorySimilarPrd)
     public Spinner qtyCategorySimilarPrd;
 
-    @View(R.id.llCountSimPrd)
-    public LinearLayout llCountSimPrd;
+    @View(R.id.llCountPrd)
+    public LinearLayout llCountPrd;
 
     @View(R.id.imgBtn_decreSimPrd)
     public ImageButton imgBtn_decreSimPrd;
@@ -78,36 +78,58 @@ public class SimilarProductsListItem {
     public Context mContext;
     public PlaceHolderView mPlaceHolderView;
     public TextView mtextCartItemCount;
+    public String mrelated_id;
+    public String mPrd_id;
     public String mHeading;
     public String mPrdImgUrl,mPrice,mQty;
+    public String mdiscount;
     public Boolean status = true;
     int minteger = 0;
     public static String MyPREFERENCES = "sessiondata" ;
     public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
     SharedPreferences sharedpreferences;
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    public String str_priceValue,str_disValue;
 
-    public SimilarProductsListItem(Context context, TextView textCartItemCount,
-                                   PlaceHolderView placeHolderView, String url, String heading, String price,String qty) {
+    public SimilarProductsListItem(Context context,TextView textCartItemCount,
+                                   PlaceHolderView placeHolderView, String related_id, String prd_id,
+                                   String url, String heading, String price,String qty) {
         mContext = context;
+        mtextCartItemCount = textCartItemCount;
         mPlaceHolderView = placeHolderView;
+        mrelated_id = related_id;
+        mPrd_id = prd_id;
         mPrdImgUrl = url;
         mHeading = heading;
+        //mdiscount=discount;
         mPrice = price;
         mQty = qty;
-        mtextCartItemCount = textCartItemCount;
+
     }
 
     @Resolve
     public void onResolved() {
         Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageCategorySimilarPrd);
         titleCategorySimilarPrd.setText(mHeading);
-        newPriceCategorySimilarPrd.setText("₹"+" "+mPrice);
+
+        double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
+        str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
+        newPriceCategorySimilarPrd.setText("₹"+" "+str_priceValue);
+
+      /*  if(mdiscount.equals("null")) {
+            oldPriceCategorySimilarPrd.setVisibility(android.view.View.INVISIBLE);
+        }
+        else {
+            double dbl_Discount = Double.parseDouble(mdiscount);//need to convert string to decimal
+            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            oldPriceCategorySimilarPrd.setVisibility(android.view.View.VISIBLE);
+            oldPriceCategorySimilarPrd.setText("₹" + " " + str_disValue);
+        }*/
         qtyArray[0]=mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_product_qtylist_home_two, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_home_page, qtyList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_home_page);
         qtyCategorySimilarPrd.setAdapter(spinnerArrayAdapter);
 
 
@@ -123,35 +145,58 @@ public class SimilarProductsListItem {
     @Click(R.id.btnAddCategorySimilarPrd)
     public void AddToCartClick()
     {
-        if (status == true) {
+        if(status == true)
+        {
+            session = new SessionManager(mContext);
+            minteger = minteger + 1;//display number in place of add to cart
+            Integer cnt = session.getCartCount();
+            cnt = cnt +1;//display number in cart icon
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
             btnAddCategorySimilarPrd.setVisibility(android.view.View.GONE);
-            llCountSimPrd.setVisibility(android.view.View.VISIBLE);
+            llCountPrd.setVisibility(android.view.View.VISIBLE);
             status = false;
 
         }
-        session = new SessionManager(mContext);
-        Integer cnt = session.getCartCount();
-        cnt = cnt +1;
-        session.cartcount(cnt);
-
-        mtextCartItemCount.setText(String.valueOf(cnt));
 
     }
 
     @Click(R.id.imgBtn_increSimPrd)
     public void onIncreaseClick() {
-        minteger = minteger + 1;
+        //fl_increase.setBackgroundColor(Color.parseColor("#ffbb00")); //obackground color change on touch event
+        session = new SessionManager(mContext);
+        minteger = minteger + 1;//display number in place of add to cart
+        Integer cnt = session.getCartCount();
+        cnt = cnt +1;//display number in cart icon
+        session.cartcount(cnt);
         display(minteger);
+        mtextCartItemCount.setText(String.valueOf(cnt));
     }
 
     @Click(R.id.imgBtn_decreSimPrd)
     public void onDecreaseClick() {
 
-        if (minteger == 0) {
-            display(0);
+        if (minteger <= 1) {
+            minteger = minteger - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
+            display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
+            btnAddCategorySimilarPrd.setVisibility(android.view.View.VISIBLE);
+            llCountPrd.setVisibility(android.view.View.GONE);
+            status=true;
+
         } else {
             minteger = minteger - 1;
+            session = new SessionManager(mContext);
+            Integer cnt = session.getCartCount();
+            cnt = cnt -1;
+            session.cartcount(cnt);
             display(minteger);
+            mtextCartItemCount.setText(String.valueOf(cnt));
         }
     }
 

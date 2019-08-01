@@ -6,6 +6,13 @@ import java.util.List;
 
 public class UserLogin {
 
+
+    @SerializedName("mobile")
+    public String mobile;
+
+    @SerializedName("password")
+    public String password;
+
     @SerializedName("status")
     public String status;
 
@@ -15,18 +22,17 @@ public class UserLogin {
     @SerializedName("email")
     public String email;
 
-    @SerializedName("password")
-    public String password;
 
     @SerializedName("data")
     public List<Datum> resultdata = null;
 
-    public UserLogin(String email, String password) {
-        this.email = email;
+    public UserLogin(String mobile, String password) {
+        this.mobile = mobile;
         this.password = password;
     }
 
     public class Datum {
+
         @SerializedName("customer_id")
         public String customer_id;
 
@@ -53,6 +59,9 @@ public class UserLogin {
 
         @SerializedName("date_added")
         public String date_added;
+
+        @SerializedName("api_token")
+        public String api_token;
 
     }
 }

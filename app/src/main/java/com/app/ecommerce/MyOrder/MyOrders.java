@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.app.ecommerce.Home.CategoriesBottomNav;
 import com.app.ecommerce.Home.HomePage;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.Wishlist.WishListHolder;
 import com.app.ecommerce.notifications.MyNotifications;
@@ -42,16 +43,19 @@ import retrofit2.Response;
 
 public class MyOrders extends AppCompatActivity {
 
+    SessionManager session;
     Toolbar toolbar;
     private PlaceHolderView mCartView;
     public static BottomNavigationView navigationMyOrders;
     View view_count;
     APIInterface apiInterface;
+    public orderItem orderItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_orders);
+        session = new SessionManager(getApplicationContext());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationMyOrders = findViewById(R.id.navigationMyOrders);
         mCartView = findViewById(R.id.recycler_order);
@@ -59,6 +63,8 @@ public class MyOrders extends AppCompatActivity {
         // add back arrow to toolbar
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+            orderItem = new orderItem(MyOrders.this);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -78,6 +84,8 @@ public class MyOrders extends AppCompatActivity {
 
                         mCartView.addView(new orderItem(getApplicationContext(),orderList.sorder_id,orderList.sdate_added,
                                 orderList.sstatus,orderList.scancel ));
+                        session.storeCancelId(orderList.scancel);
+                        session.storeStatusOrder(orderList.sstatus);
 
                         Log.e("-----OrdersList--",orderList.sfirstname+" "+orderList.scancel);
 
@@ -125,7 +133,7 @@ public class MyOrders extends AppCompatActivity {
                     }
                 });
 
-
+        navigationMyOrders.setItemIconSize(40);
     }
 
     @Override

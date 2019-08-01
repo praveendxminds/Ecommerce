@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -27,6 +28,7 @@ public class HomePageDealofDayList {
     public Context mContext;
     public List<ProductslHomePage.DealOfDayList> mImageList;
 
+
     public HomePageDealofDayList(Context context,TextView textCartItemCount, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
         mImageList = imageList;
@@ -40,9 +42,10 @@ public class HomePageDealofDayList {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
+
         for (ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,image.prd_id,
-                    image.image, image.name, image.price,image.discount_price, image.qty));
+            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,
+                    image.prd_id, image.image, image.name, image.price,image.discount_price, image.qty));
         }
     }
 

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -18,7 +19,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -50,13 +53,15 @@ import android.widget.Toast;
 import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.ContactUs;
 import com.app.ecommerce.Delivery;
+import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.MyOrder.MyOrders;
 import com.app.ecommerce.PrivacyPolicy;
 import com.app.ecommerce.ProfileSection.EditProfile_act;
 import com.app.ecommerce.ProfileSection.Faqs_act;
 import com.app.ecommerce.ProfileSection.GoogleFeedback_act;
-import com.app.ecommerce.ProfileSection.Login_act;
+import com.app.ecommerce.ProfileSection.LoginSignup_act;
 import com.app.ecommerce.ProfileSection.MyListAdapter;
+import com.app.ecommerce.ProfileSection.MyProfileModel;
 import com.app.ecommerce.ProfileSection.MyProfile_act;
 import com.app.ecommerce.ProfileSection.Offers_act;
 import com.app.ecommerce.ProfileSection.RateUs_act;
@@ -80,6 +85,7 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipeViewBuilder;
@@ -102,7 +108,7 @@ import static com.app.ecommerce.Utils.CheckInternetConnection;
  */
 
 
-public class HomeCategory extends AppCompatActivity {
+public class HomeCategory extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     APIInterface apiInterface;
     public Context mContext;
@@ -117,11 +123,16 @@ public class HomeCategory extends AppCompatActivity {
     AutoCompleteTextView searchEditText;
     private TextView tv_totalPrds;
     private ProgressBar progressBarHomeCateg;
+    private LinearLayout llLeftMenuLogOut;
     private ListView lvMenuListCateg;
     private ImageView ivEditProfileCateg;
-    private ImageView ivProfilePic, ivEditProfile;
+    private ImageView ivEditProfile;
+    private CircularImageView ivProfilePic;
     private TextView tvName, tvEmail, tvMobileNo;
     private Button btnEditProfilePic;
+    NavigationView navigationView;
+    View headerView;
+    String custId;
 
 
     DrawerLayout drawerLayout;
@@ -168,19 +179,22 @@ public class HomeCategory extends AppCompatActivity {
         btn_filterHomeCateg = findViewById(R.id.btn_filterHomeCateg);
         btn_listViewHomeCateg = findViewById(R.id.btn_listViewHomeCateg);
         tv_totalPrds = findViewById(R.id.tv_totalPrds);
-
-        lvMenuListCateg = findViewById(R.id.lvMenuList);
-
         ActionBar mActionBar = getActionBar();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        ivProfilePic = findViewById(R.id.ivProfilePic);
-        ivEditProfile = findViewById(R.id.ivEditProfile);
-        llProfileDesc = findViewById(R.id.llProfileDesc);
 
-        btnEditProfilePic = findViewById(R.id.btnEditProfilePic);
-        tvName = findViewById(R.id.tvName);
-        tvEmail = findViewById(R.id.tvEmail);
-        tvMobileNo = findViewById(R.id.tvMobileNo);
+        navigationView = (NavigationView) findViewById(R.id.nav_viewHomeCateg);
+        headerView = navigationView.getHeaderView(0);
+        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        tvName = headerView.findViewById(R.id.tvName);
+        tvEmail = headerView.findViewById(R.id.tvEmail);
+        tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
+        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
+        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
+        navigationView.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
+        llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
+
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,7 +202,6 @@ public class HomeCategory extends AppCompatActivity {
                 startActivity(intentEditProfile);
             }
         });
-
         ivEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,55 +238,7 @@ public class HomeCategory extends AppCompatActivity {
                 startActivity(intentFilter);
             }
         });
-        //profile navigation menu items----------------------
-        MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
-        lvMenuListCateg.setAdapter(adapter);
-        lvMenuListCateg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(HomeCategory.this, HomePage.class);
-                    startActivity(intent);
-                } else if (position == 1) {
-                    Intent intent = new Intent(HomeCategory.this, MyOrders.class);
-                    startActivity(intent);
-                } else if (position == 2) {
-                    Intent intent = new Intent(HomeCategory.this, Login_act.class);
-                    startActivity(intent);
-                } else if (position == 3) {
-                    Intent intent = new Intent(HomeCategory.this, EditProfile_act.class);
-                    startActivity(intent);
-                } else if (position == 4) {
-                    Intent intent = new Intent(HomeCategory.this, Offers_act.class);
-                    startActivity(intent);
-                } else if (position == 5) {
-                    Intent intent = new Intent(HomeCategory.this, RefersAndEarn_act.class);
-                    startActivity(intent);
-                } else if (position == 6) {
-                    Intent intent = new Intent(HomeCategory.this, RateUs_act.class);
-                    startActivity(intent);
-                } else if (position == 7) {
-                    Intent intent = new Intent(HomeCategory.this, ContactUs.class);
-                    startActivity(intent);
-                } else if (position == 8) {
-                    Intent intent = new Intent(HomeCategory.this, Faqs_act.class);
-                    startActivity(intent);
-                } else if (position == 9) {
-                    Intent intent = new Intent(HomeCategory.this, TermsConditions.class);
-                    startActivity(intent);
-                } else if (position == 10) {
-                    Intent intent = new Intent(HomeCategory.this, GoogleFeedback_act.class);
-                    startActivity(intent);
-                } else if (position == 11) {
-                    Intent intent = new Intent(HomeCategory.this, PrivacyPolicy.class);
-                    startActivity(intent);
-                } else if (position == 12) {
-                    Intent intent = new Intent(HomeCategory.this, PrivacyPolicy.class);
-                    startActivity(intent);
-                }
-            }
-        });
-        //---------------------------------------------------
+
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -303,7 +268,7 @@ public class HomeCategory extends AppCompatActivity {
                         return true;
                     }
                 });
-        bottomNavigationView.setItemIconSize(38);
+        bottomNavigationView.setItemIconSize(40);
     }
 
     public void showListView() {
@@ -399,6 +364,41 @@ public class HomeCategory extends AppCompatActivity {
 
         } else {
             Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //------------------------------------Left Profile Navigation Menu---------------------------------------------------
+    public void ViewMyProfile() {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            custId = session.getCustomerId();
+            final MyProfileModel myProfileModel = new MyProfileModel(custId);
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                        }
+
+                    } else if (resourceMyProfile.status.equals("error")) {
+                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -543,5 +543,87 @@ public class HomeCategory extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void setNavMenuItemThemeColors(int color, int icolor) {
+        //Setting default colors for menu item Text and Icon
+        int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
+        int navDefaultIconColor = Color.parseColor("#FFFBD249");
+        int navActiveIconColor = Color.parseColor("#FF34773C");
+
+        //Defining ColorStateList for menu item Text
+        ColorStateList navMenuTextList = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+
+                },
+                new int[]{
+                        navDefaultTextColor,
+                        navDefaultTextColor
+                }
+        );
+
+        //Defining ColorStateList for menu item Icon
+        ColorStateList navMenuIconList = new ColorStateList(
+                new int[][]{
+
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[]{
+                        navActiveIconColor,
+                        navDefaultIconColor
+                }
+        );
+
+        navigationView.setItemTextColor(navMenuTextList);
+        navigationView.setItemIconTintList(navMenuIconList);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.menuleft_home) {
+            menuItem.setEnabled(true);
+            Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
+            startActivity(intentHome);
+        } else if (id == R.id.menuleft_myorders) {
+            Intent intentMyOrder = new Intent(HomeCategory.this, MyOrders.class);
+            startActivity(intentMyOrder);
+        }  else if (id == R.id.menuleft_mywallet) {
+            Intent intentMyWallet = new Intent(HomeCategory.this, LoginSignup_act.class);
+            startActivity(intentMyWallet);
+        } else if (id == R.id.menuleft_offers) {
+            Intent intentMyOffers = new Intent(HomeCategory.this, Offers_act.class);
+            startActivity(intentMyOffers);
+        } else if (id == R.id.menuleft_referearn) {
+            Intent intentMyReferEarn = new Intent(HomeCategory.this, RefersAndEarn_act.class);
+            startActivity(intentMyReferEarn);
+        } else if (id == R.id.menuleft_rateus) {
+            Intent intentMyRateUs = new Intent(HomeCategory.this, RateUs_act.class);
+            startActivity(intentMyRateUs);
+        } else if (id == R.id.menuleft_aboutcontact) {
+            Intent intentAbtContact = new Intent(HomeCategory.this, ContactUs.class);
+            startActivity(intentAbtContact);
+        } else if (id == R.id.menuleft_faqs) {
+            Intent intentFaqs = new Intent(HomeCategory.this, DeliveryInformation.class);
+            startActivity(intentFaqs);
+        } else if (id == R.id.menuleft_terms) {
+            Intent intentTerms = new Intent(HomeCategory.this, TermsConditions.class);
+            startActivity(intentTerms);
+        } else if (id == R.id.menuleft_gfeedback) {
+            Intent intentFeedback = new Intent(HomeCategory.this, GoogleFeedback_act.class);
+            startActivity(intentFeedback);
+        } else if (id == R.id.menuleft_policy) {
+            Intent intentPolicy = new Intent(HomeCategory.this, PrivacyPolicy.class);
+            startActivity(intentPolicy);
+        }
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
