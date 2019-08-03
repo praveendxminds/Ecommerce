@@ -33,6 +33,7 @@ import com.app.ecommerce.Utils;
 import com.app.ecommerce.notifications.MyNotifications;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.CartListModel;
 import com.app.ecommerce.retrofit.ProductListModel;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.app.ecommerce.R;
@@ -156,18 +157,19 @@ public class cart extends AppCompatActivity {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<ProductListModel> call = apiInterface.getProductsList();
-            call.enqueue(new Callback<ProductListModel>() {
+            final CartListModel cartListModel = new CartListModel("3");
+            Call<CartListModel> call = apiInterface.getCartList(cartListModel);
+            call.enqueue(new Callback<CartListModel>() {
                 @Override
-                public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
-                    ProductListModel resource = response.body();
-                    List<ProductListModel.ProductListDatum> datumList = resource.result;
+                public void onResponse(Call<CartListModel> call, Response<CartListModel> response) {
+                    CartListModel resource = response.body();
+                    List<CartListModel.CartListDatum> datumList = resource.result;
 
-                    for (ProductListModel.ProductListDatum imgs : datumList) {
+                    for (CartListModel.CartListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.qty));
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, imgs.customer_id,imgs.prd_id, imgs.image,
+                                    imgs.name, imgs.price,imgs.discount_price, imgs.qty,mCartView));
                         }
                     }
 
@@ -187,7 +189,7 @@ public class cart extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<ProductListModel> call, Throwable t) {
+                public void onFailure(Call<CartListModel> call, Throwable t) {
                     call.cancel();
                 }
             });

@@ -107,7 +107,7 @@ public class HomePageRecommendedItemList {
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(imgUrl + productImage).into(imageViewRecommended);
+        Glide.with(mContext).load(productImage).into(imageViewRecommended);
         headingTxtRecommended.setText(title);
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
         str_PriceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price

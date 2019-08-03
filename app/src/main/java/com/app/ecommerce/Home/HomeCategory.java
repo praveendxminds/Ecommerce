@@ -277,7 +277,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<ProductListModel> call = apiInterface.getProductsList();
+
+            final ProductListModel prdListModel = new ProductListModel(custId);
+            Call<ProductListModel> call = apiInterface.getProductsList(prdListModel);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
                 public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
@@ -325,7 +327,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<ProductListModel> call = apiInterface.getProductsList();
+            final ProductListModel prdListModel1 = new ProductListModel(custId);
+            Call<ProductListModel> call = apiInterface.getProductsList(prdListModel1);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
                 public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {

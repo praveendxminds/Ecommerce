@@ -76,6 +76,7 @@ public class HomePageDealOfDayItemList {
     public Button addcartDealofDay;
 
     SessionManager session;
+    public String getPrdId;
     public Context mContext;
     public String productId;
     public PlaceHolderView mPlaceHolderView;
@@ -104,7 +105,8 @@ public class HomePageDealOfDayItemList {
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageViewDealofDay);
+        session = new SessionManager(mContext);
+        Glide.with(mContext).load(mPrdImgUrl).into(imageViewDealofDay);
         headingTxtDealofDay.setText(mHeading);
 
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal

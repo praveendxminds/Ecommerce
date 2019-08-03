@@ -155,7 +155,7 @@ public class ReorderHolder extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         if(Utils.CheckInternetConnection(getApplicationContext()))
         {
-            final String order_id = getIntent().getExtras().getString("order_id", "defaultKey");
+            final String order_id = getIntent().getExtras().getString("order_id", "1");
             str_custid = session.getCustomerId();
             ReorderItemsModel reorderModel = new ReorderItemsModel(str_custid,order_id);
             apiInterface = APIClient.getClient().create(APIInterface.class);

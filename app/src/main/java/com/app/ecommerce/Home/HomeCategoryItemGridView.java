@@ -106,6 +106,7 @@ public class HomeCategoryItemGridView {
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
     int countVal=0;
     public String str_priceValue;
+    public String getCustId;
 
     public boolean status = true;
     public boolean state = false;
@@ -136,6 +137,8 @@ public class HomeCategoryItemGridView {
 
     @Resolve
     public void onResolved() {
+        session = new SessionManager(mContext);
+        getCustId = session.getCustomerId();
         titleCategoryGrid.setText(mtitle);
         Glide.with(mContext)
                 .load(murl)
@@ -225,7 +228,7 @@ public class HomeCategoryItemGridView {
         //---------------------------------------------------------
         if (state == false) {
             //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems("1", mid);
+            final InsertWishListItems add_item = new InsertWishListItems(getCustId, mid);
             Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
             callAdd.enqueue(new Callback<InsertWishListItems>() {
                 @Override
@@ -248,7 +251,7 @@ public class HomeCategoryItemGridView {
             state = true;
         } else {
             //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem("1", mid);
+            final RemoveWishListItem remove_item = new RemoveWishListItem(getCustId, mid);
             Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
             callRemove.enqueue(new Callback<RemoveWishListItem>() {
                 @Override

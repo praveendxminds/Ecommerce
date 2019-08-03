@@ -3,6 +3,7 @@ package com.app.ecommerce.cart;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.CardView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,6 +49,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 @Layout(R.layout.cart_items)
 public class cartItem {
 
+    @View(R.id.ord_itMyCart)
+    public CardView ord_itMyCart;
+
     @View(R.id.itemIconMyCart)
     public ImageView itemIconMyCart;
 
@@ -68,6 +72,9 @@ public class cartItem {
 
     @View(R.id.tvpriceNewMyCart)
     public TextView tvpriceNewMyCart;
+
+    @View(R.id.tvpriceOldMyCart)
+    public TextView tvpriceOldMyCart;
 
     @View(R.id.addWishListMyCart)
     public ImageButton addWishListMyCart;
@@ -97,21 +104,25 @@ public class cartItem {
     public static String MyPREFERENCES = "sessiondata";
     SessionManager session;
     public TextView mtextCartItemCount;
-    public String mid;
-    public String murl,mtitle,mprice,mqty;
+    public String mcustid,mprdid;
+    public String murl,mtitle,mprice,mdisprice,mqty,str_priceValue,str_priceValue_1;
     String[] qtyArray = {"100gm", "200gm", "300gm", "500gm", "1kg", "2kg", "500kg", "1000kg"};
     APIInterface apiInterface;
     public boolean chkState = false;
+    PlaceHolderView mPlaceHolderView;
 
-
-    public cartItem(Context context, TextView textCartItemCount, String id, String url, String title, String price, String qty) {
+    public cartItem(Context context, TextView textCartItemCount, String custid,String prdid, String url,
+                    String title, String price,String disprice,String qty, PlaceHolderView placeHolderView) {
         mcontext = context;
-        mid = id;
+        mcustid = custid;
+        mprdid=prdid;
         murl = url;
         mtitle = title;
         mprice = price;
+        mdisprice = disprice;
         mqty = qty;
         mtextCartItemCount = textCartItemCount;
+        mPlaceHolderView = placeHolderView;
     }
 
     public String getTitle() {
@@ -129,17 +140,31 @@ public class cartItem {
     public void onResolved() {
         prd_nameMyCart.setText(mtitle);
         Glide.with(mcontext).load(murl).into(itemIconMyCart);
-        tvpriceNewMyCart.setText(mprice);
+
+        double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal
+        str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
+        tvpriceNewMyCart.setText("₹" + " " + str_priceValue);
+
+        if(mdisprice.equals("null")) {
+            tvpriceOldMyCart.setVisibility(android.view.View.INVISIBLE);
+        } else {
+            double dbl_Price_1 = Double.parseDouble(mdisprice);//need to convert string to decimal
+            str_priceValue_1 = String.format("%.2f", dbl_Price_1);//display only 2 decimal places of price
+            tvpriceOldMyCart.setVisibility(android.view.View.VISIBLE);
+            tvpriceOldMyCart.setText("₹" + " " + str_priceValue_1);
+        }
+
 
         if (qtyArray.length > 1) {
+
             llspnrQntyMyCart.setVisibility(android.view.View.VISIBLE);
             lltvQntyMyCart.setVisibility(android.view.View.GONE);
             qtyArray[0] = mqty;
             final List<String> listQty = new ArrayList<>(Arrays.asList(qtyArray));
-            //initializing array adapter
             final ArrayAdapter<String> arrayAdapterQty = new ArrayAdapter<String>(mcontext, R.layout.spnr_listitem_categ, listQty);
             arrayAdapterQty.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
             spnr_qntyMyCart.setAdapter(arrayAdapterQty);
+
         } else {
             qtyArray[0] = mqty;
             tvqntyMyCart.setText(qtyArray[0]);
@@ -151,7 +176,7 @@ public class cartItem {
     @Click(R.id.llProductsListViewMyCart)
     public void onCardClick() {
         Intent myIntent = new Intent(mcontext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", mid);
+        myIntent.putExtra("prd_id", mcustid);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mcontext.startActivity(myIntent);
 
@@ -164,7 +189,7 @@ public class cartItem {
         //---------------------------------------------------------
         if (chkState == false) {
             //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems("1", mid);
+            final InsertWishListItems add_item = new InsertWishListItems(mcustid, mprdid);
             Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
             callAdd.enqueue(new Callback<InsertWishListItems>() {
                 @Override
@@ -187,7 +212,7 @@ public class cartItem {
             chkState = true;
         } else {
             //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem("1", mid);
+            final RemoveWishListItem remove_item = new RemoveWishListItem(mcustid, mprdid);
             Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
             callRemove.enqueue(new Callback<RemoveWishListItem>() {
                 @Override
@@ -233,8 +258,7 @@ public class cartItem {
         if (intCount <= 1) {
             intCount = intCount - 1;
             display(intCount);
-            lladdItemMyCart.setVisibility(android.view.View.VISIBLE);
-            llcountItemMyCart.setVisibility(android.view.View.GONE);
+            mPlaceHolderView.removeView(this);
             statusCount=true;
 
         } else {

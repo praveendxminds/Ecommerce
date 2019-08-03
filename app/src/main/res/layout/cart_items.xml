@@ -157,9 +157,10 @@
                             android:layout_marginRight="10dp"
                             android:background="@drawable/strike_through"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="$ 80"
+                            android:text="00.000"
                             android:textColor="@color/light_black_1"
-                            android:textSize="9sp" />
+                            android:textSize="9sp"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
 

@@ -25,10 +25,10 @@ public class HomePageListofProducts {
     public PlaceHolderView placeholderviewListProducts;
 
     public Context mContext;
-    public List<ProductslHomePage.RecommendedList> mImageList;
+    public List<ProductslHomePage.Products> mImageList;
     public TextView mtextCartItemCount;
 
-    public HomePageListofProducts(Context context, TextView textCartItemCount, List<ProductslHomePage.RecommendedList> imageList) {
+    public HomePageListofProducts(Context context, TextView textCartItemCount, List<ProductslHomePage.Products> imageList) {
         mContext = context;
         mImageList = imageList;
         mtextCartItemCount = textCartItemCount;
@@ -41,8 +41,8 @@ public class HomePageListofProducts {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        for (ProductslHomePage.RecommendedList image : mImageList) {
-            placeholderviewListProducts.addView(new HomePageRecommendedItemList(mContext,mtextCartItemCount, placeholderviewListProducts,
+        for (ProductslHomePage.Products image : mImageList) {
+            placeholderviewListProducts.addView(new HomePageListOfProductsItemList(mContext,mtextCartItemCount, placeholderviewListProducts,
                     image.product_id, image.image, image.name, image.price,image.discount_price, image.quantity));
         }
     }

@@ -1,5 +1,6 @@
 package com.app.ecommerce.ProfileSection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -44,12 +45,12 @@ public class EditProfile_act extends AppCompatActivity {
     ImageView ivProfile, ivOldHidePass, ivOldShowPass, ivNewHidePass, ivNewShowPass,
             ivConfHidePass, ivConfShowPass;
 
-    EditText etName, etEmail, etMobileNo, etOldPass, etNewPass, etConfirmPass,
+    EditText etFName,etLName, etEmail, etMobileNo, etOldPass, etNewPass, etConfirmPass,
             etApartmentName, etDoorNo, etArea, etAddress, etPinCode;
 
     Button btnNearBy, btnUpdate;
 
-    String sName, sEmail, sMobileNo,sPassword, sOldPass, sNewPass, sConfirmPass, sApartmentName,
+    String sFName,sLName, sEmail, sMobileNo,sPassword, sOldPass, sNewPass, sConfirmPass, sApartmentName,
             sDoorNo, sArea, sAddress, sPinCode;
 
     private void init() {
@@ -67,7 +68,8 @@ public class EditProfile_act extends AppCompatActivity {
         ivConfHidePass = findViewById(R.id.ivConfHidePass);
         ivConfShowPass = findViewById(R.id.ivConfShowPass);
 
-        etName = findViewById(R.id.etName);
+        etFName = findViewById(R.id.etFName);
+        etLName = findViewById(R.id.etLName);
         etEmail = findViewById(R.id.etEmail);
         etMobileNo = findViewById(R.id.etMobileNo);
         etOldPass = findViewById(R.id.etOldPass);
@@ -136,61 +138,7 @@ public class EditProfile_act extends AppCompatActivity {
             }
         });
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sName = etName.getText().toString();
-                sEmail = etEmail.getText().toString();
-                sMobileNo = etMobileNo.getText().toString();
-                sNewPass = etNewPass.getText().toString();
-                sConfirmPass = etConfirmPass.getText().toString();
-                if((sConfirmPass.trim()).equals(sNewPass.trim()))
-                {
-                    sPassword = sConfirmPass;
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Password is not matching",Toast.LENGTH_SHORT).show();
-                    sConfirmPass=null;
-                }
-                sApartmentName = etApartmentName.getText().toString();
-                sDoorNo = etDoorNo.getText().toString();
-                sArea = etArea.getText().toString();
-                sAddress = etAddress.getText().toString();
-                sPinCode = etPinCode.getText().toString();
-                if (Utils.CheckInternetConnection(getApplicationContext())) {
-                    //------------------------------------- My profile view section------------------------------------------------
-                    custId = session.getCustomerId();
-                    final EditProfileModel editProfileModel = new EditProfileModel(custId,sName,sEmail,sMobileNo,sPassword,
-                            sApartmentName,sDoorNo,sArea,sAddress,sPinCode);
-                    Call<EditProfileModel> callEditProfile = apiInterface.editMyProfile(editProfileModel);
-                    callEditProfile.enqueue(new Callback<EditProfileModel>() {
-                        @Override
-                        public void onResponse(Call<EditProfileModel> call, Response<EditProfileModel> response) {
-                            EditProfileModel resourceMyProfile = response.body();
-                            if(resourceMyProfile.status.equals("success"))
-                            {
-                                Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
-
-                            }
-                            else if(resourceMyProfile.status.equals("failure"))
-                            {
-                                Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<EditProfileModel> call, Throwable t) {
-
-                        }
-                    });
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+       editProfile();
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //------------------------------------- My profile view section------------------------------------------------
@@ -207,7 +155,8 @@ public class EditProfile_act extends AppCompatActivity {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for(MyProfileModel.Datum mpmResult : mpmDatum)
                         {
-                            etName.setText(mpmResult.firstname+" "+mpmResult.lastname);
+                            etFName.setText(mpmResult.firstname);
+                            etLName.setText(mpmResult.lastname);
                             etEmail.setText(mpmResult.email);
                             etMobileNo.setText(mpmResult.telephone);
                             etApartmentName.setText(mpmResult.apartment);
@@ -236,10 +185,77 @@ public class EditProfile_act extends AppCompatActivity {
         }
 
     }
+    public void editProfile()
+    {
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sFName = etFName.getText().toString();
+                sLName = etLName.getText().toString();
+                sEmail = etEmail.getText().toString();
+                sMobileNo = etMobileNo.getText().toString();
+                sNewPass = etNewPass.getText().toString();
+                sConfirmPass = etConfirmPass.getText().toString();
+                if((sConfirmPass.trim()).equals(sNewPass.trim()))
+                {
+                    sPassword = sConfirmPass;
+                }
+                else
+                {
+                    etConfirmPass.requestFocus();
+                    etConfirmPass.setError("Password mismatch");
+                }
+                sApartmentName = etApartmentName.getText().toString();
+                sDoorNo = etDoorNo.getText().toString();
+                sArea = etArea.getText().toString();
+                sAddress = etAddress.getText().toString();
+                sPinCode = etPinCode.getText().toString();
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    custId = session.getCustomerId();
+                    final EditProfileModel editProfileModel = new EditProfileModel(custId,sFName,sLName,sEmail,sMobileNo,sPassword,
+                            sApartmentName,sDoorNo,sArea,sAddress,sAddress,sPinCode);
+                    Call<EditProfileModel> callEditProfile = apiInterface.editMyProfile(editProfileModel);
+                    callEditProfile.enqueue(new Callback<EditProfileModel>() {
+                        @Override
+                        public void onResponse(Call<EditProfileModel> call, Response<EditProfileModel> response) {
+                            EditProfileModel resourceMyProfile = response.body();
+                            if(resourceMyProfile.status.equals("success"))
+                            {
+                                Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
+                                Intent intentMyProf = new Intent(getBaseContext(),MyProfile_act.class);
+                                startActivity(intentMyProf);
 
+                            }
+                            else if(resourceMyProfile.status.equals("failure"))
+                            {
+                                Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<EditProfileModel> call, Throwable t) {
+
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        editProfile();
+    }
 }
+

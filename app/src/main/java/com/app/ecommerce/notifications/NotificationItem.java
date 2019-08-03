@@ -74,13 +74,13 @@ public class NotificationItem {
 
     }
 
-    @Click(R.id.notyfi_lt)
+   /* @Click(R.id.notyfi_lt)
     public void onCardClick()
     {
         Intent myIntent = new Intent(mContext, ProductDetails_act.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 
-    }
+    }*/
 
 }

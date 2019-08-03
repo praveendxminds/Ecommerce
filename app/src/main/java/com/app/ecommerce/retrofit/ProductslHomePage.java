@@ -21,6 +21,9 @@ public class ProductslHomePage {
     @SerializedName("dealoftheday")
     public List<DealOfDayList> dealoftheday = null;
 
+    @SerializedName("products")
+    public List<Products> products = null;
+
     public ProductslHomePage(String id) {
         this.id = id;
     }
@@ -68,6 +71,27 @@ public class ProductslHomePage {
 
         @SerializedName("quantity")
         public String qty;
+
+        @SerializedName("image")
+        public String image;
+
+        @SerializedName("price")
+        public String price;
+
+        @SerializedName("discount_price")
+        public String discount_price;
+    }
+
+    public class Products {
+
+        @SerializedName("product_id")
+        public String product_id;
+
+        @SerializedName("name")
+        public String name;
+
+        @SerializedName("quantity")
+        public String quantity;
 
         @SerializedName("image")
         public String image;

@@ -38,9 +38,9 @@ public interface APIInterface {
 
 
     @GET("index.php?route=api/custom/products/")
-    Call<ProductListModel> getProductsList();
+    Call<ProductListModel> getProductsList(@Body ProductListModel id);
 
-    @POST("index.php?route=api/custom/productdetails")
+    @POST("index.php?route=api/custom/productdetails/")
     Call<ProductDetailsModel> getProductDetails(@Body ProductDetailsModel id);
 
     @POST("index.php?route=api/order/similarProductList")
@@ -83,6 +83,12 @@ public interface APIInterface {
     @POST("index.php?route=api/myprofile/Myprofile")
     Call<MyProfileModel> showMyProfile(@Body MyProfileModel myprofile);
 
-    @POST("http://3.213.33.73/Ecommerce/upload/index.php?route=api/customer/cusedit")
+    @POST("index.php?route=api/customer/cusedit")
     Call<EditProfileModel> editMyProfile(@Body EditProfileModel editProfile);
+
+   /* @POST("index.php?route=api/cart/remove")
+    Call<RemoveCartItems> removeCartItems(@Body RemoveCartItems key);*/
+
+   @POST("index.php?route=api/order/cartList")
+    Call<CartListModel> getCartList(@Body CartListModel id);
 }

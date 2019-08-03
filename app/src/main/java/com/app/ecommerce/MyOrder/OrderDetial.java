@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
@@ -33,16 +34,20 @@ public class OrderDetial extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    SessionManager session;
     private ImageView pro_img;
     APIInterface apiInterface;
     RelativeLayout orderDetailContainer;
     TextView grant_total_val,amnt_pay,item_cnt,prc,del_charge;
+    private String custId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_detail);
+
+        session = new SessionManager(getApplicationContext());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         orderDetailContainer = findViewById(R.id.orderDetailContainer);
         grant_total_val=findViewById(R.id.grant_total_val);
@@ -68,7 +73,8 @@ public class OrderDetial extends AppCompatActivity {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final OrderDetailModel get_order_list = new OrderDetailModel("1","1");
+            custId = session.getCustomerId();
+            final OrderDetailModel get_order_list = new OrderDetailModel(custId,"1");
             Call<OrderDetailModel> call = apiInterface.getMyOrderDetail(get_order_list);
             call.enqueue(new Callback<OrderDetailModel>() {
                 @Override

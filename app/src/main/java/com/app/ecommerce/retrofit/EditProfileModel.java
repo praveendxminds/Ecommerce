@@ -8,8 +8,11 @@ public class EditProfileModel {
     @SerializedName("customer_id")
     public String customer_id;
 
-    @SerializedName("name")
-    public String  name;
+    @SerializedName("firstname")
+    public String  firstname;
+
+    @SerializedName("lastname")
+    public String  lastname;
 
     @SerializedName("email")
     public String  email;
@@ -32,23 +35,29 @@ public class EditProfileModel {
     @SerializedName("address_1")
     public String  address_1;
 
+
+    @SerializedName("address_2")
+    public String  address_2;
+
     @SerializedName("pincode")
     public String  pincode;
 
 
-    public EditProfileModel(String mcustId,String mname,String memail,String mphn,String passwd,String aptmnt,
-                            String doorno,String area,String address,String spincode)
+    public EditProfileModel(String mcustId,String mfname,String mlname,String memail,String mphn,String passwd,String aptmnt,
+                            String doorno,String area,String addrss_1,String addrss_2,String spincode)
     {
-        customer_id = mcustId;
-        name = mname;
-        email = memail;
-        phn = mphn;
-        password = passwd;
-        apartment = aptmnt;
-        door = doorno;
-        area = area;
-        address_1 = address;
-        pincode = spincode;
+        this.customer_id = mcustId;
+        this.firstname = mfname;
+        this.lastname = mlname;
+        this.email = memail;
+        this.phn = mphn;
+        this.password = passwd;
+        this.apartment = aptmnt;
+        this.door = doorno;
+        this.area = area;
+        this.address_1 = addrss_1;
+        this.address_2 = addrss_2;
+        this.pincode = spincode;
 
     }
 

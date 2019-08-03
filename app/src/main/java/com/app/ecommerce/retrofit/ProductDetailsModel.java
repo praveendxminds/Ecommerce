@@ -10,9 +10,14 @@ import java.util.List;
 public class ProductDetailsModel {
 
 
-    @SerializedName("id")
+    @SerializedName("product_id")
     @Expose
-    public String id;
+    public String product_id;
+
+    @SerializedName("customer_id")
+    @Expose
+    public String customer_id;
+
 
     @SerializedName("status")
     @Expose
@@ -22,8 +27,9 @@ public class ProductDetailsModel {
     @Expose
     public List<Datum> result = null;
 
-    public ProductDetailsModel(String id) {
-        this.id = id;
+    public ProductDetailsModel(String cust_id,String prd_id) {
+        this.customer_id=cust_id;
+        this.product_id = prd_id;
     }
 
     public static class Datum {
@@ -61,6 +67,10 @@ public class ProductDetailsModel {
         @SerializedName("reviews")
         @Expose
         public String reviews;
+
+        @SerializedName("discount_price")
+        @Expose
+        public String discount_price;
 
 
         public String getProduct_id(){
@@ -132,6 +142,15 @@ public class ProductDetailsModel {
 
         public void setReviews(String sreviews) {
             this.reviews = sreviews;
+        }
+
+        public String getDiscount()
+        {
+            return discount_price;
+        }
+        public void setDiscount(String discount)
+        {
+            this.discount_price=discount;
         }
     }
 }

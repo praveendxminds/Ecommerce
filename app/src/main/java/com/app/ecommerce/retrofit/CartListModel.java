@@ -1,29 +1,35 @@
 package com.app.ecommerce.retrofit;
 
-import com.google.android.apps.common.proguard.SimpleEnum;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ProductListModel {
+public class CartListModel {
 
     @SerializedName("status")
     public String status;
+
+    @SerializedName("message")
+    public String message;
 
     @SerializedName("customer_id")
     public String customer_id;
 
     @SerializedName("result")
-    public List<ProductListDatum> result=null;
+    public List<CartListDatum> result=null;
 
-    public ProductListModel(String custid)
+    public CartListModel(String cust_id)
     {
-        this.customer_id = custid;
+        this.customer_id=cust_id;
     }
-    public class ProductListDatum{
+
+    public class CartListDatum{
 
         @SerializedName("product_id")
         public String prd_id;
+
+        @SerializedName("customer_id")
+        public String customer_id;
 
         @SerializedName("name")
         public String name;

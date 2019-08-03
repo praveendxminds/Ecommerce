@@ -290,12 +290,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     }
                     list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), textCartItemCount, newImageListDeal));
                     //--------------------------------------------Products-------------------------------------------
-                    List<ProductslHomePage.RecommendedList> imageListProducts = resource.recommended;
-                    List<ProductslHomePage.RecommendedList> newImageListPrd = new ArrayList<>();
+                    /*List<ProductslHomePage.Products> imageListProducts = resource.products;
+                    List<ProductslHomePage.Products> newImageListPrd = new ArrayList<>();
                     for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
                         newImageListPrd.add(imageListProducts.get(i));
                     }
-                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), textCartItemCount, newImageListPrd));
+                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), textCartItemCount, newImageListPrd));*/
                     //-----------------------------------------Recommended List-------------------------------------
 
                     List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
@@ -506,11 +506,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         super.onPause();
     }
 
-    /*
-        @Override
-        public void onBackPressed() {
-            super.onBackPressed();
-        }*/
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
