@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.R;
 import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
@@ -102,6 +103,7 @@ public class ProductDetailHome extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
         tv_title = (TextView) findViewById(R.id.titlePrdDetail);
         tv_original_price = (TextView) findViewById(R.id.originalPricePrdDetail);
         tvDisPricePrdDetail = findViewById(R.id.tvDisPricePrdDetail);
@@ -441,7 +443,15 @@ public class ProductDetailHome extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.help_menu_item:
+                Intent i = new Intent(getApplicationContext(), DeliveryInformation.class);
+                startActivity(i);
+
                 break;
 
             case R.id.cart_menu_item:

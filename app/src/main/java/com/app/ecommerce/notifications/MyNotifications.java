@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.app.ecommerce.Delivery;
+import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.Home.CategoriesBottomNav;
 import com.app.ecommerce.Home.HomeCategory;
 import com.app.ecommerce.Home.HomePage;
@@ -105,8 +107,13 @@ public class MyNotifications extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.help_menu_item:
-                finish();
+                Intent i = new Intent(getApplicationContext(), DeliveryInformation.class);
+                startActivity(i);
                 break;
         }
         return true;

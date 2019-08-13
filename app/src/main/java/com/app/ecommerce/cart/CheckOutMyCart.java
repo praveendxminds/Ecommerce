@@ -85,6 +85,12 @@ public class CheckOutMyCart extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+
             case R.id.help_menu_item:
                 Intent intentHelp = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentHelp);
