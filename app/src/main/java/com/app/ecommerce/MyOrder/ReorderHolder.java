@@ -50,6 +50,7 @@ public class ReorderHolder extends AppCompatActivity {
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
     private TextView linkDeliveryDay;
+    private Button buttonChkOut;
     private String storeDayTime;
     String str_custid;
     SessionManager session;
@@ -80,6 +81,7 @@ public class ReorderHolder extends AppCompatActivity {
             }
         });
         tv_total = findViewById(R.id.tv_total);
+        buttonChkOut = findViewById(R.id.buttonChkOut);
 
         //-----delivery day link------------------
         linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);

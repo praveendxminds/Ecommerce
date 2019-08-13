@@ -204,7 +204,7 @@ public class orderItem extends AppCompatActivity {
         Button btnChkItems = (Button) dialog.findViewById(R.id.btnCheckItems);
 
         dialog.show();*/
-        Intent myIntent = new Intent(mContext, CheckoutOrder.class);
+        Intent myIntent = new Intent(mContext, ReorderHolder.class);
         myIntent.putExtra("order_id", morderId);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);

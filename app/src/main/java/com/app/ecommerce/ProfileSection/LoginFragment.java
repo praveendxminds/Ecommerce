@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,7 @@ public class LoginFragment extends Fragment {
     ImageView ibtnSave;
 
     String sEmail, sPassword;
+    LinearLayout vscroll_height;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -51,6 +54,26 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        vscroll_height = (LinearLayout) ((LoginSignup_act)getActivity()).findViewById(R.id.vscroll_height);
+
+
+        int height = 900;
+
+//        ViewGroup.LayoutParams params = vscroll_height.getLayoutParams();
+//        params.height = height+200;
+//        vscroll_height.setLayoutParams(params);
+
+
+
+//        view.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                // for instance
+//            }
+//        });
+
+
 
         progressdialog = new ProgressDialog(view.getContext());
         progressdialog.setMessage("Please Wait....");
@@ -89,11 +112,11 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 sEmail = etEmail.getText().toString();
                 sPassword = etPassword.getText().toString();
-                /*if (validateLogin(sEmail, sPassword)) {*/
-                    saveLoginData(sEmail, sPassword);
-                /*} else {
+                if (validateLogin(sEmail, sPassword)) {
+                saveLoginData(sEmail, sPassword);
+                } else {
                     Toast.makeText(getApplicationContext(), "Invalid User Id and Password", Toast.LENGTH_SHORT).show();
-                }*/
+                }
 
             }
         });
@@ -146,30 +169,52 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getApplicationContext(), "Invalid User Id", Toast.LENGTH_SHORT).show();
             return false;
 
-        }
-        if (!isValidEmail(loginid.trim())) {
-            if (loginid.trim().length() != 10) {
-                etEmail.requestFocus();
-                etEmail.setError("Incorrect User Id");
-                return false;
+        } else {
+            if (loginid.matches("[0-9]+")) {
+                if (loginid.length() < 10 && loginid.length() > 10) {
+                    etEmail.setError("Please Enter valid phone number");
+                    etEmail.requestFocus();
+                    return false;
+                } else {
+                    if (passwd == null || passwd.trim().length() == 0) {
+                        etPassword.requestFocus();
+                        etPassword.setError("Please enter password");
+                        return false;
+                    } else {
+                        if (passwd.trim().length() < 4) {
+                            etPassword.requestFocus();
+                            etPassword.setError("Password should not be less than 4 digit");
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                }
             } else {
-                return true;
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(loginid).matches()) {
+                    etEmail.setError("Please Enter valid email");
+                    etEmail.requestFocus();
+                    return false;
+                } else {
+                    if (passwd == null || passwd.trim().length() == 0) {
+                        etPassword.requestFocus();
+                        etPassword.setError("Please enter password");
+                        return false;
+                    } else {
+                        if (passwd.trim().length() < 4) {
+                            etPassword.requestFocus();
+                            etPassword.setError("Password should not be less than 4 digit");
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                }
             }
-
-        }
-        if (passwd == null || passwd.trim().length() == 0) {
-            etPassword.requestFocus();
-            etPassword.setError("Please enter password");
-            return false;
         }
 
-        if (passwd.trim().length() < 4) {
-            etPassword.requestFocus();
-            etPassword.setError("Password should not be less than 4 digit");
-            return false;
-        }
-
-        return true;
     }
 
     public final static boolean isValidEmail(CharSequence target) {

@@ -28,6 +28,29 @@ public class SessionManager {
     public static final String KEY_EMAIL_ID = "email";
     public static final String KEY_LNAME = "lastname";
     public static final String KEY_FNAME = "firstname";
+
+    public static final String KEY_EMAIL_ADDRESS = "email";
+    public static final String KEY_FNAME_ADDRS = "firstname";
+    public static final String KEY_LNAME_ADDRS = "lastname";
+    public static final String KEY_PHONE_ADDRS = "mobile";
+    public static final String KEY_APRT_NAME_ADDRS = "apartment_name";
+    public static final String KEY_BLOCK_ADDRS = "block";
+    public static final String KEY_FLOOR_ADDRS = "floor";
+    public static final String KEY_DOOR_ADDRS = "door";
+    public static final String KEY_AREA_ADDRS = "area";
+    public static final String KEY_ADDRESS_ADDRS = "address";
+    public static final String KEY_PINCODE_ADDRS = "pincode";
+    public static final String KEY_CITY_ADDRS = "city";
+
+    public static final String SHIP_FNAME = "first_name";
+    public static final String SHIP_LNAME = "last_name";
+    public static final String SHIP_PHONE = "phone";
+    public static final String SHIP_APARTMENTDETAILS = "ship_apartment_details";
+    public static final String SHIP_APARTMENT = "ship_apartment";
+    public static final String SHIP_INSTRUCT = "ship_instructions";
+    public static final String SHIP_DELIVERY_DAY = "ship_delivery_day";
+
+
     public static final String KEY_TOKEN_ID = "fcm_id";
     public static final String KEY_TOKEN_SAVED = "fcm_saved";
     public static final String KEY_Cart_COUNT = "cartcount";
@@ -55,37 +78,37 @@ public class SessionManager {
         editor.putString(KEY_TOKEN_ID, tkn);
         editor.commit();
     }
+
     public String getKeyTokenId() {
         return pref.getString(KEY_TOKEN_ID, null);
     }
-    public void storeCancelId(String cancel_id)
-    {
-        editor.putString(KEY_Cancel,cancel_id);
+
+    public void storeCancelId(String cancel_id) {
+        editor.putString(KEY_Cancel, cancel_id);
         editor.commit();
-    }
-    public String getCancelId()
-    {
-        return pref.getString(KEY_Cancel,null);
-    }
-    public void storeStatusOrder(String status)
-    {
-        editor.putString(KEY_Status,status);
-        editor.commit();
-    }
-    public String getStatusOrder()
-    {
-        return pref.getString(KEY_Status,null);
-    }
-    public void storePrdId(String status)
-    {
-        editor.putString(KEY_PrdId,status);
-        editor.commit();
-    }
-    public String getPrdId()
-    {
-        return pref.getString(KEY_PrdId,null);
     }
 
+    public String getCancelId() {
+        return pref.getString(KEY_Cancel, null);
+    }
+
+    public void storeStatusOrder(String status) {
+        editor.putString(KEY_Status, status);
+        editor.commit();
+    }
+
+    public String getStatusOrder() {
+        return pref.getString(KEY_Status, null);
+    }
+
+    public void storePrdId(String status) {
+        editor.putString(KEY_PrdId, status);
+        editor.commit();
+    }
+
+    public String getPrdId() {
+        return pref.getString(KEY_PrdId, null);
+    }
 
 
     public void createTokenStatus() {
@@ -114,7 +137,6 @@ public class SessionManager {
         editor.putString(KEY_TOKEN_LOGIN, api_token);
         editor.commit();
     }
-
     public String getCustomerId() {
         return pref.getString(KEY_CUST_ID, null);
     }
@@ -143,9 +165,100 @@ public class SessionManager {
     }
 
 
-
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public void saveNewAddress(String first_name, String last_name, String email, String phone,
+                               String apartment, String block, String door, String floor,
+                               String area, String city, String address, String pincode) {
+
+        editor.putString(KEY_FNAME_ADDRS, first_name);
+        editor.putString(KEY_LNAME_ADDRS, last_name);
+        editor.putString(KEY_PHONE_ADDRS, phone);
+        editor.putString(KEY_EMAIL_ADDRESS, email);
+        editor.putString(KEY_APRT_NAME_ADDRS, apartment);
+        editor.putString(KEY_BLOCK_ADDRS, block);
+        editor.putString(KEY_DOOR_ADDRS, door);
+        editor.putString(KEY_FLOOR_ADDRS, floor);
+        editor.putString(KEY_AREA_ADDRS, area);
+        editor.putString(KEY_CITY_ADDRS, city);
+        editor.putString(KEY_ADDRESS_ADDRS, address);
+        editor.putString(KEY_PINCODE_ADDRS, pincode);
+        editor.commit();
+    }
+
+    public String getApartmentName() {
+        return pref.getString(KEY_APRT_NAME_ADDRS, null);
+    }
+
+    public String getBlockNumber() {
+        return pref.getString(KEY_BLOCK_ADDRS, null);
+    }
+
+    public String getDoorNumber() {
+        return pref.getString(KEY_DOOR_ADDRS, null);
+    }
+
+    public String getFloorNumber() {
+        return pref.getString(KEY_FLOOR_ADDRS, null);
+    }
+
+    public String getUsrArea() {
+        return pref.getString(KEY_AREA_ADDRS, null);
+    }
+
+    public String getUsrCity() {
+        return pref.getString(KEY_CITY_ADDRS, null);
+    }
+
+    public String getUsrAddress() {
+        return pref.getString(KEY_ADDRESS_ADDRS, null);
+    }
+
+    public String getUsrPincode() {
+        return pref.getString(KEY_PINCODE_ADDRS, null);
+    }
+
+
+    public void saveShippingDetails(String first_name, String last_name, String phone, String instruct,String delivery_day,
+                                    String apartment_details, String apartment ) {
+
+        editor.putString(SHIP_FNAME, first_name);
+        editor.putString(SHIP_LNAME, last_name);
+        editor.putString(SHIP_PHONE, phone);
+        editor.putString(SHIP_APARTMENT, apartment);//modified apartment name
+        editor.putString(SHIP_APARTMENTDETAILS, apartment_details);//modified apartment details
+        editor.putString(SHIP_INSTRUCT, instruct);//modified apartment details
+        editor.putString(SHIP_DELIVERY_DAY, delivery_day);//modified apartment details
+        editor.commit();
+    }
+    public String getShipFirstName() {
+        return pref.getString(SHIP_FNAME, null);
+    }
+
+    public String getShipLastName() {
+        return pref.getString(SHIP_LNAME, null);
+    }
+
+    public String getShipPhone() {
+        return pref.getString(SHIP_PHONE, null);
+    }
+
+    public String getShipApartmentName() {
+        return pref.getString(SHIP_APARTMENT, null);
+    }
+
+    public String getShipApartmentDetails() {
+        return pref.getString(SHIP_APARTMENTDETAILS, null);
+    }
+
+    public String getShipInstruct() {
+        return pref.getString(SHIP_INSTRUCT, null);
+    }
+
+    public String getShipDeliveryDay() {
+        return pref.getString(SHIP_DELIVERY_DAY, null);
     }
 
 }

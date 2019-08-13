@@ -81,6 +81,7 @@ import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.ProductListModel;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.search;
+import com.app.ecommerce.wallet.MyWalletActivity;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
@@ -133,6 +134,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     View headerView;
     String custId;
+    String strSearchKey;
 
 
     DrawerLayout drawerLayout;
@@ -160,7 +162,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         mContext = this.getApplicationContext();
 
         session = new SessionManager(getApplicationContext());
-
+        custId = session.getCustomerId();
 
         Integer cnt = session.getCartCount();
         Log.d("cartcnt", String.valueOf(cnt));
@@ -278,7 +280,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 
-            final ProductListModel prdListModel = new ProductListModel(custId);
+            final ProductListModel prdListModel = new ProductListModel("1");
             Call<ProductListModel> call = apiInterface.getProductsList(prdListModel);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
@@ -327,7 +329,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ProductListModel prdListModel1 = new ProductListModel(custId);
+            final ProductListModel prdListModel1 = new ProductListModel("1");
             Call<ProductListModel> call = apiInterface.getProductsList(prdListModel1);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
@@ -373,8 +375,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     //------------------------------------Left Profile Navigation Menu---------------------------------------------------
     public void ViewMyProfile() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            custId = session.getCustomerId();
+            //------------------------------------- My profile view section-----------------------------------------------
             final MyProfileModel myProfileModel = new MyProfileModel(custId);
             Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
             call.enqueue(new Callback<MyProfileModel>() {
@@ -502,6 +503,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setPadding(2, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
+        strSearchKey = searchEditText.getText().toString();
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
         searchEditText.setBackgroundColor(Color.TRANSPARENT);
@@ -510,7 +512,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         searchEditText.clearFocus();
 
         RemoteData remoteData = new RemoteData(this);
-        remoteData.getStoreData();
+        remoteData.getStoreData(strSearchKey);
         return true;
     }
 
@@ -596,7 +598,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             Intent intentMyOrder = new Intent(HomeCategory.this, MyOrders.class);
             startActivity(intentMyOrder);
         }  else if (id == R.id.menuleft_mywallet) {
-            Intent intentMyWallet = new Intent(HomeCategory.this, LoginSignup_act.class);
+            Intent intentMyWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
         } else if (id == R.id.menuleft_offers) {
             Intent intentMyOffers = new Intent(HomeCategory.this, Offers_act.class);

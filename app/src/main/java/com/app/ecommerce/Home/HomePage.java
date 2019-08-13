@@ -86,6 +86,7 @@ import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.search;
+import com.app.ecommerce.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -129,6 +130,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private LinearLayout llLeftMenuLogOut;
     View headerView;
     String custId;
+    String strSearchKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,20 +238,20 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentHomePage = new Intent(HomePage.this, HomePage.class);
+                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentHomePage);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(getBaseContext(), CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentCategories = new Intent(HomePage.this, CategoriesBottomNav.class);
+                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentCategories);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentWishlist = new Intent(HomePage.this, WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentWishlist);
                                 break;
 
@@ -268,7 +270,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //-------------------------------------image slider view------------------------------------------------
-            final ProductslHomePage productslHomePage = new ProductslHomePage("7");
+            final ProductslHomePage productslHomePage = new ProductslHomePage("7","1");
             Call<ProductslHomePage> call = apiInterface.getHomePageProducts(productslHomePage);
             call.enqueue(new Callback<ProductslHomePage>() {
                 @Override
@@ -290,12 +292,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     }
                     list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), textCartItemCount, newImageListDeal));
                     //--------------------------------------------Products-------------------------------------------
-                    /*List<ProductslHomePage.Products> imageListProducts = resource.products;
+                    List<ProductslHomePage.Products> imageListProducts = resource.products;
                     List<ProductslHomePage.Products> newImageListPrd = new ArrayList<>();
                     for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
                         newImageListPrd.add(imageListProducts.get(i));
                     }
-                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), textCartItemCount, newImageListPrd));*/
+                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), textCartItemCount, newImageListPrd));
                     //-----------------------------------------Recommended List-------------------------------------
 
                     List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
@@ -413,14 +415,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setPadding(0, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
+        strSearchKey=searchEditText.getText().toString();
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
+
         searchEditText.setOnItemClickListener(onItemClickListener);
         searchEditText.clearFocus();
 
-        RemoteData remoteData = new RemoteData(this);
-        remoteData.getStoreData();
-/*
         //here we will get the search query
         searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -432,9 +433,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                RemoteData remoteData = new RemoteData(getApplicationContext());
+                remoteData.getStoreData(newText);
                 return false;
             }
-        });*/
+        });
 
         return true;
     }
@@ -528,7 +531,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Intent intentMyOrder = new Intent(HomePage.this, MyOrders.class);
             startActivity(intentMyOrder);
         } else if (id == R.id.menuleft_mywallet) {
-            Intent intentMyWallet = new Intent(HomePage.this, LoginSignup_act.class);
+            Intent intentMyWallet = new Intent(HomePage.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
         } else if (id == R.id.menuleft_offers) {
             Intent intentMyOffers = new Intent(HomePage.this, Offers_act.class);

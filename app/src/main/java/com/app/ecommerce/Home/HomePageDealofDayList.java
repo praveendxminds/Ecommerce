@@ -37,11 +37,11 @@ public class HomePageDealofDayList {
 
     @Resolve
     public void onResolved() {
+
         placeholderviewDealofDay.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
             placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,

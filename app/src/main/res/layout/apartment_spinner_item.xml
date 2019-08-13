@@ -5,6 +5,7 @@
     android:gravity="left|center"
     android:hint="Apartment Name*"
     android:inputType="text"
+    style="?android:attr/spinnerItemStyle"
     android:padding="16dp"
     android:textColor="@color/light_black_2"
     android:textColorHint="@color/light_black_2"

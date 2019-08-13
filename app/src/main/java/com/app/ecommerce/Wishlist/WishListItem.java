@@ -10,12 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.Home.ProductDetailHome;
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.Utils;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
 import com.app.ecommerce.retrofit.GetWishList;
+import com.app.ecommerce.retrofit.MoveToCartModel;
 import com.app.ecommerce.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.places.Place;
@@ -105,7 +107,8 @@ public class WishListItem {
 
     @Click(R.id.llWishlist)
     public void onCardClick() {
-        Intent myIntent = new Intent(mContext, ProductDetails_act.class);
+        Intent myIntent = new Intent(mContext, ProductDetailHome.class);
+        myIntent.putExtra("product_id",prod_id);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
 
@@ -115,7 +118,7 @@ public class WishListItem {
     public void deleteWishListItem()
     {
 
-        mPlaceHolderView.removeView(this);
+       mPlaceHolderView.removeView(this);
        /* if (Utils.CheckInternetConnection(mContext)) {
             RemoveWishListItem remove_item = new RemoveWishListItem("1", prod_id);
             apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -149,12 +152,30 @@ public class WishListItem {
 
     @Click(R.id.btn_moveToCart)
     public void moveToCartClick() {
-        /*sharedpreferences = mContext.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Integer name_session = useSharedPreferences.getCountValue();
+         if (Utils.CheckInternetConnection(mContext)) {
+            MoveToCartModel move_item = new MoveToCartModel("1", prod_id);
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<MoveToCartModel> call = apiInterface.moveToCart(move_item);
+            call.enqueue(new Callback<MoveToCartModel>() {
+                @Override
+                public void onResponse(Call<MoveToCartModel> call, Response<MoveToCartModel> response) {
+                    MoveToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                      mPlaceHolderView.removeView(this);
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
 
-        Integer value = useSharedPreferences.createCountValue(name_session);
-        Log.d("values of count", String.valueOf(value));
-        countCartDisplay(value);*/
+                @Override
+                public void onFailure(Call<MoveToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

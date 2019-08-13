@@ -7,13 +7,37 @@ import java.util.List;
  */
 
 public class ProductDataWrapper {
-    private List<ProductData> items;
 
-    public List<ProductData> getCoupons() {
-        return items;
+    private String strSearch;
+    private String status;
+    private String message;
+    private List<ProductData> result;
+
+    public ProductDataWrapper(String str_search)
+    {
+        this.strSearch = str_search;
+    }
+    public String getStatus() {
+        return status;
     }
 
-    public void setCoupons(List<ProductData> items) {
-        this.items = items;
+    public void setStatus(String searchStatus) {
+        this.status = searchStatus;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String searchMsg) {
+        this.message = searchMsg;
+    }
+
+    public List<ProductData> getResult() {
+        return result;
+    }
+
+    public void setResult(List<ProductData> resultPrd) {
+        this.result = resultPrd;
     }
 }

@@ -6,13 +6,31 @@ package com.app.ecommerce.adapter;
 
 public class ProductData {
 
-    private String category;
+    private String product_id;
+    private String name;
+    private String image;
 
-    public String getStore() {
-        return category;
+    public String getPrdId() {
+        return product_id;
     }
 
-    public void setStore(String store) {
-        this.category = category;
+    public void setPrdId(String prd_id) {
+        this.product_id = prd_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String prdName) {
+        this.name = prdName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String prdImg) {
+        this.image = prdImg;
     }
 }

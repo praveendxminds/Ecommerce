@@ -15,5 +15,7 @@
     <string name="delivery_info">FAQs</string>
     <string name="about_contact_us">About &amp; Contact us</string>
     <string name="my_address">My Address</string>
-
+    <string name="otp_msg">Click on Generate OTP will send a One Time Password to your registered Mobile Number and Email id(s). Please Use this password to continue with the Transaction</string>
+    <string name="card_number">XXXX XXXX XXXX 6534</string>
+    <string name="otp_msg_fPasswd">Please check your email/Message box we have sent you a OTP on that and reset your password</string>
 </resources>

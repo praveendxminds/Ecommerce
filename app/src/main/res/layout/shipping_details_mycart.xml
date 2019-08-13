@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:gravity="center"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -21,133 +20,225 @@
         app:titleTextAppearance="@style/toolbar_text"
         app:titleTextColor="@color/white" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/llContinue"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="21dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp">
 
-                <TextView
-                    style="@style/shipping_addr_txt"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Name" />
+                    android:orientation="vertical">
 
-                <EditText
-                    style="@style/shipping_details_edittxt"
+                    <TextView
+                        style="@style/shipping_addr_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="First Name" />
+
+                    <EditText
+                        android:id="@+id/etFName"
+                        style="@style/shipping_details_edittxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Type First Name" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/shipping_addr_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Last Name" />
+
+                    <EditText
+                        android:id="@+id/etLName"
+                        style="@style/shipping_details_edittxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Type Last Name" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/shipping_addr_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mobile Number" />
+
+
+                    <EditText
+                        android:id="@+id/etMobile_No"
+                        style="@style/shipping_details_edittxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Type No." />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/shipping_addr_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".1"
+                            android:text="Address" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".9"
+                            android:gravity="right">
+
+                            <ImageButton
+                                android:id="@+id/imgBtnEditAddress"
+                                android:layout_width="18dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/edit_black" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/price_note_border"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Apartment Name : "
+                                android:textColor="@color/light_black_1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvApartmentName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Provident Harmony"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvAddressDetails"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Apartment Name :Your one Google Assistant extends to help you across devices, like Google Home, your phone, and more. You can access it with long press home on Android, Ok Google, or a squeeze on Pixel phones. ... Discover more services and smart devices that work with your Google Assistant. "
+                            android:textColor="@color/light_black_1"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/shipping_addr_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Delivery Instructions" />
+
+                    <EditText
+                        android:id="@+id/etInstructions"
+                        style="@style/shipping_details_edittxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Type Instruction..." />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Type Name" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    <TextView
+                        style="@style/shipping_addr_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Delivery Time" />
 
-                <TextView
-                    style="@style/shipping_addr_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mobile Number" />
+                    <EditText
+                        android:id="@+id/etDeliveryDay"
+                        style="@style/shipping_details_edittxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:padding="10dp"
+                        android:text="day" />
 
-                <EditText
-                    style="@style/shipping_details_edittxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Type No." />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/shipping_addr_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Address" />
-
-                <TextView
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="enter address...enter address ...enter address..enter address."
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/greybg_roundedcor" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/shipping_addr_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Delivery Instructions" />
-
-                <EditText
-                    style="@style/shipping_details_edittxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Type Instruction..." />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/shipping_addr_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Delivery Time" />
-
-                <Spinner
-                    android:id="@+id/spnr_delivTym"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </Spinner>
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
         </ScrollView>
+
         <LinearLayout
+            android:id="@+id/llContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Continue"
-                android:textAllCaps="false"
                 android:background="@color/colorAccent"
-                android:textColor="@color/white"
-                android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:padding="20dp"/>
+                android:padding="12dp"
+                android:text="Continue"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
         </LinearLayout>
-    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

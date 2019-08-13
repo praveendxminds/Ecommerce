@@ -24,24 +24,17 @@ import java.util.List;
 public class ShippingDetailsMyCart extends AppCompatActivity {
 
     Toolbar toolbar;
-    private Spinner spnr_delivTym;
-    String[] str_time={"6AM","7AM","8AM","9AM","10AM","11AM","12PM","1PM","2PM"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipping_details_mycart);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        spnr_delivTym = findViewById(R.id.spnr_delivTym);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        final List<String> listSpnr = new ArrayList<>(Arrays.asList(str_time));
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.spinner_product_qtylist_home_two,listSpnr);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
-        spnr_delivTym.setAdapter(arrayAdapter);
 
 
     }

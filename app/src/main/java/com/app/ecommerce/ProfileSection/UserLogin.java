@@ -7,8 +7,8 @@ import java.util.List;
 public class UserLogin {
 
 
-    @SerializedName("mobile")
-    public String mobile;
+    @SerializedName("user")
+    public String user;
 
     @SerializedName("password")
     public String password;
@@ -19,15 +19,11 @@ public class UserLogin {
     @SerializedName("message")
     public String message;
 
-    @SerializedName("email")
-    public String email;
-
-
     @SerializedName("data")
     public List<Datum> resultdata = null;
 
-    public UserLogin(String mobile, String password) {
-        this.mobile = mobile;
+    public UserLogin(String usr, String password) {
+        this.user = usr;
         this.password = password;
     }
 

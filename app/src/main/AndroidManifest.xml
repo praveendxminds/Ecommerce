@@ -233,6 +233,31 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.app.ecommerce.MyOrder.OrderCheckItems"
+            android:label="Check Items with Updated Price"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.payment.PaymentDetails"
+            android:label="Payment Options"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.payment.OTPVerificationPayment"
+            android:label="Payment OTP Verification"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="com.app.ecommerce.MyOrder.OrderDetailsHolder"
             android:label="ReOrders"
             android:theme="@style/AppTheme">
@@ -318,6 +343,30 @@
         <activity
             android:name="com.app.ecommerce.billing.billingAddress"
             android:label="Shipping And Billing Address"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.cart.ShippingNewAddress"
+            android:label="New Shipping Address"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.cart.CheckOutMyCart"
+            android:label="Checkout"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.cart.ConfirmOrder"
+            android:label="Order confirmation"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -519,6 +568,33 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.app.ecommerce.ProfileSection.ForgotPassword"
+            android:label="Forgot Password"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.ProfileSection.ForgotPasswdOtp"
+            android:label="OTP Verification for Forgot Password"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.ecommerce.ProfileSection.ResetPassword"
+            android:label="Reset Password"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.MyProfile_act"
@@ -541,15 +617,6 @@
 
         <activity
             android:name="com.app.ecommerce.ProfileSection.MyAddress_act"
-            android:label="LoginSignup_act"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="com.app.ecommerce.ProfileSection.MyWallet_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -596,6 +663,69 @@
         <activity
             android:name="com.app.ecommerce.ProfileSection.GoogleFeedback_act"
             android:label="LoginSignup_act"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.MyWalletActivity"
+            android:label="My Wallet"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.AddMoneyToWallet"
+            android:label="Add Money to Wallet"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.AddtoMoneyFailureAck"
+            android:label="Add to Money Failure"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.AddtoMoneySuccessAck"
+            android:label="Add to Money Success"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.LoyalityPoints"
+            android:label="Loyality Point"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.LoyalityPointSuccessAck"
+            android:label="Loyality Point Success Message"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.wallet.PaymentHistory"
+            android:label="Payment History"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />

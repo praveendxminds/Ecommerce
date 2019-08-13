@@ -104,7 +104,7 @@ public class WishListHolder extends AppCompatActivity {
         });*/
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final GetWishList wishListItems = new GetWishList(session.getCustomerId());
+            final GetWishList wishListItems = new GetWishList("1");
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<GetWishList> call = apiInterface.getWishList(wishListItems);
             call.enqueue(new Callback<GetWishList>() {
@@ -165,6 +165,7 @@ public class WishListHolder extends AppCompatActivity {
                         return true;
                     }
                 });
+        bottomNavigationView.setItemIconSize(40);
 
 
     }

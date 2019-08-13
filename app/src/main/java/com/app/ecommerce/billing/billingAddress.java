@@ -9,9 +9,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
+import com.app.ecommerce.cart.CheckOutMyCart;
 import com.app.ecommerce.ccavenue.ccavenue;
 
 import java.util.ArrayList;
@@ -25,27 +32,52 @@ import java.util.List;
 
 public class billingAddress extends AppCompatActivity {
 
+    SessionManager session;
     Toolbar toolbar;
-    private Spinner spnr_delivTym;
-    String[] str_time={"6AM","7AM","8AM","9AM","10AM","11AM","12PM","1PM","2PM"};
+    private LinearLayout llContinue;
+    private EditText etFirstName, etLastName, etMobileNo, etInstructions, etDelivery;
+    private TextView tvApartmentName, tvApartmentDetails;
+    private ImageButton imgBtnAddAddress;
+    private String strFirstName, strLastName, strMobile, strInstruct, strDeliveryDay, strApartmentName, strApartmentDetails;
+    private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipping_details_mycart);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        spnr_delivTym = findViewById(R.id.spnr_delivTym);
+        session = new SessionManager(getApplicationContext());
+
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        final List<String> listSpnr = new ArrayList<>(Arrays.asList(str_time));
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.spinner_product_qtylist_home_two,listSpnr);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
-        spnr_delivTym.setAdapter(arrayAdapter);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        etFirstName = findViewById(R.id.etFName);
+        etLastName = findViewById(R.id.etLName);
+        etMobileNo = findViewById(R.id.etMobile_No);
+        etInstructions = findViewById(R.id.etInstructions);
+        etDelivery = findViewById(R.id.etDeliveryDay);
+        tvApartmentName = findViewById(R.id.tvApartmentName);
+        tvApartmentDetails = findViewById(R.id.tvAddressDetails);
+        imgBtnAddAddress = findViewById(R.id.imgBtnEditAddress);
+
+        //getting from new address page-------------------
+        strApartmentName = session.getApartmentName();
+        strBlock = session.getBlockNumber();
+        strDoor = session.getDoorNumber();
+        strFloor = session.getFloorNumber();
+        strArea = session.getUsrArea();
+        strAddress = session.getUsrAddress();
+        strCity = session.getUsrCity();
+        strPincode = session.getUsrPincode();
+        //------------------------------------------------
+        tvApartmentName.setText(strApartmentName);
+        tvApartmentDetails.setText(strDoor + "," + " " + strFloor + "," + " " + strBlock +
+                "," + " " + strArea + "," + " " + strAddress + "," + " " + strCity + "," + " " + strPincode);
 
 
+        moveToChkOut();
     }
 
     @Override
@@ -54,29 +86,58 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void payment(View view)
-    {
+    public void payment(View view) {
         Intent accountIntent = new Intent(getBaseContext(), ccavenue.class);
         startActivity(accountIntent);
 
     }
 
+    public void addNewAddress() {
+
+        imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+    }
+
+    public void moveToChkOut() {
+        llContinue = findViewById(R.id.llContinue);
+        llContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                strFirstName = etFirstName.getText().toString();
+                strLastName = etLastName.getText().toString();
+                strMobile = etMobileNo.getText().toString();
+                strInstruct = etInstructions.getText().toString();
+                strDeliveryDay = etDelivery.getText().toString();
+                strApartmentDetails = tvApartmentDetails.getText().toString();
+                strApartmentName = tvApartmentName.getText().toString();
+                //set response of api on database for checkout address details and call it their and call here also from database in onResume method for reference purpose
+                Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
+                intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentChkout);
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.instruction_menu,menu);
+        menuInflater.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.help_menu_item:
-            Intent intentHelp = new Intent(getBaseContext(),billingAddress.class);
-            intentHelp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intentHelp);
-            break;
+                Intent intentHelp = new Intent(getBaseContext(), DeliveryInformation.class);
+                startActivity(intentHelp);
+                break;
         }
         return true;
     }

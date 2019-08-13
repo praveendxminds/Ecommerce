@@ -16,7 +16,7 @@ import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.ParentPosition;
 
 @NonReusable
-@Layout(R.layout.reorder_item_list)
+@Layout(R.layout.order_details_item)
 public class OrderDetailsItems {
 
     @View(R.id.ivitemIconOrdDetails)

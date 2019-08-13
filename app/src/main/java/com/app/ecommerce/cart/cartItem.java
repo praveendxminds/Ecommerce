@@ -124,6 +124,10 @@ public class cartItem {
         mtextCartItemCount = textCartItemCount;
         mPlaceHolderView = placeHolderView;
     }
+    public cartItem(Context contxt)
+    {
+        mcontext = contxt;
+    }
 
     public String getTitle() {
         return mtitle;
@@ -138,7 +142,7 @@ public class cartItem {
     }
     @Resolve
     public void onResolved() {
-        prd_nameMyCart.setText(mtitle);
+       /* prd_nameMyCart.setText(mtitle);
         Glide.with(mcontext).load(murl).into(itemIconMyCart);
 
         double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal
@@ -170,13 +174,13 @@ public class cartItem {
             tvqntyMyCart.setText(qtyArray[0]);
             lltvQntyMyCart.setVisibility(android.view.View.VISIBLE);
             llspnrQntyMyCart.setVisibility(android.view.View.GONE);
-        }
+        }*/
     }
 
     @Click(R.id.llProductsListViewMyCart)
     public void onCardClick() {
         Intent myIntent = new Intent(mcontext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", mcustid);
+        myIntent.putExtra("product_id", mprdid);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mcontext.startActivity(myIntent);
 

@@ -37,7 +37,10 @@ public interface APIInterface {
     Call<ImageScroll> doGetListImages();
 
 
-    @GET("index.php?route=api/custom/products/")
+    @GET("index.php?route=api/productcategory/categoryinproduct")
+    Call<ShopByCategModel> getShopByCateg();
+
+    @POST("index.php?route=api/custom/products/")
     Call<ProductListModel> getProductsList(@Body ProductListModel id);
 
     @POST("index.php?route=api/custom/productdetails/")
@@ -91,4 +94,10 @@ public interface APIInterface {
 
    @POST("index.php?route=api/order/cartList")
     Call<CartListModel> getCartList(@Body CartListModel id);
+
+   @POST("index.php?route=account/wishlist/insertWishListToCart")
+    Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);
+
+   @POST("index.php?route=api/cart/add&api_token=c6bc796996424a77c3ceab40e1")
+    Call<AddToCartModel> callAddToCart(@Body AddToCartModel id);
 }

@@ -137,6 +137,7 @@ public class HomePageRecommendedItemList {
     @Click(R.id.llRecommended)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
+        intent.putExtra("product_id",productId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

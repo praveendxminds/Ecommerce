@@ -148,7 +148,7 @@
 
                             <Spinner
                                 android:id="@+id/qntyPrdDetail"
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/product_detail_spinner"
                                 android:padding="0dp"
@@ -195,7 +195,8 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="₹ 80"
                                     android:textColor="@color/black"
-                                    android:textSize="10dp" />
+                                    android:textSize="10dp"
+                                    android:visibility="visible"/>
                             </LinearLayout>
 
                         </LinearLayout>

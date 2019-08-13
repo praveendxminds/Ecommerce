@@ -9,6 +9,9 @@ public class ProductslHomePage {
     @SerializedName("id")
     public String id;
 
+    @SerializedName("customer_id")
+    public String customer_id;
+
     @SerializedName("status")
     public String string;
 
@@ -24,8 +27,9 @@ public class ProductslHomePage {
     @SerializedName("products")
     public List<Products> products = null;
 
-    public ProductslHomePage(String id) {
+    public ProductslHomePage(String id,String cust_id) {
         this.id = id;
+        this.customer_id = cust_id;
     }
 
     public class BannerList {

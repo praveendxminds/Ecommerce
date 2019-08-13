@@ -13,10 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.ecommerce.R;
 import com.app.ecommerce.ProductDetails_act;
 import com.app.ecommerce.SessionManager;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.AddToCartModel;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -31,8 +35,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.app.ecommerce.Home.HomePage.bottomNavigationView;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 @NonReusable
@@ -75,6 +83,7 @@ public class HomePageDealOfDayItemList {
     @View(R.id.addcartDealofDay)
     public Button addcartDealofDay;
 
+    APIInterface apiInterface;
     SessionManager session;
     public String getPrdId;
     public Context mContext;
@@ -89,6 +98,7 @@ public class HomePageDealOfDayItemList {
     public TextView mtextCartItemCount;
     public String imgUrl = "http://3.213.33.73/Ecommerce/upload/image/";
     String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    public String prdQty;
 
     public HomePageDealOfDayItemList(Context context,TextView textCartItemCount, PlaceHolderView placeHolderView,String product_id, String url, String heading,
                                      String price, String discount, String qty) {
@@ -144,23 +154,35 @@ public class HomePageDealOfDayItemList {
     @Click(R.id.addcartDealofDay)
     public void addtocart()
     {
-
-        if(status == true)
-        {
+        if(status == true) {
             session = new SessionManager(mContext);
             minteger = minteger + 1;//display number in place of add to cart
             Integer cnt = session.getCartCount();
-            cnt = cnt +1;//display number in cart icon
+            cnt = cnt + 1;//display number in cart icon
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));
             addcartDealofDay.setVisibility(android.view.View.GONE);
             llCountPrd.setVisibility(android.view.View.VISIBLE);
+            prdQty = Integer.toString(minteger);
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            //------------------------------------------for adding to wishlist-----------------------------
+            final AddToCartModel add_item = new AddToCartModel(prdQty, productId);
+            Call<AddToCartModel> callAdd = apiInterface.callAddToCart(add_item);
+            callAdd.enqueue(new Callback<AddToCartModel>() {
+                @Override
+                public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                    AddToCartModel resource = response.body();
+                    Toast.makeText(getApplicationContext(), resource.status, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
             status = false;
-
         }
-
-
     }
 
     @Click(R.id.fl_increaseDealofDay)

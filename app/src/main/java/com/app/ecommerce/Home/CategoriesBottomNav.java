@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
@@ -13,7 +14,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -38,6 +41,7 @@ import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.app.ecommerce.ContactUs;
+import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.MyOrder.MyOrders;
 import com.app.ecommerce.PrivacyPolicy;
 import com.app.ecommerce.ProfileSection.EditProfile_act;
@@ -52,44 +56,50 @@ import com.app.ecommerce.ProfileSection.RefersAndEarn_act;
 import com.app.ecommerce.R;
 import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.TermsConditions;
+import com.app.ecommerce.Utils;
 import com.app.ecommerce.Wishlist.WishListHolder;
 import com.app.ecommerce.adapter.RemoteData;
 import com.app.ecommerce.cart.cart;
 import com.app.ecommerce.fcm.fcmConfig;
 import com.app.ecommerce.notifications.MyNotifications;
+import com.app.ecommerce.retrofit.APIClient;
+import com.app.ecommerce.retrofit.APIInterface;
+import com.app.ecommerce.retrofit.ShopByCategModel;
+import com.app.ecommerce.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.ExpandablePlaceHolderView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CategoriesBottomNav extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class CategoriesBottomNav extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    APIInterface apiInterface;
     private ExpandablePlaceHolderView phviewCategList;
     private ProgressBar pbarLoading;
-    public static Integer[] murl = {R.drawable.greenleaves, R.drawable.sprouts, R.drawable.englishitem, R.drawable.otherveggiez};
-    public static String[] mheading = {"Green Leaves", "Sprouts", "English Item", "Other Veggiez"};
     private AutoCompleteTextView searchEditText;
     public static TextView textCartItemCount;
     public static BottomNavigationView bottomNavigationView;
     SessionManager session;
     private Toolbar mToolbarShopBy;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+
     private DrawerLayout drawerLayoutShopBy;
-    private ImageView ivProfilePic, ivEditProfile;
+    NavigationView navigationView;
+    private LinearLayout llLeftMenuLogOut;
+    View headerView;
+    private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
-    private ListView lvMenuList;
     private Button btnEditProfilePic;
     private ImageButton imgBtnProfile;
-    private LinearLayout llProfileDesc;
-
-    Integer[] icon = {R.drawable.round_home_24px, R.drawable.my_order_yellow, R.drawable.location_yellow,
-            R.drawable.walletyellow, R.drawable.offers_yellow, R.drawable.refer_earn_yellow, R.drawable.rateus_yellow,
-            R.drawable.abt_contact_yellow, R.drawable.faqs_yellow, R.drawable.terms_yellow, R.drawable.google_feedback_yellow,
-            R.drawable.privacy_policy_yellow, R.drawable.logout_yellow};
-
-    String[] menu_list = new String[]{"Home", "My Orders", "My Address", "My Wallet", "Offers",
-            "Refer & Earn", "Rate Us", "About & Contact Us", "FAQs", "Terms & Conditions",
-            "Google Feedback", "Policy", "Logout"};
+    private LinearLayout llProfileIcon, llProfileDesc;
+    private CircularImageView ivProfilePic;
+    String strSearchKey;
 
 
     @Override
@@ -97,6 +107,8 @@ public class CategoriesBottomNav extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_layout);
 
+        session = new SessionManager(getApplicationContext());
+        apiInterface = APIClient.getClient().create(APIInterface.class);
         drawerLayoutShopBy = findViewById(R.id.drawerLayoutShopBy);
         phviewCategList = findViewById(R.id.phviewCategList);
         pbarLoading = findViewById(R.id.pBarloading);
@@ -108,26 +120,41 @@ public class CategoriesBottomNav extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationShopBy);
         AndroidNetworking.initialize(getApplicationContext());
 
-        final ArrayList<Integer> urlArr = new ArrayList<Integer>();
-        final ArrayList<String> headingArr = new ArrayList<String>();
-        for (int i = 0; i < mheading.length; i++) {
-            pbarLoading.setVisibility(View.INVISIBLE);
-            urlArr.add(murl[i]);
-            headingArr.add(mheading[i]);
-            phviewCategList.addView(new ShopByCategItems(getApplication(), urlArr.get(i), headingArr.get(i)));
-            phviewCategList.addView(new ShopByListItems(getApplicationContext()));
-        }
+        init();
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(fcmConfig.REGISTRATION_COMPLETE)) {
+                    FirebaseMessaging.getInstance().subscribeToTopic(fcmConfig.TOPIC_GLOBAL);
+                    displayFirebaseRegId();
 
-        ivProfilePic = findViewById(R.id.ivProfilePic);
-        ivEditProfile = findViewById(R.id.ivEditProfile);
-        llProfileDesc = (LinearLayout) findViewById(R.id.llProfileDesc);
+                } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION)) {
+                    String message = intent.getStringExtra("message");
+                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        showLeftMenu();
+        displayFirebaseRegId();
+        initBottomNavigation();
+    }
+
+    public void showLeftMenu() {
+        //-----------------------------------------------------------------------------------
         imgBtnProfile = findViewById(R.id.imgBtnProfile);
-
-        btnEditProfilePic = findViewById(R.id.btnEditProfilePic);
-        tvName = findViewById(R.id.tvName);
-        tvEmail = findViewById(R.id.tvEmail);
-        tvMobileNo = findViewById(R.id.tvMobileNo);
-        lvMenuList = findViewById(R.id.lvMenuList);
+        navigationView = (NavigationView) findViewById(R.id.nav_viewShopByCateg);
+        headerView = navigationView.getHeaderView(0);
+        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        tvName = headerView.findViewById(R.id.tvName);
+        tvEmail = headerView.findViewById(R.id.tvEmail);
+        tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
+        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
+        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
+        navigationView.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
+        llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
+        //--------------------------------------------------------------------------------
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,79 +170,57 @@ public class CategoriesBottomNav extends AppCompatActivity {
                 startActivity(intentEditProfile);
             }
         });
+        llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                session.checkLogin();
+                session.logoutUser();
+            }
+        });
         imgBtnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayoutShopBy.openDrawer(Gravity.LEFT);
             }
         });
-        MyListAdapter adapter = new MyListAdapter(this, icon, menu_list);
-        lvMenuList.setAdapter(adapter);
-        lvMenuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, HomePage.class);
-                    startActivity(intent);
-                } else if (position == 1) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, MyOrders.class);
-                    startActivity(intent);
-                } else if (position == 2) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, LoginSignup_act.class);
-                    startActivity(intent);
-                } else if (position == 3) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, EditProfile_act.class);
-                    startActivity(intent);
-                } else if (position == 4) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, Offers_act.class);
-                    startActivity(intent);
-                } else if (position == 5) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, RefersAndEarn_act.class);
-                    startActivity(intent);
-                } else if (position == 6) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, RateUs_act.class);
-                    startActivity(intent);
-                } else if (position == 7) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, ContactUs.class);
-                    startActivity(intent);
-                } else if (position == 8) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, Faqs_act.class);
-                    startActivity(intent);
-                } else if (position == 9) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, TermsConditions.class);
-                    startActivity(intent);
-                } else if (position == 10) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, GoogleFeedback_act.class);
-                    startActivity(intent);
-                } else if (position == 11) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, PrivacyPolicy.class);
-                    startActivity(intent);
-                } else if (position == 12) {
-                    Intent intent = new Intent(CategoriesBottomNav.this, PrivacyPolicy.class);
-                    startActivity(intent);
-                }
-            }
-        });
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                // checking for type intent filter
-                if (intent.getAction().equals(fcmConfig.REGISTRATION_COMPLETE)) {
-                    // gcm successfully registered
-                    // now subscribe to `global` topic to receive app wide notifications
-                    FirebaseMessaging.getInstance().subscribeToTopic(fcmConfig.TOPIC_GLOBAL);
-                    displayFirebaseRegId();
+    }
 
-                } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION)) {
-                    // new push notification is received
-                    String message = intent.getStringExtra("message");
-                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
-                }
-            }
-        };
+    public void init() {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
 
-        displayFirebaseRegId();
-        initBottomNavigation();
+            Call<ShopByCategModel> call = apiInterface.getShopByCateg();
+            call.enqueue(new Callback<ShopByCategModel>() {
+                @Override
+                public void onResponse(Call<ShopByCategModel> call, Response<ShopByCategModel> response) {
+                    ShopByCategModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        pbarLoading.setVisibility(View.INVISIBLE);
+                        Toast.makeText(CategoriesBottomNav.this, resource.message, Toast.LENGTH_LONG).show();
+                        List<ShopByCategModel.ResultDatum> datumList = resource.result;
+                        for (ShopByCategModel.ResultDatum datum : datumList) {
+                            phviewCategList.addView(new ShopByCategItems(getApplicationContext(), datum.category_id,
+                                    datum.category_image, datum.category_name));
+                            List<ShopByCategModel.PrdDataDatum> data = datum.product_data;
+                            for (ShopByCategModel.PrdDataDatum datum_1 : data) {
+                                phviewCategList.addView(new ShopByFeedItems(getApplicationContext(), datum_1.category_id,
+                                        datum_1.product_id, datum_1.product_name));
+                            }
+                        }
+                    } else {
+                        Toast.makeText(CategoriesBottomNav.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ShopByCategModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -261,20 +266,19 @@ public class CategoriesBottomNav extends AppCompatActivity {
         searchMagIcon.setPadding(0, 0, 0, 0);
         searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //  searchViews.setMaxWidth(600);
-        //searchViews.setMaxWidth(Integer.MAX_VALUE);
 
         searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setPadding(0, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
+        strSearchKey = searchEditText.getText().toString();
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
         searchEditText.setOnItemClickListener(onItemClickListener);
         searchEditText.clearFocus();
 
         RemoteData remoteData = new RemoteData(this);
-        remoteData.getStoreData();
+        remoteData.getStoreData(strSearchKey);
         return true;
     }
 
@@ -307,13 +311,6 @@ public class CategoriesBottomNav extends AppCompatActivity {
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
-
-//        Log.d( "Firebase reg id: ", regId);
-
-        //if (!TextUtils.isEmpty(regId))
-        //  txtRegId.setText("Firebase Reg Id: " + regId);
-        // else
-        //   txtRegId.setText("Firebase Reg Id is not received yet!");
     }
 
     private void initBottomNavigation() {
@@ -346,4 +343,88 @@ public class CategoriesBottomNav extends AppCompatActivity {
                 });
         bottomNavigationView.setItemIconSize(40);
     }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.menuleft_home) {
+            menuItem.setEnabled(true);
+            Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
+            startActivity(intentHome);
+        } else if (id == R.id.menuleft_myorders) {
+            Intent intentMyOrder = new Intent(CategoriesBottomNav.this, MyOrders.class);
+            startActivity(intentMyOrder);
+        } else if (id == R.id.menuleft_mywallet) {
+            Intent intentMyWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
+            startActivity(intentMyWallet);
+        } else if (id == R.id.menuleft_offers) {
+            Intent intentMyOffers = new Intent(CategoriesBottomNav.this, Offers_act.class);
+            startActivity(intentMyOffers);
+        } else if (id == R.id.menuleft_referearn) {
+            Intent intentMyReferEarn = new Intent(CategoriesBottomNav.this, RefersAndEarn_act.class);
+            startActivity(intentMyReferEarn);
+        } else if (id == R.id.menuleft_rateus) {
+            Intent intentMyRateUs = new Intent(CategoriesBottomNav.this, RateUs_act.class);
+            startActivity(intentMyRateUs);
+        } else if (id == R.id.menuleft_aboutcontact) {
+            Intent intentAbtContact = new Intent(CategoriesBottomNav.this, ContactUs.class);
+            startActivity(intentAbtContact);
+        } else if (id == R.id.menuleft_faqs) {
+            Intent intentFaqs = new Intent(CategoriesBottomNav.this, DeliveryInformation.class);
+            startActivity(intentFaqs);
+        } else if (id == R.id.menuleft_terms) {
+            Intent intentTerms = new Intent(CategoriesBottomNav.this, TermsConditions.class);
+            startActivity(intentTerms);
+        } else if (id == R.id.menuleft_gfeedback) {
+            Intent intentFeedback = new Intent(CategoriesBottomNav.this, GoogleFeedback_act.class);
+            startActivity(intentFeedback);
+        } else if (id == R.id.menuleft_policy) {
+            Intent intentPolicy = new Intent(CategoriesBottomNav.this, PrivacyPolicy.class);
+            startActivity(intentPolicy);
+        }
+
+
+        DrawerLayout drawerLayoutShopBy = (DrawerLayout) findViewById(R.id.drawerLayoutShopBy);
+        drawerLayoutShopBy.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void setNavMenuItemThemeColors(int color, int icolor) {
+        //Setting default colors for menu item Text and Icon
+        int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
+        int navDefaultIconColor = Color.parseColor("#FFFBD249");
+        int navActiveIconColor = Color.parseColor("#FF34773C");
+
+        //Defining ColorStateList for menu item Text
+        ColorStateList navMenuTextList = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+
+                },
+                new int[]{
+                        navDefaultTextColor,
+                        navDefaultTextColor
+                }
+        );
+
+        //Defining ColorStateList for menu item Icon
+        ColorStateList navMenuIconList = new ColorStateList(
+                new int[][]{
+
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[]{
+                        navActiveIconColor,
+                        navDefaultIconColor
+                }
+        );
+
+        navigationView.setItemTextColor(navMenuTextList);
+        navigationView.setItemIconTintList(navMenuIconList);
+    }
+
 }

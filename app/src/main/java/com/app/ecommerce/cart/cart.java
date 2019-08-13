@@ -144,11 +144,11 @@ public class cart extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
-        /*for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 10; i++) {
             mCartView.addView(new cartItem(getApplicationContext()));
-        }*/
+        }
         /*  mCartView.addView(new cartItem_footer());*/
-        showListView();
+        //showListView();
     }
 
     public void showListView() {
@@ -156,8 +156,8 @@ public class cart extends AppCompatActivity {
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final CartListModel cartListModel = new CartListModel("3");
+      /*  if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final CartListModel cartListModel = new CartListModel("69");
             Call<CartListModel> call = apiInterface.getCartList(cartListModel);
             call.enqueue(new Callback<CartListModel>() {
                 @Override
@@ -197,11 +197,11 @@ public class cart extends AppCompatActivity {
 
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
 
-    @Override
+       @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;

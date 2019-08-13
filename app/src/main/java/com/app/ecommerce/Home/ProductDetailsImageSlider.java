@@ -1,6 +1,7 @@
 package com.app.ecommerce.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,7 @@ import com.mindorks.placeholderview.annotations.expand.ParentPosition;
 import com.mindorks.placeholderview.annotations.expand.SingleTop;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -64,17 +66,18 @@ public class ProductDetailsImageSlider {
 
     public Context mContext;
     public ArrayList<String> mHeading;
-    public String[] mCatImgUrl;
-    public boolean state = true;
+    public List<String> mCatImgUrl;
+    public boolean state;
     APIInterface apiInterface;
+    ProductDetailHome pdetailHome = new ProductDetailHome();
 
-    public ProductDetailsImageSlider(Context context,String[] CatImgUrl) {
+    public ProductDetailsImageSlider(Context context,List<String> CatImgUrl) {
         mContext = context;
         mCatImgUrl = CatImgUrl;
 
-        for (int i = 0; i < mCatImgUrl.length; i++) {
-            XMENArray.add(mCatImgUrl[i]);
-            Log.e("---images----", String.valueOf(mCatImgUrl[i]));
+        for (int i = 0; i < mCatImgUrl.size(); i++) {
+            XMENArray.add(mCatImgUrl.get(i));
+            Log.e("---images----", String.valueOf(mCatImgUrl.get(i)));
         }
     }
 
@@ -84,11 +87,12 @@ public class ProductDetailsImageSlider {
         pager_PrdDetails.setAdapter(new ProductDetailImageSliderAdapter(mContext, XMENArray));
 
         indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);//for tab layout
+        state = pdetailHome.getWishlistStatus();
 
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == mCatImgUrl.length) {
+                if (currentPage == mCatImgUrl.size()) {
                     currentPage = 0;
                 }
                 pager_PrdDetails.setCurrentItem(currentPage++, true);
@@ -119,7 +123,7 @@ public class ProductDetailsImageSlider {
                     InsertWishListItems resource = response.body();
                     if (resource.status.equals("success")) {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.like);
+                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
 
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();

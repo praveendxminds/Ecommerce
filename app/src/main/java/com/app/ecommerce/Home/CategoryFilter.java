@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -29,12 +30,12 @@ public class CategoryFilter extends AppCompatActivity {
 
     Context context;
     FrameLayout drawerContent;
-    LinearLayout llSeekbarContainer;
+    LinearLayout llSeekbarContainer,llSortBy,llSortByOptions;
     CrystalRangeSeekbar rangeSeekbar;
     private RangeSeekBar<Integer> seekBar;
     Toolbar toolbarFilter;
     private TextView tvSortByVal;
-    private Spinner spnrSortBy,spnrRating;
+    private Spinner spnrSortBy;
     private TextView tvSeekBarMid, tv_seekbarMin, tv_seekbarMax;
 
     @Override
@@ -44,8 +45,7 @@ public class CategoryFilter extends AppCompatActivity {
 
         drawerContent = findViewById(R.id.drawerContent);
         tvSortByVal = findViewById(R.id.tvSortByVal);
-        spnrSortBy = findViewById(R.id.spnrSortBy);
-        spnrRating = findViewById(R.id.spnrRating);
+      //  spnrSortBy = findViewById(R.id.spnrSortBy);
         tvSeekBarMid = findViewById(R.id.tvSeekBarMid);
         tv_seekbarMax = findViewById(R.id.tv_seekbarMax);
         tv_seekbarMin = findViewById(R.id.tv_seekbarMin);
@@ -55,6 +55,8 @@ public class CategoryFilter extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        llSortByOptions = findViewById(R.id.llSortByOptions);
+        llSortBy = findViewById(R.id.llSortBy);
         llSeekbarContainer = findViewById(R.id.llSeekbarContainer);
         rangeSeekbar = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbar1);
       /*  Bitmap bmLeftThumb = BitmapFactory.decodeResource(context.getResources(), R.drawable.oval);
@@ -78,7 +80,15 @@ public class CategoryFilter extends AppCompatActivity {
         });
 
     }
-
+public void selectSortBy()
+{
+    llSortBy.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            llSortByOptions.setVisibility(View.VISIBLE);
+        }
+    });
+}
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

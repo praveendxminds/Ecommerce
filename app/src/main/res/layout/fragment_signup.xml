@@ -19,6 +19,7 @@
             android:paddingBottom="20dp">
 
             <LinearLayout
+                android:id="@+id/signup_frg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -192,7 +193,10 @@
                         <Spinner
                             android:id="@+id/spnrApartmentName"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:dropDownVerticalOffset="35dp"
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"/>
                     </LinearLayout>
 
                     <LinearLayout

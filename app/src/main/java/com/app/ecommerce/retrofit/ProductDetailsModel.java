@@ -27,8 +27,8 @@ public class ProductDetailsModel {
     @Expose
     public List<Datum> result = null;
 
-    public ProductDetailsModel(String cust_id,String prd_id) {
-        this.customer_id=cust_id;
+    public ProductDetailsModel(String cust_id, String prd_id) {
+        this.customer_id = cust_id;
         this.product_id = prd_id;
     }
 
@@ -41,8 +41,11 @@ public class ProductDetailsModel {
         @Expose
         public String name;
 
-        @SerializedName("description")
-        public String desc;
+        @SerializedName("wishlist_status")
+        public String wishlist_status;
+
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_prd_qty;
 
         @SerializedName("quantity")
         @Expose
@@ -50,7 +53,7 @@ public class ProductDetailsModel {
 
         @SerializedName("image")
         @Expose
-        public String image;
+        public List<ImageArr> image = null;
 
         @SerializedName("price")
         @Expose
@@ -72,11 +75,27 @@ public class ProductDetailsModel {
         @Expose
         public String discount_price;
 
+        @SerializedName("description")
+        public String desc;
 
-        public String getProduct_id(){
-            return product_id;
+        public class ImageArr {
+
+            @SerializedName("image")
+            public String image_1;
+
+            public String getImage() {
+                return image_1;
+            }
+
+            public void setImage(String image) {
+                this.image_1 = image;
+            }
         }
 
+
+        public String getProduct_id() {
+            return product_id;
+        }
 
 
         public String getName() {
@@ -85,6 +104,21 @@ public class ProductDetailsModel {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public String getWishlistStatus() {
+            return wishlist_status;
+        }
+
+        public void setWishlistStatus(String status) {
+            this.wishlist_status = status;
+        }
+        public String getAddPrdQty() {
+            return add_prd_qty;
+        }
+
+        public void setAddPrdQty(String qty_status) {
+            this.add_prd_qty = qty_status;
         }
 
         public String getDesc() {
@@ -104,12 +138,12 @@ public class ProductDetailsModel {
             this.quantity = quantity;
         }
 
-        public String getImage() {
+        public List<ImageArr> getImageArr() {
             return image;
         }
 
-        public void setImage(String image) {
-            this.image = image;
+        public void setImageArr(List<ImageArr> imageArr) {
+            this.image = imageArr;
         }
 
         public String getPrice() {
@@ -144,13 +178,12 @@ public class ProductDetailsModel {
             this.reviews = sreviews;
         }
 
-        public String getDiscount()
-        {
+        public String getDiscount() {
             return discount_price;
         }
-        public void setDiscount(String discount)
-        {
-            this.discount_price=discount;
+
+        public void setDiscount(String discount) {
+            this.discount_price = discount;
         }
     }
 }
