@@ -192,6 +192,12 @@ public class WishListHolder extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())
         {
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+
             case R.id.menu_notifi:
                 Intent intentNotifications = new Intent(getBaseContext(),MyNotifications.class);
                 startActivity(intentNotifications);
