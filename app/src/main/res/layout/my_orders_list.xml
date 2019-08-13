@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginBottom="10dp"
+    android:elevation="30dp"
     android:orientation="vertical"
     android:padding="0dp"
-    android:elevation="30dp"
     app:cardUseCompatPadding="true">
+
     <View
         android:layout_width="4dp"
-        android:background="@color/green_1"
-        android:layout_height="match_parent"></View>
+        android:layout_height="match_parent"
+        android:background="@color/green_1" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -64,27 +65,29 @@
                         android:id="@+id/statusOrder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Status"
                         android:textAlignment="center"
                         android:textColor="@color/light_black_2"
-                        android:textSize="8sp"
-                        android:layout_marginBottom="2dp"/>
+                        android:textSize="8sp" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/pendingOrder"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Pending"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFA990E"
-                        android:textSize="10sp"
-                        android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/pendingOrder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Pending"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="#FFFA990E"
+                            android:textSize="10sp"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/canceledOrder"
                             android:layout_width="match_parent"
@@ -95,7 +98,8 @@
                             android:textAllCaps="false"
                             android:textColor="#FFFA5400"
                             android:textSize="10sp"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
+
                         <TextView
                             android:id="@+id/deliveredOrder"
                             android:layout_width="match_parent"
@@ -106,7 +110,7 @@
                             android:textAllCaps="false"
                             android:textColor="#FF34773C"
                             android:textSize="10sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -133,68 +137,70 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="8dp"
-                android:layout_weight="2">
+                android:layout_weight="2"
+                android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:gravity="right"
-                       android:layout_margin="10dp">
-                    <Button
-                        android:id="@+id/btnPayNow"
-                        android:layout_width="60dp"
-                        android:layout_height="20dp"
-                        android:text="PayNow"
-                        android:background="@drawable/paynow_buttons"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textAllCaps="false"
-                        android:duplicateParentState="true"
-                        />
-                   </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/llordId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/orderIdOrder"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="left"
-                        android:text="Order Id:767845563"
-                        android:textAllCaps="false"
-                        android:textColor="@color/light_black_4"
-                        android:textSize="12sp" />
+                        android:layout_margin="10dp"
+                        android:gravity="right">
 
+                        <Button
+                            android:id="@+id/btnPayNow"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/paynow_buttons"
+                            android:duplicateParentState="true"
+                            android:text="PayNow"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_below="@+id/llordId">
-
-                    <TextView
-                        android:id="@+id/deliveryDateOrder"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/llordId"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Delivered on Tue, June 11th’19"
-                        android:textColor="@color/light_black_5"
-                        android:textSize="10sp" />
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/orderIdOrder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="left"
+                            android:text="Order Id:767845563"
+                            android:textAllCaps="false"
+                            android:textColor="@color/light_black_4"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/llordId"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/deliveryDateOrder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Delivered on Tue, June 11th’19"
+                            android:textColor="@color/light_black_5"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -209,8 +215,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="3"
-                android:orientation="horizontal"
-                android:gravity="right|bottom">
+                android:gravity="right|bottom"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCancelOrder"
@@ -220,11 +226,11 @@
                     android:background="@drawable/order_buttons"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Cancel"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="10sp"
-                    android:textAlignment="center"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
                 <Button
                     android:id="@+id/btnReOrder"
@@ -234,10 +240,10 @@
                     android:background="@drawable/reorder_buttons"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Re-Order"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textAlignment="center"/>
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/btnDetails"
@@ -246,10 +252,10 @@
                     android:background="@drawable/order_details_button"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Details"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textAlignment="center"/>
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

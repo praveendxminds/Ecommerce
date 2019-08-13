@@ -256,7 +256,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                                 break;
 
                             case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(HomePage.this, .class);
+                                Intent intentWallet = new Intent(HomePage.this, MyWalletActivity.class);
                                 intentWallet.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentWallet);
                                 break;

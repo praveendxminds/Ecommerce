@@ -64,6 +64,7 @@ public class CategoryFilter extends AppCompatActivity {
       rangeSeekbar.setLeftThumbBitmap(bmLeftThumb);
         rangeSeekbar.setRightThumbBitmap(bmRightThumb);
 */
+      selectSortBy();
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
