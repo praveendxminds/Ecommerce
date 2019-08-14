@@ -28,7 +28,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 public class MyWalletActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    private Button btnAddMoney,btnLoyalityPoints,btnXnHistory;
+    private Button btnAddMoney, btnLoyalityPoints, btnTXnHistory;
     public static BottomNavigationView bottomNavigationView;
 
     @Override
@@ -44,26 +44,34 @@ public class MyWalletActivity extends AppCompatActivity {
         }
         btnAddMoney = findViewById(R.id.btnWalletOptnBtns);
         btnLoyalityPoints = findViewById(R.id.btnLoyalityPoints);
-        btnXnHistory = findViewById(R.id.btnxnHistory);
+        btnTXnHistory = findViewById(R.id.btntxnHistory);
 
         btnAddMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentAddMoney = new Intent(getBaseContext(),AddMoneyToWallet.class);
+                Intent intentAddMoney = new Intent(MyWalletActivity.this, AddMoneyToWallet.class);
                 startActivity(intentAddMoney);
             }
         });
         btnLoyalityPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentLoyalityPoints = new Intent(getBaseContext(),LoyalityPoints.class);
+                Intent intentLoyalityPoints = new Intent(MyWalletActivity.this, LoyalityPoints.class);
                 startActivity(intentLoyalityPoints);
+            }
+        });
+        btnTXnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentTxnHistory = new Intent(MyWalletActivity.this, PaymentHistory.class);
+                startActivity(intentTxnHistory);
             }
         });
 
         setFooter();
     }
-  void setFooter() {
+
+    void setFooter() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bNav_MyWallet);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -90,6 +98,9 @@ public class MyWalletActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(getBaseContext(), WishListHolder.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentWallet);
                                 break;
                         }
                         return true;

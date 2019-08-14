@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.app.ecommerce.DeliveryInformation;
@@ -19,6 +21,7 @@ public class LoyalityPoints extends AppCompatActivity {
     Toolbar toolbar;
     private TextView tvReedem,tvPoints;
     PlaceHolderView phvLoyalityPoints;
+    Button btnProceed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,12 +38,20 @@ public class LoyalityPoints extends AppCompatActivity {
         tvReedem = findViewById(R.id.tvReedem);
         tvPoints = findViewById(R.id.tvPoints);
         phvLoyalityPoints = findViewById(R.id.phvLoyalityPoints);
+        btnProceed = findViewById(R.id.btnProceed);
         String[] strArrNotes = {"1.","2.","3.","4.","5."} ;
         for(int i=0;i<strArrNotes.length;i++)
         {
             phvLoyalityPoints.addView(new LoyalityPointNotes(getApplicationContext(),strArrNotes[i]));
         }
 
+        btnProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this,LoyalityPointSuccessAck.class);
+                startActivity(intentRedeemptionSuccess);
+            }
+        });
 
     }
 

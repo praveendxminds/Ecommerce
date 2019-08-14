@@ -35,6 +35,7 @@ public class AddtoMoneySuccessAck extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentGoBack = new Intent(getBaseContext(),MyWalletActivity.class);
+                intentGoBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentGoBack);
             }
         });
@@ -57,6 +58,10 @@ public class AddtoMoneySuccessAck extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())
         {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.info:
                 Intent intentInfo = new Intent(getBaseContext(),DeliveryInformation.class);
                 startActivity(intentInfo);

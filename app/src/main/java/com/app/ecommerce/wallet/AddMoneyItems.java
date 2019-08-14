@@ -2,6 +2,7 @@ package com.app.ecommerce.wallet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.mindorks.placeholderview.annotations.View;
 @NonReusable
 @Layout(R.layout.add_to_money_items)
 public class AddMoneyItems {
+
     @View(R.id.llAddtoMoneyItem)
     public LinearLayout llAddtoMoney;
 
@@ -23,25 +25,22 @@ public class AddMoneyItems {
 
     public Context mContext;
     public String tvAmount;
+    public EditText etAmount;
 
-    public AddMoneyItems(Context contxt,String amnt)
-    {
+    public AddMoneyItems(Context contxt, String amnt, EditText amount) {
         this.mContext = contxt;
         this.tvAmount = amnt;
+        this.etAmount = amount;
     }
+
     @Resolve
-    public void onResolved()
-    {
+    public void onResolved() {
         tvAddtoAmount.setText(tvAmount);
     }
-    @Click(R.id.llAddtoMoneyItem)
-    public void getAmount()
-    {
-        Intent intentAmount = new Intent(mContext,AddMoneyToWallet.class);
-        intentAmount.putExtra("textAmount",tvAmount);
-        //intentAmount.setFlags(intentAmount.FLAG_ACTIVITY_NEW_TASK);
-        //mContext.startActivity(intentAmount);
 
+    @Click(R.id.llAddtoMoneyItem)
+    public void getAmount() {
+        etAmount.setText(tvAmount);
     }
 
 }

@@ -98,7 +98,7 @@
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@drawable/wallet_buttons"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_bold"
                             android:text="Add Money"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
@@ -235,7 +235,7 @@
                         android:layout_weight="7">
 
                         <Button
-                            android:id="@+id/btnxnHistory"
+                            android:id="@+id/btntxnHistory"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_gravity="center|right"

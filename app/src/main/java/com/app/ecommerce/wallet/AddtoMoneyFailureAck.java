@@ -56,6 +56,10 @@ public class AddtoMoneyFailureAck extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())
         {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.info:
                 Intent intentInfo = new Intent(getBaseContext(),DeliveryInformation.class);
                 startActivity(intentInfo);

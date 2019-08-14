@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 public class AddMoneyToWallet extends AppCompatActivity {
 
     Toolbar toolbar;
-    private TextView tvAmount;
+    private EditText etAmount;
     PlaceHolderView phvAddtoMoney;
     Button btnProceed;
 
@@ -38,25 +39,23 @@ public class AddMoneyToWallet extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        tvAmount = findViewById(R.id.tvAmount);
+        etAmount = findViewById(R.id.etAmount);
         phvAddtoMoney = findViewById(R.id.phvAddtoMoney);
         btnProceed = findViewById(R.id.btnProceed);
-        String[] strArrAmount = {"100","200","500","1000"} ;
+        String[] strArrAmount = {"100", "200", "500", "1000"};
         phvAddtoMoney.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
-                .setLayoutManager(new GridLayoutManager(getApplicationContext(),4));
+                .setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
 
-        for(int i=0;i<strArrAmount.length;i++)
-        {
-                phvAddtoMoney.addView(new AddMoneyItems(getApplicationContext(),strArrAmount[i]));
+        for (int i = 0; i < strArrAmount.length; i++) {
+            phvAddtoMoney.addView(new AddMoneyItems(AddMoneyToWallet.this, strArrAmount[i],etAmount));
         }
-        tvAmount.setText(getIntent().getStringExtra("textAmount"));
 
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSuccess = new Intent(AddMoneyToWallet.this,AddtoMoneySuccessAck.class);
+                Intent intentSuccess = new Intent(AddMoneyToWallet.this, AddtoMoneySuccessAck.class);
                 startActivity(intentSuccess);
             }
         });
@@ -66,20 +65,19 @@ public class AddMoneyToWallet extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuAddtoMoney = getMenuInflater();
-        menuAddtoMoney.inflate(R.menu.nav_toolbar_menu,menu);
+        menuAddtoMoney.inflate(R.menu.nav_toolbar_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
             case R.id.info:
-                Intent intentAddtoMoney = new Intent(getBaseContext(),DeliveryInformation.class);
+                Intent intentAddtoMoney = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentAddtoMoney);
                 break;
         }

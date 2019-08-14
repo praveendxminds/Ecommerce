@@ -680,7 +680,8 @@
         <activity
             android:name="com.app.ecommerce.wallet.AddMoneyToWallet"
             android:label="Add Money to Wallet"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>

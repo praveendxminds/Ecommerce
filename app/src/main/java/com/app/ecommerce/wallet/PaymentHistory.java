@@ -24,7 +24,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 public class PaymentHistory extends AppCompatActivity {
 
     Toolbar toolbar;
-    private PlaceHolderView mnotificationView;
+    private PlaceHolderView recycler_payHistory;
     public static BottomNavigationView bottomNavigationView;
 
 
@@ -40,10 +40,10 @@ public class PaymentHistory extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        mnotificationView = (PlaceHolderView) findViewById(R.id.recycler_notify);
+        recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
 
 
-        mnotificationView
+        recycler_payHistory
                 .addView(new PaymentHistoryItems(getApplicationContext()))
                 .addView(new PaymentHistoryItems(getApplicationContext()))
                 .addView(new PaymentHistoryItems(getApplicationContext()))
@@ -51,7 +51,7 @@ public class PaymentHistory extends AppCompatActivity {
                 .addView(new PaymentHistoryItems(getApplicationContext()))
                 .addView(new PaymentHistoryItems(getApplicationContext()));
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_Notifications);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_PayHistory);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -60,25 +60,25 @@ public class PaymentHistory extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
                                 Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHomePage);
                                 break;
 
                             case R.id.navigation_categories:
                                 Intent intentCategories = new Intent(getBaseContext(), CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCategories);
                                 break;
 
                             case R.id.navigation_wishlist:
                                 Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
                                 Intent intentWallet = new Intent(getBaseContext(), MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
                         }
