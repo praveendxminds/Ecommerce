@@ -52,6 +52,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
             phvAddtoMoney.addView(new AddMoneyItems(AddMoneyToWallet.this, strArrAmount[i],etAmount));
         }
 
+/*
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +60,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
                 startActivity(intentSuccess);
             }
         });
+*/
 
     }
 
