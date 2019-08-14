@@ -3,11 +3,14 @@ package com.app.ecommerce.MyOrder;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.retrofit.APIClient;
@@ -75,6 +78,11 @@ public class orderItem {
         mContext = context;
     }*/
 
+
+    AlertDialog.Builder builder;
+
+
+
     public orderItem(Context context, String orderId, String deliveryDate, String status, String cancel) {
         this.mContext = context;
         this.mstatus = status;
@@ -87,6 +95,10 @@ public class orderItem {
     public void onResolved() {
         session = new SessionManager(mContext);
         apiInterface = APIClient.getClient().create(APIInterface.class);
+
+
+        builder = new AlertDialog.Builder(mContext);
+
 
         orderIdOrder.setText("Order Id :" + " " + morderId);
         Date localTime = null;
@@ -166,46 +178,45 @@ public class orderItem {
     }
 
 
+    @Click(R.id.btnReOrder)
+    public void onReorderClick()
+    {
 
-//    @Click(R.id.btnReOrder)
-//    public void onReorderClick()
-//    {
-//
-//
-//        LayoutInflater li = LayoutInflater.from(mContext);
-//        android.view.View promptsView = li.inflate(R.layout.reorder_dialog, null);
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.AlertDialogStyle);
-//        alertDialogBuilder.setView(promptsView);
-//
-//        // set the custom dialog components - text, image and button
-//        TextView tvReorder = (TextView) promptsView.findViewById(R.id.tvReorder);
-//        TextView tvClose = (TextView) promptsView.findViewById(R.id.tvClose);
-//        TextView tvdesc = (TextView) promptsView.findViewById(R.id.tvdesc);
-//        Button btnCancel = (Button) promptsView.findViewById(R.id.btnCancel);
-//        Button btnChkItems = (Button) promptsView.findViewById(R.id.btnCheckItems);
-//
-//        final AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
-//
-//        btnCancel.setOnClickListener(new android.view.View.OnClickListener() {
-//            @Override
-//            public void onClick(android.view.View view) {
-//                alertDialog.cancel();
-//            }
-//        });
-//        btnChkItems.setOnClickListener(new android.view.View.OnClickListener() {
-//            @Override
-//            public void onClick(android.view.View v) {
-//                Intent myIntent = new Intent(mContext, ReorderHolder.class);
-//                // myIntent.putExtra("order_id", morderId);
-//                // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mContext.startActivity(myIntent);
-//            }
-//        });
-//
-//
-//
-//    }
+
+        LayoutInflater li = LayoutInflater.from(mContext);
+        android.view.View promptsView = li.inflate(R.layout.reorder_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.AlertDialogStyle);
+        alertDialogBuilder.setView(promptsView);
+
+        // set the custom dialog components - text, image and button
+        TextView tvReorder = (TextView) promptsView.findViewById(R.id.tvReorder);
+        TextView tvClose = (TextView) promptsView.findViewById(R.id.tvClose);
+        TextView tvdesc = (TextView) promptsView.findViewById(R.id.tvdesc);
+        Button btnCancel = (Button) promptsView.findViewById(R.id.btnCancel);
+        Button btnChkItems = (Button) promptsView.findViewById(R.id.btnCheckItems);
+
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        btnCancel.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                alertDialog.cancel();
+            }
+        });
+        btnChkItems.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                Intent myIntent = new Intent(mContext, ReorderHolder.class);
+                // myIntent.putExtra("order_id", morderId);
+                // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(myIntent);
+            }
+        });
+
+
+
+    }
 
     @Click(R.id.btnDetails)
     public void onDetailsOrder() {
@@ -222,6 +233,11 @@ public class orderItem {
         // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
+
+
+
+
+
 
 }
 

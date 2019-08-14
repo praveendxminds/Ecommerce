@@ -36,10 +36,7 @@
         <item name="listPreferredItemHeightSmall">45dp</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorPrimary">@color/black</item>
-    </style>
+
 
     <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
@@ -154,4 +151,10 @@
         <item name="android:progressTint">#FF34773C</item>
         <item name="android:colorControlActivated">#FF34773C</item>
     </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
 </resources>

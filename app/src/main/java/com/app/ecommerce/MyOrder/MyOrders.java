@@ -83,7 +83,7 @@ public class MyOrders extends AppCompatActivity {
 
                     for (MyOrderList.MyOrderListDatum orderList : datumList1) {
 
-                        mCartView.addView(new orderItem(getApplicationContext(),orderList.sorder_id,orderList.sdate_added,
+                        mCartView.addView(new orderItem(MyOrders.this,orderList.sorder_id,orderList.sdate_added,
                                 orderList.sstatus,orderList.scancel ));
                         session.storeCancelId(orderList.scancel);
                         session.storeStatusOrder(orderList.sstatus);
