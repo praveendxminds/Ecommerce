@@ -32,6 +32,7 @@
 
     <application
         android:allowBackup="true"
+        tools:replace="android:allowBackup"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -249,6 +250,16 @@
         </activity>
         <activity
             android:name="com.app.ecommerce.payment.OTPVerificationPayment"
+            android:label="Payment OTP Verification"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.app.ecommerce.payment.PayMentGateWay"
             android:label="Payment OTP Verification"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -730,6 +741,9 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+
+
 
     </application>
 </manifest>
