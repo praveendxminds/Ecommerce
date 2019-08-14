@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.app.ecommerce.DeliveryInformation;
@@ -18,7 +19,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 public class AddMoneyToWallet extends AppCompatActivity {
 
     Toolbar toolbar;
-    private TextView tvAmount;
+    private EditText etAmount;
     PlaceHolderView phvAddtoMoney;
 
     @Override
@@ -33,7 +34,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        tvAmount = findViewById(R.id.tvAmount);
+        etAmount = findViewById(R.id.etAmount);
         phvAddtoMoney = findViewById(R.id.phvAddtoMoney);
         String[] strArrAmount = {"100","200","500","1000"} ;
         phvAddtoMoney.getBuilder()
@@ -43,9 +44,9 @@ public class AddMoneyToWallet extends AppCompatActivity {
 
         for(int i=0;i<strArrAmount.length;i++)
         {
-                phvAddtoMoney.addView(new AddMoneyItems(getApplicationContext(),strArrAmount[i]));
+                phvAddtoMoney.addView(new AddMoneyItems(getApplicationContext(),strArrAmount[i],etAmount));
         }
-        tvAmount.setText(getIntent().getStringExtra("textAmount"));
+
 
     }
 
