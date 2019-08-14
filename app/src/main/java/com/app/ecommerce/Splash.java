@@ -14,6 +14,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.app.ecommerce.Home.HomePage;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 public class Splash extends AppCompatActivity {
 
@@ -31,6 +33,11 @@ public class Splash extends AppCompatActivity {
         Animation animation1 =
                 AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
         ivVehicle.startAnimation(animation1);
+
+
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(ivVehicle);
+        Glide.with(this).load(R.raw.JOP).into(imageViewTarget);
+
 
 
 //        new Handler().postDelayed(new Runnable() {
