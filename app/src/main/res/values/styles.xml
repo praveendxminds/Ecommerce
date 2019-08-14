@@ -29,21 +29,27 @@
         <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
         <item name="actionButtonStyle">@style/MyActionButtonStyle</item>
     </style>
-<style name="LeftNavTheme" parent="Widget.Design.BottomNavigationView">
-    <item name="android:fontFamily">@font/roboto_regular</item>
-    <item name="android:textSize">14sp</item>
-    <item name="listPreferredItemHeightSmall">45dp</item>
 
-</style>
+    <style name="LeftNavTheme" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="listPreferredItemHeightSmall">45dp</item>
+    </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
 
     <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="NavigationView"  parent="Base.Theme.AppCompat">
+    <style name="NavigationView" parent="Base.Theme.AppCompat">
         <item name="android:listDivider">@color/light_black_6</item>
     </style>
+
     <style name="MyActionButtonStyle" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:minWidth">0dip</item>
         <item name="android:paddingEnd">8dip</item>
@@ -64,6 +70,7 @@
         <!-- Set title color -->
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="CheckBoxBg">
         <item name="android:background">@color/light_black_4</item>
     </style>
@@ -82,6 +89,7 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:popupBackground">#FFFFFF</item>
     </style>
+
     <style name="spinner_product_detail_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -90,36 +98,42 @@
         <item name="android:padding">5dp</item>
         <item name="android:popupBackground">#FFFFFF</item>
     </style>
+
     <style name="tab_layout_product_details">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textAlignment">center</item>
     </style>
+
     <style name="viewpager_layout_product_details">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/blackshadow</item>
         <item name="android:background">@color/white</item>
     </style>
+
     <style name="toolbar_text">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
-<style name="shipping_addr_txt">
-    <item name="android:fontFamily">@font/roboto_bold</item>
-    <item name="android:textSize">16sp</item>
-    <item name="android:textColor">@color/light_black_2</item>
-    <item name="android:gravity">start</item>
-    <item name="android:layout_marginTop">10dp</item>
-</style>
+
+    <style name="shipping_addr_txt">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/light_black_2</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
     <style name="shipping_details_edittxt" parent="TextAppearance.Design.Hint">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/light_black_2</item>
         <item name="android:backgroundTint">#FFD8D8D8</item>
     </style>
+
     <style name="new_addr_txt">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">10sp</item>
@@ -127,12 +141,14 @@
         <item name="android:gravity">start</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
+
     <style name="new_address_edittxt" parent="TextAppearance.Design.Hint">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/light_black_2</item>
         <item name="android:backgroundTint">#FFD8D8D8</item>
     </style>
+
     <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressBackgroundTint">#FF34773C</item>
         <item name="android:progressTint">#FF34773C</item>

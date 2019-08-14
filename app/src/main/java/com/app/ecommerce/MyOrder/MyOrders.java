@@ -50,7 +50,7 @@ public class MyOrders extends AppCompatActivity {
     public static BottomNavigationView navigationMyOrders;
     View view_count;
     APIInterface apiInterface;
-    public orderItem orderItem;
+   // public orderItem orderItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class MyOrders extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-            orderItem = new orderItem(MyOrders.this);
+          //  orderItem = new orderItem(MyOrders.this);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
