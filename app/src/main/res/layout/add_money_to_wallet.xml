@@ -97,16 +97,16 @@
                         android:padding="10dp"
                         android:text="@string/Rs" />
 
-                    <EditText
-                        android:id="@+id/etAmount"
+                    <TextView
+                        android:id="@+id/tvAmount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center|left"
                         android:padding="10dp"
+                        android:text="100"
                         android:textColor="@color/light_black_1"
-                        android:textSize="14sp"
-                        android:background="@color/zxing_transparent"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -119,24 +119,21 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:background="@color/white"></com.mindorks.placeholderview.PlaceHolderView>
+                        android:paddingBottom="10dp"></com.mindorks.placeholderview.PlaceHolderView>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
             <Button
-                android:id="@+id/btnProceed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorAccent"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Proceed"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
