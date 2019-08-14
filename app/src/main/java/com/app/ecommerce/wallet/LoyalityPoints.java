@@ -55,9 +55,14 @@ public class LoyalityPoints extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.info:
                 Intent intentAddtoMoney = new Intent(getBaseContext(),DeliveryInformation.class);
                 startActivity(intentAddtoMoney);
+                break;
         }
         return true;
     }

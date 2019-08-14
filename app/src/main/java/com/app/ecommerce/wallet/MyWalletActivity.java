@@ -109,6 +109,10 @@ public class MyWalletActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.menu_notifi:
                 Intent intentNotifiMywallet = new Intent(getBaseContext(), MyNotifications.class);
                 startActivity(intentNotifiMywallet);

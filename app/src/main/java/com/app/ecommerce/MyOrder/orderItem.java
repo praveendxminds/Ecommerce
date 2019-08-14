@@ -166,10 +166,8 @@ public class orderItem {
     }
 
 
-
-//    @Click(R.id.btnReOrder)
-//    public void onReorderClick()
-//    {
+    @Click(R.id.btnReOrder)
+    public void onReorderClick() {
 //
 //
 //        LayoutInflater li = LayoutInflater.from(mContext);
@@ -196,30 +194,30 @@ public class orderItem {
 //        btnChkItems.setOnClickListener(new android.view.View.OnClickListener() {
 //            @Override
 //            public void onClick(android.view.View v) {
-//                Intent myIntent = new Intent(mContext, ReorderHolder.class);
-//                // myIntent.putExtra("order_id", morderId);
-//                // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mContext.startActivity(myIntent);
+        Intent myIntent = new Intent(mContext, ReorderHolder.class);
+        myIntent.putExtra("order_id", morderId);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(myIntent);
 //            }
 //        });
 //
 //
 //
-//    }
+    }
 
     @Click(R.id.btnDetails)
     public void onDetailsOrder() {
         Intent myIntent = new Intent(mContext, OrderDetailsHolder.class);
-        // myIntent.putExtra("order_id", morderId);
-        // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.putExtra("order_id", morderId);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
 
     @Click(R.id.btnPayNow)
     public void onPayNow() {
         Intent myIntent = new Intent(mContext, CheckoutOrder.class);
-        // myIntent.putExtra("order_id", morderId);
-        // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.putExtra("order_id", morderId);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
 

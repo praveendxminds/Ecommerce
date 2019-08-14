@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -93,7 +94,7 @@
 
                         <Button
                             android:id="@+id/btnWalletOptnBtns"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@drawable/wallet_buttons"
@@ -168,14 +169,16 @@
 
                         <Button
                             android:id="@+id/btnLoyalityPoints"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:background="@drawable/wallet_buttons"
                             android:text="Reedem"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:layout_marginLeft="20dp"
+                            />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -233,14 +236,15 @@
 
                         <Button
                             android:id="@+id/btnxnHistory"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="30dp"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center|right"
                             android:background="@drawable/wallet_buttons"
                             android:text="History"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:layout_marginLeft="20dp" />
                     </LinearLayout>
                 </LinearLayout>
 
