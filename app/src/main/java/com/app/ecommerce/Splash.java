@@ -35,8 +35,8 @@ public class Splash extends AppCompatActivity {
         ivVehicle.startAnimation(animation1);
 
 
-        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(ivVehicle);
-        Glide.with(this).load(R.raw.JOP).into(imageViewTarget);
+//        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(ivVehicle);
+//        Glide.with(this).load(R.raw.jop).into(imageViewTarget);
 
 
 
