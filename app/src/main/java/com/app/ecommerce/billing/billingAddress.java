@@ -139,7 +139,7 @@ public class billingAddress extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-                
+
             case R.id.help_menu_item:
                 Intent intentHelp = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentHelp);
