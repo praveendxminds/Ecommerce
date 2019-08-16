@@ -19,13 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.ecommerce.Home.HomePage;
 import com.app.ecommerce.R;
+import com.app.ecommerce.SessionManager;
 import com.app.ecommerce.Utils;
-import com.app.ecommerce.profile_section.ForgotPassword_act;
+import com.app.ecommerce.ProfileSection.ForgotPassword;
 import com.app.ecommerce.retrofit.APIClient;
 import com.app.ecommerce.retrofit.APIInterface;
-import com.app.ecommerce.retrofit_model.UserLogin;
-import com.app.ecommerce.session.SessionManager;
+import com.app.ecommerce.ProfileSection.UserLogin;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class Login_act extends AppCompatActivity {
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentForgotPassword = new Intent(getApplicationContext(), ForgotPassword_act.class);
+                Intent intentForgotPassword = new Intent(getApplicationContext(), ForgotPassword.class);
                 startActivity(intentForgotPassword);
             }
         });
@@ -147,7 +148,7 @@ public class Login_act extends AppCompatActivity {
                         sessionManager.createLoginSession(datum.customer_id, datum.customer_group_id,
                                 datum.firstname, datum.lastname, datum.email, datum.cart, datum.wishlist,
                                 datum.address_id, datum.date_added, datum.api_token);
-                        Intent intentHomePage = new Intent(Login_act.this, HomePage_act.class);
+                        Intent intentHomePage = new Intent(Login_act.this, HomePage.class);
                         startActivity(intentHomePage);
                     }
 
