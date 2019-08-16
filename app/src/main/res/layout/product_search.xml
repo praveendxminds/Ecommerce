@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drwLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbarHomePage"
+            layout="@layout/toolbar_home_new" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/navigationHomePage"
+            android:layout_below="@+id/toolbarHomePage"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
+
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/list_items_homePage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:scrollbars="vertical" />
+
+                <ProgressBar
+                    android:id="@+id/loadingHomePage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigationHomePage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/whiteshadow"
+            app:itemTextColor="@color/light_black_2"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation_menu" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rlNavMenu"
+        android:layout_width="281dp"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_gravity="left"
+        android:orientation="vertical">
+
+
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_viewHomePage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:itemBackground="@color/white"
+            android:background="@color/white"
+            app:menu="@menu/left_menu_drawer"
+            app:theme="@style/LeftNavTheme"
+            app:headerLayout="@layout/left_nav_header"
+            android:theme="@style/NavigationView"
+            app:itemIconPadding="12dp"
+            android:layout_margin="0dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/llleftMenuLogOut"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#454A4A4A" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="16dp"
+                    android:duplicateParentState="true"
+                    >
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="22dp"
+                    android:background="@drawable/logout_yellow"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+                    android:duplicateParentState="true"
+                  />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp"
+                    android:textColor="@color/light_black_1"
+                    android:text="Logout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_gravity="center"
+                    android:duplicateParentState="true"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.design.widget.NavigationView>
+    </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>
+
