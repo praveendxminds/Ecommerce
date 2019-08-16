@@ -58,6 +58,15 @@
         </activity>
 
         <activity
+            android:name="com.app.ecommerce.Home.ProductSearch"
+            android:label="Search"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="com.app.ecommerce.ContactUs"
             android:label="Contact Us"
             android:theme="@style/AppTheme">
@@ -508,6 +517,7 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
 
         <activity
             android:name="com.app.ecommerce.register"

@@ -84,7 +84,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private static ProductSearch instance;
     private Toolbar mToolbarHomePage;
-    private PlaceHolderView list_items_homePage;
 
     public static TextView textCartItemCount;
     public static BottomNavigationView bottomNavigationView;
@@ -119,7 +118,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         AndroidNetworking.initialize(getApplicationContext());
         init();
         initBottomNavigation();
-        initApiCall();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -147,12 +145,9 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(mToolbarHomePage);
         getSupportActionBar().setTitle(null);
 
-        progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
         llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
         imgBtnProfile = findViewById(R.id.imgBtnProfile);
 
-        list_items_homePage = (PlaceHolderView) findViewById(R.id.list_items_homePage);
-        list_items_homePage.setPadding(0, 0, 0, 0);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
         drwLayout = findViewById(R.id.drwLayout);
 
@@ -240,97 +235,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         bottomNavigationView.setItemIconSize(40);
     }
 
-    private void initApiCall() {
-        final ArrayList<String> imageArray = new ArrayList<String>();
-        final ArrayList<String> headArray = new ArrayList<String>();
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //-------------------------------------image slider view------------------------------------------------
-            final ProductslHomePage productslHomePage = new ProductslHomePage("7","1");
-            Call<ProductslHomePage> call = apiInterface.getHomePageProducts(productslHomePage);
-            call.enqueue(new Callback<ProductslHomePage>() {
-                @Override
-                public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
-                    ProductslHomePage resource = response.body();
-                    List<ProductslHomePage.BannerList> datumList = resource.banner;
-                    for (ProductslHomePage.BannerList imageslider1 : datumList) {
-                        progressBarHomePage.setVisibility(View.INVISIBLE);
-                        imageArray.add(imageslider1.image);
-                        headArray.add(imageslider1.title);
-                    }
-                    list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));
-                    //-----------------------------------------deal of day ------------------------------------------
-
-                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
-                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
-                    for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
-                        newImageListDeal.add(imageListDeal.get(i));
-                    }
-                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), textCartItemCount, newImageListDeal));
-                    //--------------------------------------------Products-------------------------------------------
-                    List<ProductslHomePage.Products> imageListProducts = resource.products;
-                    List<ProductslHomePage.Products> newImageListPrd = new ArrayList<>();
-                    for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
-                        newImageListPrd.add(imageListProducts.get(i));
-                    }
-                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), textCartItemCount, newImageListPrd));
-                    //-----------------------------------------Recommended List-------------------------------------
-
-                    List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
-                    List<ProductslHomePage.RecommendedList> newImageRecommendProducts = new ArrayList<>();
-                    for (int i = 0; i < (imageRecomendProducts.size() > 10 ? 10 : imageRecomendProducts.size()); i++) {
-                        newImageRecommendProducts.add(imageRecomendProducts.get(i));
-                    }
-                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), textCartItemCount, newImageRecommendProducts));
-                }
-
-                @Override
-                public void onFailure(Call<ProductslHomePage> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            custId = session.getCustomerId();
-            final MyProfileModel myProfileModel = new MyProfileModel(custId);
-            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
-            call.enqueue(new Callback<MyProfileModel>() {
-                @Override
-                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
-                    MyProfileModel resourceMyProfile = response.body();
-                    if(resourceMyProfile.status.equals("success"))
-                    {
-                       // Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
-                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
-                        for(MyProfileModel.Datum mpmResult : mpmDatum)
-                        {
-                            tvName.setText(mpmResult.firstname+" "+mpmResult.lastname);
-                            tvEmail.setText(mpmResult.email);
-                            tvMobileNo.setText(mpmResult.telephone);
-                        }
-
-                    }
-                    else if(resourceMyProfile.status.equals("failure"))
-                    {
-                        Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MyProfileModel> call, Throwable t) {
-
-                }
-            });
-            }
-        else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public static ProductSearch getInstance() {
         return instance;
@@ -369,14 +274,15 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
         Log.d("ccccc", String.valueOf(actionBarwidth));
         Log.d("aaaaaa", String.valueOf(actionBarHeight));
-        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams((int) (actionBarwidth / 1.65),
-                (int) (actionBarHeight / 1.7));
-        searchViews.setBackground(ContextCompat.getDrawable(this, R.drawable.search_border));
-        searchViews.setLayoutParams(tvLay);
+//        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams((int) (actionBarwidth / 1.65),
+//                (int) (actionBarHeight / 1.7));
+//        searchViews.setBackground(ContextCompat.getDrawable(this, R.drawable.search_border));
+//        searchViews.setLayoutParams(tvLay);
 
-        searchViews.setIconifiedByDefault(false);//make default request focus disable
-        searchViews.setFocusable(false);
+        searchViews.setIconifiedByDefault(true);//make default request focus disable
+        searchViews.setFocusable(true);
         searchViews.setIconified(false);
+        searchViews.requestFocusFromTouch();
 
         final ImageView searchMagIcon = (ImageView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
         searchMagIcon.setImageResource(R.drawable.ic_search_black_24dp);
@@ -384,19 +290,32 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         searchMagIcon.setPadding(0, 0, 0, 0);
         searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //  searchViews.setMaxWidth(600);
-        //searchViews.setMaxWidth(Integer.MAX_VALUE);
+         // searchViews.setMaxWidth(600);
+        searchViews.setMaxWidth(Integer.MAX_VALUE);
 
         searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
-        searchEditText.setPadding(0, 2, 2, 2);
+        searchEditText.setPadding(5, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
         strSearchKey=searchEditText.getText().toString();
         searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
 
         searchEditText.setOnItemClickListener(onItemClickListener);
-        searchEditText.clearFocus();
+        //searchEditText.clearFocus();
+
+
+        searchViews.setOnCloseListener(new SearchView.OnCloseListener() {
+
+            @Override
+            public boolean onClose()
+            {
+                Log.d("close", "onClose: ");
+                return false;
+            }
+        });
+
+
 
         //here we will get the search query
         searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -411,6 +330,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             @Override
             public boolean onQueryTextChange(String newText)
             {
+                searchViews.setMaxWidth(Integer.MAX_VALUE);
                 Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
                 RemoteData remoteData = new RemoteData(ProductSearch.this);
                 remoteData.getStoreData(newText);

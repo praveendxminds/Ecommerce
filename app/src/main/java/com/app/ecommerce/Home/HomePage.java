@@ -42,12 +42,14 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -119,7 +121,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     private ProgressBar progressBarHomePage;
     private LinearLayout llProfileIcon, llProfileDesc;
-    private AutoCompleteTextView searchEditText;
+    private EditText searchEditText;
     private DrawerLayout drwLayout;
     private CircularImageView ivProfilePic;
     private ImageView ivEditProfile;
@@ -414,16 +416,50 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         //  searchViews.setMaxWidth(600);
         //searchViews.setMaxWidth(Integer.MAX_VALUE);
 
-        searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText = (EditText) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setPadding(0, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
         strSearchKey=searchEditText.getText().toString();
-        searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
 
-        searchEditText.setOnItemClickListener(onItemClickListener);
         searchEditText.clearFocus();
+
+
+        searchEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP)
+                {
+
+
+                        Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
+                        prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(prdIntent);
+
+
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        searchViews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
+                prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(prdIntent);
+
+            }
+        });
 
         //here we will get the search query
         searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -21,27 +21,6 @@
             android:layout_below="@+id/toolbarHomePage"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="vertical">
-
-                <com.mindorks.placeholderview.PlaceHolderView
-                    android:id="@+id/list_items_homePage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:scrollbars="vertical" />
-
-                <ProgressBar
-                    android:id="@+id/loadingHomePage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true" />
-
-            </FrameLayout>
         </LinearLayout>
 
         <android.support.design.widget.BottomNavigationView
