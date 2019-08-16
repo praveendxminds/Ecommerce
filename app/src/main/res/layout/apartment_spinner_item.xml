@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
-    android:gravity="left|center"
-    android:hint="Apartment Name*"
-    android:inputType="text"
-    style="?android:attr/spinnerItemStyle"
-    android:padding="16dp"
-    android:textColor="@color/light_black_2"
-    android:textColorHint="@color/light_black_2"
-    android:textSize="14sp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:backgroundTint="@color/white">
+
+    <TextView
+        android:id="@+id/tvSpinnerItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="left|center"
+        android:inputType="textMultiLine"
+        android:padding="15dp"
+        android:text="Apartment Name"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+</LinearLayout>

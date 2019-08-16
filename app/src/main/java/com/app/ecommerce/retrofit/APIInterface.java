@@ -1,7 +1,14 @@
 package com.app.ecommerce.retrofit;
 
+import com.app.ecommerce.ProfileSection.ApartmentList;
 import com.app.ecommerce.ProfileSection.MyProfileModel;
+import com.app.ecommerce.ProfileSection.SignUpImageResponse;
+import com.app.ecommerce.ProfileSection.UserLogin;
+import com.app.ecommerce.ProfileSection.UserSignUp;
 
+import io.intercom.retrofit2.http.Multipart;
+import io.intercom.retrofit2.http.Part;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -100,4 +107,19 @@ public interface APIInterface {
 
    @POST("index.php?route=api/cart/add&api_token=c6bc796996424a77c3ceab40e1")
     Call<AddToCartModel> callAddToCart(@Body AddToCartModel id);
+
+
+    @GET("index.php?route=api/custom/getApartments")
+    Call<ApartmentList> getApartmentList();
+
+    @POST("index.php?route=api/login")
+    Call<UserLogin> login(@Body UserLogin user);
+
+    @POST("index.php?route=api/customer/register")
+    Call<UserSignUp> postRegisterUser(@Body UserSignUp signupdata);
+
+    @Multipart
+    @POST("imageupload")
+    Call<SignUpImageResponse> signupImageUpload(@Part MultipartBody.Part file1);
+
 }
