@@ -490,6 +490,26 @@
         </activity>
 
         <activity
+            android:name="com.app.ecommerce.ProfileSection.Login_act"
+            android:label="Login Page"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.app.ecommerce.ProfileSection.SignUp_act"
+            android:label="SignUp Page"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="com.app.ecommerce.register"
             android:label="Register"
             android:theme="@style/AppTheme">
