@@ -1,6 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFBD249"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:subtitleTextColor="@color/white"
+        app:theme="@style/AppTheme.Toolbar"
+        app:title="@string/refer_and_earn"
+        app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:id="@+id/scrollviewConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/llShareCode">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_marginBottom="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="350dp"
+                    android:layout_height="250dp"
+                    android:background="@drawable/referus" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="5dp"
+                        android:text="Reward your friends and yourself"
+                        android:textAllCaps="false"
+                        android:textColor="@color/light_black_3"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="5dp"
+                        android:text="Link : www.nisaraga.com/refer/ankit1224"
+                        android:textAllCaps="false"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight=".3"
+                        android:background="@drawable/edit_txt_border"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Your Code :"
+                            android:textColor="@color/light_black_1"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="left|center"
+                            android:hint="ANKIT1224"
+                            android:padding="5dp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/light_black_2"
+                            android:textColorHint="@color/grey"
+                            android:textCursorDrawable="@drawable/cursor"
+                            android:textSize="12sp"
+                            android:theme="@style/MyEditText1" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight=".7"
+                        android:background="@drawable/copy_buttons"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="Copy"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Share with your Friends"
+                        android:textAlignment="center"
+                        android:textColor="@color/light_black_4"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp">
+
+                        <ImageButton
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/facebook_new" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#FF5FAF50"></View>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <ImageButton
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/whatsapp_new" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/llShareCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="Share"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+</RelativeLayout>

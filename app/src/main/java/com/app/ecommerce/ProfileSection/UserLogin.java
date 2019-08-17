@@ -47,6 +47,9 @@ public class UserLogin {
         @SerializedName("cart")
         public String cart;
 
+        @SerializedName("telephone")
+        public String telephone;
+
         @SerializedName("wishlist")
         public String wishlist;
 

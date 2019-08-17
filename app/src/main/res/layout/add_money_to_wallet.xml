@@ -101,13 +101,15 @@
                         android:id="@+id/etAmount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:gravity="center|left"
                         android:padding="10dp"
                         android:hint="000"
+                        android:inputType="number"
                         android:textColor="@color/light_black_1"
-                        android:textSize="14sp"
-                        android:background="@color/zxing_transparent"/>
+                        android:textSize="16sp"
+                        android:background="@color/zxing_transparent"
+                        android:cursorVisible="false"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -131,6 +133,7 @@
             android:layout_alignParentBottom="true">
 
             <Button
+                android:id="@+id/btnProceed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorAccent"

@@ -29,6 +29,7 @@ public class SessionManager {
     public static final String KEY_EMAIL_ID = "email";
     public static final String KEY_LNAME = "lastname";
     public static final String KEY_FNAME = "firstname";
+    public static final String KEY_TELEPHONE = "telephone";
 
     public static final String KEY_EMAIL_ADDRESS = "email";
     public static final String KEY_FNAME_ADDRS = "firstname";
@@ -123,7 +124,7 @@ public class SessionManager {
 
 
     public void createLoginSession(String customer_id, String customer_group_id, String firstname, String lastname,
-                                   String email, String cart, String wishlist, String address_id,
+                                   String email, String cart, String telephone, String wishlist, String address_id,
                                    String date_added, String api_token) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_CUST_ID, customer_id);
@@ -131,6 +132,7 @@ public class SessionManager {
         editor.putString(KEY_FNAME, firstname);
         editor.putString(KEY_LNAME, lastname);
         editor.putString(KEY_CART, cart);
+        editor.putString(KEY_TELEPHONE,telephone);
         editor.putString(KEY_WISHLIST, wishlist);
         editor.putString(KEY_EMAIL_ID, email);
         editor.putString(KEY_ADDRESS_ID, address_id);
@@ -138,9 +140,27 @@ public class SessionManager {
         editor.putString(KEY_TOKEN_LOGIN, api_token);
         editor.commit();
     }
+
     public String getCustomerId() {
         return pref.getString(KEY_CUST_ID, null);
     }
+
+    public String getFirstName() {
+        return pref.getString(KEY_FNAME, null);
+    }
+
+    public String getLastName() {
+        return pref.getString(KEY_LNAME, null);
+    }
+
+    public String getPhoneNumber() {
+        return pref.getString(KEY_TELEPHONE, null);
+    }
+
+    public String getEmailAddress() {
+        return pref.getString(KEY_EMAIL_ID, null);
+    }
+
 
     public String getToken() {
         return pref.getString(KEY_TOKEN_LOGIN, null);
@@ -197,6 +217,8 @@ public class SessionManager {
         editor.commit();
     }
 
+
+
     public String getApartmentName() {
         return pref.getString(KEY_APRT_NAME_ADDRS, null);
     }
@@ -230,8 +252,8 @@ public class SessionManager {
     }
 
 
-    public void saveShippingDetails(String first_name, String last_name, String phone, String instruct,String delivery_day,
-                                    String apartment_details, String apartment ) {
+    public void saveShippingDetails(String first_name, String last_name, String phone, String instruct, String delivery_day,
+                                    String apartment_details, String apartment) {
 
         editor.putString(SHIP_FNAME, first_name);
         editor.putString(SHIP_LNAME, last_name);
@@ -242,6 +264,7 @@ public class SessionManager {
         editor.putString(SHIP_DELIVERY_DAY, delivery_day);//modified apartment details
         editor.commit();
     }
+
     public String getShipFirstName() {
         return pref.getString(SHIP_FNAME, null);
     }
