@@ -28,8 +28,6 @@ public class Utils {
     private static final String TAG = "Utils";
     static APIInterface apiInterface;
 
-
-
     public static List<Feed> loadFeeds(Context context){
         try{
             GsonBuilder builder = new GsonBuilder();

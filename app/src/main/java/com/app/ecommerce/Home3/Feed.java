@@ -14,11 +14,9 @@ public class Feed {
     @Expose
     public String heading;
 
-
     @SerializedName("prdImg")
     @Expose
     public String CategoryImgUrl;
-
 
     public String getHeading() {
         return heading;
@@ -28,8 +26,6 @@ public class Feed {
         this.heading = heading;
     }
 
-
-
     public String getCatImageUrl() {
         return CategoryImgUrl;
     }
@@ -37,6 +33,4 @@ public class Feed {
     public void setCatImageURL(String CategoryImgUrl) {
         this.CategoryImgUrl = CategoryImgUrl;
     }
-
-
 }
