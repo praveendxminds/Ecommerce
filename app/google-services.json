@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "623776627581",
-    "firebase_url": "https://grocerry-d9201.firebaseio.com",
-    "project_id": "grocerry-d9201",
-    "storage_bucket": "grocerry-d9201.appspot.com"
+    "project_number": "51634817910",
+    "firebase_url": "https://nisarga-e7afe.firebaseio.com",
+    "project_id": "nisarga-e7afe",
+    "storage_bucket": "nisarga-e7afe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:623776627581:android:ff2a58c044c9bf06",
+        "mobilesdk_app_id": "1:51634817910:android:74948fd1550ed4ae",
         "android_client_info": {
-          "package_name": "walnutstores.walnutstores.com.groceryfactory"
+          "package_name": "com.nisarga.nisargaveggiez"
         }
       },
       "oauth_client": [
         {
-          "client_id": "623776627581-2jdkgm1h1inb8fks4ofgesc1jut390rr.apps.googleusercontent.com",
+          "client_id": "51634817910-rgeopof13mnl1ear3r2e84mfj6uah1sb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "walnutstores.walnutstores.com.groceryfactory",
-            "certificate_hash": "e33b7b9db53e146e08cbeec422b1d4a77db74a1b"
+            "package_name": "com.nisarga.nisargaveggiez",
+            "certificate_hash": "b230e1ee1fe58b1ce9607e8315a909964909e44b"
           }
         },
         {
-          "client_id": "623776627581-471bbt3hpchcktpg0ck0ir2tdr3nl9gf.apps.googleusercontent.com",
+          "client_id": "51634817910-7mkmnepn84r98ruia43kh13b6c5mpj96.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDLbezK1KFIlg8j_PWmSA_utSdyG-X_LtI"
+          "current_key": "AIzaSyB1BeiQ06UeVfTOBeRHnKMb08Ap9_JpBJU"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "623776627581-471bbt3hpchcktpg0ck0ir2tdr3nl9gf.apps.googleusercontent.com",
+              "client_id": "51634817910-7mkmnepn84r98ruia43kh13b6c5mpj96.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
