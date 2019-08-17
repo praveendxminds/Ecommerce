@@ -14,16 +14,16 @@ public class ProductData {
         return product_id;
     }
 
-    public void setPrdId(String prd_id) {
-        this.product_id = prd_id;
+    public void setPrdId(String product_id) {
+        this.product_id = product_id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String prdName) {
-        this.name = prdName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImage() {

@@ -2,49 +2,32 @@ package com.app.ecommerce.Home;
 
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -52,7 +35,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,10 +45,7 @@ import com.app.ecommerce.DeliveryInformation;
 import com.app.ecommerce.MyOrder.MyOrders;
 import com.app.ecommerce.PrivacyPolicy;
 import com.app.ecommerce.ProfileSection.EditProfile_act;
-import com.app.ecommerce.ProfileSection.Faqs_act;
 import com.app.ecommerce.ProfileSection.GoogleFeedback_act;
-import com.app.ecommerce.ProfileSection.LoginSignup_act;
-import com.app.ecommerce.ProfileSection.MyListAdapter;
 import com.app.ecommerce.ProfileSection.MyProfileModel;
 import com.app.ecommerce.ProfileSection.MyProfile_act;
 import com.app.ecommerce.ProfileSection.Offers_act;
@@ -88,12 +67,9 @@ import com.app.ecommerce.retrofit.ProductslHomePage;
 import com.app.ecommerce.search;
 import com.app.ecommerce.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,15 +77,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
-public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ProductSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     APIInterface apiInterface;
     SessionManager session;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private static HomePage instance;
+    private static ProductSearch instance;
     private Toolbar mToolbarHomePage;
     private PlaceHolderView list_items_homePage;
 
@@ -135,7 +108,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
+        setContentView(R.layout.product_search);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
         mContext = this.getApplicationContext();
@@ -238,25 +211,25 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(HomePage.this, HomePage.class);
+                                Intent intentHomePage = new Intent(ProductSearch.this, ProductSearch.class);
                                 intentHomePage.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentHomePage);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(HomePage.this, CategoriesBottomNav.class);
+                                Intent intentCategories = new Intent(ProductSearch.this, CategoriesBottomNav.class);
                                 intentCategories.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentCategories);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(HomePage.this, WishListHolder.class);
+                                Intent intentWishlist = new Intent(ProductSearch.this, WishListHolder.class);
                                 intentWishlist.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(HomePage.this, MyWalletActivity.class);
+                                Intent intentWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
                                 intentWallet.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intentWallet);
                                 break;
@@ -359,7 +332,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
-    public static HomePage getInstance() {
+    public static ProductSearch getInstance() {
         return instance;
     }
 
@@ -439,7 +412,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             public boolean onQueryTextChange(String newText)
             {
                 Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
-                RemoteData remoteData = new RemoteData(HomePage.this);
+                RemoteData remoteData = new RemoteData(ProductSearch.this);
                 remoteData.getStoreData(newText);
                 return false;
             }
@@ -531,37 +504,37 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (id == R.id.menuleft_home) {
             menuItem.setEnabled(true);
-            Intent intentHome = new Intent(HomePage.this, HomePage.class);
+            Intent intentHome = new Intent(ProductSearch.this, ProductSearch.class);
             startActivity(intentHome);
         } else if (id == R.id.menuleft_myorders) {
-            Intent intentMyOrder = new Intent(HomePage.this, MyOrders.class);
+            Intent intentMyOrder = new Intent(ProductSearch.this, MyOrders.class);
             startActivity(intentMyOrder);
         } else if (id == R.id.menuleft_mywallet) {
-            Intent intentMyWallet = new Intent(HomePage.this, MyWalletActivity.class);
+            Intent intentMyWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
         } else if (id == R.id.menuleft_offers) {
-            Intent intentMyOffers = new Intent(HomePage.this, Offers_act.class);
+            Intent intentMyOffers = new Intent(ProductSearch.this, Offers_act.class);
             startActivity(intentMyOffers);
         } else if (id == R.id.menuleft_referearn) {
-            Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
+            Intent intentMyReferEarn = new Intent(ProductSearch.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
         } else if (id == R.id.menuleft_rateus) {
-            Intent intentMyRateUs = new Intent(HomePage.this, RateUs_act.class);
+            Intent intentMyRateUs = new Intent(ProductSearch.this, RateUs_act.class);
             startActivity(intentMyRateUs);
         } else if (id == R.id.menuleft_aboutcontact) {
-            Intent intentAbtContact = new Intent(HomePage.this, ContactUs.class);
+            Intent intentAbtContact = new Intent(ProductSearch.this, ContactUs.class);
             startActivity(intentAbtContact);
         } else if (id == R.id.menuleft_faqs) {
-            Intent intentFaqs = new Intent(HomePage.this, DeliveryInformation.class);
+            Intent intentFaqs = new Intent(ProductSearch.this, DeliveryInformation.class);
             startActivity(intentFaqs);
         } else if (id == R.id.menuleft_terms) {
-            Intent intentTerms = new Intent(HomePage.this, TermsConditions.class);
+            Intent intentTerms = new Intent(ProductSearch.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-            Intent intentFeedback = new Intent(HomePage.this, GoogleFeedback_act.class);
+            Intent intentFeedback = new Intent(ProductSearch.this, GoogleFeedback_act.class);
             startActivity(intentFeedback);
         } else if (id == R.id.menuleft_policy) {
-            Intent intentPolicy = new Intent(HomePage.this, PrivacyPolicy.class);
+            Intent intentPolicy = new Intent(ProductSearch.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
         }
 

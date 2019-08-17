@@ -21,23 +21,27 @@ public class ProductDataWrapper {
         return status;
     }
 
-    public void setStatus(String searchStatus) {
+    public void setStatus(String searchStatus)
+    {
         this.status = searchStatus;
     }
 
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
-    public void setMessage(String searchMsg) {
+    public void setMessage(String searchMsg)
+    {
         this.message = searchMsg;
     }
 
-    public List<ProductData> getResult() {
+    public List<ProductData> getResult()
+    {
         return result;
     }
 
-    public void setResult(List<ProductData> resultPrd) {
-        this.result = resultPrd;
+    public void setResult(List<ProductData> result) {
+        this.result = result;
     }
 }

@@ -49,10 +49,13 @@ public class RemoteData {
                 .build();
     }
 
-    public interface StoreDataService {
+
+    public interface StoreDataService
+    {
         @POST("index.php?route=api/productsearch/productsearch")
         Call<ProductDataWrapper> getStoreData(@Body ProductDataWrapper str);
     }
+
 
     public void getStoreData(String strSearch) {
 
@@ -63,6 +66,7 @@ public class RemoteData {
                     @Override
                     public void onResponse(Call<ProductDataWrapper> call,
                                            Response<ProductDataWrapper> response) {
+
 
                         Log.d("Async Data RemoteData",
                                 "Got REMOTE DATA " + response.body().getResult().size());
