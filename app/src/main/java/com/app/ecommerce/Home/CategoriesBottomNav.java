@@ -277,8 +277,8 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         searchEditText.setOnItemClickListener(onItemClickListener);
         searchEditText.clearFocus();
 
-        RemoteData remoteData = new RemoteData(this);
-        remoteData.getStoreData(strSearchKey);
+//        RemoteData remoteData = new RemoteData(this);
+//        remoteData.getStoreData(strSearchKey);
         return true;
     }
 

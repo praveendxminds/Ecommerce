@@ -511,8 +511,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         searchMagIcon.setImageDrawable(null);//remove search icon
         searchEditText.clearFocus();
 
-        RemoteData remoteData = new RemoteData(this);
-        remoteData.getStoreData(strSearchKey);
+//        RemoteData remoteData = new RemoteData(this);
+//        remoteData.getStoreData(strSearchKey);
         return true;
     }
 
