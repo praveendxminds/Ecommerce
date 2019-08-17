@@ -158,29 +158,45 @@ public class SignUp_act extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawer.openDrawer(Gravity.RIGHT);
+
+                final ArrayList<String> apartment_list = new ArrayList<>();
+                apartment_list.add("Select Apartment");
+
+
+
                 if (Utils.CheckInternetConnection(getApplicationContext())) {
-                    final ArrayList<String> apartment_list = new ArrayList<>();
                     Call<ApartmentList> callheight = apiInterface.getApartmentList();
                     callheight.enqueue(new Callback<ApartmentList>() {
                         @Override
                         public void onResponse(Call<ApartmentList> callheight, Response<ApartmentList> response) {
                             ApartmentList eduresource = response.body();
+
+
                             List<ApartmentList.ApartmentListDatum> datumList = eduresource.data;
                             for (ApartmentList.ApartmentListDatum datum : datumList) {
                                 apartment_list.add(datum.name + " , " + datum.address);
                             }
-                            final ArrayAdapter<String> apartment_list_adapter = new ArrayAdapter<>(SignUp_act.this,
-                                    R.layout.apartment_spinner_item, R.id.tvSpinnerItem, apartment_list);
-                            lvApartmentList.setAdapter(apartment_list_adapter);
+
+
+                            ArrayAdapter<String> itemsAdapter =
+                                    new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, apartment_list);
+
+                            lvApartmentList.setAdapter(itemsAdapter);
                             lvApartmentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //    Toast.makeText(SignUp_act.this, apartment_list.get(position)+"", Toast.LENGTH_SHORT).show();
+
                                     String textValue = (String) lvApartmentList.getItemAtPosition(position);
                                     tvApartment.setText(textValue);
                                     strApartment = textValue;
                                     mDrawer.closeDrawer(Gravity.RIGHT);
+
                                 }
                             });
+
+
+
                         }
 
                         @Override
@@ -191,6 +207,8 @@ public class SignUp_act extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 
