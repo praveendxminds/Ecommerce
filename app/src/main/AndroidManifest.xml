@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.ecommerce">
+    package="com.nisarga.nisargaveggiez">
 
     <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
@@ -40,7 +40,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.app.ecommerce.Splash"
+            android:name="com.nisarga.nisargaveggiez.Splash"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +49,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home.HomePage"
+            android:name="com.nisarga.nisargaveggiez.Home.HomePage"
             android:label="Home Page"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -58,7 +58,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home.ProductSearch"
+            android:name="com.nisarga.nisargaveggiez.Home.ProductSearch"
             android:label="Search"
             android:windowSoftInputMode="stateAlwaysVisible"
             android:theme="@style/AppTheme">
@@ -68,7 +68,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ContactUs"
+            android:name="com.nisarga.nisargaveggiez.ContactUs"
             android:label="Contact Us"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -76,7 +76,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.TermsConditions"
+            android:name="com.nisarga.nisargaveggiez.TermsConditions"
             android:label="Terms and Conditions"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -84,7 +84,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.PrivacyPolicy"
+            android:name="com.nisarga.nisargaveggiez.PrivacyPolicy"
             android:label="Privacy Policy"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -92,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.DeliveryInformation"
+            android:name="com.nisarga.nisargaveggiez.DeliveryInformation"
             android:label="Faqs"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -101,7 +101,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home.CategoriesBottomNav"
+            android:name="com.nisarga.nisargaveggiez.Home.CategoriesBottomNav"
             android:label="Categories List"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -110,7 +110,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home.ProductDetailHome"
+            android:name="com.nisarga.nisargaveggiez.Home.ProductDetailHome"
             android:label="Home Category"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -119,7 +119,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Wishlist.WishListHolder"
+            android:name="com.nisarga.nisargaveggiez.Wishlist.WishListHolder"
             android:label="Wishlist"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -128,7 +128,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home.HomeCategory"
+            android:name="com.nisarga.nisargaveggiez.Home.HomeCategory"
             android:label="Home Product"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -137,7 +137,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home2.HomeTwo"
+            android:name="com.nisarga.nisargaveggiez.Home2.HomeTwo"
             android:label="Home Two"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -145,7 +145,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.Home1.HomeOne"
+            android:name="com.nisarga.nisargaveggiez.Home1.HomeOne"
             android:label="Home One"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -154,7 +154,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home2.HomeTwoCategory"
+            android:name="com.nisarga.nisargaveggiez.Home2.HomeTwoCategory"
             android:label="Home Two Category"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -163,7 +163,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home3.HomeThree"
+            android:name="com.nisarga.nisargaveggiez.Home3.HomeThree"
             android:label="Home Three"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -173,7 +173,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.appIntro.WelcomeActivity"
+            android:name="com.nisarga.nisargaveggiez.appIntro.WelcomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -181,7 +181,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.profile"
+            android:name="com.nisarga.nisargaveggiez.profile"
             android:label="My Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -191,7 +191,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.EditProfile"
+            android:name="com.nisarga.nisargaveggiez.EditProfile"
             android:label="Edit Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -201,7 +201,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.ChangePassword"
+            android:name="com.nisarga.nisargaveggiez.ChangePassword"
             android:label="Change Password"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -210,7 +210,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.forgot"
+            android:name="com.nisarga.nisargaveggiez.forgot"
             android:label="Forgot Password"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -219,7 +219,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.MyOrder.MyOrders"
+            android:name="com.nisarga.nisargaveggiez.MyOrder.MyOrders"
             android:label="My Orders"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -227,7 +227,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.MyOrder.ReorderHolder"
+            android:name="com.nisarga.nisargaveggiez.MyOrder.ReorderHolder"
             android:label="ReOrders"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -235,7 +235,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.MyOrder.CheckoutOrder"
+            android:name="com.nisarga.nisargaveggiez.MyOrder.CheckoutOrder"
             android:label="Checkout Order"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -243,7 +243,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.MyOrder.OrderCheckItems"
+            android:name="com.nisarga.nisargaveggiez.MyOrder.OrderCheckItems"
             android:label="Check Items with Updated Price"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -251,7 +251,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.payment.PaymentDetails"
+            android:name="com.nisarga.nisargaveggiez.payment.PaymentDetails"
             android:label="Payment Options"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -259,7 +259,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.payment.OTPVerificationPayment"
+            android:name="com.nisarga.nisargaveggiez.payment.OTPVerificationPayment"
             android:label="Payment OTP Verification"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -269,7 +269,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.payment.PayMentGateWay"
+            android:name="com.nisarga.nisargaveggiez.payment.PayMentGateWay"
             android:label="Payment OTP Verification"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -278,7 +278,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.MyOrder.OrderDetailsHolder"
+            android:name="com.nisarga.nisargaveggiez.MyOrder.OrderDetailsHolder"
             android:label="ReOrders"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -287,7 +287,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.Home.CategoryFilter"
+            android:name="com.nisarga.nisargaveggiez.Home.CategoryFilter"
             android:label="Filters"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -296,7 +296,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.MyOrder.OrderDetial"
+            android:name="com.nisarga.nisargaveggiez.MyOrder.OrderDetial"
             android:label="Order Details"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -305,7 +305,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.notifications.MyNotifications"
+            android:name="com.nisarga.nisargaveggiez.notifications.MyNotifications"
             android:label="Notifications"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -314,7 +314,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.addresbook.AddressBook"
+            android:name="com.nisarga.nisargaveggiez.addresbook.AddressBook"
             android:label="AddressBook"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -324,7 +324,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.addresbook.AddAddress"
+            android:name="com.nisarga.nisargaveggiez.addresbook.AddAddress"
             android:label="Add Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -334,7 +334,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.franchiseRequest"
+            android:name="com.nisarga.nisargaveggiez.franchiseRequest"
             android:label="Francise Request"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -343,7 +343,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.preferences"
+            android:name="com.nisarga.nisargaveggiez.preferences"
             android:label="Preferences"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -352,7 +352,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.cart.cart"
+            android:name="com.nisarga.nisargaveggiez.cart.cart"
             android:label="Cart"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -361,7 +361,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.billing.billingAddress"
+            android:name="com.nisarga.nisargaveggiez.billing.billingAddress"
             android:label="Shipping And Billing Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -369,7 +369,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.cart.ShippingNewAddress"
+            android:name="com.nisarga.nisargaveggiez.cart.ShippingNewAddress"
             android:label="New Shipping Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -377,7 +377,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.cart.CheckOutMyCart"
+            android:name="com.nisarga.nisargaveggiez.cart.CheckOutMyCart"
             android:label="Checkout"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -385,7 +385,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.cart.ConfirmOrder"
+            android:name="com.nisarga.nisargaveggiez.cart.ConfirmOrder"
             android:label="Order confirmation"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -394,7 +394,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.search"
+            android:name="com.nisarga.nisargaveggiez.search"
             android:label="Search"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -403,7 +403,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ccavenue.ccavenue"
+            android:name="com.nisarga.nisargaveggiez.ccavenue.ccavenue"
             android:label="Payment"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -413,7 +413,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.successOrder"
+            android:name="com.nisarga.nisargaveggiez.successOrder"
             android:label="Order Success"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -423,7 +423,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.failOrder"
+            android:name="com.nisarga.nisargaveggiez.failOrder"
             android:label="order Failed"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -433,7 +433,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.cancelledOrder"
+            android:name="com.nisarga.nisargaveggiez.cancelledOrder"
             android:label="Order Cancelled"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -443,7 +443,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.Delivery"
+            android:name="com.nisarga.nisargaveggiez.Delivery"
             android:label="Delivery"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -453,7 +453,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.location"
+            android:name="com.nisarga.nisargaveggiez.location"
             android:label="Delivery"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -463,7 +463,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.login"
+            android:name="com.nisarga.nisargaveggiez.login"
             android:label="Login"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -472,7 +472,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProductDetails_act"
+            android:name="com.nisarga.nisargaveggiez.ProductDetails_act"
             android:label="Product Title"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -482,7 +482,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.barcode.ScannerActivity"
+            android:name="com.nisarga.nisargaveggiez.barcode.ScannerActivity"
             android:label="Scan"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -491,7 +491,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.NoInternet"
+            android:name="com.nisarga.nisargaveggiez.NoInternet"
             android:label="Scan"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -500,7 +500,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.Login_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.Login_act"
             android:label="Login Page"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -510,7 +510,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.SignUp_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.SignUp_act"
             android:label="SignUp Page"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -521,7 +521,7 @@
 
 
         <activity
-            android:name="com.app.ecommerce.register"
+            android:name="com.nisarga.nisargaveggiez.register"
             android:label="Register"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -530,7 +530,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.barcode.nfc"
+            android:name="com.nisarga.nisargaveggiez.barcode.nfc"
             android:label="NFC"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -560,17 +560,17 @@
 
 
         <service
-            android:name="com.app.ecommerce.GetAddressIntentService"
+            android:name="com.nisarga.nisargaveggiez.GetAddressIntentService"
             android:exported="false" />
 
         <!-- Firebase Notifications -->
-        <service android:name="com.app.ecommerce.fcm.MyFirebaseMessagingService">
+        <service android:name="com.nisarga.nisargaveggiez.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name="com.app.ecommerce.fcm.MyFirebaseInstanceIDService">
+        <service android:name="com.nisarga.nisargaveggiez.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -601,7 +601,7 @@
 
         <!-- New Section-->
         <activity
-            android:name="com.app.ecommerce.ProfileSection.LoginSignup_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.LoginSignup_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -610,7 +610,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.ProfileSection.ForgotPassword"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.ForgotPassword"
             android:label="Forgot Password"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -619,7 +619,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.ProfileSection.ForgotPasswdOtp"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.ForgotPasswdOtp"
             android:label="OTP Verification for Forgot Password"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -628,7 +628,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.app.ecommerce.ProfileSection.ResetPassword"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.ResetPassword"
             android:label="Reset Password"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -638,7 +638,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.MyProfile_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act"
             android:label="My Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -647,7 +647,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.EditProfile_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act"
             android:label="Edit Profile"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
@@ -657,7 +657,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.MyAddress_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.MyAddress_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -666,7 +666,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.Offers_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.Offers_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -675,7 +675,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.RefersAndEarn_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -684,7 +684,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.RateUs_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.RateUs_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -693,7 +693,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.Faqs_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.Faqs_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -702,7 +702,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.ProfileSection.GoogleFeedback_act"
+            android:name="com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -711,7 +711,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.MyWalletActivity"
+            android:name="com.nisarga.nisargaveggiez.wallet.MyWalletActivity"
             android:label="My Wallet"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -720,7 +720,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.AddMoneyToWallet"
+            android:name="com.nisarga.nisargaveggiez.wallet.AddMoneyToWallet"
             android:label="Add Money to Wallet"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -730,7 +730,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.AddtoMoneyFailureAck"
+            android:name="com.nisarga.nisargaveggiez.wallet.AddtoMoneyFailureAck"
             android:label="Add to Money Failure"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -739,7 +739,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.AddtoMoneySuccessAck"
+            android:name="com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck"
             android:label="Add to Money Success"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -748,7 +748,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.LoyalityPoints"
+            android:name="com.nisarga.nisargaveggiez.wallet.LoyalityPoints"
             android:label="Loyality Point"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -757,7 +757,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.LoyalityPointSuccessAck"
+            android:name="com.nisarga.nisargaveggiez.wallet.LoyalityPointSuccessAck"
             android:label="Loyality Point Success Message"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -766,7 +766,7 @@
         </activity>
 
         <activity
-            android:name="com.app.ecommerce.wallet.PaymentHistory"
+            android:name="com.nisarga.nisargaveggiez.wallet.PaymentHistory"
             android:label="Payment History"
             android:theme="@style/AppTheme">
             <intent-filter>
