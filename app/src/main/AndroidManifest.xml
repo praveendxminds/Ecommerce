@@ -60,6 +60,7 @@
         <activity
             android:name="com.app.ecommerce.Home.ProductSearch"
             android:label="Search"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />

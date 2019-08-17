@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/toolbarHomePage"
-            layout="@layout/toolbar_home_new" />
+            layout="@layout/search_toolbar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,6 +20,23 @@
             android:layout_above="@+id/navigationHomePage"
             android:layout_below="@+id/toolbarHomePage"
             android:orientation="vertical">
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:id="@+id/store_til"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:layout_marginBottom="0dp"-->
+                <!--android:paddingTop="0dp"-->
+                <!--android:layout_marginTop="0dp">-->
+                <!--&lt;!&ndash;<AutoCompleteTextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/store"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:background="@android:color/transparent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:hint="Search">&ndash;&gt;-->
+                <!--&lt;!&ndash;</AutoCompleteTextView>&ndash;&gt;-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
 
         </LinearLayout>
 

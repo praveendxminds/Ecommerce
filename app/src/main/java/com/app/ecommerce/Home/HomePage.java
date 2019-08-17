@@ -475,8 +475,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             public boolean onQueryTextChange(String newText)
             {
                 Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
-                RemoteData remoteData = new RemoteData(HomePage.this);
-                remoteData.getStoreData(newText);
+//                RemoteData remoteData = new RemoteData(HomePage.this);
+//                remoteData.getStoreData(newText);
                 return false;
             }
         });

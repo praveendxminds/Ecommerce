@@ -97,12 +97,13 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
     private Button btnEditProfilePic;
-    private ImageButton imgBtnProfile;
+   // private ImageButton imgBtnProfile;
     NavigationView navigationView;
     private LinearLayout llLeftMenuLogOut;
     View headerView;
     String custId;
     String strSearchKey;
+    private AutoCompleteTextView storeTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,12 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         mContext = this.getApplicationContext();
         instance = this;
 
+        RemoteData remoteData = new RemoteData(this);
+        remoteData.getStoreData();
+
+        storeTV = (AutoCompleteTextView)findViewById(R.id.store);
+        storeTV.requestFocus();
+        storeTV.setOnItemClickListener(onItemClickListener);
 
 
         AndroidNetworking.initialize(getApplicationContext());
@@ -146,7 +153,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         getSupportActionBar().setTitle(null);
 
         llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
-        imgBtnProfile = findViewById(R.id.imgBtnProfile);
+      //  imgBtnProfile = findViewById(R.id.imgBtnProfile);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
         drwLayout = findViewById(R.id.drwLayout);
@@ -189,12 +196,12 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                 session.logoutUser();
             }
         });
-        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drwLayout.openDrawer(Gravity.LEFT);
-            }
-        });
+//        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drwLayout.openDrawer(Gravity.LEFT);
+//            }
+//        });
 
     }
 
@@ -243,100 +250,100 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_search, menu);
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.toolbar_search, menu);
 
-        MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
-        FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-
-        Integer cnt = session.getCartCount();
-        textCartItemCount.setText(String.valueOf(cnt));
-
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
-                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(DeliveryIntent);
-
-            }
-        });
-
-        MenuItem searchViewItem = menu.findItem(R.id.action_search);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchViews = (SearchView) searchViewItem.getActionView();
-        //searchViews.setQueryHint("Search...");
-        searchViews.setBackgroundColor(getResources().getColor(R.color.white));
-
-        int actionBarHeight = mToolbarHomePage.getLayoutParams().height;
-        int actionBarwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-
-        Log.d("ccccc", String.valueOf(actionBarwidth));
-        Log.d("aaaaaa", String.valueOf(actionBarHeight));
-//        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams((int) (actionBarwidth / 1.65),
-//                (int) (actionBarHeight / 1.7));
-//        searchViews.setBackground(ContextCompat.getDrawable(this, R.drawable.search_border));
-//        searchViews.setLayoutParams(tvLay);
-
-        searchViews.setIconifiedByDefault(true);//make default request focus disable
-        searchViews.setFocusable(true);
-        searchViews.setIconified(false);
-        searchViews.requestFocusFromTouch();
-
-        final ImageView searchMagIcon = (ImageView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
-        searchMagIcon.setImageResource(R.drawable.ic_search_black_24dp);
-        searchMagIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        searchMagIcon.setPadding(0, 0, 0, 0);
-        searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
-        searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-         // searchViews.setMaxWidth(600);
-        searchViews.setMaxWidth(Integer.MAX_VALUE);
-
-        searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setTextColor(getResources().getColor(R.color.black));
-        searchEditText.setPadding(5, 2, 2, 2);
-        searchEditText.setHint(null);//removing search hint from search layout
-        strSearchKey=searchEditText.getText().toString();
-        searchEditText.setThreshold(1);//will start working from first character
-        searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
-
-        searchEditText.setOnItemClickListener(onItemClickListener);
-        //searchEditText.clearFocus();
-
-
-        searchViews.setOnCloseListener(new SearchView.OnCloseListener() {
-
-            @Override
-            public boolean onClose()
-            {
-                Log.d("close", "onClose: ");
-                return false;
-            }
-        });
-
-
-
-        //here we will get the search query
-        searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                Intent accountIntent = new Intent(getBaseContext(), search.class);
-                startActivity(accountIntent);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                searchViews.setMaxWidth(Integer.MAX_VALUE);
-                Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
-                RemoteData remoteData = new RemoteData(ProductSearch.this);
-                remoteData.getStoreData(newText);
-                return false;
-            }
-        });
+//        MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
+//        FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
+//        textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+//
+//        Integer cnt = session.getCartCount();
+//        textCartItemCount.setText(String.valueOf(cnt));
+//
+//        rootView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
+//                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(DeliveryIntent);
+//
+//            }
+//        });
+//
+//        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        final SearchView searchViews = (SearchView) searchViewItem.getActionView();
+//        //searchViews.setQueryHint("Search...");
+//        searchViews.setBackgroundColor(getResources().getColor(R.color.white));
+//
+//        int actionBarHeight = mToolbarHomePage.getLayoutParams().height;
+//        int actionBarwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+//
+//        Log.d("ccccc", String.valueOf(actionBarwidth));
+//        Log.d("aaaaaa", String.valueOf(actionBarHeight));
+////        LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams((int) (actionBarwidth / 1.65),
+////                (int) (actionBarHeight / 1.7));
+////        searchViews.setBackground(ContextCompat.getDrawable(this, R.drawable.search_border));
+////        searchViews.setLayoutParams(tvLay);
+//
+//        searchViews.setIconifiedByDefault(true);//make default request focus disable
+//        searchViews.setFocusable(true);
+//        searchViews.setIconified(false);
+//        searchViews.requestFocusFromTouch();
+//
+//        final ImageView searchMagIcon = (ImageView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+//        searchMagIcon.setImageResource(R.drawable.ic_search_black_24dp);
+//        searchMagIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//        searchMagIcon.setPadding(0, 0, 0, 0);
+//        searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
+//        searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//         // searchViews.setMaxWidth(600);
+//        searchViews.setMaxWidth(Integer.MAX_VALUE);
+//
+//        searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+//        searchEditText.setTextColor(getResources().getColor(R.color.black));
+//        searchEditText.setPadding(5, 2, 2, 2);
+//        searchEditText.setHint(null);//removing search hint from search layout
+//        strSearchKey=searchEditText.getText().toString();
+//        searchEditText.setThreshold(2);//will start working from first character
+//        searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
+//
+//        searchEditText.setOnItemClickListener(onItemClickListener);
+//        //searchEditText.clearFocus();
+//
+//
+//        searchViews.setOnCloseListener(new SearchView.OnCloseListener() {
+//
+//            @Override
+//            public boolean onClose()
+//            {
+//                Log.d("close", "onClose: ");
+//                return false;
+//            }
+//        });
+//
+//
+//
+//        //here we will get the search query
+//        searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query)
+//            {
+//                Intent accountIntent = new Intent(getBaseContext(), search.class);
+//                startActivity(accountIntent);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText)
+//            {
+//                searchViews.setMaxWidth(Integer.MAX_VALUE);
+//                Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
+////                RemoteData remoteData = new RemoteData(ProductSearch.this);
+////                remoteData.getStoreData(newText);
+//                return false;
+//            }
+//        });
 
         return true;
     }
