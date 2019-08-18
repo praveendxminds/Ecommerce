@@ -66,7 +66,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
                 @Override
                 public CharSequence convertResultToString(Object resultValue) {
                     AutocompleteModel customer = (AutocompleteModel) resultValue;
-            return customer.getTitle() + " " + customer.getImgUrl();
+            return customer.getTitle();
                 }
                 
                         @Override
