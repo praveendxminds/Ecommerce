@@ -19,9 +19,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
+import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.retrofit.ProductListModel;
 
 public class RemoteData {
     private Context context;
@@ -43,35 +46,69 @@ public class RemoteData {
     public interface StoreDataService
     {
         @POST("index.php?route=api/productsearch/productsearch")
-        Call<ProductDataWrapper> getStoreData();
+        Call<ProductDataWrapper> getStoreData(@Body ProductDataWrapper uid);
     }
 
     public void getStoreData(){
 
-        retrofit.create(StoreDataService.class).getStoreData()
+
+
+
+        final ProductDataWrapper myProfileModel = new ProductDataWrapper("92");
+        retrofit.create(StoreDataService.class).getStoreData(myProfileModel)
                 .enqueue(new Callback<ProductDataWrapper>() {
 
                     @Override
                     public void onResponse(Call<ProductDataWrapper> call,
-                                           Response<ProductDataWrapper> response) {
-
-                        Log.d("Async Data RemoteData",
-                                "Got REMOTE DATA "+response.body().getResult().size());
-
-                        List<String> str = new ArrayList<String>();
-                        for(ProductData s : response.body().getResult()){
-                            str.add(s.getName());
-                        }
+                                           Response<ProductDataWrapper> response)
+                    {
 
                         AutoCompleteTextView storeTV =
                                 (AutoCompleteTextView)((Activity)context).findViewById(R.id.store);
+                        AutoCompleteAdapter adapter = null;
+                        ArrayList<AutocompleteModel> autocompletelst = null;
 
+                        autocompletelst = new ArrayList<>();
                         storeTV.setThreshold(1);
                         storeTV.requestFocus();
 
-                        ArrayAdapter<String> adapteo = new ArrayAdapter<String>(context,
-                                android.R.layout.simple_dropdown_item_1line, str.toArray(new String[0]));
-                        storeTV.setAdapter(adapteo);
+
+
+
+                      //  List<String> str = new ArrayList<String>();
+                        for(ProductData s : response.body().getResult())
+                        {
+                           // str.add(s.getName());
+                            autocompletelst.add(new AutocompleteModel(s.getName(), s.getImage(), 1));
+
+                        }
+
+
+                        adapter = new AutoCompleteAdapter(context, autocompletelst);
+                        storeTV.setAdapter(adapter);
+
+
+//                        Log.d("Async Data RemoteData",
+//                                "Got REMOTE DATA "+response.body().getResult().size());
+//
+//                        List<String> str = new ArrayList<String>();
+//                        for(ProductData s : response.body().getResult()){
+//                            str.add(s.getName());
+//                        }
+
+//                        AutoCompleteTextView storeTV =
+//                                (AutoCompleteTextView)((Activity)context).findViewById(R.id.store);
+//
+//                        storeTV.setThreshold(1);
+//                        storeTV.requestFocus();
+//
+//                        ArrayAdapter<String> adapteo = new ArrayAdapter<String>(context,
+//                                android.R.layout.simple_dropdown_item_1line, str.toArray(new String[0]));
+//                        storeTV.setAdapter(adapteo);
+
+
+
+
                     }
                     @Override
                     public void onFailure(Call<ProductDataWrapper> call, Throwable t) {

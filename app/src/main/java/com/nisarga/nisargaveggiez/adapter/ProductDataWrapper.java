@@ -10,12 +10,13 @@ public class ProductDataWrapper {
 
     private String strSearch;
     private String status;
+    private String customer_id;
     private String message;
     private List<ProductData> result;
 
-    public ProductDataWrapper(String str_search)
+    public ProductDataWrapper(String customer_id)
     {
-        this.strSearch = str_search;
+        this.customer_id = customer_id;
     }
     public String getStatus() {
         return status;
@@ -25,6 +26,9 @@ public class ProductDataWrapper {
     {
         this.status = searchStatus;
     }
+
+
+
 
     public String getMessage()
     {
