@@ -26,6 +26,7 @@ import com.nisarga.nisargaveggiez.retrofit.ReedemLoyalityPoints;
 import com.nisarga.nisargaveggiez.retrofit.WalletBlncModel;
 
 import java.net.ServerSocket;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,10 +63,6 @@ public class LoyalityPoints extends AppCompatActivity {
         phvLoyalityPoints = findViewById(R.id.phvLoyalityPoints);
         btnProceed = findViewById(R.id.btnProceed);
 
-        String[] strArrNotes = {"1.", "2.", "3.", "4.", "5."};
-        for (int i = 0; i < strArrNotes.length; i++) {
-            phvLoyalityPoints.addView(new LoyalityPointNotes(getApplicationContext(), strArrNotes[i]));
-        }
         getLoyalityPoints();
     }
 
@@ -104,7 +101,6 @@ public class LoyalityPoints extends AppCompatActivity {
                 public void onResponse(Call<LoyalityPointsModel> call, Response<LoyalityPointsModel> response) {
 
                     final LoyalityPointsModel resource = response.body();
-                    tvPoints.setText("Rs." + " " + resource.data);
                     if ((resource.data).equals("null")) {
 
                         tvPoints.setText("Rs." + " " + "0");
@@ -116,7 +112,7 @@ public class LoyalityPoints extends AppCompatActivity {
                         });
 
                     } else {
-
+                        tvPoints.setText("Rs." + " " + resource.data);
                         btnProceed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -131,6 +127,14 @@ public class LoyalityPoints extends AppCompatActivity {
                                 }
                             }
                         });
+                    }
+                    List<LoyalityPointsModel.DatumLP> datumList = resource.note;
+                    int count=1;
+                    for (LoyalityPointsModel.DatumLP notes : datumList) {
+                        if (response.isSuccessful()) {
+                            phvLoyalityPoints.addView(new LoyalityPointNotes(LoyalityPoints.this,count,notes.desciption));
+                            count = count+1;
+                        }
                     }
 
 

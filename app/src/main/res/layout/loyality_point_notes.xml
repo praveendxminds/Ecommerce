@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<Webview android:fontFamily="@font/roboto_regular"
+    android:id="@+id/webViewNotes"
     android:layout_height="wrap_content"
-    android:padding="5dp">
-
-    <TextView
-        android:id="@+id/txtNotes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="some text some text some text"
-        android:textColor="@color/light_black_1"
-        android:textSize="14sp"
-        android:textAllCaps="false"
-        android:fontFamily="@font/roboto_regular" />
-
-</LinearLayout>
+    android:layout_width="match_parent"
+    android:text="some text some text some text"
+    android:textAllCaps="false"
+    android:textColor="@color/light_black_1"
+    android:textSize="14sp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

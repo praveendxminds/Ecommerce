@@ -2,6 +2,8 @@ package com.nisarga.nisargaveggiez.retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class LoyalityPointsModel {
 
     @SerializedName("customer_id")
@@ -20,4 +22,15 @@ public class LoyalityPointsModel {
     @SerializedName("data")
     public String data;
 
+    @SerializedName("note")
+    public List<DatumLP> note;
+
+    public class DatumLP {
+
+        @SerializedName("title")
+        public String title;
+
+        @SerializedName("desciption")
+        public String desciption;
+    }
 }
