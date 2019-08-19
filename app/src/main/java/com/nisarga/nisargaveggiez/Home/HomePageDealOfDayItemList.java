@@ -118,7 +118,8 @@ public class HomePageDealOfDayItemList {
         str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
         item_priceDealofDay.setText("₹" + " " + str_priceValue);
 
-        if(mdiscount.equals("null")) {
+        if(mdiscount.equals("null"))
+        {
         item_OldpriceDealofDay.setVisibility(android.view.View.INVISIBLE);
         }
         else {
