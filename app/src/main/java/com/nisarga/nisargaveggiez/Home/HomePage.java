@@ -548,10 +548,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(HomePage.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
-        } else if (id == R.id.menuleft_offers) {
-            Intent intentMyOffers = new Intent(HomePage.this, Offers_act.class);
-            startActivity(intentMyOffers);
-        } else if (id == R.id.menuleft_referearn) {
+        }else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
         } else if (id == R.id.menuleft_rateus) {

@@ -352,9 +352,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
-        } else if (id == R.id.menuleft_offers) {
-            Intent intentMyOffers = new Intent(CategoriesBottomNav.this, Offers_act.class);
-            startActivity(intentMyOffers);
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(CategoriesBottomNav.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);

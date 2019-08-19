@@ -17,14 +17,6 @@
             android:icon="@drawable/walletyellow"
             android:title="My Wallet"></item>
         <item
-            android:id="@+id/menuleft_offers"
-            android:icon="@drawable/offers_yellow"
-            android:title="Offers"></item>
-    </group>
-    <group
-        android:id="@+id/menuLeftGroup2"
-        android:checkableBehavior="single">
-        <item
             android:id="@+id/menuleft_referearn"
             android:icon="@drawable/refer_earn_yellow"
             android:title="Refer &amp; Earn"></item>
@@ -32,6 +24,10 @@
             android:id="@+id/menuleft_rateus"
             android:icon="@drawable/rateus_yellow"
             android:title="Rate Us"></item>
+    </group>
+    <group
+        android:id="@+id/menuLeftGroup2"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/menuleft_aboutcontact"
             android:icon="@drawable/abt_contact_yellow"

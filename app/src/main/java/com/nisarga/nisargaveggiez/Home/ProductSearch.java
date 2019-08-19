@@ -419,9 +419,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
-        } else if (id == R.id.menuleft_offers) {
-            Intent intentMyOffers = new Intent(ProductSearch.this, Offers_act.class);
-            startActivity(intentMyOffers);
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(ProductSearch.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
