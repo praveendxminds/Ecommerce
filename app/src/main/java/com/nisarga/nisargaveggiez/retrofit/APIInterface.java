@@ -151,5 +151,11 @@ public interface APIInterface {
     @POST("index.php?route=api/uploadprofile/FilterProduct")
     Call<FilterCategoryModel> filter_products(@Body FilterCategoryModel image);
 
+    @POST("index.php?route=api/customer/fatchRefaralCode")
+    Call<ReferalModel> getReferal(@Body ReferalModel id);
+
+    @POST("index.php?route=api/customer/earnReferral")
+    Call<EarnReferal> earnReferal(@Body EarnReferal id);
+
 
 }

@@ -48,6 +48,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.installreferrer.api.InstallReferrerClient;
+import com.android.installreferrer.api.InstallReferrerStateListener;
+import com.android.installreferrer.api.ReferrerDetails;
 import com.androidnetworking.AndroidNetworking;
 import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
@@ -76,7 +79,9 @@ import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.EarnReferal;
 import com.nisarga.nisargaveggiez.retrofit.ProductslHomePage;
+import com.nisarga.nisargaveggiez.retrofit.ReferalModel;
 import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -94,11 +99,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.lang.Boolean.TRUE;
+
 public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     APIInterface apiInterface;
     SessionManager session;
     ProgressDialog progressdialog;
+    InstallReferrerClient mReferrerClient;
 
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
@@ -121,6 +129,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         init();
         initApiCall();
+
+        reffaralcheck();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -715,5 +725,80 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             }
         });
+    }
+
+    private void reffaralcheck()
+    {
+        if(session.getReferalStatus() == TRUE)
+        {
+
+            mReferrerClient = InstallReferrerClient.newBuilder(this).build();
+
+            mReferrerClient.startConnection(new InstallReferrerStateListener() {
+                @Override
+                public void onInstallReferrerSetupFinished(int responseCode) {
+                    switch (responseCode) {
+                        case InstallReferrerClient.InstallReferrerResponse.OK:
+                            // Connection established
+                            try {
+                                ReferrerDetails response =
+                                        mReferrerClient.getInstallReferrer();
+
+                               // if (!response.getInstallReferrer().contains("utm_source"))
+
+
+
+
+                                final EarnReferal ref = new EarnReferal(session.getCustomerId(),response.getInstallReferrer());
+                                Call<EarnReferal> calledu = apiInterface.earnReferal(ref);
+                                calledu.enqueue(new Callback<EarnReferal>() {
+                                    @Override
+                                    public void onResponse(Call<EarnReferal> calledu, Response<EarnReferal> response) {
+                                        final EarnReferal resource = response.body();
+                                        if (resource.status.equals("success"))
+                                        {
+
+
+
+                                        }
+                                        else if (resource.status.equals("error"))
+                                        {
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<EarnReferal> calledu, Throwable t) {
+                                        calledu.cancel();
+                                    }
+                                });
+
+
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            mReferrerClient.endConnection();
+                            break;
+                        case
+                                InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                            // API not available on the current Play Store app
+                            break;
+                        case
+                                InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                            // Connection could not be established
+                            break;
+                    }
+                }
+
+                @Override
+                public void onInstallReferrerServiceDisconnected() {
+                    // Try to restart the connection on the next request to
+                    // Google Play by calling the startConnection() method.
+                }
+            });
+
+        }
     }
 }

@@ -109,6 +109,7 @@
                             android:textSize="12sp" />
 
                         <EditText
+                            android:id="@+id/ref"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
@@ -200,6 +201,7 @@
         android:layout_alignParentBottom="true">
 
         <TextView
+            android:id="@+id/tvshare"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/roboto_bold"
