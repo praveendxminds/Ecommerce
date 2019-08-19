@@ -265,7 +265,7 @@ public class orderItem {
     @Click(R.id.btnDetails)
     public void onDetailsOrder() {
         Intent myIntent = new Intent(mContext, OrderDetailsHolder.class);
-        // myIntent.putExtra("order_id", morderId);
+        myIntent.putExtra("order_id", morderId);
         // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
@@ -273,7 +273,7 @@ public class orderItem {
     @Click(R.id.btnPayNow)
     public void onPayNow() {
         Intent myIntent = new Intent(mContext, CheckoutOrder.class);
-        // myIntent.putExtra("order_id", morderId);
+        myIntent.putExtra("order_id", morderId);
         // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }

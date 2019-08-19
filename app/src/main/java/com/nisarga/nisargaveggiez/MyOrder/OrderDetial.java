@@ -68,7 +68,7 @@ public class OrderDetial extends AppCompatActivity {
 
         Glide.with(getApplication()).load("https://5.imimg.com/data5/FQ/QY/MY-56156518/cashew-nut-500x500.jpg").into(pro_img);
 
-        apiInterface = APIClient.getClient().create(APIInterface.class);
+     /*   apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
@@ -107,7 +107,7 @@ public class OrderDetial extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
-
+*/
 
 
 

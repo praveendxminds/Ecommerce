@@ -79,9 +79,9 @@ public interface APIInterface {
     @POST("index.php?route=api/custom/CancelOrder")
     Call<CancelOrderModel> cancelOrder(@Body CancelOrderModel customer_id);
 
-    @POST("index.php?route=api/order/cusSingleOrder")
+   /* @POST("index.php?route=api/order/cusSingleOrder")
     Call<OrderDetailModel> getMyOrderDetail(@Body OrderDetailModel id);
-
+*/
     @POST("index.php?route=api/order/MyorderProductList")
     Call<ReorderItemsModel> showReorderItems(@Body ReorderItemsModel id);
 

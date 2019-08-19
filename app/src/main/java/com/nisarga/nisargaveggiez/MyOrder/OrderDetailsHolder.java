@@ -43,6 +43,7 @@ public class OrderDetailsHolder extends AppCompatActivity {
     String str_custid;
     SessionManager session;
     private TextView tv_total,tvtotalAmount;
+    String order_id;
 
     APIInterface apiInterface;
     public static TextView textCartItemCount;
@@ -71,11 +72,13 @@ public class OrderDetailsHolder extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
+        tv_total = findViewById(R.id.tv_total);
         for (int i = 0; i <= 10; i++) {
             mCartView.addView(new ReorderItems(getApplicationContext()));
         }
         /*  mCartView.addView(new cartItem_footer());*/
-        //showListView();
+        order_id = getIntent().getExtras().getString("order_id", "defaultKey");
+        showListView();
     }
 
     public void showListView() {
@@ -86,10 +89,8 @@ public class OrderDetailsHolder extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         if(Utils.CheckInternetConnection(getApplicationContext()))
         {
-            final String order_id = getIntent().getExtras().getString("order_id", "defaultKey");
-            str_custid = session.getCustomerId();
-            ReorderItemsModel reorderModel = new ReorderItemsModel(str_custid,order_id);
-            apiInterface = APIClient.getClient().create(APIInterface.class);
+             str_custid = session.getCustomerId();
+            ReorderItemsModel reorderModel = new ReorderItemsModel("1","1");
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
                 @Override
@@ -100,10 +101,12 @@ public class OrderDetailsHolder extends AppCompatActivity {
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         for (ReorderItemsModel.ReorderResult reorderData : result )
                         {
-                            mCartView.addView(new OrderDetailsItems(getApplicationContext(), reorderData.order_id, reorderData.order_product_id,
-                                    reorderData.image, reorderData.name, reorderData.quantity,reorderData.price,reorderData.price));
+                            mCartView.addView(new OrderDetailsItems(getApplicationContext(), reorderData.order_id,
+                                    reorderData.order_product_id, reorderData.image, reorderData.name,
+                                    reorderData.quantity,reorderData.discount_price,reorderData.price,
+                                    reorderData.weight_classes));
                         }
-
+                        tv_total.setText(resourcesReorder.TotalProduct);
                     }
                     else if(resourcesReorder.status.equals("failure"))
                     {
