@@ -299,14 +299,20 @@ public class ProductDetailHome extends AppCompatActivity {
                 public void onResponse(Call<SimilarProductsModel> call, Response<SimilarProductsModel> response) {
 
                     SimilarProductsModel resource = response.body();
-                    List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
-                    for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
 
-                            mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), mtextCartItemCount,
-                                    mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
+                    if (resource.status.equals("success")) {
+
+                        List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
+                        for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
+                            if (response.isSuccessful()) {
+
+                                mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), mtextCartItemCount,
+                                        mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
+                            }
                         }
+
                     }
+
 
                 }
 

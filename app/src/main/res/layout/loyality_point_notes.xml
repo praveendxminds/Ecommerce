@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Webview android:fontFamily="@font/roboto_regular"
+<FrameLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="50dp">
+
+<WebView
     android:id="@+id/webViewNotes"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:text="some text some text some text"
-    android:textAllCaps="false"
     android:textColor="@color/light_black_1"
-    android:textSize="14sp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:text="some text some text some text"
+    android:textSize="6sp"
+    android:textAllCaps="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+</FrameLayout>
