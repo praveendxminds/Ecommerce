@@ -145,7 +145,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         //-----------------------------------------------------------------------------------
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         headerView = navigationView.getHeaderView(0);
-        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        //btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -174,7 +174,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session.checkLogin();
+                //session.checkLogin();
                 session.logoutUser();
             }
         });
