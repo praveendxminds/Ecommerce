@@ -54,7 +54,7 @@ public interface APIInterface {
     Call<ProductDetailsModel> getProductDetails(@Body ProductDetailsModel id);
 
     @POST("index.php?route=api/order/similarProductList")
-    Call<SimilarProductsModel> getSimilarProducts(@Body SimilarProductsModel prd_id);
+    Call<SimilarProductsModel> getSimilarProducts(@Body SimilarProductsModel product_id);
 
     @POST("index.php?route=api/custom/pages")
     Call<WebPagesModel> getContactUs(@Body WebPagesModel id);

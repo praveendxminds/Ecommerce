@@ -291,7 +291,7 @@ public class ProductDetailHome extends AppCompatActivity {
 
             //----------------------------------------------------------similar product response---------------------------------------
             // getPrd_id = sharedpreferences.getString("product_id", "");
-            final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel(callPrdId);
+            final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel("42","1");
             // Log.e("----------similar_products_prd_id--------",sprd_id);
             Call<SimilarProductsModel> callSimilarProducts = apiInterface.getSimilarProducts(productslSimilarPrd);
             callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
