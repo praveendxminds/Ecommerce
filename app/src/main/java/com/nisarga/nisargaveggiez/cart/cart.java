@@ -141,9 +141,9 @@ public class cart extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
-        for (int i = 0; i <= 10; i++) {
-            mCartView.addView(new cartItem(getApplicationContext()));
-        }
+//        for (int i = 0; i <= 10; i++) {
+//            mCartView.addView(new cartItem(getApplicationContext()));
+//        }
         /*  mCartView.addView(new cartItem_footer());*/
         showListView();
     }
