@@ -28,6 +28,7 @@
             android:focusableInTouchMode="true"
             android:background="@drawable/autosearch_border"
             android:paddingLeft="65dp"
+            android:textColorHint="@color/blackshadow"
             android:hint="Search">
         </AutoCompleteTextView>
 
@@ -60,8 +61,8 @@
 
             <Button
                 android:id="@+id/notification"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginRight="10dip"
                 android:onClick="notifcations"
                 android:background="@drawable/notification" />
@@ -69,8 +70,8 @@
 
             <Button
                 android:id="@+id/cartmenu"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginRight="10dip"
                 android:onClick="cart"
                 android:background="@drawable/ic_shopping_cart" />
