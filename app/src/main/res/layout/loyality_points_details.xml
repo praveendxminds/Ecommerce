@@ -131,6 +131,8 @@
                         android:orientation="vertical"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"></com.mindorks.placeholderview.PlaceHolderView>
+
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
