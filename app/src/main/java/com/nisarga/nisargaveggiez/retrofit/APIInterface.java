@@ -111,8 +111,9 @@ public interface APIInterface {
    /* @POST("index.php?route=api/cart/remove")
     Call<RemoveCartItems> removeCartItems(@Body RemoveCartItems key);*/
 
-   @POST("index.php?route=api/order/cartList")
-    Call<CartListModel> getCartList(@Body CartListModel id);
+   @POST("index.php")
+   Call<CartListModel> getCartList(@Query("route") String route,@Query("api_token") String api_token);
+
 
    @POST("index.php?route=account/wishlist/insertWishListToCart")
     Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);

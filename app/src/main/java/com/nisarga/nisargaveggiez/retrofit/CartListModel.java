@@ -6,44 +6,50 @@ import java.util.List;
 
 public class CartListModel {
 
-    @SerializedName("status")
-    public String status;
 
-    @SerializedName("message")
-    public String message;
-
-    @SerializedName("customer_id")
-    public String customer_id;
-
-    @SerializedName("result")
+    @SerializedName("products")
     public List<CartListDatum> result=null;
 
-    public CartListModel(String cust_id)
+    public CartListModel()
     {
-        this.customer_id=cust_id;
     }
 
     public class CartListDatum{
 
+        @SerializedName("cart_id")
+        public String cart_id;
+
         @SerializedName("product_id")
-        public String prd_id;
-
-        @SerializedName("customer_id")
-        public String customer_id;
-
-        @SerializedName("name")
-        public String name;
-
-        @SerializedName("quantity")
-        public  String qty;
+        public String product_id;
 
         @SerializedName("image")
         public String image;
 
-        @SerializedName("price")
-        public String price;
+        @SerializedName("name")
+        public  String name;
 
         @SerializedName("discount_price")
         public String discount_price;
+
+        @SerializedName("model")
+        public String model;
+
+        @SerializedName("quantity")
+        public String quantity;
+
+        @SerializedName("stock")
+        public String stock;
+
+        @SerializedName("shipping")
+        public String shipping;
+
+        @SerializedName("price")
+        public String price;
+
+        @SerializedName("total")
+        public String total;
+
+        @SerializedName("reward")
+        public String reward;
     }
 }
