@@ -23,12 +23,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.Home.HomePage;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.billing.billingAddress;
+import com.nisarga.nisargaveggiez.retrofit.CartListModel;
+
+import java.util.Comparator;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by sushmita on 25/06/2019
@@ -132,17 +141,21 @@ public class cart extends AppCompatActivity {
             mCartView.addView(new cartItem(getApplicationContext()));
         }
         /*  mCartView.addView(new cartItem_footer());*/
-        //showListView();
+        showListView();
     }
 
-    public void showListView() {
+    public void showListView()
+    {
+
+
         mCartView.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-      /*  if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final CartListModel cartListModel = new CartListModel("69");
-            Call<CartListModel> call = apiInterface.getCartList(cartListModel);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+            Call<CartListModel> call = apiInterface.getCartList("api/cart/products","ea37ddb9108acd601b295e26fa");
             call.enqueue(new Callback<CartListModel>() {
                 @Override
                 public void onResponse(Call<CartListModel> call, Response<CartListModel> response) {
@@ -152,8 +165,8 @@ public class cart extends AppCompatActivity {
                     for (CartListModel.CartListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, imgs.customer_id,imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price,imgs.discount_price, imgs.qty,mCartView));
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, "83",imgs.product_id, imgs.image,
+                                    imgs.name, imgs.price,imgs.discount_price, imgs.quantity,mCartView));
                         }
                     }
 
@@ -181,7 +194,7 @@ public class cart extends AppCompatActivity {
 
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
 
