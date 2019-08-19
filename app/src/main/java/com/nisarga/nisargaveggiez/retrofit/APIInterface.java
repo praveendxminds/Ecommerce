@@ -80,6 +80,18 @@ public interface APIInterface {
     @POST("index.php?route=api/order/MyorderProductList")
     Call<ReorderItemsModel> showReorderItems(@Body ReorderItemsModel id);
 
+    @POST("index.php?route=api/customer/walletadd")
+    Call<AddMoneytoWalletModel> addMoney(@Body AddMoneytoWalletModel id);
+
+    @POST("index.php?route=api/customer/getwalletbalance")
+    Call<WalletBlncModel> getWalletBlnc(@Body WalletBlncModel id);
+
+    @POST("index.php?route=api/customer/getloyaltypoints")
+    Call<LoyalityPointsModel> getLoyalityPoints(@Body LoyalityPointsModel id);
+
+    @POST("index.php?route=api/customer/redeemLoyaltyPoints")
+    Call<ReedemLoyalityPoints> redeemPoints(@Body ReedemLoyalityPoints id);
+
     @FormUrlEncoded
     @POST("json/login.php")
     Call<User> doGetLogin(@Field("name") String name, @Field("password") String password);
