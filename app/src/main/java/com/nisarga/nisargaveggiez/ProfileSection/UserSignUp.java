@@ -10,7 +10,7 @@ public class UserSignUp {
     @SerializedName("message")
     public String message;
 
-//post parameters
+    //post parameters
     @SerializedName("firstname")
     public String sfirstname;
 
@@ -18,61 +18,70 @@ public class UserSignUp {
     public String slastname;
 
     @SerializedName("mobile")
-    public String smobile ;
+    public String smobile;
 
     @SerializedName("email")
-    public String  semail;
+    public String semail;
 
     @SerializedName("password")
-    public String  spassword;
+    public String spassword;
 
     @SerializedName("apartment_name")
-    public String sapartment_name ;
+    public String sapartment_name;
 
     @SerializedName("block")
-    public String sblock ;
+    public String sblock;
 
     @SerializedName("floor")
-    public String sfloor ;
+    public String sfloor;
 
     @SerializedName("door")
-    public String  sdoor;
+    public String sdoor;
 
     @SerializedName("area")
-    public String  sarea;
+    public String sarea;
 
     @SerializedName("address")
-    public String saddress ;
+    public String saddress;
 
     @SerializedName("pincode")
-    public String spincode ;
-
-    @SerializedName("landmark")
-    public String  slandmark;
+    public String spincode;
 
     @SerializedName("city")
-    public String  scity;
+    public String scity;
 
-    public UserSignUp(String fname,String lname,String mobile,String email,
-                      String passwd,String apartment_name,String block,
-                      String floor,String door,String area,String address,
-                        String landmark,String pincode,String city)
-    {
-        this.sfirstname=fname;
-        this.slastname=lname;
-        this.smobile=mobile;
-        this.semail=email;
-        this.spassword=passwd;
-        this.sapartment_name=apartment_name;
+    @SerializedName("nearby")
+    public String snearby;
+
+    @SerializedName("apartment_id")
+    public String sapartment_id;
+
+    @SerializedName("landmark")
+    public String slandmark;
+
+    @SerializedName("profile")
+    public String sprofile;
+
+    public UserSignUp(String fname, String lname, String mobile, String email, String passwd, String apartment_name,
+                      String block, String floor, String door, String area, String address, String pincode,
+                      String city, String nearby, String apartment_id, String landmark, String profile) {
+
+        this.sfirstname = fname;
+        this.slastname = lname;
+        this.smobile = mobile;
+        this.semail = email;
+        this.spassword = passwd;
+        this.sapartment_name = apartment_name;
         this.sblock = block;
         this.sfloor = floor;
         this.sdoor = door;
         this.sarea = area;
         this.saddress = address;
         this.spincode = pincode;
+        this.scity = city;
+        this.snearby = nearby;
+        this.sapartment_id = apartment_id;
         this.slandmark = landmark;
-        this.scity=city;
+        this.sprofile = profile;
     }
-
-
 }

@@ -1,12 +1,15 @@
 package com.nisarga.nisargaveggiez.ProfileSection;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -109,7 +112,9 @@ public class Login_act extends AppCompatActivity {
                 sEmail = etEmail.getText().toString();
                 sPassword = etPassword.getText().toString();
                 if (validateLogin(sEmail, sPassword)) {
-
+                    if (!validateCheckBox()) {
+                        return;
+                    }
                     if (Utils.CheckInternetConnection(getApplicationContext())) {
                         saveLoginData(sEmail, sPassword);
                     } else {
@@ -136,12 +141,12 @@ public class Login_act extends AppCompatActivity {
                 final UserLogin resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(Login_act.this, resource.message, Toast.LENGTH_LONG).show();
+                    Intent intentHomePage = new Intent(Login_act.this, HomePage.class);
                     List<UserLogin.Datum> datumList = resource.resultdata;
                     for (UserLogin.Datum datum : datumList) {
                         sessionManager.createLoginSession(datum.customer_id, datum.customer_group_id,
-                                datum.firstname, datum.lastname, datum.email, datum.cart,datum.telephone, datum.wishlist,
+                                datum.firstname, datum.lastname, datum.email, datum.cart, datum.telephone, datum.wishlist,
                                 datum.address_id, datum.date_added, datum.api_token);
-                        Intent intentHomePage = new Intent(Login_act.this, HomePage.class);
                         startActivity(intentHomePage);
                     }
 
@@ -159,9 +164,7 @@ public class Login_act extends AppCompatActivity {
     }
 
     private boolean validateLogin(String loginid, String passwd) {
-
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
         if (loginid == null || loginid.trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Invalid User Id", Toast.LENGTH_SHORT).show();
             return false;
@@ -211,6 +214,23 @@ public class Login_act extends AppCompatActivity {
             }
         }
 
+    }
+
+    private boolean validateCheckBox() {
+        if (!cbRememberMe.isChecked()) {
+            new AlertDialog.Builder(Login_act.this)
+                    .setMessage("Please Check on Remember Me !")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return false;
+        }
+        return true;
     }
 
     public final static boolean isValidEmail(CharSequence target) {

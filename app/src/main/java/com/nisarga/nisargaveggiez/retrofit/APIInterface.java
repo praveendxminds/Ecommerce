@@ -1,6 +1,7 @@
 package com.nisarga.nisargaveggiez.retrofit;
 
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
+import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
@@ -139,6 +140,10 @@ public interface APIInterface {
 
     @POST("index.php?route=api/uploadprofile/editNavImage")
     Call<NavEditImage> nav_edit_image(@Body NavEditImage image);
+
+
+    @POST("index.php?route=api/uploadprofile/FilterProduct")
+    Call<FilterCategoryModel> filter_products(@Body FilterCategoryModel image);
 
 
 }

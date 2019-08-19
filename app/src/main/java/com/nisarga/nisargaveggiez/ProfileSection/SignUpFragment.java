@@ -384,33 +384,33 @@ public class SignUpFragment extends Fragment {
     private void saveSignUpData(String firstname, String lastname, String mobile, String emailid, String password,
                                 String apartment, String block, String floorno, String doorno, String area,
                                 String address, String landmark, String pincode, String city) {
-        try {
-            progressdialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        final UserSignUp userSignUp = new UserSignUp(firstname, lastname, mobile, emailid, password,
-                apartment, block, floorno, doorno, area, address, landmark, pincode, city);
-
-        Call<UserSignUp> calledu = apiInterface.postRegisterUser(userSignUp);
-        calledu.enqueue(new Callback<UserSignUp>() {
-            @Override
-            public void onResponse(Call<UserSignUp> calledu, Response<UserSignUp> response) {
-                final UserSignUp resource = response.body();
-                if (resource.status.equals("success")) {
-                    Toast.makeText(getContext(), resource.message, Toast.LENGTH_LONG).show();
-                    ((LoginSignup_act) getActivity()).navigateFragment(0); //for intent to login after successful signup
-                } else if (resource.status.equals("error")) {
-                    Toast.makeText(getContext(), resource.message, Toast.LENGTH_LONG).show();
-                }
-                progressdialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<UserSignUp> calledu, Throwable t) {
-                calledu.cancel();
-            }
-        });
+//        try {
+//            progressdialog.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        final UserSignUp userSignUp = new UserSignUp(firstname, lastname, mobile, emailid, password,
+//                apartment, block, floorno, doorno, area, address, landmark, pincode, city);
+//
+//        Call<UserSignUp> calledu = apiInterface.postRegisterUser(userSignUp);
+//        calledu.enqueue(new Callback<UserSignUp>() {
+//            @Override
+//            public void onResponse(Call<UserSignUp> calledu, Response<UserSignUp> response) {
+//                final UserSignUp resource = response.body();
+//                if (resource.status.equals("success")) {
+//                    Toast.makeText(getContext(), resource.message, Toast.LENGTH_LONG).show();
+//                    ((LoginSignup_act) getActivity()).navigateFragment(0); //for intent to login after successful signup
+//                } else if (resource.status.equals("error")) {
+//                    Toast.makeText(getContext(), resource.message, Toast.LENGTH_LONG).show();
+//                }
+//                progressdialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserSignUp> calledu, Throwable t) {
+//                calledu.cancel();
+//            }
+//        });
     }
 
     public void signupheight()

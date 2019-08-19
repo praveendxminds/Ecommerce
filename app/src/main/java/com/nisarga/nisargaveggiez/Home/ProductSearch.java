@@ -99,7 +99,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         RemoteData remoteData = new RemoteData(this);
         remoteData.getStoreData();
 
-        storeTV = (AutoCompleteTextView)findViewById(R.id.store);
+        storeTV = (AutoCompleteTextView) findViewById(R.id.store);
         storeTV.requestFocus();
         storeTV.setOnItemClickListener(onItemClickListener);
 
@@ -141,7 +141,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         drwLayout = findViewById(R.id.drwLayout);
 
 
-
         //-----------------------------------------------------------------------------------
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         headerView = navigationView.getHeaderView(0);
@@ -164,13 +163,13 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        ivEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
-                startActivity(intentEditProfile);
-            }
-        });
+//        ivEditProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
+//                startActivity(intentEditProfile);
+//            }
+//        });
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,7 +222,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                 });
         bottomNavigationView.setItemIconSize(40);
     }
-
 
 
     public static ProductSearch getInstance() {
@@ -490,16 +488,14 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         navigationView.setItemIconTintList(navMenuIconList);
     }
 
-    public void notifcations(View v)
-    {
+    public void notifcations(View v) {
         Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(notificationIntent);
     }
 
 
-    public void cart(View v)
-    {
+    public void cart(View v) {
         Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
         DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(DeliveryIntent);

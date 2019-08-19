@@ -11,19 +11,32 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="50dp"
-            android:src="@drawable/logo" />
+            android:layout_margin="70dp"
+            android:src="@drawable/nisarga_logo" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivOuterRing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="68dp"
+                android:src="@drawable/splash_logo_ring" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:gravity="bottom"
         android:elevation="50dp"
+        android:gravity="bottom"
         android:paddingLeft="10dp">
 
         <ImageView

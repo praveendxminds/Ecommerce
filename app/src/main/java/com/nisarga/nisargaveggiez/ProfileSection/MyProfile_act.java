@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.ProfileSection;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
@@ -35,12 +38,16 @@ import retrofit2.Response;
 public class MyProfile_act extends AppCompatActivity {
 
     APIInterface apiInterface;
-    String custId;
     SessionManager session;
+    ProgressDialog progressdialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_profile_act);
+
+        progressdialog = new ProgressDialog(MyProfile_act.this);
+        progressdialog.setMessage("Please Wait....");
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
@@ -48,11 +55,9 @@ public class MyProfile_act extends AppCompatActivity {
     }
 
     Toolbar toolbar;
-    ImageView ivProfile;
-    ImageButton ivEditProfile;;
-    TextView tvName, tvMobileNo, tvEmail, tvApartmentName, tvDoorNo, tvArea,
-            tvAddress, tvPinCode;
-    Button btnNearBy;
+    CircularImageView ivProfile;
+    ImageView ivEditProfile;
+    TextView tvName, tvMobileNo, tvEmail, tvApartmentName, tvNearBy, tvDoorNo, tvArea, tvAddress, tvPinCode;
     public static BottomNavigationView bottom_navigation;
 
     private void init() {
@@ -72,61 +77,18 @@ public class MyProfile_act extends AppCompatActivity {
         tvArea = findViewById(R.id.tvArea);
         tvAddress = findViewById(R.id.tvAddress);
         tvPinCode = findViewById(R.id.tvPinCode);
+        tvNearBy = findViewById(R.id.tvNearBy);
 
-        btnNearBy = findViewById(R.id.btnNearBy);
-        bottom_navigation= findViewById(R.id.bottom_navigation);
-        //---------------------------My Profile API Call-----------------
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            custId = session.getCustomerId();
-            final MyProfileModel myProfileModel = new MyProfileModel(custId);
-            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
-            call.enqueue(new Callback<MyProfileModel>() {
-                @Override
-                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
-                    MyProfileModel resourceMyProfile = response.body();
-                    if(resourceMyProfile.status.equals("success"))
-                    {
-                        // Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
-                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
-                        for(MyProfileModel.Datum mpmResult : mpmDatum)
-                        {
-                            tvName.setText(mpmResult.firstname+" "+mpmResult.lastname);
-                            tvEmail.setText(mpmResult.email);
-                            tvMobileNo.setText(mpmResult.telephone);
-                            tvApartmentName.setText(mpmResult.apartment);
-                            tvDoorNo.setText(mpmResult.door);
-                            tvArea.setText(mpmResult.area);
-                            tvAddress.setText(mpmResult.address_1);
-                            tvPinCode.setText(mpmResult.postcode);
+        bottom_navigation = findViewById(R.id.bottom_navigation);
 
-                        }
-
-                    }
-                    else if(resourceMyProfile.status.equals("error"))
-                    {
-                        Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MyProfileModel> call, Throwable t) {
-
-                }
-            });
-        }
-        else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-        //------------------------------Edit Profile----------
         ivEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentEditProfile = new Intent(getBaseContext(),EditProfile_act.class);
+                Intent intentEditProfile = new Intent(MyProfile_act.this, EditProfile_act.class);
                 startActivity(intentEditProfile);
             }
         });
-        //---------------------------------------------------------------
+
         bottom_navigation.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -134,17 +96,17 @@ public class MyProfile_act extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHome = new Intent(getBaseContext(), HomePage.class);
+                                Intent intentHome = new Intent(MyProfile_act.this, HomePage.class);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCateg = new Intent(getBaseContext(), CategoriesBottomNav.class);
+                                Intent intentCateg = new Intent(MyProfile_act.this, CategoriesBottomNav.class);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
+                                Intent intentWishlist = new Intent(MyProfile_act.this, WishListHolder.class);
                                 intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intentWishlist);
                                 break;
@@ -157,6 +119,53 @@ public class MyProfile_act extends AppCompatActivity {
                     }
                 });
         bottom_navigation.setItemIconSize(40);
+
+
+        //---------------------------My Profile API Call-----------------
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            try {
+                progressdialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+                            if (String.valueOf(mpmResult.image) == "null") {
+                                ivProfile.setImageResource(R.drawable.camera);
+                            } else {
+                                Glide.with(MyProfile_act.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                        .into(ivProfile);
+                            }
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                            tvApartmentName.setText(mpmResult.apartment);
+                            tvDoorNo.setText(mpmResult.door);
+                            tvArea.setText(mpmResult.area);
+                            tvAddress.setText(mpmResult.address_1);
+                            tvPinCode.setText(mpmResult.postcode);
+
+                        }
+                    }
+                    progressdialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

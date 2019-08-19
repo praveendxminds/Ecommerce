@@ -31,14 +31,14 @@ public class LoyalityPointNotes {
     @Resolve
     public void onResolved()
     {
-        webViewNotes.getSettings().setJavaScriptEnabled(true);
-        String res = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            res = Html.fromHtml(mNotes, Html.FROM_HTML_MODE_COMPACT).toString();
-        } else {
-            res = Html.fromHtml(mNotes).toString();
-        }
-        webViewNotes.loadDataWithBaseURL(null, res, "text/html", "utf-8", null);
+//        webViewNotes.getSettings().setJavaScriptEnabled(true);
+//        String res = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//            res = Html.fromHtml(mNotes, Html.FROM_HTML_MODE_COMPACT).toString();
+//        } else {
+//            res = Html.fromHtml(mNotes).toString();
+//        }
+//        webViewNotes.loadDataWithBaseURL(null, res, "text/html", "utf-8", null);
 
     }
 

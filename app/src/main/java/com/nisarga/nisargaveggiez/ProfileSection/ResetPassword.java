@@ -80,7 +80,7 @@ public class ResetPassword extends AppCompatActivity {
         btnSubmitRPasswd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentLoginPage = new Intent(ResetPassword.this,LoginSignup_act.class);
+                Intent intentLoginPage = new Intent(ResetPassword.this,Login_act.class);
                 intentLoginPage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentLoginPage);
             }

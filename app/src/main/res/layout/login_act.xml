@@ -165,7 +165,7 @@
                                 android:drawableRight="@drawable/ic_visibility_off_pass"
                                 android:gravity="left|center"
                                 android:hint="Enter your Password"
-                                android:inputType="text"
+                                android:inputType="textPassword"
                                 android:padding="16dp"
                                 android:textColor="#5E4A4A4A"
                                 android:textColorHint="#5E4A4A4A"

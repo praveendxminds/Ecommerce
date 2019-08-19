@@ -9,20 +9,13 @@ public class SignUpImageResponse {
     @SerializedName("status")
     public String status;
 
-    @SerializedName("uploaded_file[]")
+    @SerializedName("file")
     public String image;
 
-    @SerializedName("result")
-    public List<Datum> resultdata = null;
+    @SerializedName("files")
+    public String profile_url;
 
     public SignUpImageResponse(String img) {
         this.image = img;
-    }
-
-    public class Datum {
-
-        @SerializedName("image0")
-        public String image0;
-
     }
 }

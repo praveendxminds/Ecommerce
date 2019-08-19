@@ -50,7 +50,6 @@ import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
-import com.nisarga.nisargaveggiez.ProfileSection.LoginSignup_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
@@ -103,12 +102,10 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     private ImageView ivEditProfile;
     private CircularImageView ivProfilePic;
     private TextView tvName, tvEmail, tvMobileNo;
-    private Button btnEditProfilePic;
     NavigationView navigationView;
     View headerView;
     String custId;
     String strSearchKey;
-
 
     DrawerLayout drawerLayout;
     public boolean chngView = true;
@@ -159,7 +156,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomeCateg);
         headerView = navigationView.getHeaderView(0);
-        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
