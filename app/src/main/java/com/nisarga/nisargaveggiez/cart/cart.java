@@ -163,7 +163,7 @@ public class cart extends AppCompatActivity {
                     for (CartListModel.CartListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, "82",imgs.product_id, imgs.image,
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, session.getCustomerId(),imgs.product_id, imgs.image,
                                     imgs.name, imgs.price,imgs.discount_price, imgs.quantity,mCartView));
                         }
                     }
