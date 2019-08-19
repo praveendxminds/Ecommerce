@@ -10,6 +10,8 @@
     <string name="txt_seeAll">View All</string>
     <string name="Rs">\u20B9</string>
     <string name="delivery_day"><a href="#">Delivery Day</a></string>
+    <string name="cancelMsg">Are you sure that you want to cancel order!</string>
+    <string name="reorderMsg">Are you sure that you want to re-order items!</string>
     <string name="privacy_and_policy">Privacy &amp; Policy</string>
     <string name="term_and_conditions">Term &amp; Conditions</string>
     <string name="delivery_info">FAQs</string>

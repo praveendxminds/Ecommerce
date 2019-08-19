@@ -86,12 +86,6 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void payment(View view) {
-        Intent accountIntent = new Intent(getBaseContext(), ccavenue.class);
-        startActivity(accountIntent);
-
-    }
-
     public void addNewAddress() {
 
         imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {

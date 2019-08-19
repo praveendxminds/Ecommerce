@@ -68,15 +68,18 @@ public interface APIInterface {
     @POST("index.php?route=account/wishlist/insertWishList")
     Call<InsertWishListItems> addtoWishList(@Body InsertWishListItems id);
 
+    @POST("index.php?route=api/shipping/address&api_token=454c62c0f0c745c90e5b93b4c0")
+    Call<ShippingAddrModel> addShippingAddress(@Body ShippingAddrModel id);
+
     @POST("index.php?route=api/order/cusOrder")
     Call<MyOrderList> getMyOrdersList(@Body MyOrderList customer_id);
+
+    @POST("index.php?route=api/custom/CancelOrder")
+    Call<CancelOrderModel> cancelOrder(@Body CancelOrderModel customer_id);
 
     @POST("index.php?route=api/order/cusSingleOrder")
     Call<OrderDetailModel> getMyOrderDetail(@Body OrderDetailModel id);
 
-    /*@POST("index.php?route=api/order/MyorderProductList&")
-    Call<ReorderItemsModel> showReorderItems(@Query("api_token") String token, @Body ReorderItemsModel body);
-*/
     @POST("index.php?route=api/order/MyorderProductList")
     Call<ReorderItemsModel> showReorderItems(@Body ReorderItemsModel id);
 
