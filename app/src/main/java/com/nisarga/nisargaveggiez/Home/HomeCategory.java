@@ -573,9 +573,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         }  else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
-        } else if (id == R.id.menuleft_offers) {
-            Intent intentMyOffers = new Intent(HomeCategory.this, Offers_act.class);
-            startActivity(intentMyOffers);
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(HomeCategory.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);

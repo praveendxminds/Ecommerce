@@ -92,6 +92,9 @@ public interface APIInterface {
     @POST("index.php?route=api/customer/redeemLoyaltyPoints")
     Call<ReedemLoyalityPoints> redeemPoints(@Body ReedemLoyalityPoints id);
 
+    @POST("index.php?route=api/customer/transactionHistory")
+    Call<TxnHistoryModel> getHistory(@Body TxnHistoryModel id);
+
     @FormUrlEncoded
     @POST("json/login.php")
     Call<User> doGetLogin(@Field("name") String name, @Field("password") String password);
