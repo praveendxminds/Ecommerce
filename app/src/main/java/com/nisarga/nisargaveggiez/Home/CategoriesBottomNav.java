@@ -155,13 +155,13 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
 
-        ivEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
-                startActivity(intentEditProfile);
-            }
-        });
+//        ivEditProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
+//                startActivity(intentEditProfile);
+//            }
+//        });
 
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
