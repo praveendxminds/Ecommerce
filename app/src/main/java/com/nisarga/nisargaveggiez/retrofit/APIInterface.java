@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.retrofit;
 
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
+import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
@@ -122,6 +123,7 @@ public interface APIInterface {
     Call<AddToCartModel> callAddToCart(@Body AddToCartModel id);
 
 
+
     @GET("index.php?route=api/custom/getApartments")
     Call<ApartmentList> getApartmentList();
 
@@ -132,7 +134,11 @@ public interface APIInterface {
     Call<UserSignUp> postRegisterUser(@Body UserSignUp signupdata);
 
     @Multipart
-    @POST("imageupload")
+    @POST("index.php?route=api/uploadprofile/fileupload")
     Call<SignUpImageResponse> signupImageUpload(@Part MultipartBody.Part file1);
+
+    @POST("index.php?route=api/uploadprofile/editNavImage")
+    Call<NavEditImage> nav_edit_image(@Body NavEditImage image);
+
 
 }
