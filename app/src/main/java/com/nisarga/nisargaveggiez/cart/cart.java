@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.Home.HomePage;
+import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
@@ -51,8 +52,9 @@ public class cart extends AppCompatActivity {
     private PlaceHolderView mCartView;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
-    TextView linkDeliveryDay;
+    TextView linkDeliveryDay,tvtotalAmount;
     private String storeDayTime;
+    SessionManager session;
 
     APIInterface apiInterface;
     public static TextView textCartItemCount;
@@ -63,6 +65,7 @@ public class cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart);
         apiInterface = APIClient.getClient().create(APIInterface.class);
+        session = new SessionManager(getApplicationContext());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
@@ -80,6 +83,7 @@ public class cart extends AppCompatActivity {
 
         //-----delivery day link------------------
         linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
+        tvtotalAmount = (TextView) findViewById(R.id.tvtotalAmount);
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
@@ -146,16 +150,10 @@ public class cart extends AppCompatActivity {
 
     public void showListView()
     {
-
-
-        mCartView.getBuilder()
-                .setHasFixedSize(false)
-                .setItemViewCacheSize(10)
-                .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-            Call<CartListModel> call = apiInterface.getCartList("api/cart/products","ea37ddb9108acd601b295e26fa");
+            Call<CartListModel> call = apiInterface.getCartList("api/cart/products",session.getToken());
+            Log.e("--------token id---------",session.getToken());
             call.enqueue(new Callback<CartListModel>() {
                 @Override
                 public void onResponse(Call<CartListModel> call, Response<CartListModel> response) {
@@ -165,8 +163,17 @@ public class cart extends AppCompatActivity {
                     for (CartListModel.CartListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, "83",imgs.product_id, imgs.image,
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, "82",imgs.product_id, imgs.image,
                                     imgs.name, imgs.price,imgs.discount_price, imgs.quantity,mCartView));
+                        }
+                    }
+                    //total amounts
+                    List<CartListModel.TotalsDatum> totalList = resource.totals;
+                    for (CartListModel.TotalsDatum imgs : totalList) {
+                        if (response.isSuccessful()) {
+                            if((imgs.title).equals("Total")) {
+                                tvtotalAmount.setText(imgs.text);
+                            }
                         }
                     }
 
