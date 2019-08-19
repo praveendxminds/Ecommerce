@@ -177,7 +177,6 @@
                                 android:gravity="center|left"
                                 android:text="₹ 50"
                                 android:textColor="@color/black"
-                                android:textFontWeight="15dp"
                                 android:textSize="15dp" />
 
                             <LinearLayout
