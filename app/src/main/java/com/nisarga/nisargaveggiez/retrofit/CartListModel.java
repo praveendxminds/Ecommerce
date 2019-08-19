@@ -10,15 +10,6 @@ public class CartListModel {
     @SerializedName("products")
     public List<CartListDatum> result = null;
 
-    @SerializedName("vouchers")
-    public List<VouchersDatum> vouchers = null;
-
-    @SerializedName("totals")
-    public List<TotalsDatum> totals = null;
-
-
-    public CartListModel() {
-    }
 
     public class CartListDatum {
 
@@ -40,8 +31,6 @@ public class CartListModel {
         @SerializedName("model")
         public String model;
 
-        @SerializedName("option")
-        public List<DatumOption> option = null;
 
         @SerializedName("quantity")
         public String quantity;
@@ -61,7 +50,12 @@ public class CartListModel {
         @SerializedName("reward")
         public String reward;
 
-        public class DatumOption {
+
+        @SerializedName("option")
+        public List<CartListOption> options = null;
+
+        public class CartListOption
+        {
 
             @SerializedName("product_option_id")
             public String product_option_id;
@@ -81,18 +75,21 @@ public class CartListModel {
         }
     }
 
-    public class VouchersDatum {
 
-    }
 
-    public class TotalsDatum {
 
+    @SerializedName("totals")
+    public List<TotalsDatum> totals = null;
+
+
+    public class TotalsDatum
+    {
         @SerializedName("title")
-        public Integer title;
+        public String title;
 
         @SerializedName("text")
-        public Integer text;
-    }
+        public String text;
 
+    }
 
 }

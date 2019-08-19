@@ -141,9 +141,9 @@ public class cart extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
-        for (int i = 0; i <= 10; i++) {
-            mCartView.addView(new cartItem(getApplicationContext()));
-        }
+//        for (int i = 0; i <= 10; i++) {
+//            mCartView.addView(new cartItem(getApplicationContext()));
+//        }
         /*  mCartView.addView(new cartItem_footer());*/
         showListView();
     }
@@ -163,7 +163,7 @@ public class cart extends AppCompatActivity {
                     for (CartListModel.CartListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, "82",imgs.product_id, imgs.image,
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, session.getCustomerId(),imgs.product_id, imgs.image,
                                     imgs.name, imgs.price,imgs.discount_price, imgs.quantity,mCartView));
                         }
                     }
