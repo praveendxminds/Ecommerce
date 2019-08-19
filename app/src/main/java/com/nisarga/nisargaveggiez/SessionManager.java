@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.nisarga.nisargaveggiez.ProfileSection.LoginSignup_act;
+import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUp_act;
 
 public class SessionManager {
@@ -60,7 +60,6 @@ public class SessionManager {
     public static final String KEY_Status = "status";
     public static final String KEY_PrdId = "product_id";
 
-
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -74,15 +73,6 @@ public class SessionManager {
 
     public Integer getCartCount() {
         return pref.getInt(KEY_Cart_COUNT, 0);
-    }
-
-    public void createTokenSession(String tkn) {
-        editor.putString(KEY_TOKEN_ID, tkn);
-        editor.commit();
-    }
-
-    public String getKeyTokenId() {
-        return pref.getString(KEY_TOKEN_ID, null);
     }
 
     public void storeCancelId(String cancel_id) {
@@ -103,29 +93,10 @@ public class SessionManager {
         return pref.getString(KEY_Status, null);
     }
 
-    public void storePrdId(String status) {
-        editor.putString(KEY_PrdId, status);
-        editor.commit();
-    }
-
-    public String getPrdId() {
-        return pref.getString(KEY_PrdId, null);
-    }
-
-
-    public void createTokenStatus() {
-        editor.putBoolean(KEY_TOKEN_SAVED, true);
-        editor.commit();
-    }
-
-    public boolean getTokenStatus() {
-        return pref.getBoolean(KEY_TOKEN_SAVED, false);
-    }
-
-
     public void createLoginSession(String customer_id, String customer_group_id, String firstname, String lastname,
                                    String email, String cart, String telephone, String wishlist, String address_id,
                                    String date_added, String api_token) {
+
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_CUST_ID, customer_id);
         editor.putString(KEY_CUST_GRP_ID, customer_group_id);
@@ -161,38 +132,14 @@ public class SessionManager {
         return pref.getString(KEY_EMAIL_ID, null);
     }
 
-
     public String getToken() {
         return pref.getString(KEY_TOKEN_LOGIN, null);
-    }
-
-    public void checkLogin() {
-        if (!this.isLoggedIn()) {
-            Intent i = new Intent(_context, LoginSignup_act.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            _context.startActivity(i);
-        }
     }
 
     public void logoutUser() {
         editor.clear();
         editor.commit();
-
-//        Intent i = new Intent(_context, LoginSignup_act.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        _context.startActivity(i);
-
-
-        Intent i = new Intent(_context, SignUp_act.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        _context.startActivity(i);
-
-
     }
-
 
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
@@ -216,8 +163,6 @@ public class SessionManager {
         editor.putString(KEY_PINCODE_ADDRS, pincode);
         editor.commit();
     }
-
-
 
     public String getApartmentName() {
         return pref.getString(KEY_APRT_NAME_ADDRS, null);

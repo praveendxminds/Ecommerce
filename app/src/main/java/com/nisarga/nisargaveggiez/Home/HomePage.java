@@ -1,20 +1,28 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -41,18 +49,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
-import com.nisarga.nisargaveggiez.ProfileSection.LoginSignup_act;
+import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
+import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
+import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
+import com.nisarga.nisargaveggiez.ProfileSection.SignUp_act;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
@@ -71,55 +83,43 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     APIInterface apiInterface;
     SessionManager session;
+    ProgressDialog progressdialog;
+
+    public static final int PICK_IMAGE_REQUEST = 1;
+    private static final int REQUEST_WRITE_PERMISSION = 786;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private static HomePage instance;
-    private Toolbar mToolbarHomePage;
-    private PlaceHolderView list_items_homePage;
-
+    private LinearLayout llLeftMenuLogOut;
     public static TextView textCartItemCount;
     public static BottomNavigationView bottomNavigationView;
-    public Context mContext;
-
-    private ProgressBar progressBarHomePage;
-    private LinearLayout llProfileIcon, llProfileDesc;
-    private EditText searchEditText;
-    private DrawerLayout drwLayout;
-    private CircularImageView ivProfilePic;
-    private ImageView ivEditProfile;
-    private TextView tvName, tvEmail, tvMobileNo;
-    private Button btnEditProfilePic;
-    private ImageButton imgBtnProfile;
-    NavigationView navigationView;
-    private LinearLayout llLeftMenuLogOut;
-    View headerView;
-    String custId;
-    String strSearchKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
+
+        progressdialog = new ProgressDialog(HomePage.this);
+        progressdialog.setMessage("Please Wait....");
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
-        mContext = this.getApplicationContext();
-        instance = this;
 
-
-
-        AndroidNetworking.initialize(getApplicationContext());
         init();
-        initBottomNavigation();
         initApiCall();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -143,6 +143,21 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         displayFirebaseRegId();
     }
 
+    Toolbar mToolbarHomePage;
+    PlaceHolderView list_items_homePage;
+    ProgressBar progressBarHomePage;
+    LinearLayout llProfileIcon, llProfileDesc, llEditProfile;
+    EditText searchEditText;
+    DrawerLayout drwLayout;
+    CircularImageView ivToolbarProfile, ivProfilePic;
+    TextView tvName, tvEmail, tvMobileNo;
+    NavigationView navigationView;
+    View headerView;
+    String strSearchKey;
+
+    private String imagepath = null;
+    String strProfilePic = "null";
+
     private void init() {
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
         setSupportActionBar(mToolbarHomePage);
@@ -150,27 +165,24 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
         llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
-        imgBtnProfile = findViewById(R.id.imgBtnProfile);
+        ivToolbarProfile = findViewById(R.id.ivToolbarProfile);
 
         list_items_homePage = (PlaceHolderView) findViewById(R.id.list_items_homePage);
         list_items_homePage.setPadding(0, 0, 0, 0);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
         drwLayout = findViewById(R.id.drwLayout);
 
-
-
         //-----------------------------------------------------------------------------------
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
+        navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.getHeaderView(0);
-        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
-        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        llProfileDesc = headerView.findViewById(R.id.llProfileDesc);
+        llEditProfile = headerView.findViewById(R.id.llEditProfile);
         ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
-        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
         //--------------------------------------------------------------------------------
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
@@ -181,30 +193,38 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
-        ivEditProfile.setOnClickListener(new View.OnClickListener() {
+        llEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
                 startActivity(intentEditProfile);
             }
         });
+
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session.checkLogin();
                 session.logoutUser();
+                finish();
+                Intent intent = new Intent(HomePage.this, Login_act.class);
+                startActivity(intent);
             }
         });
-        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
+
+        llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drwLayout.openDrawer(Gravity.LEFT);
             }
         });
 
-    }
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFile();
+            }
+        });
 
-    private void initBottomNavigation() {
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -247,19 +267,25 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //-------------------------------------image slider view------------------------------------------------
-            final ProductslHomePage productslHomePage = new ProductslHomePage("7","1");
+            final ProductslHomePage productslHomePage = new ProductslHomePage(session.getCustomerId());
             Call<ProductslHomePage> call = apiInterface.getHomePageProducts(productslHomePage);
             call.enqueue(new Callback<ProductslHomePage>() {
                 @Override
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
                     ProductslHomePage resource = response.body();
+                    if (String.valueOf(resource.profile_pic) == "null") {
+                        ivToolbarProfile.setImageResource(R.drawable.camera);
+                    } else {
+                        Glide.with(HomePage.this).load(resource.profile_pic).fitCenter().dontAnimate()
+                                .into(ivToolbarProfile);
+                    }
                     List<ProductslHomePage.BannerList> datumList = resource.banner;
                     for (ProductslHomePage.BannerList imageslider1 : datumList) {
                         progressBarHomePage.setVisibility(View.INVISIBLE);
                         imageArray.add(imageslider1.image);
                         headArray.add(imageslider1.title);
                     }
-                    list_items_homePage.addView(new HomePageImageSlider(mContext, headArray, imageArray));
+                    list_items_homePage.addView(new HomePageImageSlider(HomePage.this, headArray, imageArray));
                     //-----------------------------------------deal of day ------------------------------------------
 
                     List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
@@ -267,14 +293,14 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
                         newImageListDeal.add(imageListDeal.get(i));
                     }
-                    list_items_homePage.addView(new HomePageDealofDayList(getApplicationContext(), textCartItemCount, newImageListDeal));
+                    list_items_homePage.addView(new HomePageDealofDayList(HomePage.this, textCartItemCount, newImageListDeal));
                     //--------------------------------------------Products-------------------------------------------
                     List<ProductslHomePage.Products> imageListProducts = resource.products;
                     List<ProductslHomePage.Products> newImageListPrd = new ArrayList<>();
                     for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
                         newImageListPrd.add(imageListProducts.get(i));
                     }
-                    list_items_homePage.addView(new HomePageListofProducts(getApplicationContext(), textCartItemCount, newImageListPrd));
+                    list_items_homePage.addView(new HomePageListofProducts(HomePage.this, textCartItemCount, newImageListPrd));
                     //-----------------------------------------Recommended List-------------------------------------
 
                     List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
@@ -282,7 +308,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     for (int i = 0; i < (imageRecomendProducts.size() > 10 ? 10 : imageRecomendProducts.size()); i++) {
                         newImageRecommendProducts.add(imageRecomendProducts.get(i));
                     }
-                    list_items_homePage.addView(new HomePageRecommended(getApplicationContext(), textCartItemCount, newImageRecommendProducts));
+                    list_items_homePage.addView(new HomePageRecommended(HomePage.this, textCartItemCount, newImageRecommendProducts));
                 }
 
                 @Override
@@ -297,28 +323,28 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //------------------------------------- My profile view section------------------------------------------------
-            custId = session.getCustomerId();
-            final MyProfileModel myProfileModel = new MyProfileModel(custId);
+            final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
             Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
             call.enqueue(new Callback<MyProfileModel>() {
                 @Override
                 public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
                     MyProfileModel resourceMyProfile = response.body();
-                    if(resourceMyProfile.status.equals("success"))
-                    {
-                       // Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
+                    if (resourceMyProfile.status.equals("success")) {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
-                        for(MyProfileModel.Datum mpmResult : mpmDatum)
-                        {
-                            tvName.setText(mpmResult.firstname+" "+mpmResult.lastname);
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+                            if (String.valueOf(mpmResult.image) == "null") {
+                                ivProfilePic.setImageResource(R.drawable.camera);
+                            } else {
+                                Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                        .into(ivProfilePic);
+                            }
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
                             tvMobileNo.setText(mpmResult.telephone);
                         }
 
-                    }
-                    else if(resourceMyProfile.status.equals("failure"))
-                    {
-                        Toast.makeText(getApplicationContext(),resourceMyProfile.message,Toast.LENGTH_SHORT).show();
+                    } else if (resourceMyProfile.status.equals("failure")) {
+                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -327,14 +353,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                 }
             });
-            }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static HomePage getInstance() {
-        return instance;
     }
 
     @Override
@@ -392,7 +413,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         searchEditText.setTextColor(getResources().getColor(R.color.black));
         searchEditText.setPadding(0, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
-        strSearchKey=searchEditText.getText().toString();
+        strSearchKey = searchEditText.getText().toString();
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
 
         searchEditText.clearFocus();
@@ -401,21 +422,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         searchEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if(event.getAction() == MotionEvent.ACTION_UP)
-                {
-
-
-                        Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
-                        prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(prdIntent);
-
-
-                        return true;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
+                    prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(prdIntent);
+                    return true;
                 }
                 return false;
             }
@@ -423,9 +434,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         searchViews.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-
+            public void onClick(View v) {
                 Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
                 prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(prdIntent);
@@ -436,16 +445,14 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         //here we will get the search query
         searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 Intent accountIntent = new Intent(getBaseContext(), search.class);
                 startActivity(accountIntent);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
 //                RemoteData remoteData = new RemoteData(HomePage.this);
 //                remoteData.getStoreData(newText);
@@ -459,11 +466,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
             Intent prdIntent = new Intent(getBaseContext(), ProductDetailHome.class);
             prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(prdIntent);
-            Log.d("Firebase reg i: ", String.valueOf(i));
         }
     };
 
@@ -491,9 +496,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
-
 //        Log.d( "Firebase reg id: ", regId);
-
         //if (!TextUtils.isEmpty(regId))
         //  txtRegId.setText("Firebase Reg Id: " + regId);
         // else
@@ -503,11 +506,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onResume() {
         super.onResume();
-
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(fcmConfig.REGISTRATION_COMPLETE));
-
         // register new push message receiver
         // by doing this, the activity will be notified each time a new message arrives
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
@@ -570,7 +571,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(intentPolicy);
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -613,4 +613,107 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         navigationView.setItemIconTintList(navMenuIconList);
     }
 
+    public void pickFile() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_PERMISSION);
+            return;
+        }
+        openGallery();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            imagepath = getPath(filePath);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+            ivProfilePic.setImageBitmap(bitmap);
+            imagePath(imagepath);
+        }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    private void imagePath(String imagepath) {
+        try {
+            progressdialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        File file0 = new File(imagepath);
+        RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);
+
+        MultipartBody.Part img1 = MultipartBody.Part.createFormData("file", file0.getName(),
+                requestFile0);
+
+        Call<SignUpImageResponse> call = apiInterface.signupImageUpload(img1);
+        call.enqueue(new Callback<SignUpImageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<SignUpImageResponse> call, @NonNull Response<SignUpImageResponse> response) {
+                SignUpImageResponse responseModel = response.body();
+                if (responseModel.status.equals("success")) {
+                    strProfilePic = responseModel.profile_url;
+                    if (Utils.CheckInternetConnection(getApplicationContext())) {
+                        navImageUpload(strProfilePic);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SignUpImageResponse> call, @NonNull Throwable t) {
+                Log.d("val", "Exception");
+            }
+        });
+    }
+
+    private void navImageUpload(String strProfilePic) {
+        final NavEditImage navEditImage = new NavEditImage(session.getCustomerId(), strProfilePic);
+
+        Call<NavEditImage> call = apiInterface.nav_edit_image(navEditImage);
+        call.enqueue(new Callback<NavEditImage>() {
+            @Override
+            public void onResponse(Call<NavEditImage> call, Response<NavEditImage> response) {
+                NavEditImage responsedata = response.body();
+                if (responsedata.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                } else if (responsedata.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                }
+                progressdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<NavEditImage> call, Throwable t) {
+                call.cancel();
+
+            }
+        });
+    }
 }

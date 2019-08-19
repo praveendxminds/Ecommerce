@@ -45,7 +45,7 @@ import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
-import com.nisarga.nisargaveggiez.ProfileSection.LoginSignup_act;
+import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
@@ -90,8 +90,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
     View headerView;
     private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
-    private Button btnEditProfilePic;
-    private ImageButton imgBtnProfile;
     private LinearLayout llProfileIcon, llProfileDesc;
     private CircularImageView ivProfilePic;
     String strSearchKey;
@@ -136,18 +134,17 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
 
     public void showLeftMenu() {
         //-----------------------------------------------------------------------------------
-        imgBtnProfile = findViewById(R.id.imgBtnProfile);
         navigationView = (NavigationView) findViewById(R.id.nav_viewShopByCateg);
         headerView = navigationView.getHeaderView(0);
-        btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        navigationView.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
-        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        llProfileDesc = headerView.findViewById(R.id.llProfileDesc);
+        llProfileIcon = headerView.findViewById(R.id.llProfileIcon);
         ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
         ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
         //--------------------------------------------------------------------------------
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
@@ -165,14 +162,18 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                 startActivity(intentEditProfile);
             }
         });
+
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session.checkLogin();
                 session.logoutUser();
+                finish();
+                Intent intent = new Intent(CategoriesBottomNav.this, Login_act.class);
+                startActivity(intent);
             }
         });
-        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
+
+        llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayoutShopBy.openDrawer(Gravity.LEFT);
@@ -182,7 +183,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
 
     public void init() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-
             Call<ShopByCategModel> call = apiInterface.getShopByCateg();
             call.enqueue(new Callback<ShopByCategModel>() {
                 @Override
@@ -244,8 +244,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         int actionBarHeight = mToolbarShopBy.getLayoutParams().height;
         int actionBarwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        Log.d("ccccc", String.valueOf(actionBarwidth));
-        Log.d("aaaaaa", String.valueOf(actionBarHeight));
         LinearLayout.LayoutParams tvLay = new LinearLayout.LayoutParams((int) (actionBarwidth / 1.65),
                 (int) (actionBarHeight / 1.7));
         searchViews.setBackground(ContextCompat.getDrawable(this, R.drawable.search_border));
@@ -418,5 +416,4 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         navigationView.setItemTextColor(navMenuTextList);
         navigationView.setItemIconTintList(navMenuIconList);
     }
-
 }

@@ -6,14 +6,14 @@ import java.util.List;
 
 public class ProductslHomePage {
 
-    @SerializedName("id")
-    public String id;
-
     @SerializedName("customer_id")
     public String customer_id;
 
     @SerializedName("status")
-    public String string;
+    public String status;
+
+    @SerializedName("profile_pic")
+    public String profile_pic;
 
     @SerializedName("banner")
     public List<BannerList> banner = null;
@@ -27,8 +27,7 @@ public class ProductslHomePage {
     @SerializedName("products")
     public List<Products> products = null;
 
-    public ProductslHomePage(String id,String cust_id) {
-        this.id = id;
+    public ProductslHomePage(String cust_id) {
         this.customer_id = cust_id;
     }
 

@@ -133,9 +133,9 @@
             android:background="@color/white"
             android:fitsSystemWindows="true"
             android:theme="@style/NavigationView"
+            app:headerLayout="@layout/left_nav_header"
             app:itemBackground="@color/white"
             app:itemIconPadding="12dp"
-            app:headerLayout="@layout/left_nav_header"
             app:menu="@menu/left_menu_drawer"
             app:theme="@style/LeftNavTheme">
 

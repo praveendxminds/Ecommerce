@@ -1,7 +1,9 @@
 package com.nisarga.nisargaveggiez.retrofit;
 
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
+import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
+import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
@@ -54,7 +56,7 @@ public interface APIInterface {
     Call<ProductDetailsModel> getProductDetails(@Body ProductDetailsModel id);
 
     @POST("index.php?route=api/order/similarProductList")
-    Call<SimilarProductsModel> getSimilarProducts(@Body SimilarProductsModel prd_id);
+    Call<SimilarProductsModel> getSimilarProducts(@Body SimilarProductsModel product_id);
 
     @POST("index.php?route=api/custom/pages")
     Call<WebPagesModel> getContactUs(@Body WebPagesModel id);
@@ -128,6 +130,7 @@ public interface APIInterface {
     Call<AddToCartModel> callAddToCart(@Body AddToCartModel id);
 
 
+
     @GET("index.php?route=api/custom/getApartments")
     Call<ApartmentList> getApartmentList();
 
@@ -138,7 +141,15 @@ public interface APIInterface {
     Call<UserSignUp> postRegisterUser(@Body UserSignUp signupdata);
 
     @Multipart
-    @POST("imageupload")
+    @POST("index.php?route=api/uploadprofile/fileupload")
     Call<SignUpImageResponse> signupImageUpload(@Part MultipartBody.Part file1);
+
+    @POST("index.php?route=api/uploadprofile/editNavImage")
+    Call<NavEditImage> nav_edit_image(@Body NavEditImage image);
+
+
+    @POST("index.php?route=api/uploadprofile/FilterProduct")
+    Call<FilterCategoryModel> filter_products(@Body FilterCategoryModel image);
+
 
 }

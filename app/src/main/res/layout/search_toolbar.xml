@@ -4,59 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
-    app:contentInsetLeft="0dp"
-    app:contentInsetStart="0dp"
+    android:theme="@style/AppTheme1"
     app:contentInsetEnd="0dp"
+    app:contentInsetLeft="0dp"
     app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp"
     app:subtitleTextColor="@color/white"
-    app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
-    android:theme="@style/AppTheme1">
+    app:titleTextAppearance="@style/AppTheme.Toolbar.Title">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="0dp"
-        android:layout_gravity="left">
+        android:layout_gravity="left"
+        android:layout_marginLeft="0dp">
 
 
         <AutoCompleteTextView
             android:id="@+id/store"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/autosearch_border"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:background="@drawable/autosearch_border"
+            android:hint="Search"
             android:paddingLeft="65dp"
-            android:textColorHint="@color/blackshadow"
-            android:hint="Search">
-        </AutoCompleteTextView>
+            android:textColorHint="@color/blackshadow"></AutoCompleteTextView>
 
 
         <LinearLayout
             android:id="@+id/llProfileIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="left"
             android:layout_marginLeft="18dp"
-            android:layout_gravity="left">
+            android:layout_marginTop="10dp">
 
             <ImageButton
                 android:id="@+id/imgBtnProfile"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@drawable/profile_icon"
-                android:duplicateParentState="true"/>
+                android:duplicateParentState="true" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="0dp"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginLeft="18dp">
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal">
 
 
             <Button
@@ -64,8 +63,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dip"
-                android:onClick="notifcations"
-                android:background="@drawable/notification" />
+                android:background="@drawable/notification"
+                android:onClick="notifcations" />
 
 
             <Button
@@ -73,9 +72,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dip"
-                android:onClick="cart"
-                android:background="@drawable/ic_shopping_cart" />
-
+                android:background="@drawable/ic_shopping_cart"
+                android:onClick="cart" />
 
 
         </LinearLayout>

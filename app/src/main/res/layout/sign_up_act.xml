@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -122,15 +123,16 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/ivProfile"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_gravity="center"
                             android:layout_margin="20dp"
-                            android:adjustViewBounds="true"
+                            android:background="@drawable/circle_view"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/camera" />
+                            android:src="@drawable/camera"
+                            app:civ_border_width="0dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -148,6 +150,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@null"
+                                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                     android:gravity="left|center"
                                     android:hint="First Name *"
                                     android:inputType="text"
@@ -174,6 +177,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@null"
+                                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                     android:gravity="left|center"
                                     android:hint="Last Name *"
                                     android:inputType="text"
@@ -316,29 +320,12 @@
                                 android:drawableRight="@drawable/ic_chevron_right"
                                 android:gravity="left|center"
                                 android:hint="Apartment Name *"
-                                android:inputType="text"
+                                android:inputType="textMultiLine"
                                 android:padding="16dp"
                                 android:textColor="#5E4A4A4A"
                                 android:textColorHint="#5E4A4A4A"
                                 android:textSize="14sp" />
                         </LinearLayout>
-
-                        <!-- <LinearLayout
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:layout_margin="15dp"
-                             android:background="@drawable/login_reg_border">
-
-                             <Spinner
-                                 android:id="@+id/spnrApartmentName"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="match_parent"
-                                 android:dropDownVerticalOffset="5dp"
-                                 android:overlapAnchor="false"
-                                 android:padding="5dp"
-                                 android:spinnerMode="dropdown"
-                                 android:theme="@style/MatchSpinnerTheme" />
-                         </LinearLayout>-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -352,13 +339,13 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/etWing"
+                                    android:id="@+id/etBlock"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="Block/Wing"
-                                    android:inputType="text"
+                                    android:inputType="textMultiLine"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -384,7 +371,7 @@
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="Floor Number"
-                                    android:inputType="text"
+                                    android:inputType="textMultiLine"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -410,7 +397,7 @@
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="Door Number *"
-                                    android:inputType="text"
+                                    android:inputType="textMultiLine"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -436,7 +423,7 @@
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="Area"
-                                    android:inputType="text"
+                                    android:inputType="textMultiLine"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -462,7 +449,7 @@
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="City *"
-                                    android:inputType="text"
+                                    android:inputType="textMultiLine"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -474,26 +461,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="15dp"
+                            android:background="@drawable/login_reg_border"
                             android:gravity="center">
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            <TextView
+                                android:id="@+id/tvAddress"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/etAddress"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@null"
-                                    android:gravity="left|center"
-                                    android:hint="Address *"
-                                    android:inputType="text"
-                                    android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
-                                    android:textColorHint="#5E4A4A4A"
-                                    android:textSize="14sp" />
-                            </android.support.design.widget.TextInputLayout>
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:gravity="left|center"
+                                android:hint="Address *"
+                                android:inputType="textMultiLine"
+                                android:padding="16dp"
+                                android:textColor="#5E4A4A4A"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -514,7 +496,7 @@
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="Land Mark"
-                                    android:inputType="text"
+                                    android:inputType="textMultiLine"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -540,7 +522,8 @@
                                     android:background="@null"
                                     android:gravity="left|center"
                                     android:hint="Pin Code *"
-                                    android:inputType="text"
+                                    android:inputType="number"
+                                    android:maxLength="6"
                                     android:padding="16dp"
                                     android:textColor="#5E4A4A4A"
                                     android:textColorHint="#5E4A4A4A"
@@ -575,6 +558,6 @@
             android:layout_height="wrap_content"
             android:divider="@color/lightGrey"
             android:dividerHeight="1dp"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

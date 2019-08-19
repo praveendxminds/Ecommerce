@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,6 +102,11 @@ public class LoyalityPoints extends AppCompatActivity {
                 public void onResponse(Call<LoyalityPointsModel> call, Response<LoyalityPointsModel> response) {
 
                     final LoyalityPointsModel resource = response.body();
+
+
+
+                    Log.d("lo", String.valueOf(resource.data));
+
                     if ((resource.data).equals("null")) {
 
                         tvPoints.setText("Rs." + " " + "0");
@@ -128,6 +134,9 @@ public class LoyalityPoints extends AppCompatActivity {
                             }
                         });
                     }
+
+                    Log.d("resource----", String.valueOf(resource.note));
+
                     List<LoyalityPointsModel.DatumLP> datumList = resource.note;
                     int count=1;
                     for (LoyalityPointsModel.DatumLP notes : datumList) {

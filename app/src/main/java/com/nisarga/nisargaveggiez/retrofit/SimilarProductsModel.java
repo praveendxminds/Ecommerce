@@ -6,13 +6,21 @@ import java.util.List;
 
 public class SimilarProductsModel {
 
-    @SerializedName("product_id")
-    public String   product_id;
 
-    public SimilarProductsModel(String prd_id)
+
+    @SerializedName("product_id")
+    public String productid;
+
+    @SerializedName("customer_id")
+    public String customer_id;
+
+
+    public SimilarProductsModel(String product_id,String customer_id)
     {
-        this.product_id=prd_id;
+        this.productid = product_id;
+        this.customer_id = customer_id;
     }
+
     @SerializedName("status")
     public String status;
 
@@ -39,53 +47,8 @@ public class SimilarProductsModel {
         @SerializedName("quantity")
         public String quantity;
 
-        @SerializedName("date_added")
-        public String date_added;
-
-        @SerializedName("date_modified")
-        public String date_modified;
-
-        @SerializedName("manufacturer_id")
-        public String manufacturer_id;
-
-        @SerializedName("viewed")
-        public String viewed;
-
-        @SerializedName("status")
-        public String status;
-
-        @SerializedName("location")
-        public String location ;
-
-        @SerializedName("weight")
-        public String weight ;
-
-        @SerializedName("length")
-        public String  length;
-
-        @SerializedName("width")
-        public String width;
-
-        @SerializedName("height")
-        public String  height;
-
-        @SerializedName("subtract")
-        public String subtract ;
-
-        @SerializedName("minimum")
-        public String  minimum;
-
-        @SerializedName("sort_order")
-        public String  sort_order;
-
         @SerializedName("name")
-        public String  name;
-
-        @SerializedName("description")
-        public String description ;
-
-        @SerializedName("tag")
-        public String  tag;
+        public String name;
 
 
     }

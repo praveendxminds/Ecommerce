@@ -6,7 +6,6 @@ import java.util.List;
 
 public class MyProfileModel {
 
-
     @SerializedName("customer_id")
     public String customer_id;
 
@@ -15,7 +14,6 @@ public class MyProfileModel {
 
     @SerializedName("message")
     public String message;
-
 
     @SerializedName("result")
     public List<Datum> resultdata = null;
@@ -59,13 +57,17 @@ public class MyProfileModel {
         @SerializedName("telephone")
         public String telephone;
 
-        @SerializedName("apartment")
-        public String apartment;
-
         @SerializedName("door")
         public String door;
 
+        @SerializedName("apartment")
+        public String apartment;
 
+        @SerializedName("password")
+        public String password;
+
+        @SerializedName("image")
+        public String image;
 
     }
 }
