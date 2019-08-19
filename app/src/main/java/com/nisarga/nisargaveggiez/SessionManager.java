@@ -67,6 +67,25 @@ public class SessionManager {
         editor = pref.edit();
     }
 
+    public void createTokenSession(String tkn) {
+        editor.putString(KEY_TOKEN_ID, tkn);
+        editor.commit();
+    }
+
+    public String getKeyTokenId() {
+        return pref.getString(KEY_TOKEN_ID, null);
+    }
+
+    public void createTokenStatus() {
+        editor.putBoolean(KEY_TOKEN_SAVED, true);
+        editor.commit();
+    }
+
+    public boolean getTokenStatus() {
+        return pref.getBoolean(KEY_TOKEN_SAVED, false);
+    }
+
+
     public void cartcount(Integer cnt) {
         editor.putInt(KEY_Cart_COUNT, cnt);
         editor.commit();

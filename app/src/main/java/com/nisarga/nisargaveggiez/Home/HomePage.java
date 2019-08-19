@@ -75,6 +75,7 @@ import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
 import com.nisarga.nisargaveggiez.cart.cart;
 import com.nisarga.nisargaveggiez.fcm.NotificationUtils;
+import com.nisarga.nisargaveggiez.fcm.TokenFCM;
 import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
@@ -504,8 +505,42 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     // Fetches reg id from shared preferences
     // and displays on the screen
     private void displayFirebaseRegId() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
-        String regId = pref.getString("regId", null);
+//        SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
+//        String regId = pref.getString("regId", null);
+
+
+        Log.d("tkkkkkk", String.valueOf(session.getKeyTokenId()));
+
+
+        String emp_user_id = session.getCustomerId();
+
+        String emp_token_id = session.getKeyTokenId();
+
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        if (!session.getTokenStatus()) {
+            final TokenFCM tkn = new TokenFCM(emp_user_id,emp_token_id);
+            Call<TokenFCM> calledu = apiInterface.fcmtoken(tkn);
+            calledu.enqueue(new Callback<TokenFCM>() {
+                @Override
+                public void onResponse(Call<TokenFCM> calledu, Response<TokenFCM> response) {
+                    final TokenFCM resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_LONG).show();
+                        session.createTokenStatus();
+                    } else if (resource.status.equals("failure")) {
+                    }
+                    progressdialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<TokenFCM> calledu, Throwable t) {
+                    calledu.cancel();
+                }
+            });
+        }
+
 //        Log.d( "Firebase reg id: ", regId);
         //if (!TextUtils.isEmpty(regId))
         //  txtRegId.setText("Firebase Reg Id: " + regId);
