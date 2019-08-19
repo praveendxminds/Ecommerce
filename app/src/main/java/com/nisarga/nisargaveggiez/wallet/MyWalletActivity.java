@@ -41,7 +41,7 @@ public class MyWalletActivity extends AppCompatActivity {
     SessionManager sessionManager;
     Toolbar toolbar;
     private Button btnAddMoney, btnLoyalityPoints, btnTXnHistory;
-    private TextView tvAmntLoyalityPoints,tvWalletOptnAmount;
+    private TextView tvAmntLoyalityPoints, tvWalletOptnAmount;
     public static BottomNavigationView bottomNavigationView;
 
     @Override
@@ -64,6 +64,7 @@ public class MyWalletActivity extends AppCompatActivity {
         btnLoyalityPoints = findViewById(R.id.btnLoyalityPoints);
         btnTXnHistory = findViewById(R.id.btntxnHistory);
 
+        getData();
         btnAddMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,8 +100,12 @@ public class MyWalletActivity extends AppCompatActivity {
                 public void onResponse(Call<LoyalityPointsModel> call, Response<LoyalityPointsModel> response) {
 
                     LoyalityPointsModel resource = response.body();
-                    tvAmntLoyalityPoints.setText(resource.data+" "+"Points");
+                    if ((resource.data).equals("null")) {
+                        tvAmntLoyalityPoints.setText("0" + " " + "Points");
+                    } else {
+                        tvAmntLoyalityPoints.setText(resource.data + " " + "Points");
 
+                    }
                 }
 
                 @Override
@@ -108,33 +113,31 @@ public class MyWalletActivity extends AppCompatActivity {
                     call.cancel();
                 }
             });
+            //-------------------------------------Wallet Balance-----------------------------
+            final WalletBlncModel get_wallet_amnt = new WalletBlncModel(sessionManager.getCustomerId());
+            Call<WalletBlncModel> call1 = apiInterface.getWalletBlnc(get_wallet_amnt);
+            call1.enqueue(new Callback<WalletBlncModel>() {
+                @Override
+                public void onResponse(Call<WalletBlncModel> call, Response<WalletBlncModel> response) {
+
+                    WalletBlncModel resource = response.body();
+                    if ((resource.data).equals("null")) {
+                        tvWalletOptnAmount.setText("Rs." + " " + "0");
+                    } else {
+                        tvWalletOptnAmount.setText("Rs." + " " + resource.data);
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WalletBlncModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
 
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
-        //-------------------------------------Wallet Balance-----------------------------
-        final WalletBlncModel get_wallet_amnt = new WalletBlncModel(sessionManager.getCustomerId());
-        Call<WalletBlncModel> call = apiInterface.getWalletBlnc(get_wallet_amnt);
-        call.enqueue(new Callback<WalletBlncModel>() {
-            @Override
-            public void onResponse(Call<WalletBlncModel> call, Response<WalletBlncModel> response) {
-
-                WalletBlncModel resource = response.body();
-                tvWalletOptnAmount.setText("Rs." + " " + resource.data);
-                if ((resource.data).equals("null")) {
-                    tvWalletOptnAmount.setText("Rs." + " " + "0");
-                }
-
-
-            }
-
-
-            @Override
-            public void onFailure(Call<WalletBlncModel> call, Throwable t) {
-                call.cancel();
-            }
-        });
-
     }
 
     void setFooter() {

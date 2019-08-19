@@ -101,9 +101,13 @@ public class AddMoneyToWallet extends AppCompatActivity {
                 public void onResponse(Call<WalletBlncModel> call, Response<WalletBlncModel> response) {
 
                     WalletBlncModel resource = response.body();
-                    tvWalletBlnc.setText("Rs." + " " + resource.data);
                     if ((resource.data).equals("null")) {
                         tvWalletBlnc.setText("Rs." + " " + "0");
+                    }
+                    else
+                    {
+                        tvWalletBlnc.setText("Rs." + " " + resource.data);
+
                     }
                 }
                 @Override

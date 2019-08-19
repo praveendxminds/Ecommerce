@@ -71,8 +71,10 @@ public class LoyalityPoints extends AppCompatActivity {
 
     public void addLoyalityPoints() {
         strRedeemPoint = etReedem.getText().toString();
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-//-------------------------------------image slider view----------------------------------------------------------------------
+        if (strRedeemPoint.equals("")) {
+            etReedem.requestFocus();
+            etReedem.setError("Enter some points");
+        } else {
             final ReedemLoyalityPoints get_loyltyPoints = new ReedemLoyalityPoints("97", strRedeemPoint);
             Call<ReedemLoyalityPoints> call = apiInterface.redeemPoints(get_loyltyPoints);
             call.enqueue(new Callback<ReedemLoyalityPoints>() {
@@ -88,17 +90,14 @@ public class LoyalityPoints extends AppCompatActivity {
                     call.cancel();
                 }
             });
-
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void getLoyalityPoints() {
+
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final LoyalityPointsModel get_loyltyPoints = new LoyalityPointsModel(sessionManager.getCustomerId());
+            final LoyalityPointsModel get_loyltyPoints = new LoyalityPointsModel("97");
             Call<LoyalityPointsModel> call = apiInterface.getLoyalityPoints(get_loyltyPoints);
             call.enqueue(new Callback<LoyalityPointsModel>() {
                 @Override
@@ -112,7 +111,7 @@ public class LoyalityPoints extends AppCompatActivity {
                         btnProceed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(LoyalityPoints.this, resource.message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoyalityPoints.this, "No points available for redemption", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -123,7 +122,6 @@ public class LoyalityPoints extends AppCompatActivity {
                             public void onClick(View v) {
                                 int number = Integer.parseInt(resource.data);
                                 if (number >= 50) {
-                                    addLoyalityPoints();
                                     addLoyalityPoints();
                                     Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this, LoyalityPointSuccessAck.class);
                                     startActivity(intentRedeemptionSuccess);
