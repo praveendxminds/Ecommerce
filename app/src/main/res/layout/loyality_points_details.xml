@@ -96,15 +96,15 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/tvReedem"
+                        android:id="@+id/etReedem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_regular"
                         android:gravity="center|left"
                         android:padding="10dp"
-                        android:hint="100"
+                        android:hint="0"
                         android:textColor="@color/light_black_1"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:background="@color/zxing_transparent"/>
                 </LinearLayout>
 

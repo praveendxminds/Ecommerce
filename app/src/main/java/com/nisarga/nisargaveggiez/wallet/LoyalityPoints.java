@@ -10,23 +10,46 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.mindorks.placeholderview.PlaceHolderView;
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.LoyalityPointsModel;
+import com.nisarga.nisargaveggiez.retrofit.ReedemLoyalityPoints;
+import com.nisarga.nisargaveggiez.retrofit.WalletBlncModel;
+
+import java.net.ServerSocket;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoyalityPoints extends AppCompatActivity {
 
+    APIInterface apiInterface;
     Toolbar toolbar;
-    private TextView tvReedem,tvPoints;
+    private TextView tvPoints;
     PlaceHolderView phvLoyalityPoints;
     Button btnProceed;
+    private EditText etReedem;
+    String strRedeemPoint;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loyality_points_details);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        sessionManager = new SessionManager(LoyalityPoints.this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,43 +58,115 @@ public class LoyalityPoints extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        tvReedem = findViewById(R.id.tvReedem);
+        etReedem = findViewById(R.id.etReedem);
         tvPoints = findViewById(R.id.tvPoints);
         phvLoyalityPoints = findViewById(R.id.phvLoyalityPoints);
         btnProceed = findViewById(R.id.btnProceed);
-        String[] strArrNotes = {"1.","2.","3.","4.","5."} ;
-        for(int i=0;i<strArrNotes.length;i++)
-        {
-            phvLoyalityPoints.addView(new LoyalityPointNotes(getApplicationContext(),strArrNotes[i]));
+
+        getLoyalityPoints();
+    }
+
+    public void addLoyalityPoints() {
+        strRedeemPoint = etReedem.getText().toString();
+        if (strRedeemPoint.equals("")) {
+            etReedem.requestFocus();
+            etReedem.setError("Enter some points");
+        } else {
+            final ReedemLoyalityPoints get_loyltyPoints = new ReedemLoyalityPoints("97", strRedeemPoint);
+            Call<ReedemLoyalityPoints> call = apiInterface.redeemPoints(get_loyltyPoints);
+            call.enqueue(new Callback<ReedemLoyalityPoints>() {
+                @Override
+                public void onResponse(Call<ReedemLoyalityPoints> call, Response<ReedemLoyalityPoints> response) {
+
+                    ReedemLoyalityPoints resource = response.body();
+                    Toast.makeText(LoyalityPoints.this, resource.message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ReedemLoyalityPoints> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
+    }
 
-        btnProceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this,LoyalityPointSuccessAck.class);
-                startActivity(intentRedeemptionSuccess);
-            }
-        });
+    public void getLoyalityPoints() {
 
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//-------------------------------------image slider view----------------------------------------------------------------------
+            final LoyalityPointsModel get_loyltyPoints = new LoyalityPointsModel("97");
+            Call<LoyalityPointsModel> call = apiInterface.getLoyalityPoints(get_loyltyPoints);
+            call.enqueue(new Callback<LoyalityPointsModel>() {
+                @Override
+                public void onResponse(Call<LoyalityPointsModel> call, Response<LoyalityPointsModel> response) {
+
+                    final LoyalityPointsModel resource = response.body();
+                    if ((resource.data).equals("null")) {
+
+                        tvPoints.setText("Rs." + " " + "0");
+                        btnProceed.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(LoyalityPoints.this, "No points available for redemption", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    } else {
+                        tvPoints.setText("Rs." + " " + resource.data);
+                        btnProceed.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int number = Integer.parseInt(resource.data);
+                                if (number >= 50) {
+                                    addLoyalityPoints();
+                                    Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this, LoyalityPointSuccessAck.class);
+                                    startActivity(intentRedeemptionSuccess);
+                                } else {
+                                    Toast.makeText(LoyalityPoints.this, "No sufficient points", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+                    }
+                    List<LoyalityPointsModel.DatumLP> datumList = resource.note;
+                    int count=1;
+                    for (LoyalityPointsModel.DatumLP notes : datumList) {
+                        if (response.isSuccessful()) {
+                            phvLoyalityPoints.addView(new LoyalityPointNotes(LoyalityPoints.this,count,notes.desciption));
+                            count = count+1;
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<LoyalityPointsModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuAddtoMoney = getMenuInflater();
-        menuAddtoMoney.inflate(R.menu.nav_toolbar_menu,menu);
+        menuAddtoMoney.inflate(R.menu.nav_toolbar_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
             case R.id.info:
-                Intent intentAddtoMoney = new Intent(getBaseContext(),DeliveryInformation.class);
+                Intent intentAddtoMoney = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentAddtoMoney);
                 break;
         }

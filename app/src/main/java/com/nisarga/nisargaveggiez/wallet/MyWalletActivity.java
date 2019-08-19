@@ -14,27 +14,43 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomePage;
-import com.nisarga.nisargaveggiez.ProfileSection.Faqs_act;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
-import com.nisarga.nisargaveggiez.notifications.NotificationItem;
-import com.mindorks.placeholderview.PlaceHolderView;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.LoyalityPointsModel;
+import com.nisarga.nisargaveggiez.retrofit.ReedemLoyalityPoints;
+import com.nisarga.nisargaveggiez.retrofit.WalletBlncModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyWalletActivity extends AppCompatActivity {
 
+    APIInterface apiInterface;
+    SessionManager sessionManager;
     Toolbar toolbar;
     private Button btnAddMoney, btnLoyalityPoints, btnTXnHistory;
+    private TextView tvAmntLoyalityPoints, tvWalletOptnAmount;
     public static BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_wallet_activity);
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        sessionManager = new SessionManager(MyWalletActivity.this);
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,10 +58,13 @@ public class MyWalletActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        tvAmntLoyalityPoints = findViewById(R.id.tvAmntLoyalityPoints);
+        tvWalletOptnAmount = findViewById(R.id.tvWalletOptnAmount);
         btnAddMoney = findViewById(R.id.btnWalletOptnBtns);
         btnLoyalityPoints = findViewById(R.id.btnLoyalityPoints);
         btnTXnHistory = findViewById(R.id.btntxnHistory);
 
+        getData();
         btnAddMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +88,56 @@ public class MyWalletActivity extends AppCompatActivity {
         });
 
         setFooter();
+    }
+
+    public void getData() {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//-------------------------------------Loyality points----------------------------------------------------------------------
+            final LoyalityPointsModel get_loyltyPoints = new LoyalityPointsModel(sessionManager.getCustomerId());
+            Call<LoyalityPointsModel> call = apiInterface.getLoyalityPoints(get_loyltyPoints);
+            call.enqueue(new Callback<LoyalityPointsModel>() {
+                @Override
+                public void onResponse(Call<LoyalityPointsModel> call, Response<LoyalityPointsModel> response) {
+
+                    LoyalityPointsModel resource = response.body();
+                    if ((resource.data).equals("null")) {
+                        tvAmntLoyalityPoints.setText("0" + " " + "Points");
+                    } else {
+                        tvAmntLoyalityPoints.setText(resource.data + " " + "Points");
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LoyalityPointsModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+            //-------------------------------------Wallet Balance-----------------------------
+            final WalletBlncModel get_wallet_amnt = new WalletBlncModel(sessionManager.getCustomerId());
+            Call<WalletBlncModel> call1 = apiInterface.getWalletBlnc(get_wallet_amnt);
+            call1.enqueue(new Callback<WalletBlncModel>() {
+                @Override
+                public void onResponse(Call<WalletBlncModel> call, Response<WalletBlncModel> response) {
+
+                    WalletBlncModel resource = response.body();
+                    if ((resource.data).equals("null")) {
+                        tvWalletOptnAmount.setText("Rs." + " " + "0");
+                    } else {
+                        tvWalletOptnAmount.setText("Rs." + " " + resource.data);
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WalletBlncModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void setFooter() {
