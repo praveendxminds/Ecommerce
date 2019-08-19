@@ -19,12 +19,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -77,7 +79,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
     private Button btnEditProfilePic;
-   // private ImageButton imgBtnProfile;
+    private ImageButton imgBtnProfile;
     NavigationView navigationView;
     private LinearLayout llLeftMenuLogOut;
     View headerView;
@@ -133,7 +135,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         getSupportActionBar().setTitle(null);
 
         llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
-      //  imgBtnProfile = findViewById(R.id.imgBtnProfile);
+        imgBtnProfile = findViewById(R.id.imgBtnProfile);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
         drwLayout = findViewById(R.id.drwLayout);
@@ -176,12 +178,12 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                 session.logoutUser();
             }
         });
-//        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                drwLayout.openDrawer(Gravity.LEFT);
-//            }
-//        });
+        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drwLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 
     }
 
@@ -486,6 +488,21 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
         navigationView.setItemTextColor(navMenuTextList);
         navigationView.setItemIconTintList(navMenuIconList);
+    }
+
+    public void notifcations(View v)
+    {
+        Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(notificationIntent);
+    }
+
+
+    public void cart(View v)
+    {
+        Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
+        DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(DeliveryIntent);
     }
 
 }
