@@ -30,7 +30,7 @@ public class HomePageRecommended {
     public List<ProductslHomePage.RecommendedList> mImageList;
     SessionManager session;
 
-    public HomePageRecommended(Context context,TextView textCartItemCount, List<ProductslHomePage.RecommendedList> imageList) {
+    public HomePageRecommended(Context context, TextView textCartItemCount, List<ProductslHomePage.RecommendedList> imageList) {
         mContext = context;
         mImageList = imageList;
         mtextCartItemCount = textCartItemCount;
@@ -44,8 +44,8 @@ public class HomePageRecommended {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
-            placeholderviewRecommended.addView(new HomePageRecommendedItemList(mContext,mtextCartItemCount, placeholderviewRecommended,
-                    image.product_id, image.image, image.name, image.price,image.discount_price, image.quantity));
+            placeholderviewRecommended.addView(new HomePageRecommendedItemList(mContext, mtextCartItemCount, placeholderviewRecommended,
+                    image.product_id, image.image, image.name, image.price, image.discount_price, image.quantity));
         }
     }
 
@@ -55,7 +55,5 @@ public class HomePageRecommended {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
-
-
 
 }

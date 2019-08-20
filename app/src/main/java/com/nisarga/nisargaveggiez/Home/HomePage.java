@@ -371,7 +371,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //------------------------------------- My profile view section------------------------------------------------
-            final CartCount myProfileModel = new CartCount();
             Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
             call.enqueue(new Callback<CartCount>() {
                 @Override

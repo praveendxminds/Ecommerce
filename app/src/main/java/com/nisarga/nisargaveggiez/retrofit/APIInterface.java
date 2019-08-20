@@ -7,12 +7,15 @@ import com.nisarga.nisargaveggiez.ProfileSection.ForgetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
+import com.nisarga.nisargaveggiez.ProfileSection.ResetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
 import com.nisarga.nisargaveggiez.ProfileSection.VerifyOTP;
 import com.nisarga.nisargaveggiez.fcm.TokenFCM;
 import com.nisarga.nisargaveggiez.notifications.NotificationListModel;
+
+import java.util.List;
 
 import io.intercom.retrofit2.http.Multipart;
 import io.intercom.retrofit2.http.Part;
@@ -175,8 +178,13 @@ public interface APIInterface {
     Call<QuantityList> quantity_list(@Body QuantityList quantityList);
 
     @POST("index.php")
-    Call<AddToCartModel> callAddToCart(@Query("route") String route, @Query("api_token") String api_token);
+    Call<AddToCartModel> callAddToCart(@Query("route") String route, @Query("api_token") String api_token,
+                                       @Body AddToCartModel model);
 
     @POST("index.php?route=api/custom/notificationList")
     Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
+
+    @POST("index.php?route=api/forgetpassword/savechangedpassword")
+    Call<ResetPasswordModel> reset_password(@Body ResetPasswordModel resetPasswordModel);
+
 }

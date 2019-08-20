@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.Toggle;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -206,19 +208,20 @@ public class HomePageDealOfDayItemList {
             mtextCartItemCount.setText(String.valueOf(cnt));
             addcartDealofDay.setVisibility(android.view.View.GONE);
             llCountPrd.setVisibility(android.view.View.VISIBLE);
-            prdQty = Integer.toString(minteger);
 
-            String[] datalist = new String[]{option_id, option_value_id};
+            final AddToCartModel ref = new AddToCartModel(productId, prdQty, option_id, option_value_id);
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            //------------------------------------------for adding to wishlist-----------------------------
-          //  final AddToCartModel add_item = new AddToCartModel(prdQty, productId, datalist);
-            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken());
+            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
             callAdd.enqueue(new Callback<AddToCartModel>() {
                 @Override
                 public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                     AddToCartModel resource = response.body();
-                    Toast.makeText(getApplicationContext(), resource.status, Toast.LENGTH_LONG).show();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    } else if (resource.status.equals("failure")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
@@ -226,8 +229,10 @@ public class HomePageDealOfDayItemList {
                     call.cancel();
                 }
             });
+
             status = false;
         }
+
     }
 
     @Click(R.id.fl_increaseDealofDay)
