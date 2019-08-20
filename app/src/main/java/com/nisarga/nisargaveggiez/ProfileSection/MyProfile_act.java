@@ -55,7 +55,7 @@ public class MyProfile_act extends AppCompatActivity {
     }
 
     Toolbar toolbar;
-    CircularImageView ivProfile;
+    ImageView ivProfile;
     ImageView ivEditProfile;
     TextView tvName, tvMobileNo, tvEmail, tvApartmentName, tvNearBy, tvDoorNo, tvArea, tvAddress, tvPinCode;
     public static BottomNavigationView bottom_navigation;

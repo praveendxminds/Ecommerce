@@ -52,7 +52,7 @@ public class cart extends AppCompatActivity {
     private PlaceHolderView mCartView;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
-    TextView linkDeliveryDay,tvtotalAmount;
+    TextView linkDeliveryDay, tvtotalAmount;
     private String storeDayTime;
     SessionManager session;
 
@@ -134,7 +134,7 @@ public class cart extends AppCompatActivity {
                         linkDeliveryDay.setText(storeDayTime);
                     }
                 });
-               alertDialog.setView(alertLayout);
+                alertDialog.setView(alertLayout);
                 alertDialog.show();
             }
         });
@@ -148,12 +148,10 @@ public class cart extends AppCompatActivity {
         showListView();
     }
 
-    public void showListView()
-    {
+    public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-            Call<CartListModel> call = apiInterface.getCartList("api/cart/products",session.getToken());
-            Log.e("--------token id---------",session.getToken());
+            Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken());
             call.enqueue(new Callback<CartListModel>() {
                 @Override
                 public void onResponse(Call<CartListModel> call, Response<CartListModel> response) {
@@ -163,15 +161,15 @@ public class cart extends AppCompatActivity {
                     for (CartListModel.CartListDatum imgs : datumList) {
                         if (response.isSuccessful()) {
 
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, session.getCustomerId(),imgs.product_id, imgs.image,
-                                    imgs.name, imgs.price,imgs.discount_price, imgs.quantity,mCartView));
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, session.getCustomerId(), imgs.product_id, imgs.image,
+                                    imgs.name, imgs.price, imgs.discount_price, imgs.quantity, mCartView));
                         }
                     }
                     //total amounts
                     List<CartListModel.TotalsDatum> totalList = resource.totals;
                     for (CartListModel.TotalsDatum imgs : totalList) {
                         if (response.isSuccessful()) {
-                            if((imgs.title).equals("Total")) {
+                            if ((imgs.title).equals("Total")) {
                                 tvtotalAmount.setText(imgs.text);
                             }
                         }
@@ -205,7 +203,7 @@ public class cart extends AppCompatActivity {
     }
 
 
-       @Override
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;

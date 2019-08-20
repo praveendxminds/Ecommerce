@@ -76,7 +76,7 @@ public class HomePageRecommendedItemList {
     public String mPrice;
     public String mdisPrice;
     public String mQty;
-    public String str_PriceValue,str_disValue;
+    public String str_PriceValue, str_disValue;
     SessionManager session;
     public TextView mtextCartItemCount;
     String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
@@ -88,7 +88,7 @@ public class HomePageRecommendedItemList {
     SharedPreferences sharedpreferences;
 
     public HomePageRecommendedItemList(Context context, TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String image,
-                                       String name, String price,String discount, String qty) {
+                                       String name, String price, String discount, String qty) {
         mContext = context;
         mPlaceHolderView = placeHolderView;
         productId = product_id;
@@ -105,14 +105,12 @@ public class HomePageRecommendedItemList {
         Glide.with(mContext).load(productImage).into(imageViewRecommended);
         headingTxtRecommended.setText(title);
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
-        str_PriceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
+        str_PriceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
         item_NewPriceRecommended.setText("₹" + " " + str_PriceValue);
 
-        if(mdisPrice.equals("null")) {
+        if (mdisPrice.equals("null")) {
             item_OldPriceRecommended.setVisibility(android.view.View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             item_OldPriceRecommended.setVisibility(android.view.View.VISIBLE);
             double dbl_Discount = Double.parseDouble(mdisPrice);//need to convert string to decimal
             str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
@@ -132,7 +130,7 @@ public class HomePageRecommendedItemList {
     @Click(R.id.llRecommended)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
-        intent.putExtra("product_id",productId);
+        intent.putExtra("product_id", productId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
@@ -140,21 +138,18 @@ public class HomePageRecommendedItemList {
 
     @Click(R.id.addcartRecommended)
     public void addtocart() {
-
         if (status == true) {
             session = new SessionManager(mContext);
             minteger = minteger + 1;//display number in place of add to cart
             Integer cnt = session.getCartCount();
-            cnt = cnt +1;//display number in cart icon
+            cnt = cnt + 1;//display number in cart icon
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));
             addcartRecommended.setVisibility(android.view.View.GONE);
             llCountPrdRecomnd.setVisibility(android.view.View.VISIBLE);
             status = false;
-
         }
-
     }
 
     @Click(R.id.fl_increase)
@@ -162,7 +157,7 @@ public class HomePageRecommendedItemList {
         session = new SessionManager(mContext);
         minteger = minteger + 1;//display number in place of add to cart
         Integer cnt = session.getCartCount();
-        cnt = cnt +1;//display number in cart icon
+        cnt = cnt + 1;//display number in cart icon
         session.cartcount(cnt);
         display(minteger);
         mtextCartItemCount.setText(String.valueOf(cnt));
@@ -170,34 +165,30 @@ public class HomePageRecommendedItemList {
 
     @Click(R.id.fl_decrease)
     public void onDecreaseClick() {
-
-        if (minteger  <= 1) {
+        if (minteger <= 1) {
             minteger = minteger - 1;
             session = new SessionManager(mContext);
             Integer cnt = session.getCartCount();
-            cnt = cnt -1;
+            cnt = cnt - 1;
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));
             addcartRecommended.setVisibility(android.view.View.VISIBLE);
             llCountPrdRecomnd.setVisibility(android.view.View.GONE);
-            status=true;
+            status = true;
 
         } else {
             minteger = minteger - 1;
             session = new SessionManager(mContext);
             Integer cnt = session.getCartCount();
-            cnt = cnt -1;
+            cnt = cnt - 1;
             session.cartcount(cnt);
             display(minteger);
             mtextCartItemCount.setText(String.valueOf(cnt));
         }
     }
 
-
     public void display(int number) {
         tv_countRecomnd.setText("" + number);
     }
-
-
 }

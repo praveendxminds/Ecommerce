@@ -104,7 +104,7 @@ public class SessionManager {
         editor.putString(KEY_FNAME, firstname);
         editor.putString(KEY_LNAME, lastname);
         editor.putString(KEY_CART, cart);
-        editor.putString(KEY_TELEPHONE,telephone);
+        editor.putString(KEY_TELEPHONE, telephone);
         editor.putString(KEY_WISHLIST, wishlist);
         editor.putString(KEY_EMAIL_ID, email);
         editor.putString(KEY_ADDRESS_ID, address_id);
@@ -240,20 +240,32 @@ public class SessionManager {
     }
 
 
-
-
-    public boolean getReferalStatus()
-    {
+    public boolean getReferalStatus() {
         return pref.getBoolean(IS_REF, false);
     }
 
-    public void setReferalStatus()
-    {
+    public void setReferalStatus() {
         editor.putBoolean(IS_REF, true);
         editor.commit();
     }
 
+    public void createTokenSession(String tkn) {
+        editor.putString(KEY_TOKEN_ID, tkn);
+        editor.commit();
+    }
 
+    public String getKeyTokenId() {
+        return pref.getString(KEY_TOKEN_ID, null);
+    }
+
+    public void createTokenStatus() {
+        editor.putBoolean(KEY_TOKEN_SAVED, true);
+        editor.commit();
+    }
+
+    public boolean getTokenStatus() {
+        return pref.getBoolean(KEY_TOKEN_SAVED, false);
+    }
 
 
 }
