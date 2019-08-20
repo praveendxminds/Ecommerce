@@ -69,6 +69,7 @@
                         android:text="Today"
                         android:textAlignment="center"
                         android:textColor="@color/light_black_3"
+                        android:visibility="gone"
                         android:textSize="8sp" />
 
                     <TextView
@@ -117,7 +118,7 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="left"
-                        android:text="Ordered vegetables are not available in market"
+                        android:text="Ordered vegetables "
                         android:textAllCaps="false"
                         android:textColor="@color/light_black_2"
                         android:textSize="14sp" />

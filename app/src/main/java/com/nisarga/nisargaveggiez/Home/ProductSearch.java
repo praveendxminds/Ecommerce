@@ -1,12 +1,15 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,12 +23,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +52,7 @@ import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
 import com.nisarga.nisargaveggiez.adapter.RemoteData;
 import com.nisarga.nisargaveggiez.cart.cart;
@@ -55,9 +61,16 @@ import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.CancelOrderModel;
+import com.nisarga.nisargaveggiez.retrofit.EarnReferal;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     APIInterface apiInterface;
@@ -408,7 +421,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
         if (id == R.id.menuleft_home) {
             menuItem.setEnabled(true);
             Intent intentHome = new Intent(ProductSearch.this, ProductSearch.class);
@@ -422,9 +434,102 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(ProductSearch.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
+
         } else if (id == R.id.menuleft_rateus) {
-            Intent intentMyRateUs = new Intent(ProductSearch.this, RateUs_act.class);
-            startActivity(intentMyRateUs);
+
+            LayoutInflater li = LayoutInflater.from(ProductSearch.this);
+            android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(ProductSearch.this,
+                    R.style.AlertDialogStyle);
+            alertDialogBuilder.setView(promptsView);
+
+            // set the custom dialog components - text, image and button
+            ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
+            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
+            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
+
+            final AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+
+
+                    final RateModel ref = new RateModel(session.getCustomerId(),"1");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success"))
+                            {
+                                Log.d("ivsuccess", "onResponse: ");
+                            }
+                            else if (resource.status.equals("error"))
+                            {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+
+
+                }
+            });
+
+            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+
+                    final RateModel ref = new RateModel(session.getCustomerId(),"0");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success"))
+                            {
+                                Log.d("ivfail", "onResponse: ");
+                            }
+                            else if (resource.status.equals("error"))
+                            {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+
+
+                }
+            });
+
+            ivClose.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+                    alertDialog.cancel();
+                }
+            });
+            btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v)
+                {
+                    alertDialog.cancel();
+                }
+            });
+
         } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(ProductSearch.this, ContactUs.class);
             startActivity(intentAbtContact);
@@ -435,8 +540,15 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             Intent intentTerms = new Intent(ProductSearch.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-            Intent intentFeedback = new Intent(ProductSearch.this, GoogleFeedback_act.class);
-            startActivity(intentFeedback);
+
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
+
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(ProductSearch.this, PrivacyPolicy.class);
             startActivity(intentPolicy);

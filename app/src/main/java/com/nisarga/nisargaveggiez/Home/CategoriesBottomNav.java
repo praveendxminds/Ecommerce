@@ -173,12 +173,14 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
 
+
         llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayoutShopBy.openDrawer(Gravity.LEFT);
             }
         });
+
     }
 
     public void init() {

@@ -11,16 +11,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.Delivery;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomeCategory;
 import com.nisarga.nisargaveggiez.Home.HomePage;
+import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by praveen on 15/11/18.
@@ -32,6 +45,8 @@ public class MyNotifications extends AppCompatActivity {
     Toolbar toolbar;
     private PlaceHolderView mnotificationView;
     public static BottomNavigationView bottomNavigationView;
+    APIInterface apiInterface;
+    SessionManager session;
 
 
     @Override
@@ -49,13 +64,48 @@ public class MyNotifications extends AppCompatActivity {
         mnotificationView = (PlaceHolderView) findViewById(R.id.recycler_notify);
 
 
-        mnotificationView
-                .addView(new NotificationItem(getApplicationContext()))
-                .addView(new NotificationItem(getApplicationContext()))
-                .addView(new NotificationItem(getApplicationContext()))
-                .addView(new NotificationItem(getApplicationContext()))
-                .addView(new NotificationItem(getApplicationContext()))
-                .addView(new NotificationItem(getApplicationContext()));
+//        mnotificationView
+//                .addView(new NotificationItem(getApplicationContext()))
+//                .addView(new NotificationItem(getApplicationContext()))
+//                .addView(new NotificationItem(getApplicationContext()))
+//                .addView(new NotificationItem(getApplicationContext()))
+//                .addView(new NotificationItem(getApplicationContext()))
+//                .addView(new NotificationItem(getApplicationContext()));
+
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        session = new SessionManager(getApplicationContext());
+
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            final NotificationListModel cust_id = new NotificationListModel(session.getCustomerId());
+            Call<NotificationListModel> call = apiInterface.getnotificationlist(cust_id);
+            call.enqueue(new Callback<NotificationListModel>() {
+                @Override
+                public void onResponse(Call<NotificationListModel> call, Response<NotificationListModel> response) {
+                    NotificationListModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        List<NotificationListModel.NotificationListModelDatum> mpmDatum = resourceMyProfile.result;
+                        for (NotificationListModel.NotificationListModelDatum mpmResult : mpmDatum)
+                        {
+                            mnotificationView .addView(new NotificationItem(getApplicationContext(),mpmResult.date,mpmResult.title,mpmResult.body));
+                        }
+
+                    } else if (resourceMyProfile.status.equals("failure")) {
+                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<NotificationListModel> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_Notifications);
         bottomNavigationView.setOnNavigationItemSelectedListener

@@ -28,4 +28,5 @@
             android:scaleType="centerCrop"
             android:src="@drawable/camera" />
     </LinearLayout>
+
 </android.support.v7.widget.Toolbar>
