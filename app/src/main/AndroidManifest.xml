@@ -310,9 +310,12 @@
             android:label="Notifications"
             android:theme="@style/AppTheme">
             <intent-filter>
+                <action android:name="Notification" />
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+
 
         <activity
             android:name="com.nisarga.nisargaveggiez.addresbook.AddressBook"

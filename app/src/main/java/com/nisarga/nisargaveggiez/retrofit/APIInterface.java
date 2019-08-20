@@ -1,16 +1,19 @@
 package com.nisarga.nisargaveggiez.retrofit;
 
+import com.nisarga.nisargaveggiez.Home.CartCount;
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
 import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
 import com.nisarga.nisargaveggiez.ProfileSection.ForgetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.ProfileSection.ResetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
 import com.nisarga.nisargaveggiez.ProfileSection.VerifyOTP;
 import com.nisarga.nisargaveggiez.fcm.TokenFCM;
+import com.nisarga.nisargaveggiez.notifications.NotificationListModel;
 
 import io.intercom.retrofit2.http.Multipart;
 import io.intercom.retrofit2.http.Part;
@@ -173,5 +176,17 @@ public interface APIInterface {
 
     @POST("index.php?route=api/custom/NotifyToken")
     Call<TokenFCM> fcmtoken(@Body TokenFCM id);
+
+    @POST("index.php?route=api/rateus/giveRateUs")
+    Call<RateModel> setrate(@Body RateModel id);
+
+    @POST("index.php")
+    Call<CartCount> getCartCount(@Query("route") String route, @Query("api_token") String api_token);
+
+    @POST("index.php?route=api/custom/productOptions/")
+    Call<QuantityList> quantity_list(@Body QuantityList quantityList);
+
+    @POST("index.php?route=api/custom/notificationList")
+    Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
 
 }
