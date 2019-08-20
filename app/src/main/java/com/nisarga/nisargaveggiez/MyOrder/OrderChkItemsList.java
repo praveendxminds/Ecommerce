@@ -28,14 +28,17 @@ public class OrderChkItemsList {
     public TextView tvUpdatedPrice;
 
     public Context mContext;
-    public String mPrdTitle,mPrdWeight,mPrdQty,mPrdPrice,mPrdUpdatedPrice;
+    public String mOrdId,mOrdPrdId,mPrdTitle,mPrdWeight,mPrdQty,mPrdPrice,mPrdUpdatedPrice;
     public OrderChkItemsList(Context contxt)
     {
         this.mContext = contxt;
     }
-    public OrderChkItemsList(Context contxt,String prd_title,String prd_weight,String prd_qty,String prd_price,String updated_price)
+    public OrderChkItemsList(Context contxt,String ordId,String ordPrdId,String prd_title,String prd_weight,
+                             String prd_qty,String prd_price,String updated_price)
     {
         this.mContext = contxt;
+        this.mOrdId = ordId;
+        this.mOrdPrdId = ordPrdId;
         this.mPrdTitle = prd_title;
         this.mPrdWeight = prd_weight;
         this.mPrdQty = prd_qty;

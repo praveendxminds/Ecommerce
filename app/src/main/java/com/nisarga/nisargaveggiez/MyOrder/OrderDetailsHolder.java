@@ -55,6 +55,8 @@ public class OrderDetailsHolder extends AppCompatActivity {
         setContentView(R.layout.order_details_holder);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
+        str_custid = session.getCustomerId();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
@@ -82,14 +84,8 @@ public class OrderDetailsHolder extends AppCompatActivity {
     }
 
     public void showListView() {
-        mCartView.getBuilder()
-                .setHasFixedSize(false)
-                .setItemViewCacheSize(10)
-                .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        session = new SessionManager(getApplicationContext());
         if(Utils.CheckInternetConnection(getApplicationContext()))
         {
-             str_custid = session.getCustomerId();
             ReorderItemsModel reorderModel = new ReorderItemsModel("1","1");
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
@@ -160,6 +156,11 @@ public class OrderDetailsHolder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.menu_notifi:
                 Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

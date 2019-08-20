@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardReorder"
     android:layout_width="match_parent"
-    android:layout_height="95dp"
+    android:layout_height="97dp"
     android:layout_marginBottom="8dp"
     android:background="@color/white"
+    android:elevation="20dp"
     android:orientation="vertical"
     android:padding="0dp"
-    android:elevation="20dp"
     android:paddingLeft="14dp"
-    android:paddingBottom="8dp"
     android:paddingTop="8dp"
-    android:paddingRight="15dp">
+    android:paddingRight="15dp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -37,9 +37,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical"
-                    android:layout_marginTop="2dp">
+                    android:orientation="vertical">
 
 
                     <ImageView
@@ -101,6 +101,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/roboto_regular"
+                            android:paddingBottom="5dp"
                             android:text="1000kg"
                             android:textColor="@color/light_black_1"
                             android:textSize="12sp" />
@@ -119,6 +120,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tvpriceOldReorder"
                             android:layout_width="wrap_content"
@@ -127,7 +129,8 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="$ 80"
                             android:textColor="@color/light_black_2"
-                            android:textSize="7sp" />
+                            android:textSize="7sp"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/tvpriceNewReorder"
@@ -153,47 +156,50 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top|right"
                     android:visibility="visible">
+
                     <TextView
                         android:id="@+id/tvcountItemsReorder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Quantity : 1"
                         android:fontFamily="@font/roboto_regular"
-                        android:textSize="14sp"
+                        android:gravity="right"
+                        android:text="Quantity : 1"
                         android:textColor="@color/light_black_1"
-                        android:gravity="right"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|right"
-                    android:visibility="visible"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
+                        android:gravity="right"
                         android:text="Revised price"
                         android:textColor="@color/light_black_1"
-                        android:textSize="14sp"
-                        android:gravity="right"/>
+                        android:textSize="14sp" />
+
                     <TextView
                         android:id="@+id/tvRevisedPriceReorder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
                         android:fontFamily="@font/roboto_regular"
+                        android:gravity="right"
                         android:text="₹ 60"
                         android:textColor="@color/light_black_2"
-                        android:textSize="12sp"
-                        android:gravity="right"
-                        android:layout_margin="1dp"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

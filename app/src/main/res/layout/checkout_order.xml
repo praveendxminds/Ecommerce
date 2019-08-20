@@ -60,9 +60,10 @@
                             android:gravity="left"
                             android:text="Order"
                             android:textColor="@color/light_black_1"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/tvOrdId"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -70,7 +71,7 @@
                             android:gravity="right"
                             android:text="XXXXXXXXXX"
                             android:textColor="@color/light_black_1"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <View
@@ -110,23 +111,23 @@
                         android:id="@+id/tvNameChkoutOrder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="6dp"
+                        android:layout_marginLeft="3dp"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="5dp"
                         android:text="Name"
                         android:textColor="@color/light_black_2"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tvPhnChkoutOrder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="6dp"
+                        android:layout_marginLeft="3dp"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="5dp"
                         android:text="+91 0000000000"
                         android:textColor="@color/light_black_2"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -149,16 +150,16 @@
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="Apartment Name :"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="12sp" />
+                                android:textSize="13sp" />
 
                             <TextView
-                                android:id="@+id/tvDelivInstructChkoutOrder"
+                                android:id="@+id/tvAprtNameChkoutOrder"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/roboto_regular"
                                 android:text="Provident Harmony"
                                 android:textColor="#8C4A4A4A"
-                                android:textSize="12sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <TextView
@@ -168,7 +169,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="A11 802 ,Chokkanahalli Main Rd, Sri Balaji Krupa Layout, RK Hegde Nagar, Bengaluru, Karnataka 560077"
                             android:textColor="#8C4A4A4A"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -184,7 +185,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="Delivery Instructions : "
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tvChkoutDelvInstruct"
@@ -193,7 +194,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="If I would not be there than call me and drop my package near my neighbour"
                             android:textColor="#8C4A4A4A"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -209,7 +210,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="Delivery Day :"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tvDelivDayChkoutOrder"
@@ -219,7 +220,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="Day"
                             android:textColor="#8C4A4A4A"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -241,7 +242,7 @@
                         android:text="INVOICE"
                         android:textAllCaps="true"
                         android:textColor="@color/light_black_1"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -265,9 +266,10 @@
                                 android:gravity="left"
                                 android:text="Invoice No"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvInvoiceNo"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -275,7 +277,7 @@
                                 android:gravity="right"
                                 android:text="Mbi8756462334567"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -294,9 +296,10 @@
                                 android:gravity="left"
                                 android:text="Order No"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvOrdNo"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -304,7 +307,7 @@
                                 android:gravity="right"
                                 android:text="7678455635357"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -323,9 +326,10 @@
                                 android:gravity="left"
                                 android:text="Order Items"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvOrdItems"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -333,7 +337,7 @@
                                 android:gravity="right"
                                 android:text="10 Items"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -352,9 +356,10 @@
                                 android:gravity="left"
                                 android:text="Sub Total"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvSubTotal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -362,7 +367,7 @@
                                 android:gravity="right"
                                 android:text="Rs. 500"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -381,9 +386,10 @@
                                 android:gravity="left"
                                 android:text="Delivery Charge"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvDeliveryCharges"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -391,7 +397,7 @@
                                 android:gravity="right"
                                 android:text="Rs. 0"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -410,9 +416,10 @@
                                 android:gravity="left"
                                 android:text="Variable Price"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -420,7 +427,7 @@
                                 android:gravity="right"
                                 android:text="Rs. +100"
                                 android:textColor="@color/light_black_1"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -439,9 +446,10 @@
                                 android:gravity="left"
                                 android:text="Final Total"
                                 android:textColor="@color/light_black_2"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvFinalTotal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -449,7 +457,7 @@
                                 android:gravity="right"
                                 android:text="Rs. 000"
                                 android:textColor="@color/light_black_2"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -473,11 +481,12 @@
                         android:layout_weight="4"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="left|center"
-                        android:text="Used from Nisarga Wallet"
+                        android:text="Use from Nisarga Wallet"
                         android:textColor="@color/light_black_2"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvWalletAmnt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
@@ -491,98 +500,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Payment Option"
-                    android:textColor="@color/light_black_2"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                   <!-- <RadioGroup
-                        android:id="@+id/radiogroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:orientation="vertical" />-->
-
-                    <RadioGroup
-                        android:id="@+id/radioGrpPayOption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp">
-                        <RadioButton
-                            android:id="@+id/radioBtnWallet"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/light_black_4"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textSize="14sp"
-                            android:text="wallet"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#FF979797"></View>
-                        <RadioButton
-                            android:id="@+id/radioBtnGPay"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/light_black_4"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textSize="14sp"
-                            android:text="G-pay"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#FF979797"></View>
-                        <RadioButton
-                            android:id="@+id/radioBtnPaytm"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/light_black_4"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textSize="14sp"
-                            android:text="Paytm"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#FF979797"></View>
-                        <RadioButton
-                            android:id="@+id/radioBtnPhonepe"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/light_black_4"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textSize="14sp"
-                            android:text="Phonepe"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"/>
-                    </RadioGroup>
-                </LinearLayout>
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

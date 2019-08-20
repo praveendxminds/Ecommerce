@@ -50,13 +50,15 @@ public class ReorderItems {
     public String mtitle;
     public String mordid;
     public String mord_prd_id;
-   //public String mCount;
-   // public String mRevisedPrice;
+    public String mWeight;
+    public String mRevisedPrice;
+    //public String mCount;
+    // public String mRevisedPrice;
     public Context mContext;
-    public String str_priceValue,str_priceValue1;
+    public String str_priceValue, str_priceValue1;
 
-    public ReorderItems(Context context, String ord_id,String ord_prd_id, String url, String title, String qty, String oldPrice,
-                        String newPrice) {
+    public ReorderItems(Context context, String ord_id, String ord_prd_id, String url, String title, String qty, String oldPrice,
+                        String newPrice, String weight, String revisedPrice) {
         mContext = context;
         mordid = ord_id;
         mord_prd_id = ord_prd_id;
@@ -65,31 +67,37 @@ public class ReorderItems {
         mnewPrice = newPrice;
         moldPrice = oldPrice;
         mqty = qty;
+        mWeight = weight;
+        mRevisedPrice = revisedPrice;
     }
-    public ReorderItems(Context contxt)
-    {
+
+    public ReorderItems(Context contxt) {
         mContext = contxt;
     }
+
     @Resolve
     public void onResolved() {
-
-        Glide.with(mContext).load("http:\\/\\/3.213.33.73\\/Ecommerce\\/upload\\/image\\/catalog\\/Carrots Norwich.jpg").into(ivitemIconReorder);
+        Glide.with(mContext).load(murl).into(ivitemIconReorder);
         tvPrdTitleReorder.setText(mtitle);
-        //tv_qntyReorder.setText(mqty);
 
-        //double dbl_Price_1 = Double.parseDouble(mnewPrice);//need to convert string to decimal
-        //str_priceValue = String.format("%.2f",dbl_Price_1);//display only 2 decimal places of price
+        double dbl_Price_1 = Double.parseDouble(mnewPrice);//need to convert string to decimal
+        str_priceValue = String.format("%.2f", dbl_Price_1);//display only 2 decimal places of price
         tvpriceNewReorder.setText("\u20B9" + " " + mnewPrice);
 
-        //double dbl_Price_2 = Double.parseDouble(moldPrice);//need to convert string to decimal
-        //str_priceValue1 = String.format("%.2f",dbl_Price_2);//display only 2 decimal places of price
-        tvpriceOldReorder.setText("\u20B9" + " " + moldPrice);
-
-        tvcountItemsReorder.setText("Quantity"+" "+":"+" "+mqty);
-
-        //tvRevisedPriceReorder.setText("\u20B9" + " " +mRevisedPrice);
+       /* if (moldPrice.equals("null")) {
+            tvpriceOldReorder.setVisibility(android.view.View.INVISIBLE);
+        } else {
+            double dbl_Price_2 = Double.parseDouble(moldPrice);//need to convert string to decimal
+            str_priceValue1 = String.format("%.2f", dbl_Price_2);//display only 2 decimal places of price
+            */tvpriceOldReorder.setVisibility(android.view.View.VISIBLE);
+            tvpriceOldReorder.setText("\u20B9" + " " + moldPrice);
+        //}
+        tvcountItemsReorder.setText("Quantity" + " " + ":" + " " + mqty);
+        tv_qntyReorder.setText(mWeight);
+        tvRevisedPriceReorder.setText("\u20B9" + " " + mRevisedPrice);
 
     }
+
     @Click(R.id.cardReorder)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
