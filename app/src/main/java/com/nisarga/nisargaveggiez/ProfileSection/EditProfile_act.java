@@ -41,7 +41,6 @@ public class EditProfile_act extends AppCompatActivity {
     SessionManager session;
     ProgressDialog progressdialog;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +56,13 @@ public class EditProfile_act extends AppCompatActivity {
 
     Toolbar toolbar;
     ImageView ivOldHidePass, ivOldShowPass, ivNewHidePass, ivNewShowPass, ivConfHidePass, ivConfShowPass;
-    CircleImageView ivProfile;
+    ImageView ivProfile;
     TextView tvNearBy;
     EditText etFName, etLName, etEmail, etMobileNo, etOldPass, etNewPass, etConfirmPass, etApartmentName,
             etDoorNo, etArea, etAddress, etPinCode;
     Button btnUpdate;
 
-    String sFName, sLName, sEmail, sMobileNo, sPassword, sOldPass, sNewPass, sConfirmPass, sApartmentName,
+    String sFName, sLName, sEmail, sMobileNo, sPassword, sNewPass, sConfirmPass, sApartmentName,
             sDoorNo, sArea, sAddress, sPinCode;
 
     private void init() {

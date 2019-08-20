@@ -12,6 +12,10 @@ import com.mindorks.placeholderview.annotations.View;
 
 import com.nisarga.nisargaveggiez.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by praveen on 19/12/18.
  */
@@ -42,25 +46,30 @@ public class NotificationItem {
 
 
     public Context mContext;
-    String mUrl,mday,mtime,mdate,morderTitle,morderName;
-    public  NotificationItem(Context context)
-    {
-        mContext=  context;
-    }
+    String mUrl,mday,mtime,mdate,morderTitle,mordercontent;
+//    public  NotificationItem(Context context)
+//    {
+//        mContext=  context;
+//    }
 
-    public NotificationItem(Context context,String url,String day,String time,String orderTitle,String orderName,String date) {
+    public NotificationItem(Context context,String dte,String orderTitle,String ordercontent)
+    {
         mContext = context;
-        mUrl = url;
-        mdate = day;
-        mtime = time;
+        mdate = dte;
         morderTitle = orderTitle;
-        morderName = orderName;
-        mdate = date;
+        mordercontent = ordercontent;
     }
 
     @Resolve
     public void onResolved()
     {
+
+        orderTitleNotifi.setText(morderTitle);
+        orderDateNotifi.setText(mordercontent);
+        timeNotifi.setText(mdate);
+
+
+
        /* Glide.with(mContext).load(mUrl).into(itemIconNotifi);
         dayNotifi.setText(mday);
         timeNotifi.setText(mtime);

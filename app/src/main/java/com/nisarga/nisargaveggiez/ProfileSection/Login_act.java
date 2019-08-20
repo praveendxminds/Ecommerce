@@ -209,7 +209,6 @@ public class Login_act extends AppCompatActivity {
                             return true;
                         }
                     }
-
                 }
             }
         }

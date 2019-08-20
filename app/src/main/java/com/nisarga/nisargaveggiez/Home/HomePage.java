@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -32,6 +33,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -75,12 +77,14 @@ import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
 import com.nisarga.nisargaveggiez.cart.cart;
 import com.nisarga.nisargaveggiez.fcm.NotificationUtils;
+import com.nisarga.nisargaveggiez.fcm.TokenFCM;
 import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.EarnReferal;
 import com.nisarga.nisargaveggiez.retrofit.ProductslHomePage;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.retrofit.ReferalModel;
 import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
@@ -159,11 +163,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     LinearLayout llProfileIcon, llProfileDesc, llEditProfile;
     EditText searchEditText;
     DrawerLayout drwLayout;
-    CircularImageView ivToolbarProfile, ivProfilePic;
+    ImageView ivToolbarProfile, ivProfilePic;
     TextView tvName, tvEmail, tvMobileNo;
     NavigationView navigationView;
     View headerView;
     String strSearchKey;
+    String cart_count;
 
     private String imagepath = null;
     String strProfilePic = "null";
@@ -366,6 +371,29 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+            call.enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    CartCount cartCount = response.body();
+                    if (cartCount.status.equals("success")) {
+                        cart_count = cartCount.data;
+                    } else if (cartCount.status.equals("failure")) {
+                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -376,9 +404,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-
-        Integer cnt = session.getCartCount();
-        textCartItemCount.setText(String.valueOf(cnt));
+        textCartItemCount.setText(cart_count);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -504,8 +530,38 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     // Fetches reg id from shared preferences
     // and displays on the screen
     private void displayFirebaseRegId() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
-        String regId = pref.getString("regId", null);
+       /* SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);*/
+
+        Log.d("tkkkkkk", String.valueOf(session.getKeyTokenId()));
+
+
+        String emp_user_id = session.getCustomerId();
+        String emp_token_id = session.getKeyTokenId();
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        if (!session.getTokenStatus()) {
+            final TokenFCM tkn = new TokenFCM(emp_user_id,emp_token_id);
+            Call<TokenFCM> calledu = apiInterface.fcmtoken(tkn);
+            calledu.enqueue(new Callback<TokenFCM>() {
+                @Override
+                public void onResponse(Call<TokenFCM> calledu, Response<TokenFCM> response) {
+                    final TokenFCM resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_LONG).show();
+                        session.createTokenStatus();
+                    } else if (resource.status.equals("failure")) {
+                    }
+                    progressdialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<TokenFCM> calledu, Throwable t) {
+                    calledu.cancel();
+                }
+            });
+        }
 //        Log.d( "Firebase reg id: ", regId);
         //if (!TextUtils.isEmpty(regId))
         //  txtRegId.setText("Firebase Reg Id: " + regId);
@@ -558,13 +614,105 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(HomePage.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
-        }else if (id == R.id.menuleft_referearn) {
+        } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
-        } else if (id == R.id.menuleft_rateus) {
-            Intent intentMyRateUs = new Intent(HomePage.this, RateUs_act.class);
-            startActivity(intentMyRateUs);
-        } else if (id == R.id.menuleft_aboutcontact) {
+        } else if (id == R.id.menuleft_rateus)
+        {
+            LayoutInflater li = LayoutInflater.from(HomePage.this);
+            android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(HomePage.this,
+                    R.style.AlertDialogStyle);
+            alertDialogBuilder.setView(promptsView);
+
+            // set the custom dialog components - text, image and button
+            ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
+            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
+            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
+
+            final AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+
+
+                    final RateModel ref = new RateModel(session.getCustomerId(),"1");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success"))
+                            {
+                                Log.d("ivsuccess", "onResponse: ");
+                            }
+                            else if (resource.status.equals("error"))
+                            {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+
+
+                }
+            });
+
+            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+
+                    final RateModel ref = new RateModel(session.getCustomerId(),"0");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success"))
+                            {
+                                Log.d("ivfail", "onResponse: ");
+                            }
+                            else if (resource.status.equals("error"))
+                            {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+
+
+                }
+            });
+
+            ivClose.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+                    alertDialog.cancel();
+                }
+            });
+            btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v)
+                {
+                    alertDialog.cancel();
+                }
+            });
+        }
+        else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(HomePage.this, ContactUs.class);
             startActivity(intentAbtContact);
         } else if (id == R.id.menuleft_faqs) {
@@ -574,8 +722,16 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Intent intentTerms = new Intent(HomePage.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-            Intent intentFeedback = new Intent(HomePage.this, GoogleFeedback_act.class);
-            startActivity(intentFeedback);
+
+
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
+
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(HomePage.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
@@ -727,10 +883,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    private void reffaralcheck()
-    {
-        if(session.getReferalStatus() == TRUE)
-        {
+    private void reffaralcheck() {
+        if (session.getReferalStatus() == TRUE) {
 
             mReferrerClient = InstallReferrerClient.newBuilder(this).build();
 
@@ -741,28 +895,20 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         case InstallReferrerClient.InstallReferrerResponse.OK:
                             // Connection established
                             try {
-                                ReferrerDetails response =
-                                        mReferrerClient.getInstallReferrer();
+                                ReferrerDetails response = mReferrerClient.getInstallReferrer();
 
-                               // if (!response.getInstallReferrer().contains("utm_source"))
+                                // if (!response.getInstallReferrer().contains("utm_source"))
 
-
-
-
-                                final EarnReferal ref = new EarnReferal(session.getCustomerId(),response.getInstallReferrer());
+                                final EarnReferal ref = new EarnReferal(session.getCustomerId(), response.getInstallReferrer());
                                 Call<EarnReferal> calledu = apiInterface.earnReferal(ref);
                                 calledu.enqueue(new Callback<EarnReferal>() {
                                     @Override
                                     public void onResponse(Call<EarnReferal> calledu, Response<EarnReferal> response) {
                                         final EarnReferal resource = response.body();
-                                        if (resource.status.equals("success"))
-                                        {
+                                        if (resource.status.equals("success")) {
 
 
-
-                                        }
-                                        else if (resource.status.equals("error"))
-                                        {
+                                        } else if (resource.status.equals("error")) {
 
                                         }
                                     }
@@ -774,19 +920,15 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                                 });
 
 
-
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             mReferrerClient.endConnection();
                             break;
-                        case
-                                InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                        case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
                             // API not available on the current Play Store app
                             break;
-                        case
-                                InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                        case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
                             // Connection could not be established
                             break;
                     }

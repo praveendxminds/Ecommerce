@@ -1,12 +1,21 @@
 package com.nisarga.nisargaveggiez.retrofit;
 
+import com.nisarga.nisargaveggiez.Home.CartCount;
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
 import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
+import com.nisarga.nisargaveggiez.ProfileSection.ForgetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
+import com.nisarga.nisargaveggiez.ProfileSection.ResetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
+import com.nisarga.nisargaveggiez.ProfileSection.VerifyOTP;
+import com.nisarga.nisargaveggiez.fcm.TokenFCM;
+import com.nisarga.nisargaveggiez.notifications.NotificationListModel;
+
+import java.util.List;
 
 import io.intercom.retrofit2.http.Multipart;
 import io.intercom.retrofit2.http.Part;
@@ -16,7 +25,6 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -79,9 +87,9 @@ public interface APIInterface {
     @POST("index.php?route=api/custom/CancelOrder")
     Call<CancelOrderModel> cancelOrder(@Body CancelOrderModel customer_id);
 
-   /* @POST("index.php?route=api/order/cusSingleOrder")
+    @POST("index.php?route=api/order/cusSingleOrder")
     Call<OrderDetailModel> getMyOrderDetail(@Body OrderDetailModel id);
-*/
+
     @POST("index.php?route=api/order/MyorderProductList")
     Call<ReorderItemsModel> showReorderItems(@Body ReorderItemsModel id);
 
@@ -119,17 +127,12 @@ public interface APIInterface {
    /* @POST("index.php?route=api/cart/remove")
     Call<RemoveCartItems> removeCartItems(@Body RemoveCartItems key);*/
 
-   @POST("index.php")
-   Call<CartListModel> getCartList(@Query("route") String route,@Query("api_token") String api_token);
+    @POST("index.php")
+    Call<CartListModel> getCartList(@Query("route") String route, @Query("api_token") String api_token);
 
 
-   @POST("index.php?route=account/wishlist/insertWishListToCart")
+    @POST("index.php?route=account/wishlist/insertWishListToCart")
     Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);
-
-   @POST("index.php?route=api/cart/add&api_token=c6bc796996424a77c3ceab40e1")
-    Call<AddToCartModel> callAddToCart(@Body AddToCartModel id);
-
-
 
     @GET("index.php?route=api/custom/getApartments")
     Call<ApartmentList> getApartmentList();
@@ -147,7 +150,6 @@ public interface APIInterface {
     @POST("index.php?route=api/uploadprofile/editNavImage")
     Call<NavEditImage> nav_edit_image(@Body NavEditImage image);
 
-
     @POST("index.php?route=api/uploadprofile/FilterProduct")
     Call<FilterCategoryModel> filter_products(@Body FilterCategoryModel image);
 
@@ -157,5 +159,32 @@ public interface APIInterface {
     @POST("index.php?route=api/customer/earnReferral")
     Call<EarnReferal> earnReferal(@Body EarnReferal id);
 
+    @POST("index.php?route=api/forgetpassword/forgotpassword")
+    Call<ForgetPasswordModel> forget_password(@Body ForgetPasswordModel forgetPasswordModel);
+
+    @POST("index.php?route=api/forgetpassword/verifyotp")
+    Call<VerifyOTP> verify_otp(@Body VerifyOTP verifyOTP);
+
+    @POST("index.php?route=api/custom/NotifyToken")
+    Call<TokenFCM> fcmtoken(@Body TokenFCM id);
+
+    @POST("index.php?route=api/rateus/giveRateUs")
+    Call<RateModel> setrate(@Body RateModel id);
+
+    @POST("index.php")
+    Call<CartCount> getCartCount(@Query("route") String route, @Query("api_token") String api_token);
+
+    @POST("index.php?route=api/custom/productOptions/")
+    Call<QuantityList> quantity_list(@Body QuantityList quantityList);
+
+    @POST("index.php")
+    Call<AddToCartModel> callAddToCart(@Query("route") String route, @Query("api_token") String api_token,
+                                       @Body AddToCartModel model);
+
+    @POST("index.php?route=api/custom/notificationList")
+    Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
+
+    @POST("index.php?route=api/forgetpassword/savechangedpassword")
+    Call<ResetPasswordModel> reset_password(@Body ResetPasswordModel resetPasswordModel);
 
 }

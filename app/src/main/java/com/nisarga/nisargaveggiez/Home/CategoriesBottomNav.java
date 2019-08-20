@@ -91,7 +91,7 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
     private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
     private LinearLayout llProfileIcon, llProfileDesc;
-    private CircularImageView ivProfilePic;
+    private ImageView ivProfilePic;
     String strSearchKey;
 
 
@@ -173,12 +173,13 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
 
-        llProfileIcon.setOnClickListener(new View.OnClickListener() {
+
+      /*  llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayoutShopBy.openDrawer(Gravity.LEFT);
             }
-        });
+        });*/
     }
 
     public void init() {
