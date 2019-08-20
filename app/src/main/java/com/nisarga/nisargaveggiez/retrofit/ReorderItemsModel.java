@@ -6,20 +6,19 @@ import java.util.List;
 
 public class ReorderItemsModel {
 
-    //post prarams
+    //post params
     @SerializedName("customer_id")
     public String customer_id;
 
     @SerializedName("order_id")
     public String order_id;
 
-    public ReorderItemsModel(String custid, String orderid)
-    {
+    public ReorderItemsModel(String custid, String orderid) {
         this.customer_id = custid;
         this.order_id = orderid;
     }
 
-//-------------------
+    //-------------------
     @SerializedName("status")
     public String status;
 
@@ -61,15 +60,22 @@ public class ReorderItemsModel {
         @SerializedName("price")
         public String price;
 
+        @SerializedName("revised_price")
+        public String revised_price;
+
         @SerializedName("tax")
         public String tax;
 
         @SerializedName("currency_code")
         public String currency_code;
 
+        @SerializedName("discount_price")
+        public String discount_price;
+
+        @SerializedName("weight_classes")
+        public String weight_classes;
 
     }
-
     public class ReorderCustDetails {
 
         @SerializedName("invoice_prefix")

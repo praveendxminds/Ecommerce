@@ -19,6 +19,7 @@ public class SessionManager {
 
     private static final String PREF_NAME = "SessionData";
     private static final String IS_LOGIN = "IsLoggedIn";
+    private static final String IS_REF = "Isreferal";
     private static final String KEY_CUST_ID = "customer_id";
     private static final String KEY_DATE_ADDED = "date_added";
     private static final String KEY_TOKEN_LOGIN = "api_token";
@@ -237,5 +238,22 @@ public class SessionManager {
     public String getShipDeliveryDay() {
         return pref.getString(SHIP_DELIVERY_DAY, null);
     }
+
+
+
+
+    public boolean getReferalStatus()
+    {
+        return pref.getBoolean(IS_REF, false);
+    }
+
+    public void setReferalStatus()
+    {
+        editor.putBoolean(IS_REF, true);
+        editor.commit();
+    }
+
+
+
 
 }

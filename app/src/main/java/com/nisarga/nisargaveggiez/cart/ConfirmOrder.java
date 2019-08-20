@@ -6,16 +6,25 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 
 public class ConfirmOrder extends AppCompatActivity {
 
     Toolbar toolbar;
     private LinearLayout llSubmitFeedback;
+    APIInterface apiInterface;
+    SessionManager session;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +38,12 @@ public class ConfirmOrder extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         llSubmitFeedback = findViewById(R.id.llSubmitFeedback);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        session = new SessionManager(getApplicationContext());
+
+        session.setReferalStatus();
+
         submitFeedback();
 
 
