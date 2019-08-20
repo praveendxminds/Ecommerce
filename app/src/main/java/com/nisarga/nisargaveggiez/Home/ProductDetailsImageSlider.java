@@ -83,23 +83,6 @@ public class ProductDetailsImageSlider {
         indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);//for tab layout
         state = pdetailHome.getWishlistStatus();
 
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == mCatImgUrl.size()) {
-                    currentPage = 0;
-                }
-                pager_PrdDetails.setCurrentItem(currentPage++, true);
-            }
-        };
-
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 2500, 2500);
     }
 
     @Click(R.id.btn_addtoWishlistPrdDetail)

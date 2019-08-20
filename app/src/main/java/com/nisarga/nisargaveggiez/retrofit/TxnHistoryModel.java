@@ -15,19 +15,19 @@ public class TxnHistoryModel {
     @SerializedName("message")
     public String message;
 
+    public TxnHistoryModel(String custId)
+    {
+        this.customer_id = custId;
+    }
+
     @SerializedName("data")
     public List<TxnHistoryDatum> data=null;
 
     public class TxnHistoryDatum
     {
-        @SerializedName("t_id")
-        public String t_id;
 
         @SerializedName("date")
         public String date;
-
-        @SerializedName("w_id")
-        public String w_id;
 
         @SerializedName("transaction_type")
         public String transaction_type;
@@ -38,11 +38,11 @@ public class TxnHistoryModel {
         @SerializedName("amount")
         public String amount;
 
-        @SerializedName("transaction_id")
-        public String transaction_id;
+        @SerializedName("balance")
+        public String balance;
 
-        @SerializedName("closing_balance")
-        public String closing_balance;
+        @SerializedName("type")
+        public String type;
 
 
     }

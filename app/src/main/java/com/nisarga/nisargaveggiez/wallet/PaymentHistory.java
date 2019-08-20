@@ -9,23 +9,41 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
+import com.nisarga.nisargaveggiez.cart.cartItem;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.mindorks.placeholderview.PlaceHolderView;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.CartListModel;
+import com.nisarga.nisargaveggiez.retrofit.TxnHistoryModel;
+
+import java.util.Comparator;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PaymentHistory extends AppCompatActivity {
 
     Toolbar toolbar;
     private PlaceHolderView recycler_payHistory;
     public static BottomNavigationView bottomNavigationView;
+    SessionManager session;
+    APIInterface apiInterface;
 
 
     @Override
@@ -33,6 +51,8 @@ public class PaymentHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_history);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        session = new SessionManager(getApplicationContext());
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -41,16 +61,7 @@ public class PaymentHistory extends AppCompatActivity {
         }
 
         recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
-
-
-        recycler_payHistory
-                .addView(new PaymentHistoryItems(getApplicationContext()))
-                .addView(new PaymentHistoryItems(getApplicationContext()))
-                .addView(new PaymentHistoryItems(getApplicationContext()))
-                .addView(new PaymentHistoryItems(getApplicationContext()))
-                .addView(new PaymentHistoryItems(getApplicationContext()))
-                .addView(new PaymentHistoryItems(getApplicationContext()));
-
+        showListView();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_PayHistory);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -87,6 +98,38 @@ public class PaymentHistory extends AppCompatActivity {
                 });
         bottomNavigationView.setItemIconSize(40);
     }
+
+    public void showListView()
+    {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final TxnHistoryModel paymentHistoryModel = new TxnHistoryModel("97");
+            Call<TxnHistoryModel> call = apiInterface.getHistory(paymentHistoryModel);
+           call.enqueue(new Callback<TxnHistoryModel>() {
+                @Override
+                public void onResponse(Call<TxnHistoryModel> call, Response<TxnHistoryModel> response) {
+                    TxnHistoryModel resource = response.body();
+                    List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
+                    for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
+                        if (response.isSuccessful()) {
+
+                            recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(),imgs.date, imgs.transaction_type,
+                                    imgs.description, imgs.amount,imgs.balance, imgs.type));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TxnHistoryModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

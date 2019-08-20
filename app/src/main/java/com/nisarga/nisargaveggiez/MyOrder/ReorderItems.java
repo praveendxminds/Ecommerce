@@ -84,14 +84,14 @@ public class ReorderItems {
         str_priceValue = String.format("%.2f", dbl_Price_1);//display only 2 decimal places of price
         tvpriceNewReorder.setText("\u20B9" + " " + mnewPrice);
 
-       /* if (moldPrice.equals("null")) {
-            tvpriceOldReorder.setVisibility(android.view.View.INVISIBLE);
+        if (moldPrice != null && !moldPrice.isEmpty() && !moldPrice.equals("null")) {
+            double dbl_Price_2 = Double.parseDouble(moldPrice);
+            str_priceValue1 = String.format("%.2f", dbl_Price_2);
+            tvpriceOldReorder.setText("\u20B9" + " " + str_priceValue1);
         } else {
-            double dbl_Price_2 = Double.parseDouble(moldPrice);//need to convert string to decimal
-            str_priceValue1 = String.format("%.2f", dbl_Price_2);//display only 2 decimal places of price
-            */tvpriceOldReorder.setVisibility(android.view.View.VISIBLE);
-            tvpriceOldReorder.setText("\u20B9" + " " + moldPrice);
-        //}
+            tvpriceOldReorder.setVisibility(android.view.View.INVISIBLE);
+        }
+
         tvcountItemsReorder.setText("Quantity" + " " + ":" + " " + mqty);
         tv_qntyReorder.setText(mWeight);
         tvRevisedPriceReorder.setText("\u20B9" + " " + mRevisedPrice);

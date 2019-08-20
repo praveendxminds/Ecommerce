@@ -166,6 +166,17 @@ public class CheckoutOrder extends AppCompatActivity {
                         strTotalAmnt = String.format("%.2f", dbl_Price_1);
                         tvFinalTotal.setText("Rs." + " " + strTotalAmnt);
 
+                        double dbl_subTotal = Double.parseDouble(resourcesReorder.sub_total);
+                        strSubTotal = String.format("%.2f", dbl_subTotal);
+                        tvSubTotal.setText("Rs." + " " + strSubTotal);
+
+                        double dbl_delivery = Double.parseDouble(resourcesReorder.delivery_charges);
+                        strDelvCharge = String.format("%.2f", dbl_delivery);
+                        tvDeliveryCharges.setText("Rs." + " " + strDelvCharge);
+
+
+
+
                         List<ReorderItemsModel.ReorderCustDetails> resultCustDetails = resourcesReorder.customer_details;
                         for (ReorderItemsModel.ReorderCustDetails custDetails : resultCustDetails) {
                             tvNameChkoutOrder.setText(custDetails.firstname + " " + custDetails.lastname);
@@ -179,10 +190,6 @@ public class CheckoutOrder extends AppCompatActivity {
                             }
                             tvInvoiceNo.setText(custDetails.invoice_no);
                             tvOrdNo.setText(custDetails.order_id);
-
-                            double dbl_subTotal = Double.parseDouble(resourcesReorder.totalMoney);
-                            strSubTotal = String.format("%.2f", dbl_subTotal);
-                            tvSubTotal.setText("Rs." + " " + strSubTotal);
 
 
                         }
