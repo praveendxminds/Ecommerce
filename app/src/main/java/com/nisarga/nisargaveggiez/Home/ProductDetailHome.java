@@ -74,8 +74,7 @@ public class ProductDetailHome extends AppCompatActivity {
     private boolean status1 = true;
     int countVal = 0;
     private boolean cartStatus = true;
-    private String str_priceValue, str_priceValue_1;
-
+    private String str_priceValue, str_priceValue_1, cart_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +115,29 @@ public class ProductDetailHome extends AppCompatActivity {
                 .setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                         LinearLayoutManager.HORIZONTAL, false));
 
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+            call.enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    CartCount cartCount = response.body();
+                    if (cartCount.status.equals("success")) {
+                        cart_count = cartCount.data;
+                    } else if (cartCount.status.equals("failure")) {
+                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //-----------------------------------------------------------for product details ---------------------------------
@@ -153,7 +175,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                 llCountItem.setVisibility(android.view.View.VISIBLE);
                                 try {
                                     countVal = Integer.parseInt(sAddQtyStatus);
-                                } catch(NumberFormatException nfe) {
+                                } catch (NumberFormatException nfe) {
                                     System.out.println("Could not parse " + nfe);
                                 }
                                 display(countVal);
@@ -288,10 +310,9 @@ public class ProductDetailHome extends AppCompatActivity {
                 }
             });
 
-
             //----------------------------------------------------------similar product response---------------------------------------
             // getPrd_id = sharedpreferences.getString("product_id", "");
-            final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel(callPrdId,session.getCustomerId());
+            final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel(callPrdId, session.getCustomerId());
             // Log.e("----------similar_products_prd_id--------",sprd_id);
             Call<SimilarProductsModel> callSimilarProducts = apiInterface.getSimilarProducts(productslSimilarPrd);
             callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
@@ -401,9 +422,7 @@ public class ProductDetailHome extends AppCompatActivity {
         MenuItem cart_menuItem = menu.findItem(R.id.cart_menu_item);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         mtextCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-
-        Integer cnt = session.getCartCount();
-        mtextCartItemCount.setText(String.valueOf(cnt));
+        mtextCartItemCount.setText(cart_count);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

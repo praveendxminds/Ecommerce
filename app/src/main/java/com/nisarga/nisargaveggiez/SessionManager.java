@@ -267,8 +267,4 @@ public class SessionManager {
         editor.putBoolean(IS_REF, true);
         editor.commit();
     }
-
-
-
-
 }

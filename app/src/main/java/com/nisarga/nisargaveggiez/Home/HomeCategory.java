@@ -105,7 +105,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     View headerView;
     String custId;
-    String strSearchKey;
+    String strSearchKey, cart_count;
 
     DrawerLayout drawerLayout;
     public boolean chngView = true;
@@ -240,6 +240,29 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     }
                 });
         bottomNavigationView.setItemIconSize(40);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+            call.enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    CartCount cartCount = response.body();
+                    if (cartCount.status.equals("success")) {
+                        cart_count = cartCount.data;
+                    } else if (cartCount.status.equals("failure")) {
+                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showListView() {
@@ -428,9 +451,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-
-        Integer cnt = session.getCartCount();
-        textCartItemCount.setText(String.valueOf(cnt));
+        textCartItemCount.setText(cart_count);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -566,7 +587,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.menuleft_myorders) {
             Intent intentMyOrder = new Intent(HomeCategory.this, MyOrders.class);
             startActivity(intentMyOrder);
-        }  else if (id == R.id.menuleft_mywallet) {
+        } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
         } else if (id == R.id.menuleft_referearn) {
