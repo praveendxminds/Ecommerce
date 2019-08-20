@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -32,6 +33,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -82,6 +84,7 @@ import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.EarnReferal;
 import com.nisarga.nisargaveggiez.retrofit.ProductslHomePage;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.retrofit.ReferalModel;
 import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
@@ -614,10 +617,102 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
-        } else if (id == R.id.menuleft_rateus) {
-            Intent intentMyRateUs = new Intent(HomePage.this, RateUs_act.class);
-            startActivity(intentMyRateUs);
-        } else if (id == R.id.menuleft_aboutcontact) {
+        } else if (id == R.id.menuleft_rateus)
+        {
+            LayoutInflater li = LayoutInflater.from(HomePage.this);
+            android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(HomePage.this,
+                    R.style.AlertDialogStyle);
+            alertDialogBuilder.setView(promptsView);
+
+            // set the custom dialog components - text, image and button
+            ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
+            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
+            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
+
+            final AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+
+
+                    final RateModel ref = new RateModel(session.getCustomerId(),"1");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success"))
+                            {
+                                Log.d("ivsuccess", "onResponse: ");
+                            }
+                            else if (resource.status.equals("error"))
+                            {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+
+
+                }
+            });
+
+            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+
+                    final RateModel ref = new RateModel(session.getCustomerId(),"0");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success"))
+                            {
+                                Log.d("ivfail", "onResponse: ");
+                            }
+                            else if (resource.status.equals("error"))
+                            {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+
+
+                }
+            });
+
+            ivClose.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view)
+                {
+                    alertDialog.cancel();
+                }
+            });
+            btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v)
+                {
+                    alertDialog.cancel();
+                }
+            });
+        }
+        else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(HomePage.this, ContactUs.class);
             startActivity(intentAbtContact);
         } else if (id == R.id.menuleft_faqs) {
@@ -627,8 +722,16 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Intent intentTerms = new Intent(HomePage.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-            Intent intentFeedback = new Intent(HomePage.this, GoogleFeedback_act.class);
-            startActivity(intentFeedback);
+
+
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
+
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(HomePage.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
