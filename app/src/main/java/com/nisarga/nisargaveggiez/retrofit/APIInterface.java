@@ -7,6 +7,7 @@ import com.nisarga.nisargaveggiez.ProfileSection.ForgetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
+import com.nisarga.nisargaveggiez.ProfileSection.ResetPasswordModel;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
@@ -179,4 +180,8 @@ public interface APIInterface {
 
     @POST("index.php?route=api/custom/notificationList")
     Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
+
+    @POST("index.php?route=api/forgetpassword/savechangedpassword")
+    Call<ResetPasswordModel> reset_password(@Body ResetPasswordModel resetPasswordModel);
+
 }
