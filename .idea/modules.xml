@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Ecommerce.iml" filepath="$PROJECT_DIR$/.idea/Ecommerce.iml" />
       <module fileurl="file://$PROJECT_DIR$/Ecommerce.iml" filepath="$PROJECT_DIR$/Ecommerce.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/NisaragaVeggiez1.iml" filepath="$PROJECT_DIR$/.idea/NisaragaVeggiez1.iml" />
       <module fileurl="file://$PROJECT_DIR$/Nisarga.iml" filepath="$PROJECT_DIR$/Nisarga.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Nisarga New Project.iml" filepath="$PROJECT_DIR$/.idea/Nisarga New Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Nisarga Veggiez.iml" filepath="$PROJECT_DIR$/.idea/Nisarga Veggiez.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

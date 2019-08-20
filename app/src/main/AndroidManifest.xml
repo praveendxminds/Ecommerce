@@ -31,14 +31,14 @@
     <uses-feature android:name="android.hardware.nfc" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
-        tools:replace="android:allowBackup"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_app_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup">
 
         <activity
             android:name="com.nisarga.nisargaveggiez.Splash"
@@ -61,8 +61,8 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.ProductSearch"
             android:label="Search"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysVisible">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
@@ -774,8 +774,6 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-
-
 
 
     </application>

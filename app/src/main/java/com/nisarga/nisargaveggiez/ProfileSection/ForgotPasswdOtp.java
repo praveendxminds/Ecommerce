@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.ProfileSection;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,60 +12,101 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ForgotPasswdOtp extends AppCompatActivity implements TextWatcher, View.OnKeyListener, View.OnFocusChangeListener {
     Toolbar toolbar;
     EditText etOtp1, etOtp2, etOtp3, etOtp4;
-    Button btnVerifyEmailMobile;
-    String strInput;
+    Button btnVerify;
     private int whoHasFocus;
     char[] code = new char[4];//Store the digits in charArray.
+
+    String strOtp1, strOtp2, strOtp3, strOtp4;
+    String finalOtp;
+    String telephone;
+
+    ProgressDialog progressdialog;
+    APIInterface apiInterface;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.forgot_password);
+        setContentView(R.layout.forgot_passwd_otp);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        progressdialog = new ProgressDialog(ForgotPasswdOtp.this);
+        progressdialog.setMessage("Please Wait....");
+
         toolbar = findViewById(R.id.toolbar);
-        btnVerifyEmailMobile = findViewById(R.id.btnVerifyEmailMobile);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         etOtp1 = findViewById(R.id.etOtp1);
         etOtp2 = findViewById(R.id.etOtp2);
         etOtp3 = findViewById(R.id.etOtp3);
         etOtp4 = findViewById(R.id.etOtp4);
         etOtp1.requestFocus();//Left digit gets focus after adding of fragment in Container
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        btnVerifyEmailMobile.setOnClickListener(new View.OnClickListener() {
+        btnVerify = findViewById(R.id.btnVerify);
+        btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentResetPassword = new Intent(ForgotPasswdOtp.this,ResetPassword.class);
-                intentResetPassword.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentResetPassword);
+                telephone = getIntent().getExtras().getString("Telephone", "defaultKey");
+                strOtp1 = etOtp1.getText().toString();
+                strOtp2 = etOtp2.getText().toString();
+                strOtp3 = etOtp3.getText().toString();
+                strOtp4 = etOtp4.getText().toString();
+
+                finalOtp = strOtp1 + strOtp2 + strOtp3 + strOtp4;
+
+                if (Utils.CheckInternetConnection(ForgotPasswdOtp.this)) {
+                    otpVerify(finalOtp, telephone);
+                } else {
+                    Toast.makeText(ForgotPasswdOtp.this, "Please check internet connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
     }
 
-    private void setListners() {
-        etOtp1.addTextChangedListener(this);
-        etOtp2.addTextChangedListener(this);
-        etOtp3.addTextChangedListener(this);
-        etOtp4.addTextChangedListener(this);
+    private void otpVerify(String finalOtp, final String telephone) {
+        try {
+            progressdialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        final VerifyOTP verifyOTP = new VerifyOTP(finalOtp, telephone);
+        Call<VerifyOTP> calledu = apiInterface.verify_otp(verifyOTP);
+        calledu.enqueue(new Callback<VerifyOTP>() {
+            @Override
+            public void onResponse(Call<VerifyOTP> calledu, Response<VerifyOTP> response) {
+                final VerifyOTP resource = response.body();
+                if (resource.status.equals("success")) {
+                    Intent intentResetPassword = new Intent(ForgotPasswdOtp.this, ResetPassword.class);
+                    intentResetPassword.putExtra("Mobile", telephone);
+                    startActivity(intentResetPassword);
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(ForgotPasswdOtp.this, resource.message, Toast.LENGTH_LONG).show();
+                }
+                progressdialog.dismiss();
+            }
 
-        etOtp1.setOnKeyListener(this);
-        etOtp2.setOnKeyListener(this);
-        etOtp3.setOnKeyListener(this);
-        etOtp4.setOnKeyListener(this);
-
-        etOtp1.setOnFocusChangeListener(this);
-        etOtp2.setOnFocusChangeListener(this);
-        etOtp3.setOnFocusChangeListener(this);
-        etOtp4.setOnFocusChangeListener(this);
+            @Override
+            public void onFailure(Call<VerifyOTP> calledu, Throwable t) {
+                calledu.cancel();
+            }
+        });
     }
 
     @Override
@@ -85,9 +127,6 @@ public class ForgotPasswdOtp extends AppCompatActivity implements TextWatcher, V
 
     @Override
     public void afterTextChanged(Editable s) {
-
-        /*storing text in chararray by index and once the user enter the number in
-        EditText the next EditText will get focus by requestfocus method*/
         switch (whoHasFocus) {
             case 1:
                 if (!etOtp1.getText().toString().isEmpty()) {
@@ -119,12 +158,10 @@ public class ForgotPasswdOtp extends AppCompatActivity implements TextWatcher, V
             default:
                 break;
         }
-
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        /*  checking which EditText currently has focus from where it is useful to fetch number from respective EditText Boxes*/
         switch (v.getId()) {
             case R.id.etOtp1:
                 whoHasFocus = 1;
@@ -145,20 +182,13 @@ public class ForgotPasswdOtp extends AppCompatActivity implements TextWatcher, V
             default:
                 break;
         }
-
     }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-       /* This method will functionate as delete(BackSpace) key
-        and checking whether EditText is empty and DEL(backspace
-         in keypad is pressed). if true the previous EditText will get focus.*/
-        if (event.getAction() == KeyEvent.ACTION_DOWN)
-        {
-            if (keyCode == KeyEvent.KEYCODE_DEL)
-            {
-                switch(v.getId())
-                {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                switch (v.getId()) {
                     case R.id.etOtp2:
                         if (etOtp2.getText().toString().isEmpty())
                             etOtp1.requestFocus();
