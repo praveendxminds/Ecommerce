@@ -189,4 +189,7 @@ public interface APIInterface {
     @POST("index.php?route=api/custom/notificationList")
     Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
 
+    @POST("index.php")
+    Call<AddToCartModel> callAddToCart(@Query("route") String route, @Query("api_token") String api_token);
+
 }
