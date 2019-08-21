@@ -11,4 +11,17 @@ android:layout_height="fill_parent">
     android:adjustViewBounds="true"
     android:scaleType="centerCrop"
     android:src="@drawable/deep" />
+
+
+    <!--<com.github.chrisbanes.photoview.PhotoView-->
+        <!--android:id="@+id/photo_view"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_gravity="top"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/deep" />-->
+
+
+
 </FrameLayout>

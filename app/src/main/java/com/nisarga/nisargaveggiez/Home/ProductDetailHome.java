@@ -199,7 +199,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                     imageArr.add(imgSlide.getImage());
                                 }
                             }
-                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(), imageArr,addtoWishListPrdDetail,callPrdId,session.getCustomerId()));
+                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(ProductDetailHome.this, imageArr,addtoWishListPrdDetail,callPrdId,session.getCustomerId()));
 
                             toolbar.setTitle(sname);
                             tv_title.setText(sname);
