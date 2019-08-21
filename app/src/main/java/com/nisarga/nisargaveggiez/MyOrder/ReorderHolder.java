@@ -51,7 +51,8 @@ public class ReorderHolder extends AppCompatActivity {
     private String storeDayTime;
     String str_custid;
     SessionManager session;
-    private TextView tv_total,tvtotalAmount;
+    private TextView tv_total, tvtotalAmount;
+    private String order_id;
 
     APIInterface apiInterface;
     public static TextView textCartItemCount;
@@ -62,7 +63,10 @@ public class ReorderHolder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reorder_holder);
         apiInterface = APIClient.getClient().create(APIInterface.class);
+        order_id = getIntent().getExtras().getString("order_id", "1");
         session = new SessionManager(getApplicationContext());
+        str_custid = session.getCustomerId();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
@@ -139,44 +143,30 @@ public class ReorderHolder extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
-        for (int i = 0; i <= 10; i++) {
-            mCartView.addView(new ReorderItems(getApplicationContext()));
-        }
         /*  mCartView.addView(new cartItem_footer());*/
-        //showListView();
+        showListView();
     }
 
     public void showListView() {
-        mCartView.getBuilder()
-                .setHasFixedSize(false)
-                .setItemViewCacheSize(10)
-                .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        session = new SessionManager(getApplicationContext());
-        if(Utils.CheckInternetConnection(getApplicationContext()))
-        {
-            final String order_id = getIntent().getExtras().getString("order_id", "1");
-            str_custid = session.getCustomerId();
-            ReorderItemsModel reorderModel = new ReorderItemsModel(str_custid,order_id);
-            apiInterface = APIClient.getClient().create(APIInterface.class);
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            ReorderItemsModel reorderModel = new ReorderItemsModel("1", "1");
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
                 @Override
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
-                    if(resourcesReorder.status.equals("success")) {
+                    if (resourcesReorder.status.equals("success")) {
                         Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
-                        for (ReorderItemsModel.ReorderResult reorderData : result )
-                        {
-                            mCartView.addView(new ReorderItems(getApplicationContext(), reorderData.order_id, reorderData.order_product_id,
-                                    reorderData.image, reorderData.name, reorderData.quantity,reorderData.price,reorderData.price));
+                        for (ReorderItemsModel.ReorderResult reorderData : result) {
+                            mCartView.addView(new ReorderItems(getApplicationContext(), reorderData.order_id,
+                                    reorderData.order_product_id, reorderData.image, reorderData.name,
+                                    reorderData.quantity, reorderData.discount_price, reorderData.price,
+                                    reorderData.weight_classes, reorderData.revised_price));
                         }
-                        tv_total.setText(resourcesReorder.TotalProduct);
-                        tvtotalAmount.setText(resourcesReorder.totalMoney);
-
-                    }
-                    else if(resourcesReorder.status.equals("failure"))
-                    {
+                        tv_total.setText(resourcesReorder.TotalProduct+" "+"Items");
+                        tvtotalAmount.setText("Rs."+" "+resourcesReorder.totalMoney);
+                    } else if (resourcesReorder.status.equals("failure")) {
                         Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                     }
                 }
@@ -187,9 +177,7 @@ public class ReorderHolder extends AppCompatActivity {
                 }
             });
 
-        }
-        else
-        {
+        } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
 
@@ -227,6 +215,11 @@ public class ReorderHolder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.menu_notifi:
                 Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

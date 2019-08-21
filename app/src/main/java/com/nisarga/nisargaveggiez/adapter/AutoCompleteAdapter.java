@@ -1,9 +1,11 @@
 package com.nisarga.nisargaveggiez.adapter;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.nisarga.nisargaveggiez.Home.ProductDetailHome;
 import com.nisarga.nisargaveggiez.R;
 
 import java.util.ArrayList;
@@ -29,14 +32,15 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
                 }
                 
                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                   AutocompleteModel customer = getItem(position);
+                public View getView(final int position, View convertView, ViewGroup parent) {
+                   final AutocompleteModel customer = getItem(position);
                 if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.autocomplete_layout, parent, false);
                 }
                 TextView txtCustomer = (TextView) convertView.findViewById(R.id.tvCustomer);
                 ImageView ivCustomerImage = (ImageView) convertView.findViewById(R.id.ivCustomerImage);
                 if (txtCustomer != null)
+
             txtCustomer.setText(customer.getTitle());
 
 //           if (ivCustomerImage != null && customer.getProfilePic() != -1)
@@ -45,6 +49,23 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
 
 
               Glide.with(getContext()).load(customer.getImgUrl()).into(ivCustomerImage);
+
+
+                   convertView.setOnClickListener(new View.OnClickListener() {
+                       public void onClick(View v)
+                       {
+
+                           Log.d("product_idssss", String.valueOf(customer.getproduct_id()));
+                            Intent intent = new Intent(getContext(), ProductDetailHome.class);
+                            intent.putExtra("product_id", String.valueOf(customer.getproduct_id()));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getContext().startActivity(intent);
+
+
+                       }
+                   });
+
+
 
 
                    // Now assign alternate color for rows
@@ -61,12 +82,19 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
                 public Filter getFilter() {
                 return myFilter;
                 }
-                
-                        Filter myFilter = new Filter() {
+
+
+                Filter myFilter = new Filter() {
                 @Override
-                public CharSequence convertResultToString(Object resultValue) {
-                    AutocompleteModel customer = (AutocompleteModel) resultValue;
-            return customer.getTitle();
+                public CharSequence convertResultToString(Object resultValue)
+                {
+
+
+                     AutocompleteModel customer = (AutocompleteModel) resultValue;
+
+                     return customer.getTitle();
+
+
                 }
                 
                         @Override
@@ -100,4 +128,8 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
             }
                 }
                 };
+
+
+
+
 }

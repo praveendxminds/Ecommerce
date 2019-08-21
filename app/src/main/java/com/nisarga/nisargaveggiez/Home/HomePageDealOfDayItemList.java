@@ -190,7 +190,8 @@ public class HomePageDealOfDayItemList {
     }
 
     @Click(R.id.llDealOfDay)
-    public void onLongClick() {
+    public void onLongClick()
+    {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
         intent.putExtra("product_id", productId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

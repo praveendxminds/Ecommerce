@@ -151,6 +151,8 @@ public class cart extends AppCompatActivity {
     public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+
+            Log.d("getToken", String.valueOf(session.getToken()));
             Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken());
             call.enqueue(new Callback<CartListModel>() {
                 @Override
@@ -212,7 +214,7 @@ public class cart extends AppCompatActivity {
     public void billing(View v) {
         Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
         startActivity(myIntent);
-        
+
        /* Boolean login_st_session = sharedpreferences.getBoolean("status", false);
         if (login_st_session == true) {
             Intent myIntent = new Intent(getBaseContext(), billingAddress.class);

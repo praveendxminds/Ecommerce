@@ -103,13 +103,16 @@ public class SimilarProductsListItem {
     }
 
     @Resolve
-    public void onResolved() {
-        Glide.with(mContext).load(imgUrl+mPrdImgUrl).into(imageCategorySimilarPrd);
+    public void onResolved()
+    {
+
+        Glide.with(mContext).load(mPrdImgUrl).into(imageCategorySimilarPrd);
         titleCategorySimilarPrd.setText(mHeading);
 
         double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
         str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
         newPriceCategorySimilarPrd.setText("₹"+" "+str_priceValue);
+
 
       /*  if(mdiscount.equals("null")) {
             oldPriceCategorySimilarPrd.setVisibility(android.view.View.INVISIBLE);
@@ -120,6 +123,8 @@ public class SimilarProductsListItem {
             oldPriceCategorySimilarPrd.setVisibility(android.view.View.VISIBLE);
             oldPriceCategorySimilarPrd.setText("₹" + " " + str_disValue);
         }*/
+
+
         qtyArray[0]=mQty;
         final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
         // Initializing an ArrayAdapter
@@ -128,9 +133,8 @@ public class SimilarProductsListItem {
         qtyCategorySimilarPrd.setAdapter(spinnerArrayAdapter);
 
 
-
-
     }
+
     @Click(R.id.ord_itCategorySimilarPrd)
     public void onLongClick(){
         Intent intent = new Intent(mContext, ProductDetailHome.class);

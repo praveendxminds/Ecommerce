@@ -3,12 +3,12 @@ package com.nisarga.nisargaveggiez.adapter;
 public class AutocompleteModel {
     private String title = "";
     private String imgurl = "";
-    private int id = 0;
+    private int product_id = 0;
 
-    public AutocompleteModel(String title, String imgurl, int id) {
+    public AutocompleteModel(String title, String imgurl, int product_id) {
         this.title = title;
         this.imgurl = imgurl;
-        this.id = id;
+        this.product_id = product_id;
 
     }
 
@@ -29,14 +29,14 @@ public class AutocompleteModel {
         this.imgurl = imgurl;
     }
 
-     public int getId()
+     public int getproduct_id()
      {
-        return id;
+        return product_id;
      }
 
-     public void setId(int id)
+     public void setproduct_id(int product_id)
      {
-        this.id = id;
+        this.product_id = product_id;
      }
 
 

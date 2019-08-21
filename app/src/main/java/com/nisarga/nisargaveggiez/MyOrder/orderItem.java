@@ -146,14 +146,6 @@ public class orderItem {
 
     }
 
-    @Click(R.id.llMyorder1)
-    public void onCardClick() {
-        Intent myIntent = new Intent(mContext, OrderDetial.class);
-        //  myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(myIntent);
-
-    }
-
    /* public orderItem(Activity activity) {
         this.mActivity = activity;
     }*/
