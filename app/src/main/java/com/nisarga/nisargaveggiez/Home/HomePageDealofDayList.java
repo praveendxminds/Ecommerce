@@ -20,15 +20,18 @@ import java.util.List;
 @Layout(R.layout.home_page_deal_of_day)
 public class HomePageDealofDayList {
 
-    @View(R.id.placeholderviewDealofDay)
-    public PlaceHolderView placeholderviewDealofDay;
+    @View(R.id.tvViewAll)
+    public TextView tvViewAll;
+
+    @View(R.id.phvDealOfDay)
+    public PlaceHolderView phvDealOfDay;
 
     public TextView mtextCartItemCount;
     public Context mContext;
     public List<ProductslHomePage.DealOfDayList> mImageList;
 
 
-    public HomePageDealofDayList(Context context,TextView textCartItemCount, List<ProductslHomePage.DealOfDayList> imageList) {
+    public HomePageDealofDayList(Context context, TextView textCartItemCount, List<ProductslHomePage.DealOfDayList> imageList) {
         mContext = context;
         mImageList = imageList;
         mtextCartItemCount = textCartItemCount;
@@ -36,19 +39,18 @@ public class HomePageDealofDayList {
 
     @Resolve
     public void onResolved() {
-
-        placeholderviewDealofDay.getBuilder()
+        phvDealOfDay.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
-            placeholderviewDealofDay.addView(new HomePageDealOfDayItemList(mContext,mtextCartItemCount, placeholderviewDealofDay,
-                    image.prd_id, image.image, image.name, image.price,image.discount_price, image.qty));
+            phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, mtextCartItemCount, phvDealOfDay,
+                    image.prd_id, image.image, image.name, image.price, image.discount_price, image.qty));
         }
     }
 
-    @Click(R.id.tv_seeAllDealofDay)
+    @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

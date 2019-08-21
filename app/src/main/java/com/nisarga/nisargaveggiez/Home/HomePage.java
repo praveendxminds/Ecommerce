@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -43,7 +42,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -53,23 +51,18 @@ import android.widget.Toast;
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
-import com.androidnetworking.AndroidNetworking;
 import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
-import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
 import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
-import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
-import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
-import com.nisarga.nisargaveggiez.ProfileSection.SignUp_act;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
@@ -85,17 +78,16 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.EarnReferal;
 import com.nisarga.nisargaveggiez.retrofit.ProductslHomePage;
 import com.nisarga.nisargaveggiez.retrofit.RateModel;
-import com.nisarga.nisargaveggiez.retrofit.ReferalModel;
 import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -114,11 +106,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
-
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private LinearLayout llLeftMenuLogOut;
-    public static TextView textCartItemCount;
-    public static BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,13 +145,15 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         displayFirebaseRegId();
     }
 
+    LinearLayout llLeftMenuLogOut, llProfileIcon, llProfileDesc, llEditProfile;
+    TextView textCartItemCount;
+    BottomNavigationView bottomNavigationView;
     Toolbar mToolbarHomePage;
     PlaceHolderView list_items_homePage;
     ProgressBar progressBarHomePage;
-    LinearLayout llProfileIcon, llProfileDesc, llEditProfile;
     EditText searchEditText;
     DrawerLayout drwLayout;
-    ImageView ivToolbarProfile, ivProfilePic;
+    CircleImageView ivToolbarProfile, ivProfilePic;
     TextView tvName, tvEmail, tvMobileNo;
     NavigationView navigationView;
     View headerView;
@@ -542,7 +532,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (!session.getTokenStatus()) {
-            final TokenFCM tkn = new TokenFCM(emp_user_id,emp_token_id);
+            final TokenFCM tkn = new TokenFCM(emp_user_id, emp_token_id);
             Call<TokenFCM> calledu = apiInterface.fcmtoken(tkn);
             calledu.enqueue(new Callback<TokenFCM>() {
                 @Override
@@ -617,8 +607,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
-        } else if (id == R.id.menuleft_rateus)
-        {
+        } else if (id == R.id.menuleft_rateus) {
             LayoutInflater li = LayoutInflater.from(HomePage.this);
             android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
             android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(HomePage.this,
@@ -636,22 +625,18 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             ivLike.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View view)
-                {
+                public void onClick(android.view.View view) {
 
 
-                    final RateModel ref = new RateModel(session.getCustomerId(),"1");
+                    final RateModel ref = new RateModel(session.getCustomerId(), "1");
                     Call<RateModel> calledu = apiInterface.setrate(ref);
                     calledu.enqueue(new Callback<RateModel>() {
                         @Override
                         public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
                             final RateModel resource = response.body();
-                            if (resource.status.equals("success"))
-                            {
+                            if (resource.status.equals("success")) {
                                 Log.d("ivsuccess", "onResponse: ");
-                            }
-                            else if (resource.status.equals("error"))
-                            {
+                            } else if (resource.status.equals("error")) {
 
                             }
                         }
@@ -668,21 +653,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View view)
-                {
+                public void onClick(android.view.View view) {
 
-                    final RateModel ref = new RateModel(session.getCustomerId(),"0");
+                    final RateModel ref = new RateModel(session.getCustomerId(), "0");
                     Call<RateModel> calledu = apiInterface.setrate(ref);
                     calledu.enqueue(new Callback<RateModel>() {
                         @Override
                         public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
                             final RateModel resource = response.body();
-                            if (resource.status.equals("success"))
-                            {
+                            if (resource.status.equals("success")) {
                                 Log.d("ivfail", "onResponse: ");
-                            }
-                            else if (resource.status.equals("error"))
-                            {
+                            } else if (resource.status.equals("error")) {
 
                             }
                         }
@@ -699,20 +680,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             ivClose.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View view)
-                {
+                public void onClick(android.view.View view) {
                     alertDialog.cancel();
                 }
             });
             btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View v)
-                {
+                public void onClick(android.view.View v) {
                     alertDialog.cancel();
                 }
             });
-        }
-        else if (id == R.id.menuleft_aboutcontact) {
+        } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(HomePage.this, ContactUs.class);
             startActivity(intentAbtContact);
         } else if (id == R.id.menuleft_faqs) {

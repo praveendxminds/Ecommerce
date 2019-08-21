@@ -39,6 +39,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -68,7 +69,8 @@ public class SignUp_act extends AppCompatActivity {
 
     EditText etFirstName, etLastName, etMobileNo, etEmail, etPassword, etBlock, etFloorNumber, etDoorNumber,
             etArea, etCity, etLandMark, etPincode;
-    ImageView ivProfile, ivSubmit;
+    ImageView ivSubmit;
+    CircleImageView ivProfile;
     TextView tvApartment, tvAddress;
     ListView lvApartmentList;
     DrawerLayout mDrawer;

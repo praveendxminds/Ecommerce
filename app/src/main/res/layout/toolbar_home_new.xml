@@ -20,7 +20,7 @@
         android:layout_gravity="left"
         android:layout_marginLeft="18dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivToolbarProfile"
             android:layout_width="35dp"
             android:layout_height="35dp"
