@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -59,8 +60,9 @@ public class ProductDetailHome extends AppCompatActivity {
     APIInterface apiInterface;
     private PlaceHolderView mPlaceHolderView, img_list_PrdDetails;
     private ImageButton imgBtn_decre, imgBtn_incre, btnAddItem;
-    private LinearLayout llAddCartItem, llCountItem;
-    private Button addtoWishListPrdDetail, addtoCartPrdDetail;
+    private LinearLayout llAddCartItem, llCountItem,ll_similar_prd;
+    private Button addtoCartPrdDetail;
+    public Button addtoWishListPrdDetail;
     private WebView webViewDesc;
     String sprd_id, getPrd_id, sname, sprice, sqty, simage, sreviews, spoints, sDisPrice, sDesc, sWishlistStatus, sAddQtyStatus;
     String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
@@ -75,6 +77,9 @@ public class ProductDetailHome extends AppCompatActivity {
     int countVal = 0;
     private boolean cartStatus = true;
     private String str_priceValue, str_priceValue_1, cart_count;
+    public ImageButton btn_addtoWishlistPrdDetail;
+    public boolean status_wish;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +113,8 @@ public class ProductDetailHome extends AppCompatActivity {
         addtoWishListPrdDetail = findViewById(R.id.addtoWishListPrdDetail);
         addtoCartPrdDetail = findViewById(R.id.addtoCartPrdDetail);
         webViewDesc = findViewById(R.id.webViewDesc);
+        ll_similar_prd = findViewById(R.id.ll_similar_prd);
+
 
         mPlaceHolderView.getBuilder()
                 .setHasFixedSize(false)
@@ -147,7 +154,7 @@ public class ProductDetailHome extends AppCompatActivity {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //-----------------------------------------------------------for product details ---------------------------------
 
-            final ProductDetailsModel productDetail = new ProductDetailsModel("1", callPrdId);
+            final ProductDetailsModel productDetail = new ProductDetailsModel(session.getCustomerId(), callPrdId);
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
             call.enqueue(new Callback<ProductDetailsModel>() {
                 @Override
@@ -192,7 +199,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                     imageArr.add(imgSlide.getImage());
                                 }
                             }
-                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(), imageArr));
+                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(getApplicationContext(), imageArr,addtoWishListPrdDetail,callPrdId,session.getCustomerId()));
 
                             toolbar.setTitle(sname);
                             tv_title.setText(sname);
@@ -237,8 +244,8 @@ public class ProductDetailHome extends AppCompatActivity {
             //------------------------------------------------------------number of products-------------------------------------------------------------
             addtoCartPrdDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    if (cartStatus == true) {
+                public void onClick(View v)
+                {
                         countVal = countVal + 1;//display number in place of add to cart
                         Integer cnt = session.getCartCount();
                         cnt = cnt + 1;//display number in cart icon
@@ -248,17 +255,6 @@ public class ProductDetailHome extends AppCompatActivity {
                         addtoCartPrdDetail.setText("Added to Cart");
                         Toast.makeText(getApplicationContext(), "Added to cart successfully", Toast.LENGTH_LONG).show();
                         cartStatus = false;
-                    } else {
-                        countVal = countVal - 1;//display number in place of add to cart
-                        Integer cnt = session.getCartCount();
-                        cnt = cnt - 1;//display number in cart icon
-                        session.cartcount(cnt);
-                        display(countVal);
-                        mtextCartItemCount.setText(String.valueOf(cnt));
-                        addtoCartPrdDetail.setText("Add to Cart");
-                        Toast.makeText(getApplicationContext(), "Removed from cart successfully", Toast.LENGTH_LONG).show();
-                        cartStatus = true;
-                    }
                 }
             });
 
@@ -326,7 +322,10 @@ public class ProductDetailHome extends AppCompatActivity {
 
                     SimilarProductsModel resource = response.body();
 
-                    if (resource.status.equals("success")) {
+                    if (resource.status.equals("success"))
+                    {
+
+                        ll_similar_prd.setVisibility(View.VISIBLE);
 
                         List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
                         for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
@@ -357,9 +356,8 @@ public class ProductDetailHome extends AppCompatActivity {
         addtoWishListPrdDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (state == false) {
                     //------------------------------------------for adding to wishlist-----------------------------
-                    final InsertWishListItems add_item = new InsertWishListItems("1", callPrdId);
+                    final InsertWishListItems add_item = new InsertWishListItems(session.getCustomerId(), callPrdId);
                     Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
                     callAdd.enqueue(new Callback<InsertWishListItems>() {
                         @Override
@@ -368,6 +366,25 @@ public class ProductDetailHome extends AppCompatActivity {
                             if (resource.status.equals("success")) {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                                 addtoWishListPrdDetail.setText("Added in Wishlist");
+
+
+                                btn_addtoWishlistPrdDetail = findViewById(R.id.btn_addtoWishlistPrdDetail);
+                                status_wish = getWishlistStatus();
+                                status_wish = true;
+                                btn_addtoWishlistPrdDetail.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run()
+                                    {
+                                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
+                                       // status_wish = true;
+                                        // Do something after 1000 ms
+                                    }
+                                }, 1000);
+
+
+
+
+
 
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -379,31 +396,6 @@ public class ProductDetailHome extends AppCompatActivity {
                             call.cancel();
                         }
                     });
-                    state = true;
-                } else {
-                    //---------------------for removing from wishlist---------------------------
-                    final RemoveWishListItem remove_item = new RemoveWishListItem("1", callPrdId);
-                    Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
-                    callRemove.enqueue(new Callback<RemoveWishListItem>() {
-                        @Override
-                        public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
-                            RemoveWishListItem resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                addtoWishListPrdDetail.setText("Add to Wishlist");
-                            } else {
-                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
-                            call.cancel();
-                        }
-                    });
-                    state = false;
-
-                }
             }
         });
     }
