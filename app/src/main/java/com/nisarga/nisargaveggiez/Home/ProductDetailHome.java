@@ -115,28 +115,33 @@ public class ProductDetailHome extends AppCompatActivity {
                 .setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                         LinearLayoutManager.HORIZONTAL, false));
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cart_count = cartCount.data;
-                    } else if (cartCount.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
 
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+//        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//            //------------------------------------- My profile view section------------------------------------------------
+//            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+//            call.enqueue(new Callback<CartCount>() {
+//                @Override
+//                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+//                    CartCount cartCount = response.body();
+//                    if (cartCount.status.equals("success")) {
+//                        cart_count = cartCount.data;
+//                    } else if (cartCount.status.equals("failure")) {
+//                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<CartCount> call, Throwable t) {
+//
+//                }
+//            });
+//        } else {
+//            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+//        }
+
+
+
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -450,7 +455,8 @@ public class ProductDetailHome extends AppCompatActivity {
 
     }
 
-    public boolean getWishlistStatus() {
+    public boolean getWishlistStatus()
+    {
         return false;
     }
 
