@@ -145,6 +145,7 @@ public class cart extends AppCompatActivity {
                     {
                         Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
                         session.setDeliverydate(categories_dtes.get(position));
+                        session.setDeliveryweek(categories.get(position));
                         slct_itm = categories.get(position);
                     }
 
