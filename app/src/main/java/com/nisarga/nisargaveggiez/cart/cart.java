@@ -33,7 +33,11 @@ import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.billing.billingAddress;
 import com.nisarga.nisargaveggiez.retrofit.CartListModel;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -89,10 +93,28 @@ public class cart extends AppCompatActivity {
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
 
-        final String[] Day = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         linkDeliveryDay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View arg0)
+            {
+
+
+
+                List<String> categories = new ArrayList<String>();
+                categories.add("Select");
+
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                for (int i = 1; i < 4; i++) {
+                    Calendar calendars = new GregorianCalendar();
+                    calendars.add(Calendar.DAY_OF_WEEK, i);
+                    String days = sdf.format(calendars.getTime());
+                    Log.i("daysddddds", days);
+                    categories.add(days);
+                }
+
+
+
+
 
                 LayoutInflater inflater = getLayoutInflater();
                 View alertLayout = inflater.inflate(R.layout.delivery_time_popup, null);
@@ -102,7 +124,7 @@ public class cart extends AppCompatActivity {
                 final Button schedule = alertLayout.findViewById(R.id.btnSchedule);
                 final SpinnerAdapter adapterDay = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
                 adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                adapterDay.addAll(Day);
+                adapterDay.addAll(categories);
                 adapterDay.add("Select Day");
                 dayspinner.setAdapter(adapterDay);
                 dayspinner.setSelection(adapterDay.getCount());
@@ -110,16 +132,19 @@ public class cart extends AppCompatActivity {
 
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (dayspinner.getSelectedItem() == "Select") {
+                        if (dayspinner.getSelectedItem() == "Select")
+                        {
 
                             Toast.makeText(cart.this, "you have selected nothing", Toast.LENGTH_LONG).show();
                             //Do nothing.
-                        } else {
-
+                        }
+                        else
+                            {
+                             session.setDeliverydate(dayspinner.getSelectedItem().toString());
                             Log.e("-----day selected-----", "----day selected---");
                             Toast.makeText(cart.this, dayspinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
 
-                        }
+                            }
                     }
 
                     @Override

@@ -53,6 +53,9 @@ public class SessionManager {
     public static final String SHIP_INSTRUCT = "ship_instructions";
     public static final String SHIP_DELIVERY_DAY = "ship_delivery_day";
 
+    public static final String DELIVERY_DAY = "delivery_day";
+
+
 
     public static final String KEY_TOKEN_ID = "fcm_id";
     public static final String KEY_TOKEN_SAVED = "fcm_saved";
@@ -61,18 +64,24 @@ public class SessionManager {
     public static final String KEY_Status = "status";
     public static final String KEY_PrdId = "product_id";
 
-    public SessionManager(Context context) {
+
+
+
+    public SessionManager(Context context)
+    {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
-    public void createTokenSession(String tkn) {
+    public void createTokenSession(String tkn)
+    {
         editor.putString(KEY_TOKEN_ID, tkn);
         editor.commit();
     }
 
-    public String getKeyTokenId() {
+    public String getKeyTokenId()
+    {
         return pref.getString(KEY_TOKEN_ID, null);
     }
 
@@ -267,4 +276,16 @@ public class SessionManager {
         editor.putBoolean(IS_REF, true);
         editor.commit();
     }
+
+    public String getDeliverydate()
+    {
+        return pref.getString(DELIVERY_DAY, null);
+    }
+
+    public void setDeliverydate(String dte)
+    {
+        editor.putString(DELIVERY_DAY, dte);
+        editor.commit();
+    }
+
 }
