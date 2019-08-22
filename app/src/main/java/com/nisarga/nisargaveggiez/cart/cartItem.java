@@ -138,7 +138,7 @@ public class cartItem {
 
         prd_nameMyCart.setText(mtitle);
         Glide.with(mcontext).load(murl).into(itemIconMyCart);
-        tvpriceNewMyCart.setText(mprice);
+        tvpriceNewMyCart.setText("\u20B9 "+mprice);
 
 /*
         double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal

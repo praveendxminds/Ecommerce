@@ -52,7 +52,7 @@ public class cart extends AppCompatActivity {
     private PlaceHolderView mCartView;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
-    TextView linkDeliveryDay, tvtotalAmount;
+    TextView linkDeliveryDay, tvtotalAmount,tv_total;
     private String storeDayTime;
     SessionManager session;
 
@@ -84,6 +84,7 @@ public class cart extends AppCompatActivity {
         //-----delivery day link------------------
         linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
         tvtotalAmount = (TextView) findViewById(R.id.tvtotalAmount);
+        tv_total = (TextView) findViewById(R.id.tv_total);
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
@@ -164,29 +165,18 @@ public class cart extends AppCompatActivity {
 
                     Log.d("items",String.valueOf(datumList) );
 
+                    tv_total.setText(String.valueOf(datumList.size())+" Items");
+
                     for (CartListModel.CartListDatum imgs : datumList)
                     {
                         if (response.isSuccessful())
                         {
 
+                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount,
+                                    session.getCustomerId(), imgs.product_id, imgs.image, imgs.name,
+                                    imgs.price, imgs.discount_price, imgs.quantity, mCartView));
+                            tvtotalAmount.setText("Total"+" "+"\u20B9 "+imgs.total);
 
-
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, session.getCustomerId(), imgs.product_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.discount_price, imgs.quantity, mCartView));
-
-
-
-                        }
-                    }
-
-
-                    //total amounts
-                    List<CartListModel.TotalsDatum> totalList = resource.totals;
-                    for (CartListModel.TotalsDatum imgs : totalList) {
-                        if (response.isSuccessful()) {
-                            if ((imgs.title).equals("Total")) {
-                                tvtotalAmount.setText(imgs.text);
-                            }
                         }
                     }
 
