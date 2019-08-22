@@ -153,6 +153,8 @@ public class cart extends AppCompatActivity {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
 
             Log.d("getToken", String.valueOf(session.getToken()));
+
+
             Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken());
             call.enqueue(new Callback<CartListModel>() {
                 @Override
@@ -160,13 +162,24 @@ public class cart extends AppCompatActivity {
                     CartListModel resource = response.body();
                     List<CartListModel.CartListDatum> datumList = resource.result;
 
-                    for (CartListModel.CartListDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
+                    Log.d("items",String.valueOf(datumList) );
+
+                    for (CartListModel.CartListDatum imgs : datumList)
+                    {
+                        if (response.isSuccessful())
+                        {
+
+
 
                             mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount, session.getCustomerId(), imgs.product_id, imgs.image,
                                     imgs.name, imgs.price, imgs.discount_price, imgs.quantity, mCartView));
+
+
+
                         }
                     }
+
+
                     //total amounts
                     List<CartListModel.TotalsDatum> totalList = resource.totals;
                     for (CartListModel.TotalsDatum imgs : totalList) {
@@ -189,6 +202,8 @@ public class cart extends AppCompatActivity {
                         }
                     });
 
+
+
                     mCartView.refresh();
                 }
 
@@ -197,6 +212,8 @@ public class cart extends AppCompatActivity {
                     call.cancel();
                 }
             });
+
+
 
 
         } else {

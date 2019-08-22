@@ -71,7 +71,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="left"
-                        android:text="Potato"
+                        android:text=""
                         android:textAllCaps="false"
                         android:textColor="@color/light_black_3"
                         android:textSize="14sp" />
@@ -145,7 +145,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="$ 5000.0000"
+                            android:text=""
                             android:textColor="@color/green_1"
                             android:textSize="12sp" />
 
