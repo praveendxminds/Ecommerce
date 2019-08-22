@@ -101,18 +101,21 @@ public class cart extends AppCompatActivity {
 
 
                 List<String> categories = new ArrayList<String>();
+                List<String> categories_dtes = new ArrayList<String>();
                 categories.add("Select");
 
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                for (int i = 1; i < 4; i++) {
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+                for (int i = 1; i < 4; i++)
+                {
                     Calendar calendars = new GregorianCalendar();
                     calendars.add(Calendar.DAY_OF_WEEK, i);
+                    String catdays = sdf.format(calendars.getTime());
                     String days = sdf.format(calendars.getTime());
                     Log.i("daysddddds", days);
-                    categories.add(days);
+                    categories.add(catdays);
+                    categories_dtes.add(days);
                 }
-
-
 
 
 
@@ -128,33 +131,36 @@ public class cart extends AppCompatActivity {
                 adapterDay.add("Select Day");
                 dayspinner.setAdapter(adapterDay);
                 dayspinner.setSelection(adapterDay.getCount());
-                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+                {
 
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                    {
                         if (dayspinner.getSelectedItem() == "Select")
                         {
-
                             Toast.makeText(cart.this, "you have selected nothing", Toast.LENGTH_LONG).show();
-                            //Do nothing.
                         }
                         else
-                            {
-                             session.setDeliverydate(dayspinner.getSelectedItem().toString());
+                        {
+                            session.setDeliverydate(dayspinner.getSelectedItem().toString());
                             Log.e("-----day selected-----", "----day selected---");
                             Toast.makeText(cart.this, dayspinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-
-                            }
+                        }
                     }
 
                     @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                    public void onNothingSelected(AdapterView<?> parent)
+                    {
+
                     }
                 });
                 final AlertDialog alertDialog = new AlertDialog.Builder(cart.this).create();
-                schedule.setOnClickListener(new View.OnClickListener() {
+                schedule.setOnClickListener(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         storeDayTime = dayspinner.getSelectedItem().toString();
                         alertDialog.dismiss();
                         linkDeliveryDay.setText(storeDayTime);
