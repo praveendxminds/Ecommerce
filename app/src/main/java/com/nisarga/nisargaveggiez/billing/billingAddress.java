@@ -135,8 +135,7 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void moveToChkOut()
-    {
+    public void moveToChkOut() {
         Log.d("moveToChkOut", session.getDeliverydate());
 
 
@@ -158,11 +157,9 @@ public class billingAddress extends AppCompatActivity {
                     ShippingAddrModel resource = response.body();
 
                     List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
-                    if ((resource.status).equals("success"))
-                    {
+                    if ((resource.status).equals("success")) {
 
-                        for (ShippingAddrModel.ShippingDatum dataList : datumList1)
-                        {
+                        for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
 
                             session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
 
@@ -194,16 +191,14 @@ public class billingAddress extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case android.R.id.home:
@@ -219,8 +214,7 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void addorder()
-    {
+    public void addorder() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
 
@@ -228,29 +222,21 @@ public class billingAddress extends AppCompatActivity {
 
             final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
 
-            Call<AddOrder> call = apiInterface.AddOrder("api/order/add", session.getToken(),ordadddetails);
+            Call<AddOrder> call = apiInterface.AddOrder("api/order/add", session.getToken(), ordadddetails);
             call.enqueue(new Callback<AddOrder>() {
                 @Override
-                public void onResponse(Call<AddOrder> call, Response<AddOrder> response)
-                {
+                public void onResponse(Call<AddOrder> call, Response<AddOrder> response) {
                     AddOrder resource = response.body();
+                    if ((resource.status).equals("success")) {
 
-                    List<AddOrder.AddOrderDatum> datumList = resource.data;
+                        List<AddOrder.AddOrderDatum> datumList = resource.data;
 
-                    for (AddOrder.AddOrderDatum lsts : datumList)
-                    {
-                        if (response.isSuccessful())
-                        {
+                        for (AddOrder.AddOrderDatum lsts : datumList) {
                             //session.addorder(lsts.address,String.valueOf(lsts.savings),lsts.delivery_charges,String.valueOf(lsts.total));
+
                         }
                     }
 
-
-                    if (resource.status.equals("success"))
-                    {
-                        addorder();
-                        Log.d("success", "successonResponse: ");
-                    }
 
                 }
 
@@ -259,8 +245,6 @@ public class billingAddress extends AppCompatActivity {
                     call.cancel();
                 }
             });
-
-
 
 
         } else {
