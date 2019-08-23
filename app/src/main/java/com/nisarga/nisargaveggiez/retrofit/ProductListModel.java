@@ -15,6 +15,9 @@ public class ProductListModel {
     @SerializedName("profile_pic")
     public String profile_pic;
 
+    @SerializedName("total_product_count")
+    public String total_product_count;
+
     @SerializedName("result")
     public List<ProductListDatum> result = null;
 

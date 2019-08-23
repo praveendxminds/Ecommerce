@@ -2,8 +2,6 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,23 +21,18 @@ import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
-import com.mindorks.placeholderview.annotations.expand.ParentPosition;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.nisarga.nisargaveggiez.Home2.HomeTwoCategory.bottomNavigationView;
 
 /**
  * Created by sushmita
@@ -65,7 +58,7 @@ public class HomeCategoryItem {
     public TextView tvOldPrice;
 
     @View(R.id.btnAddItem)
-    public Button btnAddItem;
+    public ImageButton btnAddItem;
 
     @View(R.id.llAccountItem)
     public LinearLayout llAccountItem;
@@ -73,17 +66,11 @@ public class HomeCategoryItem {
     @View(R.id.llDecreaseCount)
     public LinearLayout llDecreaseCount;
 
-    @View(R.id.ivBtnDecreaseCount)
-    public ImageButton ivBtnDecreaseCount;
-
     @View(R.id.tvProductCount)
     public TextView tvProductCount;
 
     @View(R.id.llIncreaseCount)
     public LinearLayout llIncreaseCount;
-
-    @View(R.id.ivBtnIncreaseCount)
-    public ImageButton ivBtnIncreaseCount;
 
     Context mContext;
     SessionManager session;
@@ -215,15 +202,7 @@ public class HomeCategoryItem {
         });
     }
 
-    @Click(R.id.ivBtnIncreaseCount)
-    public void AddItem() {
-        cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
-        display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
-    }
-
-    @Click(R.id.ivBtnDecreaseCount)
+    @Click(R.id.llDecreaseCount)
     public void removeItem() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
@@ -238,6 +217,14 @@ public class HomeCategoryItem {
             display(cartcount);
             tvProductCount.setText(String.valueOf(cartcount));
         }
+    }
+
+    @Click(R.id.llIncreaseCount)
+    public void AddItem() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
     }
 
     public void display(int number) {

@@ -7,36 +7,32 @@ import java.util.List;
 
 public class ProductDetailsModel {
 
-
     @SerializedName("product_id")
-    @Expose
     public String product_id;
 
     @SerializedName("customer_id")
-    @Expose
     public String customer_id;
 
-
     @SerializedName("status")
-    @Expose
     public String status;
 
     @SerializedName("result")
-    @Expose
     public List<Datum> result = null;
+
+    @SerializedName("similar_product")
+    public List<SimilarProductDatum> similarProduct = null;
 
     public ProductDetailsModel(String cust_id, String prd_id) {
         this.customer_id = cust_id;
         this.product_id = prd_id;
     }
 
-    public static class Datum {
+    public class Datum {
+
         @SerializedName("product_id")
-        @Expose
         public String product_id;
 
         @SerializedName("name")
-        @Expose
         public String name;
 
         @SerializedName("wishlist_status")
@@ -46,143 +42,66 @@ public class ProductDetailsModel {
         public String add_prd_qty;
 
         @SerializedName("quantity")
-        @Expose
         public String quantity;
 
         @SerializedName("image")
-        @Expose
         public List<ImageArr> image = null;
 
         @SerializedName("price")
-        @Expose
         public String price;
 
         @SerializedName("reward")
-        @Expose
         public String reward;
 
         @SerializedName("points")
-        @Expose
         public String points;
 
         @SerializedName("reviews")
-        @Expose
         public String reviews;
 
         @SerializedName("discount_price")
-        @Expose
         public String discount_price;
 
         @SerializedName("description")
-        public String desc;
+        public String description;
 
         public class ImageArr {
 
             @SerializedName("image")
             public String image_1;
-
-            public String getImage() {
-                return image_1;
-            }
-
-            public void setImage(String image) {
-                this.image_1 = image;
-            }
         }
+    }
 
+    public class SimilarProductDatum {
 
-        public String getProduct_id() {
-            return product_id;
-        }
+        @SerializedName("related_id")
+        public String related_id;
 
+        @SerializedName("product_id")
+        public String product_id;
 
-        public String getName() {
-            return name;
-        }
+        @SerializedName("image")
+        public String image;
 
-        public void setName(String name) {
-            this.name = name;
-        }
+        @SerializedName("wishlist_status")
+        public String wishlist_status;
 
-        public String getWishlistStatus() {
-            return wishlist_status;
-        }
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_product_quantity_in_cart;
 
-        public void setWishlistStatus(String status) {
-            this.wishlist_status = status;
-        }
+        @SerializedName("price")
+        public String price;
 
-        public String getAddPrdQty() {
-            return add_prd_qty;
-        }
+        @SerializedName("quantity")
+        public String quantity;
 
-        public void setAddPrdQty(String qty_status) {
-            this.add_prd_qty = qty_status;
-        }
+        @SerializedName("date_added")
+        public String date_added;
 
-        public String getDesc() {
-            return desc;
-        }
+        @SerializedName("discount_price")
+        public String discount_price;
 
-        public void setDesc(String sdesc) {
-            this.desc = sdesc;
-        }
-
-
-        public String getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(String quantity) {
-            this.quantity = quantity;
-        }
-
-        public List<ImageArr> getImageArr() {
-            return image;
-        }
-
-        public void setImageArr(List<ImageArr> imageArr) {
-            this.image = imageArr;
-        }
-
-        public String getPrice() {
-            return price;
-        }
-
-        public void setPrice(String price) {
-            this.price = price;
-        }
-
-        public String getReward() {
-            return reward;
-        }
-
-        public void setReward(String sreward) {
-            this.reward = sreward;
-        }
-
-        public String getPoints() {
-            return points;
-        }
-
-        public void setPoints(String spoints) {
-            this.points = spoints;
-        }
-
-        public String getReviews() {
-            return reviews;
-        }
-
-        public void setReviews(String sreviews) {
-            this.reviews = sreviews;
-        }
-
-        public String getDiscount() {
-            return discount_price;
-        }
-
-        public void setDiscount(String discount) {
-            this.discount_price = discount;
-        }
+        @SerializedName("name")
+        public String name;
     }
 }

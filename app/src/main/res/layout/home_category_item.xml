@@ -163,7 +163,6 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/ivBtnDecreaseCount"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_gravity="left|bottom"
@@ -189,7 +188,6 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/ivBtnIncreaseCount"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_gravity="right|bottom"

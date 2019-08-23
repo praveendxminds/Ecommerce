@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -11,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.bumptech.glide.Glide;
@@ -22,187 +25,211 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.Toggle;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 @NonReusable
 @Layout(R.layout.similar_products_list)
 public class SimilarProductsListItem {
 
-    @View(R.id.imageCategorySimilarPrd)
-    public ImageView imageCategorySimilarPrd;
+    @View(R.id.llSimilarProduct)
+    public LinearLayout llSimilarProduct;
 
-    @View(R.id.titleCategorySimilarPrd)
-    public TextView titleCategorySimilarPrd;
+    @View(R.id.tvItemName)
+    public TextView tvItemName;
 
-    @Toggle(R.id.ord_itCategorySimilarPrd)
-    public CardView ord_itCategorySimilarPrd;
+    @View(R.id.tvItemPrice)
+    public TextView tvItemPrice;
 
-    @View(R.id.newPriceCategorySimilarPrd)
-    public TextView newPriceCategorySimilarPrd;
+    @View(R.id.tvOldPrice)
+    public TextView tvOldPrice;
 
-    @View(R.id.oldPriceCategorySimilarPrd)
-    public TextView oldPriceCategorySimilarPrd;
+    @View(R.id.ivProductImage)
+    public ImageView ivProductImage;
 
-    @View(R.id.qtyCategorySimilarPrd)
-    public Spinner qtyCategorySimilarPrd;
+    @View(R.id.spQuantity)
+    public Spinner spQuantity;
 
-    @View(R.id.llCountPrd)
-    public LinearLayout llCountPrd;
+    @View(R.id.llAddCart)
+    public LinearLayout llAddCart;
 
-    @View(R.id.imgBtn_decreSimPrd)
-    public ImageButton imgBtn_decreSimPrd;
+    @View(R.id.lldecreasePrdCount)
+    public LinearLayout lldecreasePrdCount;
 
-    @View(R.id.imgBtn_increSimPrd)
-    public ImageButton imgBtn_increSimPrd;
+    @View(R.id.tvNoOfCount)
+    public TextView tvNoOfCount;
 
-    @View(R.id.tv_countSimPrd)
-    public TextView tv_countSimPrd;
+    @View(R.id.llincreasePrdCount)
+    public LinearLayout llincreasePrdCount;
 
-    @View(R.id.btnAddCategorySimilarPrd)
-    public Button btnAddCategorySimilarPrd;
+    @View(R.id.btnAddCart)
+    public Button btnAddCart;
 
-
-
+    APIInterface apiInterface;
     SessionManager session;
+    Context mContext;
 
-    public String mUlr;
-    public Context mContext;
-    public PlaceHolderView mPlaceHolderView;
-    public TextView mtextCartItemCount;
-    public String mrelated_id;
-    public String mPrd_id;
-    public String mHeading;
-    public String mPrdImgUrl,mPrice,mQty;
-    public String mdiscount;
-    public Boolean status = true;
-    int minteger = 0;
-    public static String MyPREFERENCES = "sessiondata" ;
-    public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
-    SharedPreferences sharedpreferences;
-    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
-    public String str_priceValue,str_disValue;
+    String sProductId, sProductImage, sProductName, sProductPrice, sProductDis;
+    int cartcount = 0;
 
-    public SimilarProductsListItem(Context context,TextView textCartItemCount,
-                                   PlaceHolderView placeHolderView, String related_id, String prd_id,
-                                   String url, String heading, String price,String qty) {
+    String product_option_id[], product_option_value_id[];
+    String sQuantitySpinner, option_id, option_value_id;
+
+    public SimilarProductsListItem(Context context, String related_id, String prd_id, String image_url,
+                                   String price, String quantity, String discount, String name) {
         mContext = context;
-        mtextCartItemCount = textCartItemCount;
-        mPlaceHolderView = placeHolderView;
-        mrelated_id = related_id;
-        mPrd_id = prd_id;
-        mPrdImgUrl = url;
-        mHeading = heading;
-        //mdiscount=discount;
-        mPrice = price;
-        mQty = qty;
-
+        sProductId = prd_id;
+        sProductImage = image_url;
+        sProductName = name;
+        sProductPrice = price;
+        sProductDis = discount;
     }
 
     @Resolve
-    public void onResolved()
-    {
+    public void onResolved() {
+        Glide.with(mContext).load(sProductImage).into(ivProductImage);
+        tvItemName.setText(sProductName);
 
-        Glide.with(mContext).load(mPrdImgUrl).into(imageCategorySimilarPrd);
-        titleCategorySimilarPrd.setText(mHeading);
+        double dbl_Price = Double.parseDouble(sProductPrice);//need to convert string to decimal
+        String str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+        tvItemPrice.setText("₹" + " " + str_priceValue);
 
-        double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
-        str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
-        newPriceCategorySimilarPrd.setText("₹"+" "+str_priceValue);
-
-
-      /*  if(mdiscount.equals("null")) {
-            oldPriceCategorySimilarPrd.setVisibility(android.view.View.INVISIBLE);
+        if (sProductDis.equals("null")) {
+            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+        } else {
+            double dbl_Discount = Double.parseDouble(sProductDis);//need to convert string to decimal
+            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            tvOldPrice.setVisibility(android.view.View.VISIBLE);
+            tvOldPrice.setText("₹" + " " + str_disValue);
         }
-        else {
-            double dbl_Discount = Double.parseDouble(mdiscount);//need to convert string to decimal
-            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
-            oldPriceCategorySimilarPrd.setVisibility(android.view.View.VISIBLE);
-            oldPriceCategorySimilarPrd.setText("₹" + " " + str_disValue);
-        }*/
 
+        final ArrayList<String> product_qty_list = new ArrayList<>();
 
-        qtyArray[0]=mQty;
-        final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
-        // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_home_page, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_home_page);
-        qtyCategorySimilarPrd.setAdapter(spinnerArrayAdapter);
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final QuantityList quantityList = new QuantityList(sProductId);
 
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
+            callheight.enqueue(new Callback<QuantityList>() {
+                @Override
+                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
+                    QuantityList eduresource = response.body();
+                    List<QuantityList.Datum> datumList = eduresource.data;
+                    product_option_id = new String[datumList.size()];
+                    product_option_value_id = new String[datumList.size()];
+                    int i = 0;
+                    for (QuantityList.Datum datum : datumList) {
+                        product_qty_list.add(datum.name);
+                        product_option_id[i] = datum.product_option_id;
+                        product_option_value_id[i] = datum.product_option_value_id;
+                        i++;
+                    }
 
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
+                            product_qty_list);
+                    spQuantity.setAdapter(itemsAdapter);
+                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                            sQuantitySpinner = product_qty_list.get(position);
+                            option_id = product_option_id[position];
+                            option_value_id = product_option_value_id[position];
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<QuantityList> callheight, Throwable t) {
+                    callheight.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    @Click(R.id.ord_itCategorySimilarPrd)
-    public void onLongClick(){
+    @Click(R.id.llSimilarProduct)
+    public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
+        intent.putExtra("product_id", sProductId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
-    @Click(R.id.btnAddCategorySimilarPrd)
-    public void AddToCartClick()
-    {
-        if(status == true)
-        {
-            session = new SessionManager(mContext);
-            minteger = minteger + 1;//display number in place of add to cart
-            Integer cnt = session.getCartCount();
-            cnt = cnt +1;//display number in cart icon
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            btnAddCategorySimilarPrd.setVisibility(android.view.View.GONE);
-            llCountPrd.setVisibility(android.view.View.VISIBLE);
-            status = false;
 
-        }
+    @Click(R.id.btnAddCart)
+    public void addtocart() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
+        btnAddCart.setVisibility(android.view.View.GONE);
+        llAddCart.setVisibility(android.view.View.VISIBLE);
 
+        final AddToCartModel ref = new AddToCartModel(sProductId, sQuantitySpinner, option_id, option_value_id);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
-    @Click(R.id.imgBtn_increSimPrd)
+    @Click(R.id.llincreasePrdCount)
     public void onIncreaseClick() {
-        //fl_increase.setBackgroundColor(Color.parseColor("#ffbb00")); //obackground color change on touch event
-        session = new SessionManager(mContext);
-        minteger = minteger + 1;//display number in place of add to cart
-        Integer cnt = session.getCartCount();
-        cnt = cnt +1;//display number in cart icon
-        session.cartcount(cnt);
-        display(minteger);
-        mtextCartItemCount.setText(String.valueOf(cnt));
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
     }
 
-    @Click(R.id.imgBtn_decreSimPrd)
+    @Click(R.id.lldecreasePrdCount)
     public void onDecreaseClick() {
-
-        if (minteger <= 1) {
-            minteger = minteger - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt -1;
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            btnAddCategorySimilarPrd.setVisibility(android.view.View.VISIBLE);
-            llCountPrd.setVisibility(android.view.View.GONE);
-            status=true;
-
+        if (cartcount <= 1) {
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llAddCart.setVisibility(android.view.View.GONE);
         } else {
-            minteger = minteger - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt -1;
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
         }
     }
-
 
     public void display(int number) {
-        tv_countSimPrd.setText("" + number);
+        tvNoOfCount.setText("" + number);
     }
-
-
 }

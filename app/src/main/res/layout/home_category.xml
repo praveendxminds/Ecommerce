@@ -33,7 +33,7 @@
                 android:layout_weight=".1"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center|left"
-                android:text="100 Products found"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -41,12 +41,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight=".45"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:padding="2dp">
 
                 <ImageButton
                     android:id="@+id/ivbtnListView"
-                    android:layout_width="22dp"
+                    android:layout_width="20dp"
                     android:layout_height="18dp"
                     android:background="@drawable/listview"
                     android:duplicateParentState="true" />
@@ -56,12 +56,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight=".45"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:padding="2dp">
 
                 <ImageButton
                     android:id="@+id/ivbtnFilter"
-                    android:layout_width="22dp"
+                    android:layout_width="20dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
                     android:background="@drawable/filter"

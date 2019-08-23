@@ -86,8 +86,8 @@ public class HomePageDealOfDayItemList {
     String product_option_id[], product_option_value_id[];
     String sQuantitySpinner, option_id, option_value_id;
 
-    public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name, String prod_price,
-                                     String prod_discount, String quantity) {
+    public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name,
+                                     String prod_price, String prod_discount, String quantity) {
         this.mContext = context;
         this.sProductId = product_id;
         this.sProductImage = image_url;
@@ -205,14 +205,6 @@ public class HomePageDealOfDayItemList {
         });
     }
 
-    @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick() {
-        cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
-        display(cartcount);
-        tvNoOfCount.setText(String.valueOf(cartcount));
-    }
-
     @Click(R.id.lldecreasePrdCount)
     public void onDecreaseClick() {
         if (cartcount <= 1) {
@@ -228,6 +220,14 @@ public class HomePageDealOfDayItemList {
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
         }
+    }
+
+    @Click(R.id.llincreasePrdCount)
+    public void onIncreaseClick() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
     }
 
     public void display(int number) {

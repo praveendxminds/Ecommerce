@@ -2,8 +2,6 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,18 +27,14 @@ import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
-import com.mindorks.placeholderview.annotations.expand.ParentPosition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.nisarga.nisargaveggiez.Home2.HomeTwoCategory.bottomNavigationView;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -99,7 +93,6 @@ public class HomeCategoryItemGridView {
     String sQuantitySpinner, option_id, option_value_id;
 
     public boolean state = false;
-
 
     public HomeCategoryItemGridView(Context context, String productId, String image_url, String productName,
                                     String productPrice, String productDisPrice, String quantity) {
@@ -220,14 +213,6 @@ public class HomeCategoryItemGridView {
     }
 
     @Click(R.id.llProductDecrese)
-    public void addCount() {
-        cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
-        display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
-    }
-
-    @Click(R.id.imgBtn_decre)
     public void removeCount() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
@@ -242,6 +227,14 @@ public class HomeCategoryItemGridView {
             display(cartcount);
             tvProductCount.setText(String.valueOf(cartcount));
         }
+    }
+
+    @Click(R.id.llProductIncrease)
+    public void addCount() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
     }
 
     @Click(R.id.llAddWishlist)

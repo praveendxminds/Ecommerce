@@ -208,14 +208,6 @@ public class HomePageListOfProductsItemList {
         });
     }
 
-    @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick() {
-        cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
-        display(cartcount);
-        tvNoOfCount.setText(String.valueOf(cartcount));
-    }
-
     @Click(R.id.lldecreasePrdCount)
     public void onDecreaseClick() {
         if (cartcount <= 1) {
@@ -231,6 +223,14 @@ public class HomePageListOfProductsItemList {
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
         }
+    }
+
+    @Click(R.id.llincreasePrdCount)
+    public void onIncreaseClick() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
     }
 
     public void display(int number) {

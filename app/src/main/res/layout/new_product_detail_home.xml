@@ -146,14 +146,14 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:id="@+id/llAddToCart"
+                                android:id="@+id/llAddQuantity"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:visibility="visible">
 
                                 <ImageButton
-                                    android:id="@+id/btnAddItem"
+                                    android:id="@+id/ivbtnAddItem"
                                     android:layout_width="70dp"
                                     android:layout_height="30dp"
                                     android:background="@drawable/addbutton"
@@ -161,7 +161,7 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:id="@+id/llCountItems"
+                                android:id="@+id/llProductCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:visibility="gone">
@@ -197,23 +197,24 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/relativePrdDetail"
+                android:id="@+id/llSimilarProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/price_layoutGrid"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
-                android:paddingRight="5dp">
+                android:paddingRight="10dp"
+                android:visibility="gone">
 
                 <LinearLayout
-                    android:id="@+id/ll_similar_prd"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/roboto_bold"
@@ -233,16 +234,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/relativePrdDetail"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:layout_below="@id/llSimilarProduct"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <WebView
                     android:id="@+id/webViewDesc"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-
         </RelativeLayout>
     </ScrollView>
 
@@ -259,34 +259,30 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/addtoWishListPrdDetail"
+                android:id="@+id/btnAddWishlist"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:fontFamily="@font/roboto_medium"
-                android:onClick="buynow"
                 android:text="Add WishList"
                 android:textAllCaps="false"
                 android:textColor="@color/tabbackground"
                 android:textSize="15dp" />
 
             <Button
-                android:id="@+id/addtoCartPrdDetail"
+                android:id="@+id/btnAddCart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:fontFamily="@font/roboto_medium"
-                android:onClick="addcart"
                 android:text="Add To Cart"
                 android:textAllCaps="false"
                 android:textColor="@color/tabbackground"
                 android:textSize="15dp" />
         </LinearLayout>
-
     </RelativeLayout>
-
 </RelativeLayout>
 
 

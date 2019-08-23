@@ -6,17 +6,13 @@ import java.util.List;
 
 public class SimilarProductsModel {
 
-
-
     @SerializedName("product_id")
     public String productid;
 
     @SerializedName("customer_id")
     public String customer_id;
 
-
-    public SimilarProductsModel(String product_id,String customer_id)
-    {
+    public SimilarProductsModel(String product_id, String customer_id) {
         this.productid = product_id;
         this.customer_id = customer_id;
     }
@@ -50,7 +46,7 @@ public class SimilarProductsModel {
         @SerializedName("name")
         public String name;
 
-
+        @SerializedName("discount_price")
+        public String discount_price;
     }
-
 }

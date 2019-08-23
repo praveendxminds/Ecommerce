@@ -13,7 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mindorks.placeholderview.annotations.NonReusable;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
@@ -41,10 +43,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by sushmita 26/06/2019
  */
 
-@Parent
-@SingleTop
+@NonReusable
 @Layout(R.layout.image_slider_product_details)
-public class ProductDetailsImageSlider  {
+public class ProductDetailsImageSlider {
 
     @View(R.id.pager_PrdDetails)
     public ViewPager pager_PrdDetails;
@@ -52,110 +53,70 @@ public class ProductDetailsImageSlider  {
     @View(R.id.indicator_PrdDetails)
     public TabLayout indicator_PrdDetails;
 
-    @View(R.id.btn_addtoWishlistPrdDetail)
-    public ImageButton btn_addtoWishlistPrdDetail;
+    @View(R.id.btnWishlist)
+    public ImageButton btnWishlist;
 
-    public static int currentPage = 0;
-    public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
-    public ArrayList<String> XMENArray = new ArrayList<String>();
-    public Button maddtoCartPrdDetail;
-
-
-
-
-
-    @ParentPosition
-    public int mParentPosition;
-
-    public Context mContext;
-    public ArrayList<String> mHeading;
-    public List<String> mCatImgUrl;
-    public boolean state;
+    ArrayList<String> XMENArray = new ArrayList<String>();
     APIInterface apiInterface;
-    ProductDetailHome pdetailHome = new ProductDetailHome();
-    String PrdId,cust_Id;
+    SessionManager sessionManager;
+    Context mContext;
+    Button addWishlist;
 
-    public ProductDetailsImageSlider(Context context,List<String> CatImgUrl,Button addtoCartPrdDetail,String callPrdId,String mcust_Id) {
-        mContext = context;
-        mCatImgUrl = CatImgUrl;
-        maddtoCartPrdDetail = addtoCartPrdDetail;
-        PrdId=callPrdId;
-        cust_Id = mcust_Id;
+    List<String> imageList;
+    String wishlistNo, PrdId;
 
-        for (int i = 0; i < mCatImgUrl.size(); i++) {
-            XMENArray.add(mCatImgUrl.get(i));
-            Log.e("---images----", String.valueOf(mCatImgUrl.get(i)));
+    public ProductDetailsImageSlider(Context context, List<String> CatImgUrl, String addWishlist,
+                                     String callPrdId, Button wishlist) {
+        this.mContext = context;
+        this.imageList = CatImgUrl;
+        this.wishlistNo = addWishlist;
+        this.PrdId = callPrdId;
+        this.addWishlist = wishlist;
+
+        for (int i = 0; i < imageList.size(); i++) {
+            XMENArray.add(imageList.get(i));
+            Log.e("---images----", String.valueOf(imageList.get(i)));
         }
     }
 
     @Resolve
     public void onResolved() {
-
+        sessionManager = new SessionManager(mContext);
         pager_PrdDetails.setAdapter(new ProductDetailImageSliderAdapter(mContext, XMENArray));
-
-        indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);//for tab layout
-        state = pdetailHome.getWishlistStatus();
-
-    }
-
-    @Click(R.id.btn_addtoWishlistPrdDetail)
-    public void onClick()
-    {
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        //---------------------------------------------------------
-        if (state == false) {
-            //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems(cust_Id, PrdId);
-            Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-            callAdd.enqueue(new Callback<InsertWishListItems>() {
-                @Override
-                public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                    InsertWishListItems resource = response.body();
-                    if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
-                        maddtoCartPrdDetail.setText("Added in Wishlist");
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-            state = true;
+        indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);
+        if (wishlistNo.equals("0")) {
+            onClick();
         } else {
-            //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem(cust_Id, PrdId);
-            Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
-            callRemove.enqueue(new Callback<RemoveWishListItem>() {
-                @Override
-                public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
-                    RemoveWishListItem resource = response.body();
-                    if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.addwishlist);
-                        maddtoCartPrdDetail.setText("Add WishList");
-                    } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-            state = false;
-
+            btnWishlist.setEnabled(false);
+            btnWishlist.setBackgroundResource(R.drawable.wishlist_red);
         }
-
     }
 
+    @Click(R.id.btnWishlist)
+    public void onClick() {
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        final InsertWishListItems add_item = new InsertWishListItems(sessionManager.getCustomerId(), PrdId);
+        Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+        callAdd.enqueue(new Callback<InsertWishListItems>() {
+            @Override
+            public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                InsertWishListItems resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    btnWishlist.setBackgroundResource(R.drawable.wishlist_red);
+                    addWishlist.setText("Added To WishList");
 
+                } else {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
 }
 
 

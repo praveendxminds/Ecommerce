@@ -1,12 +1,8 @@
 package com.nisarga.nisargaveggiez.Home;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -21,14 +17,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -47,24 +41,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidnetworking.AndroidNetworking;
 import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
-import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
-import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
-import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.R;
@@ -79,7 +68,6 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.ProductListModel;
 import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.io.File;
@@ -147,8 +135,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     public boolean chngView = true;
     private String imagepath = null;
     String strProfilePic = "null";
-
-    TextView CartItemCount;
 
     private void init() {
         drawerHomeCategory = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
@@ -276,7 +262,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
                     MyProfileModel resourceMyProfile = response.body();
                     if (resourceMyProfile.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
                             if (String.valueOf(mpmResult.image) == "null") {
@@ -304,31 +289,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
-
-        //------- Cart Count Section Api --------
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cart_count = cartCount.data;
-                    } else {
-                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    pbLoading.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void showListView() {
@@ -336,9 +296,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
 
-            final ProductListModel prdListModel = new ProductListModel("1");
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final ProductListModel prdListModel = new ProductListModel(session.getCustomerId());
             Call<ProductListModel> call = apiInterface.getProductsList(prdListModel);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
@@ -351,6 +311,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             Glide.with(HomeCategory.this).load(resource.profile_pic).fitCenter().dontAnimate()
                                     .into(ivToolbarProfile);
                         }
+                        tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
                             phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id, imgs.image,
@@ -392,8 +353,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ProductListModel prdListModel1 = new ProductListModel("1");
+            final ProductListModel prdListModel1 = new ProductListModel(session.getCustomerId());
             Call<ProductListModel> call = apiInterface.getProductsList(prdListModel1);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
@@ -406,6 +368,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             Glide.with(HomeCategory.this).load(resource.profile_pic).fitCenter().dontAnimate()
                                     .into(ivToolbarProfile);
                         }
+                        tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
                             phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
@@ -449,8 +412,27 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        CartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-        CartItemCount.setText(cart_count);
+        final TextView cartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+            call.enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    CartCount cartCount = response.body();
+                    if (cartCount.status.equals("success")) {
+                        cartItemCount.setText(cartCount.data);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,7 +440,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
-
             }
         });
 
@@ -782,7 +763,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 NavEditImage responsedata = response.body();
                 if (responsedata.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
-                } else if (responsedata.status.equals("failure")) {
+                } else {
                     Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
                 }
                 progressdialog.dismiss();

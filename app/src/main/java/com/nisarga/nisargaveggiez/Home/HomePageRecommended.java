@@ -53,6 +53,7 @@ public class HomePageRecommended {
     @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 }

@@ -147,7 +147,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     LinearLayout llLeftMenuLogOut, llProfileIcon, llProfileDesc, llEditProfile;
-    TextView textCartItemCount;
     BottomNavigationView bottomNavigationView;
     Toolbar mToolbarHomePage;
     PlaceHolderView list_items_homePage;
@@ -159,7 +158,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     NavigationView navigationView;
     View headerView;
     String strSearchKey;
-    String cart_count;
 
     private String imagepath = null;
     String strProfilePic = "null";
@@ -351,38 +349,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                             tvEmail.setText(mpmResult.email);
                             tvMobileNo.setText(mpmResult.telephone);
                         }
-
-                    } else if (resourceMyProfile.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<MyProfileModel> call, Throwable t) {
-
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cart_count = cartCount.data;
-                    } else if (cartCount.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-
+                    call.cancel();
                 }
             });
         } else {
@@ -397,8 +369,28 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-        textCartItemCount.setText(cart_count);
+        final TextView textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+            call.enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    CartCount cartCount = response.body();
+                    if (cartCount.status.equals("success")) {
+                        textCartItemCount.setText(cartCount.data);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -406,7 +398,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
-
             }
         });
 
@@ -504,7 +495,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.notification:
                 Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
@@ -539,7 +529,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     if (resource.status.equals("success")) {
                         Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_LONG).show();
                         session.createTokenStatus();
-                    } else if (resource.status.equals("failure")) {
                     }
                 }
 

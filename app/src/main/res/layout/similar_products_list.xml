@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ord_itCategorySimilarPrd"
-    android:layout_width="115dp"
-    android:layout_height="130dp"
+    android:layout_width="130dp"
+    android:layout_height="150dp"
     android:layout_marginLeft="1dp"
     android:layout_marginTop="0dp"
     android:layout_marginRight="15dp"
@@ -19,7 +18,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/llDealOfDay"
+            android:id="@+id/llSimilarProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -36,11 +35,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight=".4"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/titleCategorySimilarPrd"
+                        android:id="@+id/tvItemName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_regular"
@@ -48,31 +47,27 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/light_black_1"
                         android:textSize="10sp" />
-
-
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
+                    android:layout_weight=".6"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/newPriceCategorySimilarPrd"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvItemPrice"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
                         android:fontFamily="@font/roboto_regular"
+                        android:gravity="right"
                         android:text="₹ 1000.00"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/green_1"
                         android:textSize="10sp" />
 
-
                     <TextView
-                        android:id="@+id/oldPriceCategorySimilarPrd"
+                        android:id="@+id/tvOldPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -83,37 +78,34 @@
                         android:textColor="@color/light_black_5"
                         android:textSize="8sp"
                         android:visibility="visible" />
-
-
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp">
 
                 <ImageView
-                    android:id="@+id/imageCategorySimilarPrd"
-                    android:layout_width="52dp"
-                    android:layout_height="58dp"
-                    android:src="@drawable/deep" />
+                    android:id="@+id/ivProductImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_person" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
 
                 <Spinner
-                    android:id="@+id/qtyCategorySimilarPrd"
-                    android:layout_width="80dp"
-                    android:layout_height="14dp"
+                    android:id="@+id/spQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:text="100Gms"
@@ -133,7 +125,7 @@
                 android:gravity="bottom">
 
                 <LinearLayout
-                    android:id="@+id/llCountPrd"
+                    android:id="@+id/llAddCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/cart_shadow"
@@ -142,7 +134,7 @@
                     android:visibility="gone">
 
                     <LinearLayout
-                        android:id="@+id/fl_decreaseSimPrd"
+                        android:id="@+id/lldecreasePrdCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -150,7 +142,6 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/imgBtn_decreSimPrd"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
                             android:layout_marginTop="2dp"
@@ -165,7 +156,7 @@
                         android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/tv_countSimPrd"
+                            android:id="@+id/tvNoOfCount"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
@@ -176,7 +167,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/fl_increaseSimPrd"
+                        android:id="@+id/llincreasePrdCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -184,7 +175,6 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/imgBtn_increSimPrd"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
                             android:layout_marginTop="2dp"
@@ -194,9 +184,11 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btnAddCategorySimilarPrd"
+                    android:id="@+id/btnAddCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp"
                     android:background="@drawable/cart_shadow"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Add To Cart"
