@@ -140,8 +140,10 @@ public class LoginFragment extends Fragment {
                     List<UserLogin.Datum> datumList = resource.resultdata;
                     for (UserLogin.Datum datum : datumList) {
                         sessionManager.createLoginSession(datum.customer_id, datum.customer_group_id,
-                                datum.firstname, datum.lastname, datum.email, datum.cart,datum.telephone, datum.wishlist,
-                                datum.address_id, datum.date_added, datum.api_token);
+                                datum.firstname, datum.lastname, datum.email, datum.cart, datum.wishlist,datum.address_id,
+                                datum.date_added, datum.image,datum.telephone,datum.company, datum.address_1,
+                                datum.address_2, datum.city, datum.country_id, datum.zone_id,datum.postcode, datum.floor,
+                                datum.door, datum.block,datum.apartment_name,datum.api_token);
                         Intent intentHomePage = new Intent(getActivity(), HomePage.class);
                         startActivity(intentHomePage);
                     }

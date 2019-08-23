@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,11 @@ public class ConfirmOrder extends AppCompatActivity {
     private LinearLayout llSubmitFeedback;
     APIInterface apiInterface;
     SessionManager session;
+    private TextView tvPaymentStatus,tvSubTotal,tvDelivCharge,tvOrdAmount,tvTotalSaving;
+    private TextView tvApartmentName,tvAddressDetails,tvMsg;
+    private RatingBar ratingBar;
+    private EditText etFeedback;
+    private Button btnSubmit;
 
 
     @Override
@@ -38,10 +45,20 @@ public class ConfirmOrder extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         llSubmitFeedback = findViewById(R.id.llSubmitFeedback);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        etFeedback = findViewById(R.id.etFeedback);
+        ratingBar = findViewById(R.id.ratingBar);
+        tvAddressDetails = findViewById(R.id.tvAddressDetails);
+        tvApartmentName = findViewById(R.id.tvApartmentName);
+        tvTotalSaving = findViewById(R.id.tvTotalSaving);
+        tvOrdAmount = findViewById(R.id.tvOrdAmount);
+        tvDelivCharge = findViewById(R.id.tvDelivCharge);
+        tvSubTotal = findViewById(R.id.tvSubTotal);
+        tvPaymentStatus = findViewById(R.id.tvPaymentStatus);
+        tvMsg = findViewById(R.id.tvMsg);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
-
         session.setReferalStatus();
 
         submitFeedback();
@@ -55,7 +72,7 @@ public class ConfirmOrder extends AppCompatActivity {
     }
     public  void submitFeedback()
     {
-        llSubmitFeedback.setOnClickListener(new View.OnClickListener() {
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentSubmitBack = new Intent(ConfirmOrder.this, HomePage.class);

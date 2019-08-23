@@ -67,13 +67,13 @@ public class LoyalityPoints extends AppCompatActivity {
         getLoyalityPoints();
     }
 
-    public void addLoyalityPoints() {
+    public void redeemLoyalityPoints() {
         strRedeemPoint = etReedem.getText().toString();
         if (strRedeemPoint.equals("")) {
             etReedem.requestFocus();
             etReedem.setError("Enter some points");
         } else {
-            final ReedemLoyalityPoints get_loyltyPoints = new ReedemLoyalityPoints("97", strRedeemPoint);
+            final ReedemLoyalityPoints get_loyltyPoints = new ReedemLoyalityPoints(sessionManager.getCustomerId(), strRedeemPoint);
             Call<ReedemLoyalityPoints> call = apiInterface.redeemPoints(get_loyltyPoints);
             call.enqueue(new Callback<ReedemLoyalityPoints>() {
                 @Override
@@ -95,7 +95,7 @@ public class LoyalityPoints extends AppCompatActivity {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final LoyalityPointsModel get_loyltyPoints = new LoyalityPointsModel("97");
+            final LoyalityPointsModel get_loyltyPoints = new LoyalityPointsModel(sessionManager.getCustomerId());
             Call<LoyalityPointsModel> call = apiInterface.getLoyalityPoints(get_loyltyPoints);
             call.enqueue(new Callback<LoyalityPointsModel>() {
                 @Override
@@ -109,7 +109,7 @@ public class LoyalityPoints extends AppCompatActivity {
 
                     if ((resource.data).equals("null")) {
 
-                        tvPoints.setText("Rs." + " " + "0");
+                        tvPoints.setText("0"+" "+"Points");
                         btnProceed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -118,13 +118,13 @@ public class LoyalityPoints extends AppCompatActivity {
                         });
 
                     } else {
-                        tvPoints.setText("Rs." + " " + resource.data);
+                        tvPoints.setText(resource.data+" "+"Points");
                         btnProceed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 int number = Integer.parseInt(resource.data);
                                 if (number >= 50) {
-                                    addLoyalityPoints();
+                                    redeemLoyalityPoints();
                                     Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this, LoyalityPointSuccessAck.class);
                                     startActivity(intentRedeemptionSuccess);
                                 } else {
@@ -146,7 +146,6 @@ public class LoyalityPoints extends AppCompatActivity {
                         }
                     }
 
-
                 }
 
                 @Override
@@ -163,18 +162,19 @@ public class LoyalityPoints extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuAddtoMoney = getMenuInflater();
-        menuAddtoMoney.inflate(R.menu.nav_toolbar_menu, menu);
+        menuAddtoMoney.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
-            case R.id.info:
+            case R.id.help_menu_item:
                 Intent intentAddtoMoney = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentAddtoMoney);
                 break;

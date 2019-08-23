@@ -42,6 +42,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvMsg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_bold"
@@ -122,6 +123,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvPaymentStatus"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -131,7 +133,60 @@
                         android:textColor="@color/light_black_1"
                         android:textSize="12sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sub Total"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvSubTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="right"
+                        android:text="Rs 000.00"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Delivery Charge"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvDelivCharge"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="right"
+                        android:text="Rs 000.00"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="12sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,6 +204,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvOrdAmount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -176,6 +232,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvTotalSaving"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -216,6 +273,7 @@
                     android:paddingLeft="20dp">
 
                     <TextView
+                        android:id="@+id/tvApartmentName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_regular"
@@ -232,6 +290,7 @@
                     android:paddingLeft="20dp">
 
                     <TextView
+                        android:id="@+id/tvAddressDetails"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_regular"
@@ -295,6 +354,7 @@
 
 
                     <EditText
+                        android:id="@+id/etFeedback"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:background="@drawable/edit_txt_border"
@@ -321,6 +381,7 @@
         android:layout_alignParentBottom="true">
 
         <TextView
+            android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/roboto_bold"

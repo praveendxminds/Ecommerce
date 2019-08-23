@@ -102,7 +102,7 @@ public class PaymentHistory extends AppCompatActivity {
     public void showListView()
     {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final TxnHistoryModel paymentHistoryModel = new TxnHistoryModel("97");
+            final TxnHistoryModel paymentHistoryModel = new TxnHistoryModel(session.getCustomerId());
             Call<TxnHistoryModel> call = apiInterface.getHistory(paymentHistoryModel);
            call.enqueue(new Callback<TxnHistoryModel>() {
                 @Override

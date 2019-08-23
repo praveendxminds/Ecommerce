@@ -17,130 +17,137 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:theme="@style/ToolbarColoredBackArrow"
         app:title="Loyality Point Details"
-        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/white">
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/llProceed">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="20dp">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Loyality Point"
-                        android:textColor="@color/light_black_2"
-                        android:textSize="14sp" />
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/loyality_points" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvPoints"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center|right"
-                    android:padding="5dp"
-                    android:text="1000 Points"
-                    android:textColor="@color/light_black_2"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Reedem"
-                    android:textColor="@color/light_black_1"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/linearlayout_border"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/etReedem"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center|left"
-                        android:padding="10dp"
-                        android:hint="0"
-                        android:textColor="@color/light_black_1"
-                        android:textSize="16sp"
-                        android:background="@color/zxing_transparent"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Loyality Point"
+                            android:textColor="@color/light_black_2"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/loyality_points" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvPoints"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center|right"
+                        android:padding="5dp"
+                        android:text="0 Points"
+                        android:textColor="@color/light_black_2"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="10dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Note:"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Reedem"
                         android:textColor="@color/light_black_1"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
-                    <com.mindorks.placeholderview.PlaceHolderView
-                        android:id="@+id/phvLoyalityPoints"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"></com.mindorks.placeholderview.PlaceHolderView>
+                        android:layout_height="50dp"
+                        android:background="@drawable/linearlayout_border"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etReedem"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/zxing_transparent"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center|left"
+                            android:hint="0"
+                            android:padding="10dp"
+                            android:textColor="@color/light_black_1"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Note:"
+                            android:textColor="@color/light_black_1"
+                            android:textSize="14sp" />
+
+                        <com.mindorks.placeholderview.PlaceHolderView
+                            android:id="@+id/phvLoyalityPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"></com.mindorks.placeholderview.PlaceHolderView>
 
 
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
 
-    </ScrollView>
+        </ScrollView>
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/llProceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
@@ -150,10 +157,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_medium"
             android:text="Proceed"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

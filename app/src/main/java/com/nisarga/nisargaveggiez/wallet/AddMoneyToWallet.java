@@ -73,8 +73,8 @@ public class AddMoneyToWallet extends AppCompatActivity {
 
         }
         getFirstName = session.getFirstName();
-        getPhone = session.getPhoneNumber();
-        getEmail = session.getEmailAddress();
+        getPhone = session.getTelephone();
+        getEmail = session.getEmail();
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,8 +83,15 @@ public class AddMoneyToWallet extends AppCompatActivity {
                 intent.putExtra("FIRST_NAME", getFirstName);
                 intent.putExtra("PHONE_NUMBER", getPhone);
                 intent.putExtra("EMAIL_ADDRESS", getEmail);
-                intent.putExtra("RECHARGE_AMT", strAmount);
-                startActivity(intent);
+                if(strAmount.equals("")||strAmount.equals("0"))
+                {
+                    etAmount.requestFocus();
+                    etAmount.setError("Enter some amount...");
+                }else {
+                    intent.putExtra("RECHARGE_AMT", strAmount);
+                    startActivity(intent);
+                }
+
             }
         });
         getWalletAmount();
@@ -124,7 +131,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuAddtoMoney = getMenuInflater();
-        menuAddtoMoney.inflate(R.menu.nav_toolbar_menu, menu);
+        menuAddtoMoney.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
@@ -135,7 +142,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            case R.id.info:
+            case R.id.help_menu_item:
                 Intent intentAddtoMoney = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentAddtoMoney);
         }

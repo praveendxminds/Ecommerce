@@ -64,8 +64,23 @@ public class SessionManager {
     public static final String KEY_Status = "status";
     public static final String KEY_PrdId = "product_id";
 
+    public static final String KEY_TOTAL = "total";
+    public static final String KEY_TOTAL_SAVING = "total_savings";
 
 
+    public static final String KEY_IMAGE = "image";
+    public static final String KEY_COMPANY = "company";
+    public static final String KEY_ADDR_1 = "address_1";
+    public static final String KEY_ADDR_2 = "address_2";
+    public static final String KEY_CITY = "city";
+    public static final String KEY_COUNTRY_ID = "country_id";
+    public static final String KEY_ZONE_ID = "zone_id";
+    public static final String KEY_POST_CODE = "postcode";
+    public static final String KEY_FLOOR = "floor";
+    public static final String KEY_DOOR = "door";
+    public static final String KEY_BLOCK = "block";
+    public static final String KEY_APRT_NAME = "apartment_name";
+    public static final String KEY_CUSTOM_FIELD = "custom_field";
 
     public SessionManager(Context context)
     {
@@ -122,23 +137,39 @@ public class SessionManager {
     }
 
     public void createLoginSession(String customer_id, String customer_group_id, String firstname, String lastname,
-                                   String email, String cart, String telephone, String wishlist, String address_id,
-                                   String date_added, String api_token) {
+                                   String email, String cart, String wishlist, String address_id,
+                                   String date_added, String image, String telephone, String company, String address_1,
+                                   String address_2, String city, String country_id, String zone_id, String postcode, String floor,
+                                   String door, String block,String apartment_name, String api_token) {
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_CUST_ID, customer_id);
         editor.putString(KEY_CUST_GRP_ID, customer_group_id);
         editor.putString(KEY_FNAME, firstname);
         editor.putString(KEY_LNAME, lastname);
-        editor.putString(KEY_CART, cart);
-        editor.putString(KEY_TELEPHONE, telephone);
-        editor.putString(KEY_WISHLIST, wishlist);
         editor.putString(KEY_EMAIL_ID, email);
+        editor.putString(KEY_CART, cart);
+        editor.putString(KEY_WISHLIST, wishlist);
         editor.putString(KEY_ADDRESS_ID, address_id);
         editor.putString(KEY_DATE_ADDED, date_added);
+        editor.putString(KEY_IMAGE, image);
+        editor.putString(KEY_TELEPHONE, telephone);
+        editor.putString(KEY_COMPANY, company);
+        editor.putString(KEY_ADDR_1, address_1);
+        editor.putString(KEY_ADDR_2, address_2);
+        editor.putString(KEY_CITY, city);
+        editor.putString(KEY_COUNTRY_ID, country_id);
+        editor.putString(KEY_ZONE_ID, zone_id);
+        editor.putString(KEY_POST_CODE, postcode);
+        editor.putString(KEY_FLOOR, floor);
+        editor.putString(KEY_DOOR, door);
+        editor.putString(KEY_BLOCK, block);
+        editor.putString(KEY_APRT_NAME, apartment_name);
         editor.putString(KEY_TOKEN_LOGIN, api_token);
         editor.commit();
     }
+
+
 
     public String getCustomerId() {
         return pref.getString(KEY_CUST_ID, null);
@@ -156,8 +187,76 @@ public class SessionManager {
         return pref.getString(KEY_TELEPHONE, null);
     }
 
-    public String getEmailAddress() {
+    public String getEmail() {
         return pref.getString(KEY_EMAIL_ID, null);
+    }
+
+    public String getCart() {
+        return pref.getString(KEY_CART, null);
+    }
+
+    public String getWishlist() {
+        return pref.getString(KEY_WISHLIST, null);
+    }
+
+    public String getAddressId() {
+        return pref.getString(KEY_ADDRESS_ID, null);
+    }
+
+    public String getDateAdded() {
+        return pref.getString(KEY_DATE_ADDED, null);
+    }
+
+    public String getProfileImage() {
+        return pref.getString(KEY_IMAGE, null);
+    }
+
+    public String getTelephone() {
+        return pref.getString(KEY_TELEPHONE, null);
+    }
+
+    public String getCompany() {
+        return pref.getString(KEY_COMPANY, null);
+    }
+
+    public String getAddrFirst() {
+        return pref.getString(KEY_ADDR_1, null);
+    }
+
+    public String getAddrSecond() {
+        return pref.getString(KEY_ADDR_2, null);
+    }
+
+    public String getCity() {
+        return pref.getString(KEY_CITY, null);
+    }
+
+    public String getCountryId() {
+        return pref.getString(KEY_COUNTRY_ID, null);
+    }
+
+    public String getZoneId() {
+        return pref.getString(KEY_ZONE_ID, null);
+    }
+
+    public String getPincode() {
+        return pref.getString(KEY_POST_CODE, null);
+    }
+
+    public String getFloor() {
+        return pref.getString(KEY_FLOOR, null);
+    }
+
+    public String getDoorNo() {
+        return pref.getString(KEY_DOOR, null);
+    }
+
+    public String getBlockNo() {
+        return pref.getString(KEY_BLOCK, null);
+    }
+
+    public String getApartment() {
+        return pref.getString(KEY_APRT_NAME, null);
     }
 
     public String getToken() {
@@ -191,6 +290,39 @@ public class SessionManager {
         editor.putString(KEY_PINCODE_ADDRS, pincode);
         editor.commit();
     }
+    public String showFirstName() {
+        return pref.getString(KEY_FNAME_ADDRS, null);
+    }
+
+    public String showLastName() {
+        return pref.getString(KEY_LNAME_ADDRS, null);
+    }
+
+    public String showPhoneNumber() {
+        return pref.getString(KEY_PHONE_ADDRS, null);
+    }
+
+    public String showEmailId() {
+        return pref.getString(KEY_EMAIL_ADDRESS, null);
+    }
+
+    public void saveTotal(String total,String totalSaving)
+    {
+        editor.putString(KEY_TOTAL, total);
+        editor.putString(KEY_TOTAL_SAVING, totalSaving);
+        editor.commit();
+    }
+    public String getTotalAmount() {
+        return pref.getString(KEY_TOTAL, null);
+    }
+
+    public String getTotalSavingAmount() {
+        return pref.getString(KEY_TOTAL_SAVING, null);
+    }
+
+
+
+
 
     public String getApartmentName() {
         return pref.getString(KEY_APRT_NAME_ADDRS, null);
@@ -258,14 +390,32 @@ public class SessionManager {
         return pref.getString(SHIP_APARTMENTDETAILS, null);
     }
 
-    public String getShipInstruct() {
-        return pref.getString(SHIP_INSTRUCT, null);
-    }
 
     public String getShipDeliveryDay() {
         return pref.getString(SHIP_DELIVERY_DAY, null);
     }
 
+
+    public void saveShippingDetails(String first_name, String last_name,String address_1,
+                                    String city,String countryId,String zoneId,String apartment,String area,
+                                    String pincode,String instruct) {
+
+        editor.putString(KEY_FNAME, first_name);
+        editor.putString(KEY_LNAME, last_name);
+        editor.putString(KEY_ADDR_1, address_1);
+        editor.putString(KEY_CITY, city);
+        editor.putString(KEY_COUNTRY_ID, countryId);
+        editor.putString(KEY_ZONE_ID, zoneId);
+        editor.putString(KEY_COMPANY, apartment);//modified apartment name
+        editor.putString(KEY_ADDR_2, area);//modified apartment name
+        editor.putString(KEY_POST_CODE, pincode);//modified apartment details
+        editor.putString(KEY_CUSTOM_FIELD, instruct);//modified apartment details
+
+        editor.commit();
+    }
+    public String getShipInstruct() {
+        return pref.getString(KEY_CUSTOM_FIELD, null);
+    }
 
     public boolean getReferalStatus() {
         return pref.getBoolean(IS_REF, false);
@@ -297,5 +447,8 @@ public class SessionManager {
         editor.putString(DELIVERY_WEEK, wk);
         editor.commit();
     }
+
+
+
 
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,60 +17,91 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:theme="@style/ToolbarColoredBackArrow"
         app:title="Loyality Point Summary"
-        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:paddingTop="50dp"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+        app:titleTextColor="@color/white">
 
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@drawable/redeem"
-                android:layout_gravity="center" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Point Redemption Successfully"
-                android:textAllCaps="false"
-                android:textSize="22sp"
-                android:textColor="@color/light_black_1"
-                android:fontFamily="@font/roboto_bold"
-                android:textAlignment="center"
-                android:layout_marginTop="20dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="your payment was successfully processed! It will Take 4-7 working Days"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                android:textColor="@color/light_black_1"
-                android:fontFamily="@font/roboto_bold"
-                android:textAlignment="center"
-                android:layout_marginTop="20dp"/>
-        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llGoBack"
+        android:layout_below="@+id/toolbar">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnGoBack"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Go Back"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="50dp"
+                android:paddingTop="50dp"
+                android:paddingRight="50dp">
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/redeem" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Point Redemption Successfully"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/light_black_1"
+                    android:textSize="22sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSuccessMsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="your payment was successfully processed! It will Take 4-7 working Days"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="16sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hpsmile"
+                        android:layout_gravity="center"
+                        android:padding="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llGoBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btnGoBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Go Back"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+</RelativeLayout>

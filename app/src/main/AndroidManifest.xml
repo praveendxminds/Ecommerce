@@ -42,6 +42,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.Splash"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +53,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.HomePage"
             android:label="Home Page"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -61,6 +63,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.ProductSearch"
             android:label="Search"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible">
             <intent-filter>
@@ -71,6 +74,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.ContactUs"
             android:label="Contact Us"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -79,6 +83,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.TermsConditions"
             android:label="Terms and Conditions"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -87,6 +92,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.PrivacyPolicy"
             android:label="Privacy Policy"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -95,6 +101,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.DeliveryInformation"
             android:label="Faqs"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -104,6 +111,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.CategoriesBottomNav"
             android:label="Categories List"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -113,6 +121,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.ProductDetailHome"
             android:label="Home Category"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -122,6 +131,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Wishlist.WishListHolder"
             android:label="Wishlist"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -131,6 +141,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.HomeCategory"
             android:label="Home Product"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -140,6 +151,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home2.HomeTwo"
             android:label="Home Two"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -148,6 +160,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home1.HomeOne"
             android:label="Home One"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -157,6 +170,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home2.HomeTwoCategory"
             android:label="Home Two Category"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -166,6 +180,7 @@
         <activity
             android:name="com.nisarga.nisargaveggiez.Home3.HomeThree"
             android:label="Home Three"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -175,6 +190,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.appIntro.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -183,6 +199,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.profile"
+            android:screenOrientation="portrait"
             android:label="My Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -193,6 +210,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.EditProfile"
+            android:screenOrientation="portrait"
             android:label="Edit Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -203,6 +221,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ChangePassword"
+            android:screenOrientation="portrait"
             android:label="Change Password"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -212,6 +231,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.forgot"
+            android:screenOrientation="portrait"
             android:label="Forgot Password"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -221,6 +241,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.MyOrder.MyOrders"
+            android:screenOrientation="portrait"
             android:label="My Orders"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -229,6 +250,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.MyOrder.ReorderHolder"
+            android:screenOrientation="portrait"
             android:label="ReOrders"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -237,6 +259,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.MyOrder.CheckoutOrder"
+            android:screenOrientation="portrait"
             android:label="Checkout Order"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -245,6 +268,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.MyOrder.OrderCheckItems"
+            android:screenOrientation="portrait"
             android:label="Check Items with Updated Price"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -253,6 +277,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.payment.PaymentDetails"
+            android:screenOrientation="portrait"
             android:label="Payment Options"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -261,6 +286,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.payment.OTPVerificationPayment"
+            android:screenOrientation="portrait"
             android:label="Payment OTP Verification"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -271,6 +297,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.payment.PayMentGateWay"
+            android:screenOrientation="portrait"
             android:label="Payment OTP Verification"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -280,6 +307,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.MyOrder.OrderDetailsHolder"
+            android:screenOrientation="portrait"
             android:label="Order Details"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -289,6 +317,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.Home.CategoryFilter"
+            android:screenOrientation="portrait"
             android:label="Filters"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -298,6 +327,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.MyOrder.OrderDetial"
+            android:screenOrientation="portrait"
             android:label="Order Details"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -307,6 +337,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.notifications.MyNotifications"
+            android:screenOrientation="portrait"
             android:label="Notifications"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -319,6 +350,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.addresbook.AddressBook"
+            android:screenOrientation="portrait"
             android:label="AddressBook"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -329,6 +361,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.addresbook.AddAddress"
+            android:screenOrientation="portrait"
             android:label="Add Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -339,6 +372,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.franchiseRequest"
+            android:screenOrientation="portrait"
             android:label="Francise Request"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -348,6 +382,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.preferences"
+            android:screenOrientation="portrait"
             android:label="Preferences"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -357,6 +392,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.cart.cart"
+            android:screenOrientation="portrait"
             android:label="Cart"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -366,6 +402,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.billing.billingAddress"
+            android:screenOrientation="portrait"
             android:label="Shipping And Billing Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -374,6 +411,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.cart.ShippingNewAddress"
+            android:screenOrientation="portrait"
             android:label="New Shipping Address"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -382,6 +420,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.cart.CheckOutMyCart"
+            android:screenOrientation="portrait"
             android:label="Checkout"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -390,6 +429,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.cart.ConfirmOrder"
+            android:screenOrientation="portrait"
             android:label="Order confirmation"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -399,6 +439,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.search"
+            android:screenOrientation="portrait"
             android:label="Search"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -408,6 +449,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ccavenue.ccavenue"
+            android:screenOrientation="portrait"
             android:label="Payment"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -418,6 +460,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.successOrder"
+            android:screenOrientation="portrait"
             android:label="Order Success"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -428,6 +471,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.failOrder"
+            android:screenOrientation="portrait"
             android:label="order Failed"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -438,6 +482,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.cancelledOrder"
+            android:screenOrientation="portrait"
             android:label="Order Cancelled"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -448,6 +493,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.Delivery"
+            android:screenOrientation="portrait"
             android:label="Delivery"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -458,6 +504,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.location"
+            android:screenOrientation="portrait"
             android:label="Delivery"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -468,6 +515,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.login"
+            android:screenOrientation="portrait"
             android:label="Login"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -477,6 +525,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProductDetails_act"
+            android:screenOrientation="portrait"
             android:label="Product Title"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -487,6 +536,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.barcode.ScannerActivity"
+            android:screenOrientation="portrait"
             android:label="Scan"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -496,6 +546,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.NoInternet"
+            android:screenOrientation="portrait"
             android:label="Scan"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -505,6 +556,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.Login_act"
+            android:screenOrientation="portrait"
             android:label="Login Page"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -515,6 +567,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.SignUp_act"
+            android:screenOrientation="portrait"
             android:label="SignUp Page"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -526,6 +579,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.register"
+            android:screenOrientation="portrait"
             android:label="Register"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -535,6 +589,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.barcode.nfc"
+            android:screenOrientation="portrait"
             android:label="NFC"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -606,6 +661,7 @@
         <!-- New Section-->
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.LoginSignup_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -615,6 +671,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.ForgotPassword"
+            android:screenOrientation="portrait"
             android:label="Forgot Password"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -624,6 +681,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.ForgotPasswdOtp"
+            android:screenOrientation="portrait"
             android:label="OTP Verification for Forgot Password"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -633,6 +691,7 @@
         </activity>
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.ResetPassword"
+            android:screenOrientation="portrait"
             android:label="Reset Password"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -643,6 +702,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act"
+            android:screenOrientation="portrait"
             android:label="My Profile"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -652,6 +712,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act"
+            android:screenOrientation="portrait"
             android:label="Edit Profile"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
@@ -662,6 +723,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.MyAddress_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -671,6 +733,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.Offers_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -680,6 +743,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -689,6 +753,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.RateUs_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -698,6 +763,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.Faqs_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -707,6 +773,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act"
+            android:screenOrientation="portrait"
             android:label="LoginSignup_act"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -716,6 +783,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.MyWalletActivity"
+            android:screenOrientation="portrait"
             android:label="My Wallet"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -725,6 +793,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.AddMoneyToWallet"
+            android:screenOrientation="portrait"
             android:label="Add Money to Wallet"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -735,6 +804,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.AddtoMoneyFailureAck"
+            android:screenOrientation="portrait"
             android:label="Add to Money Failure"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -744,6 +814,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck"
+            android:screenOrientation="portrait"
             android:label="Add to Money Success"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -753,6 +824,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.LoyalityPoints"
+            android:screenOrientation="portrait"
             android:label="Loyality Point"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -762,6 +834,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.LoyalityPointSuccessAck"
+            android:screenOrientation="portrait"
             android:label="Loyality Point Success Message"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -771,6 +844,7 @@
 
         <activity
             android:name="com.nisarga.nisargaveggiez.wallet.PaymentHistory"
+            android:screenOrientation="portrait"
             android:label="Payment History"
             android:theme="@style/AppTheme">
             <intent-filter>

@@ -4,26 +4,41 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
+import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
+import com.nisarga.nisargaveggiez.MyOrder.orderItem;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.cart.CheckOutMyCart;
+import com.nisarga.nisargaveggiez.cart.ShippingNewAddress;
 import com.nisarga.nisargaveggiez.ccavenue.ccavenue;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.MyOrderList;
+import com.nisarga.nisargaveggiez.retrofit.ShippingAddrModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by praveen on 15/11/18.
@@ -38,8 +53,11 @@ public class billingAddress extends AppCompatActivity {
     private EditText etFirstName, etLastName, etMobileNo, etInstructions, etDelivery;
     private TextView tvApartmentName, tvApartmentDetails;
     private ImageButton imgBtnAddAddress;
-    private String strFirstName, strLastName, strMobile, strInstruct, strDeliveryDay, strApartmentName, strApartmentDetails;
-    private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
+    private Button btnContinue;
+    private String strFirstName, strLastName, strEmail, strMobile, strInstruct, strDeliveryDay, strApartmentName, strApartmentDetails;
+    private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode, strCountryId, strZoneId;
+    private String strTotal,strTotalSaving;
+    APIInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +65,7 @@ public class billingAddress extends AppCompatActivity {
         setContentView(R.layout.shipping_details_mycart);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         session = new SessionManager(getApplicationContext());
+        apiInterface = APIClient.getClient().create(APIInterface.class);
 
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
@@ -61,23 +80,49 @@ public class billingAddress extends AppCompatActivity {
         tvApartmentName = findViewById(R.id.tvApartmentName);
         tvApartmentDetails = findViewById(R.id.tvAddressDetails);
         imgBtnAddAddress = findViewById(R.id.imgBtnEditAddress);
+        llContinue = findViewById(R.id.llContinue);
+        btnContinue = findViewById(R.id.btnContinue);
+        //for aprtment section getting from Login response
+        strFirstName = session.showFirstName();
+        strLastName = session.showLastName();
+        strEmail = session.showEmailId();
+        strMobile = session.showPhoneNumber();
+        strApartmentName = session.getApartment();
+        strBlock = session.getBlockNo();
+        strDoor = session.getDoorNo();
+        strFloor = session.getFloor();
+        strArea = session.getAddrSecond();
+        strAddress = session.getAddrFirst();
+        strCity = session.getCity();
+        strPincode = session.getPincode();
+        strDeliveryDay = session.getDeliverydate();
+        strCountryId = session.getCountryId();
+        strZoneId = session.getZoneId();
 
-        //getting from new address page-------------------
-        strApartmentName = session.getApartmentName();
-        strBlock = session.getBlockNumber();
-        strDoor = session.getDoorNumber();
-        strFloor = session.getFloorNumber();
-        strArea = session.getUsrArea();
-        strAddress = session.getUsrAddress();
-        strCity = session.getUsrCity();
-        strPincode = session.getUsrPincode();
         //------------------------------------------------
+        etFirstName.setText(strFirstName);
+        etLastName.setText(strLastName);
+        etMobileNo.setText(strMobile);
         tvApartmentName.setText(strApartmentName);
         tvApartmentDetails.setText(strDoor + "," + " " + strFloor + "," + " " + strBlock +
-                "," + " " + strArea + "," + " " + strAddress + "," + " " + strCity + "," + " " + strPincode);
+                "," + " " + strAddress + "," + " " + strArea + "," + " " + strCity + "," + " " + strPincode);
+        etDelivery.setText(strDeliveryDay);
 
+        imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentNewAddress = new Intent(billingAddress.this, ShippingNewAddress.class);
+                startActivity(intentNewAddress);
 
-        moveToChkOut();
+            }
+        });
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToChkOut();
+            }
+        });
     }
 
     @Override
@@ -86,36 +131,54 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void addNewAddress() {
-
-        imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
-
-    }
-
     public void moveToChkOut() {
-        llContinue = findViewById(R.id.llContinue);
-        llContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                strFirstName = etFirstName.getText().toString();
-                strLastName = etLastName.getText().toString();
-                strMobile = etMobileNo.getText().toString();
-                strInstruct = etInstructions.getText().toString();
-                strDeliveryDay = etDelivery.getText().toString();
-                strApartmentDetails = tvApartmentDetails.getText().toString();
-                strApartmentName = tvApartmentName.getText().toString();
-                //set response of api on database for checkout address details and call it their and call here also from database in onResume method for reference purpose
-                Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
-                intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentChkout);
-            }
-        });
+
+        strFirstName = etFirstName.getText().toString();
+        strLastName = etLastName.getText().toString();
+        strMobile = etMobileNo.getText().toString();
+        strInstruct = etInstructions.getText().toString();
+        strDeliveryDay = etDelivery.getText().toString();
+        strApartmentDetails = tvApartmentDetails.getText().toString();
+        strApartmentName = tvApartmentName.getText().toString();
+        //api call-----
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strArea, strCity, strCountryId, strZoneId, strApartmentName, strAddress, strPincode, strInstruct);
+            Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);
+            call.enqueue(new Callback<ShippingAddrModel>() {
+                @Override
+                public void onResponse(Call<ShippingAddrModel> call, Response<ShippingAddrModel> response) {
+
+                    ShippingAddrModel resource = response.body();
+
+                    List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
+                    if((resource.status).equals("success")) {
+                        for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
+
+                            session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
+
+                        }
+                        session.saveTotal(resource.total,resource.total_savings);
+                        Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
+                        intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intentChkout);
+                    }
+                  else
+                    {
+                        Toast.makeText(billingAddress.this, resource.message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ShippingAddrModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     @Override
@@ -135,7 +198,7 @@ public class billingAddress extends AppCompatActivity {
 
 
             case R.id.help_menu_item:
-                Intent intentHelp = new Intent(getBaseContext(), DeliveryInformation.class);
+                Intent intentHelp = new Intent(billingAddress.this, DeliveryInformation.class);
                 startActivity(intentHelp);
                 break;
         }

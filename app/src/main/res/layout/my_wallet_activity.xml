@@ -80,7 +80,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
-                                android:text="Rs 50"
+                                android:text="Rs 0"
                                 android:textColor="@color/light_black_1"
                                 android:textSize="14sp" />
 
@@ -155,7 +155,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
-                                android:text="1000 Points"
+                                android:text="0 Points"
                                 android:textColor="@color/light_black_1"
                                 android:textSize="14sp" />
 

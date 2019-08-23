@@ -24,10 +24,10 @@ public class CheckOutMyCart extends AppCompatActivity {
     Toolbar toolbar;
     private LinearLayout llConfirmOrder;
     private ImageButton imgBtnEditAddress;
-    private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName, tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvDeliveryCharge, tvCartValue, tvChkoutDeliveryDay;
+    private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName;
+    private TextView tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvCartValue, tvChkoutDeliveryDay;
     private String strCustFName, strCustLName, strPhoneNo, strAprtName, strAprtDetails, strInstruct, strDeliveryDay;
-    private String strBackCustFName, strBackCustLName, strBackPhoneNo, strBackAprtName, strBackAprtDetails, strBackInstruct, strBackDeliveryDay;
-
+    private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,26 +47,31 @@ public class CheckOutMyCart extends AppCompatActivity {
         tvChkoutCustName = findViewById(R.id.tvChkoutCustName);
         tvPayableAmount = findViewById(R.id.tvPayableAmount);
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
-        tvDeliveryCharge = findViewById(R.id.tvDeliveryCharge);
         tvCartValue = findViewById(R.id.tvCartValue);
         llConfirmOrder = findViewById(R.id.llConfirmOrder);
         imgBtnEditAddress = findViewById(R.id.imgBtnEditAddress);
 
-       /* strCustFName = session.getShipFirstName();
-        strCustLName = session.getShipLastName();
-        strPhoneNo = session.getShipPhone();
-        strAprtName = session.getShipApartmentName();
-        strAprtDetails = session.getShipApartmentDetails();
+        strCustFName = session.getFirstName();
+        strCustLName = session.getLastName();
+        strPhoneNo = session.getPhoneNumber();
+        strAprtName = session.getCompany();
+        strBlock = session.getBlockNo();
+        strDoor = session.getDoorNo();
+        strFloor = session.getFloor();
+        strArea = session.getAddrSecond();
+        strAddress = session.getAddrFirst();
+        strCity = session.getCity();
+        strPincode = session.getPincode();
         strInstruct = session.getShipInstruct();
-        strDeliveryDay = session.getShipDeliveryDay();
+        strDeliveryDay = session.getDeliverydate();
 
         tvChkoutCustName.setText(strCustFName + " " + strCustLName);
         tvChkoutPhnNo.setText(strPhoneNo);
         tvChkoutAprtName.setText(strAprtName);
-        tvChkoutAprtDetails.setText(strAprtDetails);
+        tvChkoutAprtDetails.setText(strDoor + "," + " " + strFloor + "," + " " + strBlock +
+                "," + " " + strAddress + "," + " " + strArea + "," + " " + strCity + "," + " " + strPincode);
         tvChkoutDelvInstruct.setText(strInstruct);
-        tvChkoutDeliveryDay.setText(strDeliveryDay);*/
-
+        tvChkoutDeliveryDay.setText(strDeliveryDay);
         confirmOrder();
         moveToEditAddress();
     }

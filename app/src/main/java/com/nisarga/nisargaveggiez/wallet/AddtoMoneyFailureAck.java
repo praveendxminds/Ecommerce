@@ -48,7 +48,7 @@ public class AddtoMoneyFailureAck extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInfo = getMenuInflater();
-        menuInfo.inflate(R.menu.nav_toolbar_menu,menu);
+        menuInfo.inflate(R.menu.instruction_menu,menu);
         return true;
     }
 
@@ -60,7 +60,7 @@ public class AddtoMoneyFailureAck extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            case R.id.info:
+            case R.id.help_menu_item:
                 Intent intentInfo = new Intent(getBaseContext(),DeliveryInformation.class);
                 startActivity(intentInfo);
                 break;

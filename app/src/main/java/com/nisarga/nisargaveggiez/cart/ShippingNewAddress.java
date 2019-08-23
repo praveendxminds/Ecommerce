@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.billing.billingAddress;
 
 public class ShippingNewAddress extends AppCompatActivity {
 
@@ -24,7 +25,6 @@ public class ShippingNewAddress extends AppCompatActivity {
     SessionManager session;
     private RelativeLayout llSave;
     private EditText etfName, etlName, etEmail, etPhone, etApartmentName, etBlock, etDoorNumber, etFloorNumber, etArea, etCity, etAddress, etPincode;
-    private Button btnNearBy;
     private String strfName, strlName, strEmail, strPhone, strApartmentName, strBlock, strDoorNumber, strFloorNumber, strArea, strCity, strAddress, strPincode;
 
     @Override
@@ -50,29 +50,28 @@ public class ShippingNewAddress extends AppCompatActivity {
         etCity = findViewById(R.id.etCity);
         etAddress = findViewById(R.id.etAddress);
         etPincode = findViewById(R.id.etPincode);
-        btnNearBy = findViewById(R.id.btnNearBy);
         llSave = findViewById(R.id.llSave);
 
-        strfName = etfName.getText().toString();
-        strlName = etlName.getText().toString();
-        strEmail = etEmail.getText().toString();
-        strPhone = etPhone.getText().toString();
-        strApartmentName = etApartmentName.getText().toString();
-        strBlock = etBlock.getText().toString();
-        strDoorNumber = etDoorNumber.getText().toString();
-        strFloorNumber = etFloorNumber.getText().toString();
-        strArea = etArea.getText().toString();
-        strCity = etCity.getText().toString();
-        strAddress = etAddress.getText().toString();
-        strPincode = etPincode.getText().toString();
 
         llSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                strfName = etfName.getText().toString();
+                strlName = etlName.getText().toString();
+                strEmail = etEmail.getText().toString();
+                strPhone = etPhone.getText().toString();
+                strApartmentName = etApartmentName.getText().toString();
+                strBlock = etBlock.getText().toString();
+                strDoorNumber = etDoorNumber.getText().toString();
+                strFloorNumber = etFloorNumber.getText().toString();
+                strArea = etArea.getText().toString();
+                strCity = etCity.getText().toString();
+                strAddress = etAddress.getText().toString();
+                strPincode = etPincode.getText().toString();
+
                 saveAddressDetails();
             }
         });
-
 
 
     }
@@ -87,6 +86,11 @@ public class ShippingNewAddress extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.help_menu_item:
                 Intent intentHelp = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentHelp);
@@ -196,8 +200,10 @@ public class ShippingNewAddress extends AppCompatActivity {
         if (validateDetails(strfName, strlName, strEmail, strPhone, strApartmentName,
                 strBlock, strDoorNumber, strFloorNumber, strArea, strCity, strAddress, strPincode)) {
             session.saveNewAddress(strfName, strlName, strEmail, strPhone, strApartmentName,
-                    strBlock, strDoorNumber, strFloorNumber, strArea, strCity, strAddress, strPincode);
+                    strBlock, strDoorNumber, strFloorNumber, strArea, strCity, strAddress, strPincode);//pass on diff methods but will fetch from same getMethods
             Toast.makeText(getApplicationContext(), "Successfully Saved Details", Toast.LENGTH_SHORT).show();
+            Intent intentShippingDetails = new Intent(ShippingNewAddress.this,billingAddress.class);
+            startActivity(intentShippingDetails);
         }
     }
 

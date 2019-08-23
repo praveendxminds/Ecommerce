@@ -47,9 +47,6 @@ public class UserLogin {
         @SerializedName("cart")
         public String cart;
 
-        @SerializedName("telephone")
-        public String telephone;
-
         @SerializedName("wishlist")
         public String wishlist;
 
@@ -58,6 +55,45 @@ public class UserLogin {
 
         @SerializedName("date_added")
         public String date_added;
+
+        @SerializedName("image")
+        public String image;
+
+        @SerializedName("telephone")
+        public String telephone;
+
+        @SerializedName("company")
+        public String company;
+
+        @SerializedName("address_1")
+        public String address_1;
+
+        @SerializedName("address_2")
+        public String address_2;
+
+        @SerializedName("city")
+        public String city;
+
+        @SerializedName("country_id")
+        public String country_id;
+
+        @SerializedName("zone_id")
+        public String zone_id;
+
+        @SerializedName("postcode")
+        public String postcode;
+
+        @SerializedName("floor")
+        public String floor;
+
+        @SerializedName("door")
+        public String door;
+
+        @SerializedName("block")
+        public String block;
+
+        @SerializedName("apartment_name")
+        public String apartment_name;
 
         @SerializedName("api_token")
         public String api_token;

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -53,7 +54,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Cart Value"
                         android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tvCartValue"
@@ -64,35 +65,7 @@
                         android:gravity="right"
                         android:text="Rs. 000.00"
                         android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="12dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Delivery Charge"
-                        android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDeliveryCharge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="right"
-                        android:text="Rs. 000.00"
-                        android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -123,7 +96,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Total Saving"
                         android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tvTotalSaving"
@@ -134,7 +107,7 @@
                         android:gravity="right"
                         android:text="Rs. 000.00"
                         android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -151,7 +124,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Approximate Payable Amount"
                         android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tvPayableAmount"
@@ -162,7 +135,7 @@
                         android:gravity="right"
                         android:text="Rs. 000.00"
                         android:textColor="@color/light_black_4"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -197,11 +170,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:gravity="left"
                     android:text="Delivery Address"
                     android:textColor="@color/light_black_2"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -231,7 +204,7 @@
                     android:id="@+id/tvChkoutCustName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:padding="5dp"
                     android:text="Name"
                     android:textColor="@color/light_black_1"
@@ -241,7 +214,7 @@
                     android:id="@+id/tvChkoutPhnNo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:padding="5dp"
                     android:text="+91 0000000000"
                     android:textColor="@color/light_black_1"
@@ -263,10 +236,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="Apartment Name :"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tvChkoutAprtName"
@@ -275,7 +248,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="Provident Harmony"
                             android:textColor="#8C4A4A4A"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <TextView
@@ -285,7 +258,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="A11 802 ,Chokkanahalli Main Rd, Sri Balaji Krupa Layout, RK Hegde Nagar, Bengaluru, Karnataka 560077"
                         android:textColor="#8C4A4A4A"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -298,10 +271,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Delivery Instructions : "
                         android:textColor="#FF000000"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tvChkoutDelvInstruct"
@@ -310,7 +283,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="If I would not be there than call me and drop my package near my neighbour"
                         android:textColor="#8C4A4A4A"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -323,10 +296,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Delivery Day :"
                         android:textColor="#FF000000"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tvChkoutDeliveryDay"
@@ -336,7 +309,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Day"
                         android:textColor="#8C4A4A4A"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -355,13 +328,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_medium"
             android:gravity="center"
             android:padding="12dp"
             android:text="Confirm Order"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </RelativeLayout>
