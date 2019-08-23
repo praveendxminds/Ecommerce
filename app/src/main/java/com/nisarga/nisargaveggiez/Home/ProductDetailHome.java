@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -25,11 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
 import com.nisarga.nisargaveggiez.retrofit.ProductDetailsModel;
 import com.nisarga.nisargaveggiez.retrofit.RemoveWishListItem;
@@ -54,32 +57,29 @@ import java.util.List;
 public class ProductDetailHome extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private ImageView pro_img;
     private TextView tv_title, tv_original_price, tv_productCount, tvDisPricePrdDetail;
     private Spinner qtyPrdDetail;
     APIInterface apiInterface;
     private PlaceHolderView mPlaceHolderView, img_list_PrdDetails;
     private ImageButton imgBtn_decre, imgBtn_incre, btnAddItem;
-    private LinearLayout llAddCartItem, llCountItem,ll_similar_prd;
+    private LinearLayout llAddCartItem, llCountItem, ll_similar_prd;
     private Button addtoCartPrdDetail;
     public Button addtoWishListPrdDetail;
     private WebView webViewDesc;
-    String sprd_id, getPrd_id, sname, sprice, sqty, simage, sreviews, spoints, sDisPrice, sDesc, sWishlistStatus, sAddQtyStatus;
-    String[] qtyArray = {"qty", "100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
+    String sprd_id, sname, sprice, sqty, sDisPrice, sDesc, sWishlistStatus, sAddQtyStatus;
     SessionManager session;
-    public static TextView mtextCartItemCount;
-    int minteger = 0;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
     public String callPrdId, sCustId;
-    private boolean state = false;
-    private boolean status1 = true;
     int countVal = 0;
-    private boolean cartStatus = true;
-    private String str_priceValue, str_priceValue_1, cart_count;
+    private String str_priceValue, str_priceValue_1;
     public ImageButton btn_addtoWishlistPrdDetail;
     public boolean status_wish;
 
+    String product_option_id[], product_option_value_id[];
+    String sQuantitySpinner, option_id, option_value_id;
+
+    TextView cartcount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,40 +115,61 @@ public class ProductDetailHome extends AppCompatActivity {
         webViewDesc = findViewById(R.id.webViewDesc);
         ll_similar_prd = findViewById(R.id.ll_similar_prd);
 
+        final ArrayList<String> product_qty_list = new ArrayList<>();
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final QuantityList quantityList = new QuantityList(callPrdId);
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
+            callheight.enqueue(new Callback<QuantityList>() {
+                @Override
+                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
+                    QuantityList eduresource = response.body();
+                    List<QuantityList.Datum> datumList = eduresource.data;
+                    product_option_id = new String[datumList.size()];
+                    product_option_value_id = new String[datumList.size()];
+                    int i = 0;
+                    for (QuantityList.Datum datum : datumList) {
+                        product_qty_list.add(datum.name);
+                        product_option_id[i] = datum.product_option_id;
+                        product_option_value_id[i] = datum.product_option_value_id;
+                        i++;
+                    }
+
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(ProductDetailHome.this, R.layout.spinner_item,
+                            product_qty_list);
+                    qtyPrdDetail.setAdapter(itemsAdapter);
+                    qtyPrdDetail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                            sQuantitySpinner = product_qty_list.get(position);
+                            option_id = product_option_id[position];
+                            option_value_id = product_option_value_id[position];
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<QuantityList> callheight, Throwable t) {
+                    callheight.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+
 
         mPlaceHolderView.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                         LinearLayoutManager.HORIZONTAL, false));
-
-
-
-//        if (Utils.CheckInternetConnection(getApplicationContext())) {
-//            //------------------------------------- My profile view section------------------------------------------------
-//            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-//            call.enqueue(new Callback<CartCount>() {
-//                @Override
-//                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-//                    CartCount cartCount = response.body();
-//                    if (cartCount.status.equals("success")) {
-//                        cart_count = cartCount.data;
-//                    } else if (cartCount.status.equals("failure")) {
-//                        Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<CartCount> call, Throwable t) {
-//
-//                }
-//            });
-//        } else {
-//            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-//        }
-
-
-
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -199,7 +220,8 @@ public class ProductDetailHome extends AppCompatActivity {
                                     imageArr.add(imgSlide.getImage());
                                 }
                             }
-                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(ProductDetailHome.this, imageArr,addtoWishListPrdDetail,callPrdId,session.getCustomerId()));
+                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(ProductDetailHome.this,
+                                    imageArr, addtoWishListPrdDetail, callPrdId, session.getCustomerId()));
 
                             toolbar.setTitle(sname);
                             tv_title.setText(sname);
@@ -223,17 +245,8 @@ public class ProductDetailHome extends AppCompatActivity {
                                 res = Html.fromHtml(sDesc).toString();
                             }
                             webViewDesc.loadDataWithBaseURL(null, res, "text/html", "utf-8", null);
-                            qtyArray[0] = sqty;
-                            final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
-                            //adding qty to spinner and adding response value as a first value
-                            final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.spnr_listitem_categ, qtyList);
-                            spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
-                            qtyPrdDetail.setAdapter(spinnerArrayAdapter);
-
                         }
                     }
-
                 }
 
                 @Override
@@ -244,34 +257,40 @@ public class ProductDetailHome extends AppCompatActivity {
             //------------------------------------------------------------number of products-------------------------------------------------------------
             addtoCartPrdDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
-                        countVal = countVal + 1;//display number in place of add to cart
-                        Integer cnt = session.getCartCount();
-                        cnt = cnt + 1;//display number in cart icon
-                        session.cartcount(cnt);
-                        display(countVal);
-                        mtextCartItemCount.setText(String.valueOf(cnt));
-                        addtoCartPrdDetail.setText("Added to Cart");
-                        Toast.makeText(getApplicationContext(), "Added to cart successfully", Toast.LENGTH_LONG).show();
-                        cartStatus = false;
+                public void onClick(View v) {
+                    final AddToCartModel ref = new AddToCartModel(callPrdId, sQuantitySpinner, option_id, option_value_id);
+
+                    apiInterface = APIClient.getClient().create(APIInterface.class);
+                    Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+                    callAdd.enqueue(new Callback<AddToCartModel>() {
+                        @Override
+                        public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                            AddToCartModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            } else if (resource.status.equals("failure")) {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
                 }
             });
 
             btnAddItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (status1 == true) {
-                        Integer cnt = session.getCartCount();
-                        countVal = countVal + 1;//display number in place of add to cart
-                        cnt = cnt + 1;//display number in cart icon
-                        session.cartcount(cnt);
-                        display(countVal);
-                        mtextCartItemCount.setText(String.valueOf(cnt));
-                        llAddCartItem.setVisibility(android.view.View.GONE);
-                        llCountItem.setVisibility(android.view.View.VISIBLE);
-                        status1 = false;
-                    }
+                    countVal = countVal + 1;//display number in place of add to cart
+                    session.cartcount(countVal);
+                    display(countVal);
+//                    tv_productCount.setText(countVal);
+                    llAddCartItem.setVisibility(android.view.View.GONE);
+                    llCountItem.setVisibility(android.view.View.VISIBLE);
+
                 }
             });
 
@@ -279,42 +298,34 @@ public class ProductDetailHome extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     countVal = countVal + 1;//display number in place of add to cart
-                    Integer cnt = session.getCartCount();
-                    cnt = cnt + 1;//display number in cart icon
-                    session.cartcount(cnt);
+                    session.cartcount(countVal);
                     display(countVal);
-                    mtextCartItemCount.setText(String.valueOf(cnt));
+                    tv_productCount.setText(countVal);
                 }
             });
+
             imgBtn_decre.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (countVal <= 1) {
                         countVal = countVal - 1;
-                        Integer cnt = session.getCartCount();
-                        cnt = cnt - 1;
-                        session.cartcount(cnt);
+                        session.cartcount(countVal);
                         display(countVal);
-                        mtextCartItemCount.setText(String.valueOf(cnt));
+                        tv_productCount.setText(countVal);
                         llAddCartItem.setVisibility(android.view.View.VISIBLE);
                         llCountItem.setVisibility(android.view.View.GONE);
-                        status1 = true;
 
                     } else {
                         countVal = countVal - 1;
-                        Integer cnt = session.getCartCount();
-                        cnt = cnt - 1;
-                        session.cartcount(cnt);
+                        session.cartcount(countVal);
                         display(countVal);
-                        mtextCartItemCount.setText(String.valueOf(cnt));
+                        tv_productCount.setText(countVal);
                     }
                 }
             });
 
             //----------------------------------------------------------similar product response---------------------------------------
-            // getPrd_id = sharedpreferences.getString("product_id", "");
             final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel(callPrdId, session.getCustomerId());
-            // Log.e("----------similar_products_prd_id--------",sprd_id);
             Call<SimilarProductsModel> callSimilarProducts = apiInterface.getSimilarProducts(productslSimilarPrd);
             callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
                 @Override
@@ -322,8 +333,7 @@ public class ProductDetailHome extends AppCompatActivity {
 
                     SimilarProductsModel resource = response.body();
 
-                    if (resource.status.equals("success"))
-                    {
+                    if (resource.status.equals("success")) {
 
                         ll_similar_prd.setVisibility(View.VISIBLE);
 
@@ -331,7 +341,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
                             if (response.isSuccessful()) {
 
-                                mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), mtextCartItemCount,
+                                mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), cartcount,
                                         mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
                             }
                         }
@@ -356,46 +366,40 @@ public class ProductDetailHome extends AppCompatActivity {
         addtoWishListPrdDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //------------------------------------------for adding to wishlist-----------------------------
-                    final InsertWishListItems add_item = new InsertWishListItems(session.getCustomerId(), callPrdId);
-                    Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-                    callAdd.enqueue(new Callback<InsertWishListItems>() {
-                        @Override
-                        public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                            InsertWishListItems resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                                addtoWishListPrdDetail.setText("Added in Wishlist");
+                //------------------------------------------for adding to wishlist-----------------------------
+                final InsertWishListItems add_item = new InsertWishListItems(session.getCustomerId(), callPrdId);
+                Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+                callAdd.enqueue(new Callback<InsertWishListItems>() {
+                    @Override
+                    public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                        InsertWishListItems resource = response.body();
+                        if (resource.status.equals("success")) {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            addtoWishListPrdDetail.setText("Added in Wishlist");
+
+                            btn_addtoWishlistPrdDetail = findViewById(R.id.btn_addtoWishlistPrdDetail);
+                            status_wish = getWishlistStatus();
+                            status_wish = true;
+                            btn_addtoWishlistPrdDetail.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
+                                    // status_wish = true;
+                                    // Do something after 1000 ms
+                                }
+                            }, 1000);
 
 
-                                btn_addtoWishlistPrdDetail = findViewById(R.id.btn_addtoWishlistPrdDetail);
-                                status_wish = getWishlistStatus();
-                                status_wish = true;
-                                btn_addtoWishlistPrdDetail.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run()
-                                    {
-                                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
-                                       // status_wish = true;
-                                        // Do something after 1000 ms
-                                    }
-                                }, 1000);
-
-
-
-
-
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                            call.cancel();
-                        }
-                    });
+                    @Override
+                    public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
             }
         });
     }
@@ -418,8 +422,28 @@ public class ProductDetailHome extends AppCompatActivity {
 
         MenuItem cart_menuItem = menu.findItem(R.id.cart_menu_item);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        mtextCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-        mtextCartItemCount.setText(cart_count);
+        cartcount = (TextView) rootView.findViewById(R.id.cart_badge);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+            call.enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    CartCount cartCount = response.body();
+                    if (cartCount.status.equals("success")) {
+                        cartcount.setText(cartCount.data);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -447,17 +471,13 @@ public class ProductDetailHome extends AppCompatActivity {
 
     }
 
-    public boolean getWishlistStatus()
-    {
+    public boolean getWishlistStatus() {
         return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         switch (item.getItemId()) {
-
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -465,7 +485,6 @@ public class ProductDetailHome extends AppCompatActivity {
             case R.id.help_menu_item:
                 Intent i = new Intent(getApplicationContext(), DeliveryInformation.class);
                 startActivity(i);
-
                 break;
 
             case R.id.cart_menu_item:
@@ -475,6 +494,4 @@ public class ProductDetailHome extends AppCompatActivity {
         }
         return true;
     }
-
-
 }

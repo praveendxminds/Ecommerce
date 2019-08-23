@@ -44,7 +44,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 @Parent
 @SingleTop
 @Layout(R.layout.image_slider_product_details)
-public class ProductDetailsImageSlider  {
+public class ProductDetailsImageSlider {
 
     @View(R.id.pager_PrdDetails)
     public ViewPager pager_PrdDetails;
@@ -61,9 +61,6 @@ public class ProductDetailsImageSlider  {
     public Button maddtoCartPrdDetail;
 
 
-
-
-
     @ParentPosition
     public int mParentPosition;
 
@@ -73,13 +70,14 @@ public class ProductDetailsImageSlider  {
     public boolean state;
     APIInterface apiInterface;
     ProductDetailHome pdetailHome = new ProductDetailHome();
-    String PrdId,cust_Id;
+    String PrdId, cust_Id;
 
-    public ProductDetailsImageSlider(Context context,List<String> CatImgUrl,Button addtoCartPrdDetail,String callPrdId,String mcust_Id) {
+    public ProductDetailsImageSlider(Context context, List<String> CatImgUrl, Button addtoCartPrdDetail, String
+            callPrdId, String mcust_Id) {
         mContext = context;
         mCatImgUrl = CatImgUrl;
         maddtoCartPrdDetail = addtoCartPrdDetail;
-        PrdId=callPrdId;
+        PrdId = callPrdId;
         cust_Id = mcust_Id;
 
         for (int i = 0; i < mCatImgUrl.size(); i++) {
@@ -99,8 +97,7 @@ public class ProductDetailsImageSlider  {
     }
 
     @Click(R.id.btn_addtoWishlistPrdDetail)
-    public void onClick()
-    {
+    public void onClick() {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         //---------------------------------------------------------
         if (state == false) {
