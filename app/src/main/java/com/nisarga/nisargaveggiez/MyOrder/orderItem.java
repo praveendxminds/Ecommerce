@@ -188,7 +188,7 @@ public class orderItem {
         session.storeStatusOrder(null);
 
         chkCancel = session.getCancelId();
-        if (chkCancel.equals("1")) {
+        if (chkCancel.equals("0")) {
             btnCancelOrder.setVisibility(android.view.View.GONE);
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
