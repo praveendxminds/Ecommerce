@@ -191,8 +191,11 @@ public interface APIInterface {
 
 
     @POST("index.php")
-    Call<AddOrder> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
+    Call<AddOrder> AddOrder(@Query("route") String route, @Query("api_token") String api_token,
                                    @Body AddOrder model);
+
+    @POST("index.php?route=api/orderreview/giveOrderreview")
+    Call<OrderFeedback> orderfeedback(@Body OrderFeedback feed);
 
 
     @POST("index.php?route=api/custom/notificationList")
