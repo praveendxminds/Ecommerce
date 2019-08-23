@@ -33,6 +33,12 @@ public class ProductListModel {
         @SerializedName("name")
         public String name;
 
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_product_quantity_in_cart;
+
+        @SerializedName("wishlist_status")
+        public String wishlist_status;
+
         @SerializedName("quantity")
         public String qty;
 

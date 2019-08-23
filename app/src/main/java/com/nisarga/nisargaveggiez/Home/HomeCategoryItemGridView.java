@@ -85,7 +85,7 @@ public class HomeCategoryItemGridView {
     APIInterface apiInterface;
     Context mContext;
 
-    String prdId, image, prdName, prdPrice, prdDisPrice, prdQuantity;
+    String prdId, image, prdName, prdDisPrice, prdAddCart, prdWhishStatus;
     String sPrice, sDisPrice;
 
     int cartcount = 0;
@@ -97,14 +97,14 @@ public class HomeCategoryItemGridView {
     public boolean state = false;
 
     public HomeCategoryItemGridView(Context context, String productId, String image_url, String productName,
-                                    String productPrice, String productDisPrice, String quantity) {
+                                    String productDisPrice, String addCart, String whishlistStatus) {
         mContext = context;
         prdId = productId;
         image = image_url;
         prdName = productName;
-        prdPrice = productPrice;
         prdDisPrice = productDisPrice;
-        prdQuantity = quantity;
+        prdAddCart = addCart;
+        prdWhishStatus = whishlistStatus;
     }
 
     public String getTitle() {
@@ -120,6 +120,21 @@ public class HomeCategoryItemGridView {
         double dbl_Dis_Price = Double.parseDouble(prdDisPrice);//need to convert string to decimal
         sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
         tvProdOldPrice.setText("₹" + " " + sDisPrice);
+
+        if (prdAddCart.equals("0")) {
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llProductCount.setVisibility(android.view.View.GONE);
+        } else {
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llProductCount.setVisibility(android.view.View.VISIBLE);
+            tvProductCount.setText(prdAddCart);
+        }
+
+        if (prdWhishStatus.equals("0")) {
+            ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlistgrey);
+        } else {
+            ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
+        }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
@@ -189,9 +204,8 @@ public class HomeCategoryItemGridView {
     @Click(R.id.btnAddCart)
     public void AddToCartClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        tvProductCount.setText(cartcount);
         btnAddCart.setVisibility(android.view.View.GONE);
         llProductCount.setVisibility(android.view.View.VISIBLE);
 
@@ -221,43 +235,61 @@ public class HomeCategoryItemGridView {
     public void removeCount() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            tvProductCount.setText(cartcount);
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llProductCount.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            tvProductCount.setText(cartcount);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
     }
 
     @Click(R.id.llProductIncrease)
     public void addCount() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        tvProductCount.setText(cartcount);
 
-        final AddToCartModel ref = new AddToCartModel(prdId, sQuantitySpinner, option_id, option_value_id);
+        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-        callAdd.enqueue(new Callback<AddToCartModel>() {
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        callAdd.enqueue(new Callback<UpdateToCartModel>() {
             @Override
-            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                AddToCartModel resource = response.body();
+            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                UpdateToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                } else if (resource.status.equals("failure")) {
+                } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
                 call.cancel();
             }
         });
@@ -276,7 +308,6 @@ public class HomeCategoryItemGridView {
                     if (resource.status.equals("success")) {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                         ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
-
                     } else {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     }

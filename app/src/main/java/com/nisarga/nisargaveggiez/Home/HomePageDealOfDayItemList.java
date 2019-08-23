@@ -2,7 +2,6 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,7 +24,6 @@ import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
-import com.mindorks.placeholderview.annotations.expand.Toggle;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import java.util.ArrayList;
@@ -189,9 +187,8 @@ public class HomePageDealOfDayItemList {
     @Click(R.id.btnAddCart)
     public void addtocart() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvNoOfCount.setText(String.valueOf(cartcount));
+        tvNoOfCount.setText(cartcount);
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
@@ -205,7 +202,8 @@ public class HomePageDealOfDayItemList {
                 AddToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                } else if (resource.status.equals("failure")) {
+                    session.addCartId(resource.cart_id);
+                } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
             }
@@ -221,43 +219,61 @@ public class HomePageDealOfDayItemList {
     public void onDecreaseClick() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvNoOfCount.setText(String.valueOf(cartcount));
+            tvNoOfCount.setText(cartcount);
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llAddCart.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvNoOfCount.setText(String.valueOf(cartcount));
+            tvNoOfCount.setText(cartcount);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
     }
 
     @Click(R.id.llincreasePrdCount)
     public void onIncreaseClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvNoOfCount.setText(String.valueOf(cartcount));
+        tvNoOfCount.setText(cartcount);
 
-        final AddToCartModel ref = new AddToCartModel(sProductId, sQuantitySpinner, option_id, option_value_id);
+        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-        callAdd.enqueue(new Callback<AddToCartModel>() {
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        callAdd.enqueue(new Callback<UpdateToCartModel>() {
             @Override
-            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                AddToCartModel resource = response.body();
+            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                UpdateToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                } else if (resource.status.equals("failure")) {
+                } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
                 call.cancel();
             }
         });

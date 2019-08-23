@@ -320,8 +320,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
-                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.discount_price, imgs.qty));
+                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
+                                    imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                    imgs.wishlist_status));
                         }
                     }
 
@@ -378,7 +379,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
                             phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                    imgs.image, imgs.name, imgs.price, imgs.discount_price, imgs.qty));
+                                    imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                    imgs.wishlist_status));
                         }
                     }
 
