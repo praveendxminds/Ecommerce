@@ -21,35 +21,36 @@ import java.util.List;
 @Layout(R.layout.home_page_list_of_products)
 public class HomePageListofProducts {
 
-    @View(R.id.placeholderviewListProducts)
-    public PlaceHolderView placeholderviewListProducts;
+    @View(R.id.tvViewAll)
+    public TextView tvViewAll;
 
-    public Context mContext;
-    public List<ProductslHomePage.Products> mImageList;
-    public TextView mtextCartItemCount;
+    @View(R.id.phvProductList)
+    public PlaceHolderView phvProductList;
 
-    public HomePageListofProducts(Context context, TextView textCartItemCount, List<ProductslHomePage.Products> imageList) {
-        mContext = context;
-        mImageList = imageList;
-        mtextCartItemCount = textCartItemCount;
+    Context mContext;
+    List<ProductslHomePage.Products> mImageList;
+
+    public HomePageListofProducts(Context context, List<ProductslHomePage.Products> imageList) {
+        this.mContext = context;
+        this.mImageList = imageList;
     }
 
     @Resolve
     public void onResolved() {
-        placeholderviewListProducts.getBuilder()
+        phvProductList.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.Products image : mImageList) {
-            placeholderviewListProducts.addView(new HomePageListOfProductsItemList(mContext,mtextCartItemCount, placeholderviewListProducts,
-                    image.product_id, image.image, image.name, image.price,image.discount_price, image.quantity));
+            phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.product_id, image.image, image.name,
+                    image.price, image.discount_price, image.quantity));
         }
     }
-    @Click(R.id.tv_seeAllPrd)
+
+    @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 }

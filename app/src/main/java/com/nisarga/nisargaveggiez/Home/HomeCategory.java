@@ -1,22 +1,30 @@
 package com.nisarga.nisargaveggiez.Home;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +34,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
@@ -52,9 +62,11 @@ import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
+import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
+import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
@@ -65,13 +77,19 @@ import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.ProductListModel;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.PlaceHolderView;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,91 +98,87 @@ import retrofit2.Response;
  * Created by sushmita on 11/06/2019
  */
 
-
 public class HomeCategory extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     APIInterface apiInterface;
-    public Context mContext;
-
-    Toolbar toolbar;
-    private PlaceHolderView mCartView;
-    private ImageButton btn_listViewHomeCateg, btn_filterHomeCateg;
-    public static BottomNavigationView bottomNavigationView;
-    View view_count;
-    private LinearLayout llProfileIconCateg, llProfileDesc;
-    private ImageButton imgBtnProfileCateg;
-    AutoCompleteTextView searchEditText;
-    private TextView tv_totalPrds;
-    private ProgressBar progressBarHomeCateg;
-    private LinearLayout llLeftMenuLogOut;
-    private ListView lvMenuListCateg;
-    private ImageView ivEditProfileCateg;
-    private ImageView ivEditProfile;
-    private CircularImageView ivProfilePic;
-    private TextView tvName, tvEmail, tvMobileNo;
-    NavigationView navigationView;
-    View headerView;
-    String custId;
-    String strSearchKey, cart_count;
-
-    DrawerLayout drawerLayout;
-    public boolean chngView = true;
-    public boolean state = true;
-    Integer name_session;
     SessionManager session;
-    public static TextView textCartItemCount;
-    UseSharedPreferences useSharedPreferences;
-    Integer[] icon = {R.drawable.round_home_24px, R.drawable.my_order_yellow, R.drawable.location_yellow,
-            R.drawable.walletyellow, R.drawable.offers_yellow, R.drawable.refer_earn_yellow, R.drawable.rateus_yellow,
-            R.drawable.abt_contact_yellow, R.drawable.faqs_yellow, R.drawable.terms_yellow, R.drawable.google_feedback_yellow,
-            R.drawable.privacy_policy_yellow, R.drawable.logout_yellow};
+    ProgressDialog progressdialog;
 
-    String[] menu_list = new String[]{"Home", "My Orders", "My Address", "My Wallet", "Offers",
-            "Refer & Earn", "Rate Us", "About & Contact Us", "FAQs", "Terms & Conditions",
-            "Google Feedback", "Policy", "Logout"};
+    public static final int PICK_IMAGE_REQUEST = 1;
+    private static final int REQUEST_WRITE_PERMISSION = 786;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_category);
 
+        progressdialog = new ProgressDialog(HomeCategory.this);
+        progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        mContext = this.getApplicationContext();
-
         session = new SessionManager(getApplicationContext());
-        custId = session.getCustomerId();
 
-        Integer cnt = session.getCartCount();
-        Log.d("cartcnt", String.valueOf(cnt));
-        useSharedPreferences = new UseSharedPreferences(getApplication());
-        AndroidNetworking.initialize(getApplicationContext());
+        init();
+        initApi();
+    }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbarHomeCateg);
+    DrawerLayout drawerHomeCategory;
+    Toolbar toolbar;
+    TextView tvTotalProduct;
+    ImageButton ivbtnListView, ivbtnFilter;
+    PlaceHolderView phvCategoryList;
+    ProgressBar pbLoading;
+    BottomNavigationView bottom_navigation;
+    NavigationView navLeftMenu;
+    View headerView;
+    LinearLayout llLeftMenuLogout;
+
+    //----Toolbar----
+    CircleImageView ivToolbarProfile;
+    AutoCompleteTextView searchEditText;
+    LinearLayout llProfileIcon;
+
+    LinearLayout llProfileDesc, llEditProfile;
+    CircleImageView ivProfilePic;
+    TextView tvName, tvEmail, tvMobileNo;
+
+    String strSearchKey, cart_count;
+    public boolean chngView = true;
+    private String imagepath = null;
+    String strProfilePic = "null";
+
+    TextView CartItemCount;
+
+    private void init() {
+        drawerHomeCategory = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
+        toolbar = (Toolbar) findViewById(R.id.toolbarHomeCategory);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        progressBarHomeCateg = (ProgressBar) findViewById(R.id.loadingHomeCateg);
-        llProfileIconCateg = findViewById(R.id.llProfileIconCateg);
-        imgBtnProfileCateg = findViewById(R.id.imgBtnProfileCateg);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerHomeCateg);
-        mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
-        btn_filterHomeCateg = findViewById(R.id.btn_filterHomeCateg);
-        btn_listViewHomeCateg = findViewById(R.id.btn_listViewHomeCateg);
-        tv_totalPrds = findViewById(R.id.tv_totalPrds);
-        ActionBar mActionBar = getActionBar();
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        tvTotalProduct = findViewById(R.id.tvTotalProduct);
+        ivbtnListView = findViewById(R.id.ivbtnListView);
+        ivbtnFilter = findViewById(R.id.ivbtnFilter);
+        phvCategoryList = findViewById(R.id.phvCategoryList);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_viewHomeCateg);
-        headerView = navigationView.getHeaderView(0);
+        pbLoading = findViewById(R.id.pbLoading);
+        pbLoading.setVisibility(View.VISIBLE);
+        bottom_navigation = findViewById(R.id.bottom_navigation);
+        llLeftMenuLogout = findViewById(R.id.llLeftMenuLogout);
+
+        ivToolbarProfile = findViewById(R.id.ivToolbarProfile);
+        llProfileIcon = findViewById(R.id.llProfileIcon);
+
+        navLeftMenu = findViewById(R.id.navLeftMenu);
+        headerView = navLeftMenu.getHeaderView(0);
+        navLeftMenu.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
-        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        llProfileDesc = headerView.findViewById(R.id.llProfileDesc);
         ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
-        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
-        llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
+        llEditProfile = headerView.findViewById(R.id.llEditProfile);
 
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,36 +187,46 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 startActivity(intentEditProfile);
             }
         });
-        ivEditProfile.setOnClickListener(new View.OnClickListener() {
+
+        llEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
                 startActivity(intentEditProfile);
             }
         });
-        imgBtnProfileCateg.setOnClickListener(new View.OnClickListener() {
+
+        llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT);
+                drawerHomeCategory.openDrawer(Gravity.LEFT);
             }
         });
+
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFile();
+            }
+        });
+
         showGridView();
-        btn_listViewHomeCateg.setOnClickListener(new View.OnClickListener() {
+        ivbtnListView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (chngView == false) {
                     showGridView();
-                    btn_listViewHomeCateg.setBackgroundResource(R.drawable.listview);
+                    ivbtnListView.setBackgroundResource(R.drawable.listview);
                     chngView = true;
                 } else {
                     showListView();
-                    btn_listViewHomeCateg.setBackgroundResource(R.drawable.gridview);
+                    ivbtnListView.setBackgroundResource(R.drawable.gridview);
                     chngView = false;
                 }
             }
         });
 
-        btn_filterHomeCateg.setOnClickListener(new View.OnClickListener() {
+        ivbtnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentFilter = new Intent(getBaseContext(), CategoryFilter.class);
@@ -210,7 +234,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener
+        bottom_navigation.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
@@ -239,10 +263,50 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         return true;
                     }
                 });
-        bottomNavigationView.setItemIconSize(40);
+        bottom_navigation.setItemIconSize(40);
+    }
 
+    private void initApi() {
+        //------------------- My profile view section----------------
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
+            final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+                            if (String.valueOf(mpmResult.image) == "null") {
+                                ivProfilePic.setImageResource(R.drawable.camera);
+                            } else {
+                                Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                        .into(ivProfilePic);
+                            }
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
+                    }
+                    pbLoading.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+        //------- Cart Count Section Api --------
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
             Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
             call.enqueue(new Callback<CartCount>() {
                 @Override
@@ -250,14 +314,16 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     CartCount cartCount = response.body();
                     if (cartCount.status.equals("success")) {
                         cart_count = cartCount.data;
-                    } else if (cartCount.status.equals("failure")) {
+                    } else {
                         Toast.makeText(getApplicationContext(), cartCount.message, Toast.LENGTH_SHORT).show();
                     }
+
+                    pbLoading.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
                 public void onFailure(Call<CartCount> call, Throwable t) {
-
+                    call.cancel();
                 }
             });
         } else {
@@ -266,7 +332,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     }
 
     public void showListView() {
-        mCartView.getBuilder()
+        phvCategoryList.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
@@ -278,17 +344,23 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
                     ProductListModel resource = response.body();
-                    List<ProductListModel.ProductListDatum> datumList = resource.result;
-
-                    for (ProductListModel.ProductListDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
-                            progressBarHomeCateg.setVisibility(View.INVISIBLE);
-                            mCartView.addView(new HomeCategoryItem(mContext, textCartItemCount, imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.qty));
+                    if (resource.status.equals("success")) {
+                        if (String.valueOf(resource.profile_pic) == "null") {
+                            ivToolbarProfile.setImageResource(R.drawable.camera);
+                        } else {
+                            Glide.with(HomeCategory.this).load(resource.profile_pic).fitCenter().dontAnimate()
+                                    .into(ivToolbarProfile);
+                        }
+                        List<ProductListModel.ProductListDatum> datumList = resource.result;
+                        for (ProductListModel.ProductListDatum imgs : datumList) {
+                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id, imgs.image,
+                                    imgs.name, imgs.price, imgs.discount_price, imgs.qty));
                         }
                     }
 
-                    mCartView.sort(new Comparator<Object>() {
+                    pbLoading.setVisibility(View.INVISIBLE);
+
+                    phvCategoryList.sort(new Comparator<Object>() {
                         @Override
                         public int compare(Object item1, Object item2) {
                             if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
@@ -300,7 +372,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         }
                     });
 
-                    mCartView.refresh();
+                    phvCategoryList.refresh();
                 }
 
                 @Override
@@ -311,12 +383,12 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
 
         } else {
-            Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeCategory.this, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void showGridView() {
-        mCartView.getBuilder()
+        phvCategoryList.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
@@ -327,29 +399,35 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
                     ProductListModel resource = response.body();
-                    List<ProductListModel.ProductListDatum> datumList = resource.result;
-
-                    for (ProductListModel.ProductListDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
-                            progressBarHomeCateg.setVisibility(View.INVISIBLE);
-                            mCartView.addView(new HomeCategoryItemGridView(mContext, textCartItemCount, imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.qty));
+                    if (resource.status.equals("success")) {
+                        if (String.valueOf(resource.profile_pic) == "null") {
+                            ivToolbarProfile.setImageResource(R.drawable.camera);
+                        } else {
+                            Glide.with(HomeCategory.this).load(resource.profile_pic).fitCenter().dontAnimate()
+                                    .into(ivToolbarProfile);
+                        }
+                        List<ProductListModel.ProductListDatum> datumList = resource.result;
+                        for (ProductListModel.ProductListDatum imgs : datumList) {
+                            phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
+                                    imgs.image, imgs.name, imgs.price, imgs.discount_price, imgs.qty));
                         }
                     }
 
-                    mCartView.sort(new Comparator<Object>() {
+                    pbLoading.setVisibility(View.INVISIBLE);
+
+                    phvCategoryList.sort(new Comparator<Object>() {
                         @Override
                         public int compare(Object item1, Object item2) {
                             if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
-                                HomeCategoryItem view1 = (HomeCategoryItem) item1;
-                                HomeCategoryItem view2 = (HomeCategoryItem) item2;
+                                HomeCategoryItemGridView view1 = (HomeCategoryItemGridView) item1;
+                                HomeCategoryItemGridView view2 = (HomeCategoryItemGridView) item2;
                                 return view1.getTitle().compareTo(view2.getTitle());
                             }
                             return 0;
                         }
                     });
 
-                    mCartView.refresh();
+                    phvCategoryList.refresh();
                 }
 
                 @Override
@@ -360,89 +438,10 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
 
         } else {
-            Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeCategory.this, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //------------------------------------Left Profile Navigation Menu---------------------------------------------------
-    public void ViewMyProfile() {
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section-----------------------------------------------
-            final MyProfileModel myProfileModel = new MyProfileModel(custId);
-            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
-            call.enqueue(new Callback<MyProfileModel>() {
-                @Override
-                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
-                    MyProfileModel resourceMyProfile = response.body();
-                    if (resourceMyProfile.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
-                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
-                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
-                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
-                            tvEmail.setText(mpmResult.email);
-                            tvMobileNo.setText(mpmResult.telephone);
-                        }
-
-                    } else if (resourceMyProfile.status.equals("error")) {
-                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MyProfileModel> call, Throwable t) {
-
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //---------------------------------------for scanner popup--------------------------------
-    public void showResultDialogue(final String result) {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
-        builder.setTitle("Scan Result")
-                .setMessage("Scanned result is " + result)
-                .setPositiveButton("Copy result", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Scan Result", result);
-                        clipboard.setPrimaryClip(clip);
-                        Toast.makeText(HomeCategory.this, "Result copied to clipboard", Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        name_session = useSharedPreferences.getCountValue();
-
-        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        view_count = bottomNavigationMenuView.getChildAt(4);
-      /*  new QBadgeView(mContext).bindTarget(view_count).setBadgeTextColor(mContext.getResources().getColor(R.color.white))
-                .setGravityOffset(15, -2, true).setBadgeNumber(name_session).setBadgeBackgroundColor
-                (mContext.getResources().getColor(R.color.colorPrimaryDark));*/
-    }
-
-    /* @Override
-     public boolean onSupportNavigateUp() {
-         onBackPressed();
-         return true;
-     }
- */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -450,8 +449,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
-        textCartItemCount.setText(cart_count);
+        CartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+        CartItemCount.setText(cart_count);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -541,7 +540,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     }
 
     public void setNavMenuItemThemeColors(int color, int icolor) {
-        //Setting default colors for menu item Text and Icon
         int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
         int navDefaultIconColor = Color.parseColor("#FFFBD249");
         int navActiveIconColor = Color.parseColor("#FF34773C");
@@ -572,14 +570,13 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 }
         );
 
-        navigationView.setItemTextColor(navMenuTextList);
-        navigationView.setItemIconTintList(navMenuIconList);
+        navLeftMenu.setItemTextColor(navMenuTextList);
+        navLeftMenu.setItemIconTintList(navMenuIconList);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
         if (id == R.id.menuleft_home) {
             menuItem.setEnabled(true);
             Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
@@ -594,8 +591,81 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             Intent intentMyReferEarn = new Intent(HomeCategory.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
         } else if (id == R.id.menuleft_rateus) {
-            Intent intentMyRateUs = new Intent(HomeCategory.this, RateUs_act.class);
-            startActivity(intentMyRateUs);
+            LayoutInflater li = LayoutInflater.from(HomeCategory.this);
+            android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(HomeCategory.this,
+                    R.style.AlertDialogStyle);
+            alertDialogBuilder.setView(promptsView);
+
+            // set the custom dialog components - text, image and button
+            ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
+            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
+            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
+
+            final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), "1");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+                }
+            });
+
+            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), "0");
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+                }
+            });
+
+            ivClose.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    alertDialog.cancel();
+                }
+            });
+            btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v) {
+                    alertDialog.cancel();
+                }
+            });
+
         } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(HomeCategory.this, ContactUs.class);
             startActivity(intentAbtContact);
@@ -606,16 +676,124 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             Intent intentTerms = new Intent(HomeCategory.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-            Intent intentFeedback = new Intent(HomeCategory.this, GoogleFeedback_act.class);
-            startActivity(intentFeedback);
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(HomeCategory.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void pickFile() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_PERMISSION);
+            return;
+        }
+        openGallery();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            imagepath = getPath(filePath);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+            ivProfilePic.setImageBitmap(bitmap);
+            imagePath(imagepath);
+        }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    private void imagePath(String imagepath) {
+        try {
+            progressdialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        File file0 = new File(imagepath);
+        RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);
+
+        MultipartBody.Part img1 = MultipartBody.Part.createFormData("file", file0.getName(),
+                requestFile0);
+
+        Call<SignUpImageResponse> call = apiInterface.signupImageUpload(img1);
+        call.enqueue(new Callback<SignUpImageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<SignUpImageResponse> call, @NonNull Response<SignUpImageResponse> response) {
+                SignUpImageResponse responseModel = response.body();
+                if (responseModel.status.equals("success")) {
+                    strProfilePic = responseModel.profile_url;
+                    if (Utils.CheckInternetConnection(getApplicationContext())) {
+                        navImageUpload(strProfilePic);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SignUpImageResponse> call, @NonNull Throwable t) {
+                Log.d("val", "Exception");
+            }
+        });
+    }
+
+    private void navImageUpload(String strProfilePic) {
+        final NavEditImage navEditImage = new NavEditImage(session.getCustomerId(), strProfilePic);
+
+        Call<NavEditImage> call = apiInterface.nav_edit_image(navEditImage);
+        call.enqueue(new Callback<NavEditImage>() {
+            @Override
+            public void onResponse(Call<NavEditImage> call, Response<NavEditImage> response) {
+                NavEditImage responsedata = response.body();
+                if (responsedata.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                } else if (responsedata.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                }
+                progressdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<NavEditImage> call, Throwable t) {
+                call.cancel();
+
+            }
+        });
+    }
+
 }

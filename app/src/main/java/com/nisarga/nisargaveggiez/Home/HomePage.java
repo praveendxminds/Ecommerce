@@ -115,6 +115,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         progressdialog = new ProgressDialog(HomePage.this);
         progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
@@ -150,7 +151,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     BottomNavigationView bottomNavigationView;
     Toolbar mToolbarHomePage;
     PlaceHolderView list_items_homePage;
-    ProgressBar progressBarHomePage;
+    ProgressBar pbLoading;
     EditText searchEditText;
     DrawerLayout drwLayout;
     CircleImageView ivToolbarProfile, ivProfilePic;
@@ -168,7 +169,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         setSupportActionBar(mToolbarHomePage);
         getSupportActionBar().setTitle(null);
 
-        progressBarHomePage = (ProgressBar) findViewById(R.id.loadingHomePage);
+        pbLoading = (ProgressBar) findViewById(R.id.pbLoading);
+        pbLoading.setVisibility(View.VISIBLE);
         llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
         ivToolbarProfile = findViewById(R.id.ivToolbarProfile);
 
@@ -278,42 +280,44 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 @Override
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
                     ProductslHomePage resource = response.body();
-                    if (String.valueOf(resource.profile_pic) == "null") {
-                        ivToolbarProfile.setImageResource(R.drawable.camera);
-                    } else {
-                        Glide.with(HomePage.this).load(resource.profile_pic).fitCenter().dontAnimate()
-                                .into(ivToolbarProfile);
-                    }
-                    List<ProductslHomePage.BannerList> datumList = resource.banner;
-                    for (ProductslHomePage.BannerList imageslider1 : datumList) {
-                        progressBarHomePage.setVisibility(View.INVISIBLE);
-                        imageArray.add(imageslider1.image);
-                        headArray.add(imageslider1.title);
-                    }
-                    list_items_homePage.addView(new HomePageImageSlider(HomePage.this, headArray, imageArray));
-                    //-----------------------------------------deal of day ------------------------------------------
+                    if (resource.status.equals("success")) {
+                        if (String.valueOf(resource.profile_pic) == "null") {
+                            ivToolbarProfile.setImageResource(R.drawable.camera);
+                        } else {
+                            Glide.with(HomePage.this).load(resource.profile_pic).fitCenter().dontAnimate()
+                                    .into(ivToolbarProfile);
+                        }
+                        List<ProductslHomePage.BannerList> datumList = resource.banner;
+                        for (ProductslHomePage.BannerList imageslider1 : datumList) {
+                            imageArray.add(imageslider1.image);
+                            headArray.add(imageslider1.title);
+                        }
+                        list_items_homePage.addView(new HomePageImageSlider(HomePage.this, headArray, imageArray));
+                        //-----------------------------------------deal of day ------------------------------------------
 
-                    List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
-                    List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
-                    for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
-                        newImageListDeal.add(imageListDeal.get(i));
-                    }
-                    list_items_homePage.addView(new HomePageDealofDayList(HomePage.this, textCartItemCount, newImageListDeal));
-                    //--------------------------------------------Products-------------------------------------------
-                    List<ProductslHomePage.Products> imageListProducts = resource.products;
-                    List<ProductslHomePage.Products> newImageListPrd = new ArrayList<>();
-                    for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
-                        newImageListPrd.add(imageListProducts.get(i));
-                    }
-                    list_items_homePage.addView(new HomePageListofProducts(HomePage.this, textCartItemCount, newImageListPrd));
-                    //-----------------------------------------Recommended List-------------------------------------
+                        List<ProductslHomePage.DealOfDayList> imageListDeal = resource.dealoftheday;
+                        List<ProductslHomePage.DealOfDayList> newImageListDeal = new ArrayList<>();
+                        for (int i = 0; i < (imageListDeal.size() > 10 ? 10 : imageListDeal.size()); i++) {
+                            newImageListDeal.add(imageListDeal.get(i));
+                        }
+                        list_items_homePage.addView(new HomePageDealofDayList(HomePage.this, newImageListDeal));
+                        //--------------------------------------------Products-------------------------------------------
+                        List<ProductslHomePage.Products> imageListProducts = resource.products;
+                        List<ProductslHomePage.Products> newImageListPrd = new ArrayList<>();
+                        for (int i = 0; i < (imageListProducts.size() > 10 ? 10 : imageListProducts.size()); i++) {
+                            newImageListPrd.add(imageListProducts.get(i));
+                        }
+                        list_items_homePage.addView(new HomePageListofProducts(HomePage.this, newImageListPrd));
+                        //-----------------------------------------Recommended List-------------------------------------
 
-                    List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
-                    List<ProductslHomePage.RecommendedList> newImageRecommendProducts = new ArrayList<>();
-                    for (int i = 0; i < (imageRecomendProducts.size() > 10 ? 10 : imageRecomendProducts.size()); i++) {
-                        newImageRecommendProducts.add(imageRecomendProducts.get(i));
+                        List<ProductslHomePage.RecommendedList> imageRecomendProducts = resource.recommended;
+                        List<ProductslHomePage.RecommendedList> newImageRecommendProducts = new ArrayList<>();
+                        for (int i = 0; i < (imageRecomendProducts.size() > 10 ? 10 : imageRecomendProducts.size()); i++) {
+                            newImageRecommendProducts.add(imageRecomendProducts.get(i));
+                        }
+                        list_items_homePage.addView(new HomePageRecommended(HomePage.this, newImageRecommendProducts));
                     }
-                    list_items_homePage.addView(new HomePageRecommended(HomePage.this, textCartItemCount, newImageRecommendProducts));
+                    pbLoading.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -520,12 +524,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     // Fetches reg id from shared preferences
     // and displays on the screen
     private void displayFirebaseRegId() {
-       /* SharedPreferences pref = getApplicationContext().getSharedPreferences(fcmConfig.SHARED_PREF, 0);
-        String regId = pref.getString("regId", null);*/
-
-        Log.d("tkkkkkk", String.valueOf(session.getKeyTokenId()));
-
-
         String emp_user_id = session.getCustomerId();
         String emp_token_id = session.getKeyTokenId();
 
@@ -543,7 +541,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         session.createTokenStatus();
                     } else if (resource.status.equals("failure")) {
                     }
-                    progressdialog.dismiss();
                 }
 
                 @Override
@@ -552,11 +549,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 }
             });
         }
-//        Log.d( "Firebase reg id: ", regId);
-        //if (!TextUtils.isEmpty(regId))
-        //  txtRegId.setText("Firebase Reg Id: " + regId);
-        // else
-        //   txtRegId.setText("Firebase Reg Id is not received yet!");
     }
 
     @Override
@@ -593,7 +585,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
         if (id == R.id.menuleft_home) {
             menuItem.setEnabled(true);
             Intent intentHome = new Intent(HomePage.this, HomePage.class);
@@ -622,12 +613,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             final AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-
             ivLike.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-
-
                     final RateModel ref = new RateModel(session.getCustomerId(), "1");
                     Call<RateModel> calledu = apiInterface.setrate(ref);
                     calledu.enqueue(new Callback<RateModel>() {
@@ -635,9 +623,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
                             final RateModel resource = response.body();
                             if (resource.status.equals("success")) {
-                                Log.d("ivsuccess", "onResponse: ");
-                            } else if (resource.status.equals("error")) {
-
+                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -646,15 +634,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                             calledu.cancel();
                         }
                     });
-
-
                 }
             });
 
             ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-
                     final RateModel ref = new RateModel(session.getCustomerId(), "0");
                     Call<RateModel> calledu = apiInterface.setrate(ref);
                     calledu.enqueue(new Callback<RateModel>() {
@@ -662,9 +647,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
                             final RateModel resource = response.body();
                             if (resource.status.equals("success")) {
-                                Log.d("ivfail", "onResponse: ");
-                            } else if (resource.status.equals("error")) {
-
+                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -700,16 +685,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Intent intentTerms = new Intent(HomePage.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-
-
             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
             } catch (android.content.ActivityNotFoundException anfe) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
             }
-
-
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(HomePage.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
@@ -847,7 +828,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 NavEditImage responsedata = response.body();
                 if (responsedata.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
-                } else if (responsedata.status.equals("failure")) {
+                } else {
                     Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
                 }
                 progressdialog.dismiss();

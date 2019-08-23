@@ -6,13 +6,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import com.mindorks.placeholderview.annotations.NonReusable;
 import com.nisarga.nisargaveggiez.R;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
-import com.mindorks.placeholderview.annotations.expand.Parent;
-import com.mindorks.placeholderview.annotations.expand.ParentPosition;
-import com.mindorks.placeholderview.annotations.expand.SingleTop;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -22,57 +20,50 @@ import java.util.TimerTask;
  * Created by sushmita 26/06/2019
  */
 
-@Parent
-@SingleTop
+@NonReusable
 @Layout(R.layout.image_gallary_home_1)
 public class HomePageImageSlider {
 
-    @View(R.id.pager_home_1)
-    public ViewPager mPager;
+    @View(R.id.vpSliderImage)
+    public ViewPager vpSliderImage;
 
-    @View(R.id.indicator_home_1)
-    public TabLayout indicator;
+    @View(R.id.tabIndicator)
+    public TabLayout tabIndicator;
 
-    public static int currentPage = 0;
-    public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
-    public ArrayList<String> XMENArray = new ArrayList<String>();
+    Context mContext;
+    ArrayList<String> mHeading;
+    ArrayList<String> mSliderImage;
+    ArrayList<String> XMENArray = new ArrayList<>();
 
+    int defaultGap = 30;
+    int currentPage = 0;
 
-    @ParentPosition
-    public int mParentPosition;
-
-    public int defaultGap=30;
-    public Context mContext;
-    public ArrayList<String> mHeading;
-    public ArrayList<String> mCatImgUrl;
-
-    public HomePageImageSlider(Context context, ArrayList<String> heading, ArrayList<String> CatImgUrl) {
+    public HomePageImageSlider(Context context, ArrayList<String> heading, ArrayList<String> slider_image) {
         mContext = context;
         mHeading = heading;
-        mCatImgUrl = CatImgUrl;
+        mSliderImage = slider_image;
 
-        for (int i = 0; i < mCatImgUrl.size(); i++) {
-            XMENArray.add(mCatImgUrl.get(i));
-            Log.e("---images----", String.valueOf(mCatImgUrl.get(i)));
+        for (int i = 0; i < mSliderImage.size(); i++) {
+            XMENArray.add(mSliderImage.get(i));
         }
     }
 
     @Resolve
     public void onResolved() {
-        mPager.setPadding(defaultGap,0,defaultGap,0);
-        mPager.setClipToPadding(false);
-        mPager.setPageMargin(15);
-        mPager.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
+        vpSliderImage.setPadding(defaultGap, 0, defaultGap, 0);
+        vpSliderImage.setClipToPadding(false);
+        vpSliderImage.setPageMargin(15);
+        vpSliderImage.setAdapter(new HomePageImageSliderAdapter(mContext, XMENArray));
 
-        indicator.setupWithViewPager(mPager);
+        tabIndicator.setupWithViewPager(vpSliderImage);
 
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == mCatImgUrl.size()) {
+                if (currentPage == mSliderImage.size()) {
                     currentPage = 0;
                 }
-                mPager.setCurrentItem(currentPage++, true);
+                vpSliderImage.setCurrentItem(currentPage++, true);
             }
         };
 

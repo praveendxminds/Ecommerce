@@ -40,99 +40,88 @@ import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
 @NonReusable
 @Layout(R.layout.home_page_recommended_item_list)
 public class HomePageRecommendedItemList {
-    @View(R.id.llRecommended)
-    public LinearLayout llRecommended;
 
-    @View(R.id.imageViewRecommended)
-    public ImageView imageViewRecommended;
+    @View(R.id.llDealOfDay)
+    public LinearLayout llDealOfDay;
 
-    @View(R.id.headingTxtRecommended)
-    public TextView headingTxtRecommended;
+    @View(R.id.ivProductImage)
+    public ImageView ivProductImage;
 
-    @Toggle(R.id.productItemRecommended)
-    public CardView productItemRecommended;
+    @View(R.id.tvItemName)
+    public TextView tvItemName;
 
-    @View(R.id.item_NewPriceRecommended)
-    public TextView item_NewPriceRecommended;
+    @View(R.id.tvItemPrice)
+    public TextView tvItemPrice;
 
-    @View(R.id.item_OldPriceRecommended)
-    public TextView item_OldPriceRecommended;
+    @View(R.id.tvOldPrice)
+    public TextView tvOldPrice;
 
-    @View(R.id.qntyRecommended)
-    public Spinner qntyRecommended;
+    @View(R.id.spQuantity)
+    public Spinner spQuantity;
 
-    @View(R.id.llCountPrdRecomnd)
-    public LinearLayout llCountPrdRecomnd;
+    @View(R.id.lldecreasePrdCount)
+    public LinearLayout lldecreasePrdCount;
 
-    @View(R.id.imgBtn_decreRecomnd)
-    public ImageButton imgBtn_decreRecomnd;
+    @View(R.id.llincreasePrdCount)
+    public LinearLayout llincreasePrdCount;
 
-    @View(R.id.imgBtn_increRecomnd)
-    public ImageButton imgBtn_increRecomnd;
+    @View(R.id.tvNoOfCount)
+    public TextView tvNoOfCount;
 
-    @View(R.id.tv_countRecomnd)
-    public TextView tv_countRecomnd;
+    @View(R.id.btnAddCart)
+    public Button btnAddCart;
 
-    @View(R.id.addcartRecommended)
-    public Button addcartRecommended;
+    @View(R.id.llAddCart)
+    public LinearLayout llAddCart;
 
-    public Context mContext;
-    public PlaceHolderView mPlaceHolderView;
-    public String productId;
-    public String productImage;
-    public String title;
-    public String mPrice;
-    public String mdisPrice;
-    public String mQty;
-    public String str_PriceValue, str_disValue;
-    SessionManager session;
     APIInterface apiInterface;
-    public TextView mtextCartItemCount;
+    SessionManager session;
+    Context mContext;
+    PlaceHolderView mPlaceHolderView;
 
-    public Boolean status = true;
-    int minteger = 0;
+    String sProductId, sProductImage, sProductName, sProductPrice, sProductDis, sQuantity;
+    int cartcount = 0;
+
     String product_option_id[], product_option_value_id[];
-    String prdQty, option_id, option_value_id;
+    String sQuantitySpinner, option_id, option_value_id;
 
-    public HomePageRecommendedItemList(Context context, TextView textCartItemCount, PlaceHolderView placeHolderView, String product_id, String image,
-                                       String name, String price, String discount, String qty) {
-        mContext = context;
-        mPlaceHolderView = placeHolderView;
-        productId = product_id;
-        productImage = image;
-        title = name;
-        mPrice = price;
-        mdisPrice = discount;
-        mQty = qty;
-        mtextCartItemCount = textCartItemCount;
+    public HomePageRecommendedItemList(Context context, String product_id, String image_url, String prod_name, String prod_price,
+                                       String prod_discount, String quantity) {
+        this.mContext = context;
+        this.sProductId = product_id;
+        this.sProductImage = image_url;
+        this.sProductName = prod_name;
+        this.sProductPrice = prod_price;
+        this.sProductDis = prod_discount;
+        this.sQuantity = quantity;
     }
 
     @Resolve
     public void onResolved() {
-        Glide.with(mContext).load(productImage).into(imageViewRecommended);
-        headingTxtRecommended.setText(title);
-        double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
-        str_PriceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        item_NewPriceRecommended.setText("₹" + " " + str_PriceValue);
+        session = new SessionManager(mContext);
+        Glide.with(mContext).load(sProductImage).into(ivProductImage);
+        tvItemName.setText(sProductName);
 
-        if (mdisPrice.equals("null")) {
-            item_OldPriceRecommended.setVisibility(android.view.View.INVISIBLE);
+        double dbl_Price = Double.parseDouble(sProductPrice);//need to convert string to decimal
+        String str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+        tvItemPrice.setText("₹" + " " + str_priceValue);
+
+        if (sProductDis.equals("null")) {
+            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
         } else {
-            item_OldPriceRecommended.setVisibility(android.view.View.VISIBLE);
-            double dbl_Discount = Double.parseDouble(mdisPrice);//need to convert string to decimal
-            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
-            item_OldPriceRecommended.setText("₹" + " " + str_disValue);
+            double dbl_Discount = Double.parseDouble(sProductDis);//need to convert string to decimal
+            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            tvOldPrice.setVisibility(android.view.View.VISIBLE);
+            tvOldPrice.setText("₹" + " " + str_disValue);
         }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
-        product_qty_list.add(" Select ");
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final QuantityList quantityList = new QuantityList(productId);
+            final QuantityList quantityList = new QuantityList(sProductId);
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
@@ -151,17 +140,13 @@ public class HomePageRecommendedItemList {
                         i++;
                     }
 
-                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1,
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
                             product_qty_list);
-                    qntyRecommended.setAdapter(itemsAdapter);
-                    qntyRecommended.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    spQuantity.setAdapter(itemsAdapter);
+                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                            if (position == 0) {
-                                prdQty = "";
-                                return;
-                            }
-                            prdQty = product_qty_list.get(position);
+                            sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
                         }
@@ -183,90 +168,71 @@ public class HomePageRecommendedItemList {
         }
     }
 
-    @Click(R.id.llRecommended)
+    @Click(R.id.llDealOfDay)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
-        intent.putExtra("product_id", productId);
+        intent.putExtra("product_id", sProductId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
-
-    @Click(R.id.addcartRecommended)
+    @Click(R.id.btnAddCart)
     public void addtocart() {
-        if (status == true) {
-            session = new SessionManager(mContext);
-            minteger = minteger + 1;//display number in place of add to cart
-            Integer cnt = session.getCartCount();
-            cnt = cnt + 1;//display number in cart icon
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            addcartRecommended.setVisibility(android.view.View.GONE);
-            llCountPrdRecomnd.setVisibility(android.view.View.VISIBLE);
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
+        btnAddCart.setVisibility(android.view.View.GONE);
+        llAddCart.setVisibility(android.view.View.VISIBLE);
 
-            final AddToCartModel ref = new AddToCartModel(productId, prdQty, option_id, option_value_id);
+        final AddToCartModel ref = new AddToCartModel(sProductId, sQuantitySpinner, option_id, option_value_id);
 
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-            callAdd.enqueue(new Callback<AddToCartModel>() {
-                @Override
-                public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                    AddToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    } else if (resource.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<AddToCartModel> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-
-            status = false;
-        }
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
-    @Click(R.id.fl_increase)
+    @Click(R.id.llincreasePrdCount)
     public void onIncreaseClick() {
-        session = new SessionManager(mContext);
-        minteger = minteger + 1;//display number in place of add to cart
-        Integer cnt = session.getCartCount();
-        cnt = cnt + 1;//display number in cart icon
-        session.cartcount(cnt);
-        display(minteger);
-        mtextCartItemCount.setText(String.valueOf(cnt));
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
     }
 
-    @Click(R.id.fl_decrease)
+    @Click(R.id.lldecreasePrdCount)
     public void onDecreaseClick() {
-        if (minteger <= 1) {
-            minteger = minteger - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            addcartRecommended.setVisibility(android.view.View.VISIBLE);
-            llCountPrdRecomnd.setVisibility(android.view.View.GONE);
-            status = true;
-
+        if (cartcount <= 1) {
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llAddCart.setVisibility(android.view.View.GONE);
         } else {
-            minteger = minteger - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
         }
     }
 
     public void display(int number) {
-        tv_countRecomnd.setText("" + number);
+        tvNoOfCount.setText("" + number);
     }
 }

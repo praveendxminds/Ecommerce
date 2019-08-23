@@ -35,7 +35,7 @@
                     android:scrollbars="vertical" />
 
                 <ProgressBar
-                    android:id="@+id/loadingHomePage"
+                    android:id="@+id/pbLoading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -59,10 +59,9 @@
         android:id="@+id/rlNavMenu"
         android:layout_width="281dp"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_gravity="left"
+        android:background="@color/white"
         android:orientation="vertical">
-
 
 
         <android.support.design.widget.NavigationView
@@ -70,16 +69,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:itemBackground="@color/white"
-            android:background="@color/white"
-            app:menu="@menu/left_menu_drawer"
-            app:theme="@style/LeftNavTheme"
-            app:headerLayout="@layout/left_nav_header"
-            android:theme="@style/NavigationView"
-            app:itemIconPadding="12dp"
             android:layout_margin="0dp"
-            >
+            android:background="@color/white"
+            android:fitsSystemWindows="true"
+            android:theme="@style/NavigationView"
+            app:headerLayout="@layout/left_nav_header"
+            app:itemBackground="@color/white"
+            app:itemIconPadding="12dp"
+            app:menu="@menu/left_menu_drawer"
+            app:theme="@style/LeftNavTheme">
 
             <LinearLayout
                 android:id="@+id/llleftMenuLogOut"
@@ -88,35 +86,36 @@
                 android:layout_gravity="bottom"
                 android:background="@color/white"
                 android:orientation="vertical">
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#454A4A4A" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="16dp"
                     android:duplicateParentState="true"
-                    >
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="22dp"
-                    android:background="@drawable/logout_yellow"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center"
-                    android:duplicateParentState="true"
-                  />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textSize="14sp"
-                    android:textColor="@color/light_black_1"
-                    android:text="Logout"
-                    android:layout_marginLeft="16dp"
-                    android:layout_gravity="center"
-                    android:duplicateParentState="true"
-                    />
+                    android:paddingLeft="16dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/logout_yellow"
+                        android:duplicateParentState="true"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:duplicateParentState="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Logout"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.design.widget.NavigationView>

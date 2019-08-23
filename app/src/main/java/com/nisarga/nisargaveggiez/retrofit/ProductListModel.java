@@ -12,14 +12,17 @@ public class ProductListModel {
     @SerializedName("customer_id")
     public String customer_id;
 
-    @SerializedName("result")
-    public List<ProductListDatum> result=null;
+    @SerializedName("profile_pic")
+    public String profile_pic;
 
-    public ProductListModel(String custid)
-    {
+    @SerializedName("result")
+    public List<ProductListDatum> result = null;
+
+    public ProductListModel(String custid) {
         this.customer_id = custid;
     }
-    public class ProductListDatum{
+
+    public class ProductListDatum {
 
         @SerializedName("product_id")
         public String prd_id;
@@ -28,7 +31,7 @@ public class ProductListModel {
         public String name;
 
         @SerializedName("quantity")
-        public  String qty;
+        public String qty;
 
         @SerializedName("image")
         public String image;

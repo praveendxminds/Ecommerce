@@ -85,7 +85,6 @@ public class SessionManager {
         return pref.getBoolean(KEY_TOKEN_SAVED, false);
     }
 
-
     public void cartcount(Integer cnt) {
         editor.putInt(KEY_Cart_COUNT, cnt);
         editor.commit();

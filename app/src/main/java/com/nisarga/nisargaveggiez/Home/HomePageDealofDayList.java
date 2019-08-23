@@ -26,15 +26,12 @@ public class HomePageDealofDayList {
     @View(R.id.phvDealOfDay)
     public PlaceHolderView phvDealOfDay;
 
-    public TextView mtextCartItemCount;
-    public Context mContext;
-    public List<ProductslHomePage.DealOfDayList> mImageList;
+    Context mContext;
+    List<ProductslHomePage.DealOfDayList> mImageList;
 
-
-    public HomePageDealofDayList(Context context, TextView textCartItemCount, List<ProductslHomePage.DealOfDayList> imageList) {
-        mContext = context;
-        mImageList = imageList;
-        mtextCartItemCount = textCartItemCount;
+    public HomePageDealofDayList(Context context, List<ProductslHomePage.DealOfDayList> imageList) {
+        this.mContext = context;
+        this.mImageList = imageList;
     }
 
     @Resolve
@@ -45,15 +42,14 @@ public class HomePageDealofDayList {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
-            phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, mtextCartItemCount, phvDealOfDay,
-                    image.prd_id, image.image, image.name, image.price, image.discount_price, image.qty));
+            phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
+                    image.price, image.discount_price, image.qty));
         }
     }
 
     @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 }

@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.bumptech.glide.Glide;
@@ -20,213 +24,223 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.ParentPosition;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.nisarga.nisargaveggiez.Home2.HomeTwoCategory.bottomNavigationView;
 
 /**
  * Created by sushmita
  */
 
-
 @NonReusable
 @Layout(R.layout.home_category_item)
 public class HomeCategoryItem {
 
-    @View(R.id.itemIconHomePage)
-    public ImageView itemIconHomePage;
+    @View(R.id.ivProductImage)
+    public ImageView ivProductImage;
 
-    @View(R.id.prd_name)
-    public TextView prd_name;
+    @View(R.id.tvProductName)
+    public TextView tvProductName;
 
-    @View(R.id.lltvQnty)
-    public LinearLayout lltvQnty;
+    @View(R.id.spQuantity)
+    public Spinner spQuantity;
 
-    @View(R.id.tv_qntyHomePage)
-    public TextView tv_qntyHomePage;
+    @View(R.id.tvNewPrice)
+    public TextView tvNewPrice;
 
-    @View(R.id.llspnrQnty)
-    public LinearLayout llspnrQnty;
+    @View(R.id.tvOldPrice)
+    public TextView tvOldPrice;
 
-    @View(R.id.spnr_qntyHomePage)
-    public Spinner spnr_qntyHomePage;
+    @View(R.id.btnAddItem)
+    public Button btnAddItem;
 
-    @View(R.id.priceNewHomePage)
-    public TextView priceNewHomePage;
+    @View(R.id.llAccountItem)
+    public LinearLayout llAccountItem;
 
-    @View(R.id.priceOldHomePage)
-    public TextView priceOldHomePage;
+    @View(R.id.llDecreaseCount)
+    public LinearLayout llDecreaseCount;
 
-    @View(R.id.lladdItem)
-    public LinearLayout lladdItem;
+    @View(R.id.ivBtnDecreaseCount)
+    public ImageButton ivBtnDecreaseCount;
 
-    @View(R.id.llcountItem)
-    public LinearLayout llcountItem;
+    @View(R.id.tvProductCount)
+    public TextView tvProductCount;
 
-    @View(R.id.imgBtn_incre)
-    public ImageButton imgBtn_inc;
+    @View(R.id.llIncreaseCount)
+    public LinearLayout llIncreaseCount;
 
-    @View(R.id.imgBtn_decre)
-    public ImageButton imgBtn_dec;
+    @View(R.id.ivBtnIncreaseCount)
+    public ImageButton ivBtnIncreaseCount;
 
-    @View(R.id.tv_productCount)
-    public TextView tv_productCount;
-
-
-    @ParentPosition
-    public int mParentPosition;
-
-    public String murl;
-    public String mprice;
-    public String mqty;
-    public String mtitle;
-    public String mid;
-    public Context mContext;
-    public static String MyPREFERENCES = "sessiondata";
-    SharedPreferences sharedpreferences;
-    UseSharedPreferences useSharedPreferences;
-    String[] qtyArray = {"100gm","200gm","300gm","500gm","1kg","2kg","500kg","1000kg"};
-    boolean status1 = true;
+    Context mContext;
     SessionManager session;
-    int countVal = 0;
-    public TextView mtextCartItemCount;
+    APIInterface apiInterface;
 
+    String productId, image, productName, productPrice, productDisPrice, productQty;
+    String sPrice, sDisPrice;
 
-    public HomeCategoryItem(Context context, TextView textCartItemCount, String id, String url, String title, String price, String qty) {
+    String product_option_id[], product_option_value_id[];
+    String sQuantitySpinner, option_id, option_value_id;
+    int cartcount = 0;
+
+    public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName, String prdPrice,
+                            String prdDisPrice, String quantity) {
+
         mContext = context;
-        mid = id;
-        murl = url;
-        mtitle = title;
-        mprice = price;
-        mqty = qty;
-        mtextCartItemCount=textCartItemCount;
+        productId = prdId;
+        image = imageUrl;
+        productName = prdName;
+        productPrice = prdPrice;
+        productDisPrice = prdDisPrice;
+        productQty = quantity;
     }
 
     public String getTitle() {
-        return mtitle;
+        return productName;
     }
-
-    public String getPrice() {
-        return mprice;
-    }
-
-    public String getUrl() {
-        return murl;
-    }
-
 
     @Resolve
     public void onResolved() {
-        prd_name.setText(mtitle);
-        Glide.with(mContext).load(murl).into(itemIconHomePage);
-        priceNewHomePage.setText("\u20B9" + " " + mprice);
+        session = new SessionManager(mContext);
+        tvProductName.setText(productName);
+        Glide.with(mContext).load(image).into(ivProductImage);
 
+        double dbl_Price = Double.parseDouble(productPrice);//need to convert string to decimal
+        sPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+        tvNewPrice.setText("₹" + " " + sPrice);
 
-        if (qtyArray.length > 1) {
-            llspnrQnty.setVisibility(android.view.View.VISIBLE);
-            lltvQnty.setVisibility(android.view.View.GONE);
-            qtyArray[0]=mqty;
-            final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
+        double dbl_Dis_Price = Double.parseDouble(productDisPrice);//need to convert string to decimal
+        sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
+        tvOldPrice.setText("₹" + " " + sDisPrice);
 
-            // Initializing an ArrayAdapter
-            final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spnr_listitem_categ, qtyList);
-            spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_product_qtylist_home_two);
-            spnr_qntyHomePage.setAdapter(spinnerArrayAdapter);
+        final ArrayList<String> product_qty_list = new ArrayList<>();
 
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final QuantityList quantityList = new QuantityList(productId);
 
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
+            callheight.enqueue(new Callback<QuantityList>() {
+                @Override
+                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
+                    QuantityList eduresource = response.body();
+                    List<QuantityList.Datum> datumList = eduresource.data;
+                    product_option_id = new String[datumList.size()];
+                    product_option_value_id = new String[datumList.size()];
+                    int i = 0;
+                    for (QuantityList.Datum datum : datumList) {
+                        product_qty_list.add(datum.name);
+                        product_option_id[i] = datum.product_option_id;
+                        product_option_value_id[i] = datum.product_option_value_id;
+                        i++;
+                    }
 
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
+                            product_qty_list);
+                    spQuantity.setAdapter(itemsAdapter);
+                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                            sQuantitySpinner = product_qty_list.get(position);
+                            option_id = product_option_id[position];
+                            option_value_id = product_option_value_id[position];
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<QuantityList> callheight, Throwable t) {
+                    callheight.cancel();
+                }
+            });
         } else {
-            qtyArray[0]=mqty;
-            tv_qntyHomePage.setText(qtyArray[0]);
-            lltvQnty.setVisibility(android.view.View.VISIBLE);
-            llspnrQnty.setVisibility(android.view.View.GONE);
+            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     @Click(R.id.llProductsListView)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", mid);
+        myIntent.putExtra("prd_id", productId);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
-
     }
 
     @Click(R.id.btnAddItem)
     public void AddToCartClick() {
-        if (status1 == true) {
-            session = new SessionManager(mContext);
-            countVal = countVal + 1;//display number in place of add to cart
-            Integer cnt = session.getCartCount();
-            cnt = cnt +1;//display number in cart icon
-            session.cartcount(cnt);
-            display(countVal);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            lladdItem.setVisibility(android.view.View.GONE);
-            llcountItem.setVisibility(android.view.View.VISIBLE);
-            status1 = false;
-        }
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
+        btnAddItem.setVisibility(android.view.View.GONE);
+        llAccountItem.setVisibility(android.view.View.VISIBLE);
+
+        final AddToCartModel ref = new AddToCartModel(productId, sQuantitySpinner, option_id, option_value_id);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
-    @Click(R.id.imgBtn_incre)
+    @Click(R.id.ivBtnIncreaseCount)
     public void AddItem() {
-        session = new SessionManager(mContext);
-        countVal = countVal + 1;//display number in place of add to cart
-        Integer cnt = session.getCartCount();
-        cnt = cnt + 1;//display number in cart icon
-        session.cartcount(cnt);
-        display(countVal);
-        mtextCartItemCount.setText(String.valueOf(cnt));
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
     }
 
-    @Click(R.id.imgBtn_decre)
+    @Click(R.id.ivBtnDecreaseCount)
     public void removeItem() {
-        if (countVal <= 1) {
-            countVal = countVal - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
-            display(countVal);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            lladdItem.setVisibility(android.view.View.VISIBLE);
-            llcountItem.setVisibility(android.view.View.GONE);
-            status1=true;
-
+        if (cartcount <= 1) {
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
+            btnAddItem.setVisibility(android.view.View.VISIBLE);
+            llAccountItem.setVisibility(android.view.View.GONE);
         } else {
-            countVal = countVal - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
-            display(countVal);
-            mtextCartItemCount.setText(String.valueOf(cnt));
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
         }
     }
 
     public void display(int number) {
-        tv_productCount.setText("" + number);
+        tvProductCount.setText("" + number);
     }
-
-    public void countCartDisplay(int number) {
-
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(4);
-        Integer name_session = useSharedPreferences.getCountValue();
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources()
-                .getColor(R.color.white)).setGravityOffset(15, -2, true)
-                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
-    }
-
-
 }

@@ -2,28 +2,22 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
-import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
-import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -32,10 +26,9 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.expand.Toggle;
-import com.nisarga.nisargaveggiez.retrofit.RateModel;
+import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,93 +45,81 @@ public class HomePageDealOfDayItemList {
     @View(R.id.llDealOfDay)
     public LinearLayout llDealOfDay;
 
-    @View(R.id.imageViewDealofDay)
-    public ImageView imageViewDealofDay;
+    @View(R.id.ivProductImage)
+    public ImageView ivProductImage;
 
-    @View(R.id.headingTxtDealofDay)
-    public TextView headingTxtDealofDay;
+    @View(R.id.tvItemName)
+    public TextView tvItemName;
 
-    @Toggle(R.id.productItemDealofDay)
-    public CardView productItemDealofDay;
+    @View(R.id.tvItemPrice)
+    public TextView tvItemPrice;
 
-    @View(R.id.item_NewpriceDealofDay)
-    public TextView item_priceDealofDay;
+    @View(R.id.tvOldPrice)
+    public TextView tvOldPrice;
 
-    @View(R.id.item_OldpriceDealofDay)
-    public TextView item_OldpriceDealofDay;
+    @View(R.id.spQuantity)
+    public Spinner spQuantity;
 
-    @View(R.id.qtydealSpinner)
-    public Spinner qtyCategoryGrid;
+    @View(R.id.lldecreasePrdCount)
+    public LinearLayout lldecreasePrdCount;
 
-    @View(R.id.llCountPrd)
-    public LinearLayout llCountPrd;
+    @View(R.id.llincreasePrdCount)
+    public LinearLayout llincreasePrdCount;
 
-    @View(R.id.decreaseDealofDay)
-    public ImageButton decreaseDealofDay;
+    @View(R.id.tvNoOfCount)
+    public TextView tvNoOfCount;
 
-    @View(R.id.increaseDealofDay)
-    public ImageButton increaseDealofDay;
+    @View(R.id.btnAddCart)
+    public Button btnAddCart;
 
-    @View(R.id.tv_countDealofDay)
-    public TextView tv_countDealofDay;
-
-    @View(R.id.addcartDealofDay)
-    public Button addcartDealofDay;
+    @View(R.id.llAddCart)
+    public LinearLayout llAddCart;
 
     APIInterface apiInterface;
     SessionManager session;
-    public String getPrdId;
-    public Context mContext;
-    public String productId;
-    public PlaceHolderView mPlaceHolderView;
-    public String mPrdImgUrl, mPrice, mQty, str_priceValue, str_disValue, mdiscount;
+    Context mContext;
+    PlaceHolderView mPlaceHolderView;
 
-    public Boolean status = true;
-    int minteger = 0;
+    String sProductId, sProductImage, sProductName, sProductPrice, sProductDis, sQuantity;
+    int cartcount = 0;
 
     String product_option_id[], product_option_value_id[];
-    public TextView mtextCartItemCount;
-    public String mHeading;
-    String prdQty, option_id, option_value_id;
+    String sQuantitySpinner, option_id, option_value_id;
 
-    public HomePageDealOfDayItemList(Context context, TextView textCartItemCount, PlaceHolderView placeHolderView,
-                                     String product_id, String url, String heading, String price, String discount,
-                                     String qty) {
-        mContext = context;
-        mPlaceHolderView = placeHolderView;
-        productId = product_id;
-        mPrdImgUrl = url;
-        mHeading = heading;
-        mPrice = price;
-        mdiscount = discount;
-        mQty = qty;
-        mtextCartItemCount = textCartItemCount;
+    public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name, String prod_price,
+                                     String prod_discount, String quantity) {
+        this.mContext = context;
+        this.sProductId = product_id;
+        this.sProductImage = image_url;
+        this.sProductName = prod_name;
+        this.sProductPrice = prod_price;
+        this.sProductDis = prod_discount;
+        this.sQuantity = quantity;
     }
 
     @Resolve
     public void onResolved() {
         session = new SessionManager(mContext);
-        Glide.with(mContext).load(mPrdImgUrl).into(imageViewDealofDay);
-        headingTxtDealofDay.setText(mHeading);
+        Glide.with(mContext).load(sProductImage).into(ivProductImage);
+        tvItemName.setText(sProductName);
 
-        double dbl_Price = Double.parseDouble(mPrice);//need to convert string to decimal
-        str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        item_priceDealofDay.setText("₹" + " " + str_priceValue);
+        double dbl_Price = Double.parseDouble(sProductPrice);//need to convert string to decimal
+        String str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+        tvItemPrice.setText("₹" + " " + str_priceValue);
 
-        if (mdiscount.equals("null")) {
-            item_OldpriceDealofDay.setVisibility(android.view.View.INVISIBLE);
+        if (sProductDis.equals("null")) {
+            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
         } else {
-            double dbl_Discount = Double.parseDouble(mdiscount);//need to convert string to decimal
-            str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
-            item_OldpriceDealofDay.setVisibility(android.view.View.VISIBLE);
-            item_OldpriceDealofDay.setText("₹" + " " + str_disValue);
+            double dbl_Discount = Double.parseDouble(sProductDis);//need to convert string to decimal
+            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            tvOldPrice.setVisibility(android.view.View.VISIBLE);
+            tvOldPrice.setText("₹" + " " + str_disValue);
         }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
-        product_qty_list.add(" Select ");
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final QuantityList quantityList = new QuantityList(productId);
+            final QuantityList quantityList = new QuantityList(sProductId);
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
@@ -157,17 +138,13 @@ public class HomePageDealOfDayItemList {
                         i++;
                     }
 
-                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1,
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
                             product_qty_list);
-                    qtyCategoryGrid.setAdapter(itemsAdapter);
-                    qtyCategoryGrid.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    spQuantity.setAdapter(itemsAdapter);
+                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                            if (position == 0) {
-                                prdQty = "";
-                                return;
-                            }
-                            prdQty = product_qty_list.get(position);
+                            sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
                         }
@@ -190,101 +167,70 @@ public class HomePageDealOfDayItemList {
     }
 
     @Click(R.id.llDealOfDay)
-    public void onLongClick()
-    {
+    public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
-        intent.putExtra("product_id", productId);
+        intent.putExtra("product_id", sProductId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
-    @Click(R.id.addcartDealofDay)
+    @Click(R.id.btnAddCart)
     public void addtocart() {
-        if (status == true) {
-            minteger = minteger + 1;//display number in place of add to cart
-            Integer cnt = session.getCartCount();
-            cnt = cnt + 1;//display number in cart icon
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            addcartDealofDay.setVisibility(android.view.View.GONE);
-            llCountPrd.setVisibility(android.view.View.VISIBLE);
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
+        btnAddCart.setVisibility(android.view.View.GONE);
+        llAddCart.setVisibility(android.view.View.VISIBLE);
 
-            final AddToCartModel ref = new AddToCartModel(productId, prdQty, option_id, option_value_id);
+        final AddToCartModel ref = new AddToCartModel(sProductId, sQuantitySpinner, option_id, option_value_id);
 
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-            callAdd.enqueue(new Callback<AddToCartModel>() {
-                @Override
-                public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                    AddToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    } else if (resource.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<AddToCartModel> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-
-            status = false;
-        }
-
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
-    @Click(R.id.fl_increaseDealofDay)
+    @Click(R.id.llincreasePrdCount)
     public void onIncreaseClick() {
-        session = new SessionManager(mContext);
-        minteger = minteger + 1;//display number in place of add to cart
-        Integer cnt = session.getCartCount();
-        cnt = cnt + 1;//display number in cart icon
-        session.cartcount(cnt);
-        display(minteger);
-        mtextCartItemCount.setText(String.valueOf(cnt));
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
     }
 
-    @Click(R.id.fl_decreaseDealofDay)
+    @Click(R.id.lldecreasePrdCount)
     public void onDecreaseClick() {
-
-        if (minteger <= 1) {
-            minteger = minteger - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            addcartDealofDay.setVisibility(android.view.View.VISIBLE);
-            llCountPrd.setVisibility(android.view.View.GONE);
-            status = true;
-
+        if (cartcount <= 1) {
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llAddCart.setVisibility(android.view.View.GONE);
         } else {
-            minteger = minteger - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt - 1;
-            session.cartcount(cnt);
-            display(minteger);
-            mtextCartItemCount.setText(String.valueOf(cnt));
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
         }
     }
-
 
     public void display(int number) {
-        tv_countDealofDay.setText("" + number);
+        tvNoOfCount.setText("" + number);
     }
-
-
-
-
-
-
-    /*@LongClick(R.id.imageViewDealofDay)
-    public void onLongClick(){
-        mPlaceHolderView.removeView(this);
-    }*/
 }

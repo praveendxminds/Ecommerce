@@ -183,7 +183,7 @@ public class SignUp_act extends AppCompatActivity {
                             }
 
                             ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(SignUp_act.this,
-                                    android.R.layout.simple_list_item_1, apartment_list);
+                                    R.layout.apartment_spinner_item, apartment_list);
                             lvApartmentList.setAdapter(itemsAdapter);
                             lvApartmentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override

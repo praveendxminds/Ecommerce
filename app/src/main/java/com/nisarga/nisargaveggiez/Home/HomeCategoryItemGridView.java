@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,10 +14,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
 import com.nisarga.nisargaveggiez.retrofit.RemoveWishListItem;
 import com.bumptech.glide.Glide;
@@ -43,200 +47,219 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by sushmita on 17th June 2019
  */
 
-
 @NonReusable
 @Layout(R.layout.home_category_grid_item)
 public class HomeCategoryItemGridView {
 
-    @View(R.id.imageCategoryGrid)
-    public ImageView imageCategoryGrid;
+    @View(R.id.llProductGridView)
+    public LinearLayout llProductGridView;
 
-    @View(R.id.titleCategoryGrid)
-    public TextView titleCategoryGrid;
+    @View(R.id.tvProductName)
+    public TextView tvProductName;
 
-    @View(R.id.newPriceCategoryGrid)
-    public TextView newPriceCategoryGrid;
+    @View(R.id.ivbtnAddWishlist)
+    public ImageButton ivbtnAddWishlist;
 
-    @View(R.id.qtyCategoryGrid)
-    public Spinner qtyCategoryGrid;
+    @View(R.id.ivImage)
+    public ImageView ivImage;
 
-    @View(R.id.oldPriceCategoryGrid)
-    public TextView oldPriceCategoryGrid;
+    @View(R.id.spQuantity)
+    public Spinner spQuantity;
 
-    @View(R.id.llAddwishlist)
-    public LinearLayout llAddWishlist;
+    @View(R.id.tvProdPrice)
+    public TextView tvProdPrice;
 
-    @View(R.id.likeCategoryGrid)
-    public ImageButton likeCategoryGrid;
+    @View(R.id.tvProdOldPrice)
+    public TextView tvProdOldPrice;
 
-    @View(R.id.llCountPrd)
-    public LinearLayout llCountPrd;
+    @View(R.id.llProductCount)
+    public LinearLayout llProductCount;
 
-    @View(R.id.imgBtn_decre)
-    public ImageButton imgBtn_decre;
+    @View(R.id.llProductDecrese)
+    public LinearLayout llProductDecrese;
 
-    @View(R.id.imgBtn_incre)
-    public ImageButton imgBtn_incre;
+    @View(R.id.tvProductCount)
+    public TextView tvProductCount;
 
-    @View(R.id.tv_count)
-    public TextView tv_count;
+    @View(R.id.llProductIncrease)
+    public LinearLayout llProductIncrease;
 
-    @View(R.id.btnAddCategoryGrid)
-    public Button btnAddCategoryGrid;
-
-    @ParentPosition
-    public int mParentPosition;
+    @View(R.id.btnAddCart)
+    public Button btnAddCart;
 
     SessionManager session;
-
-    public String murl;
-    public String mprice;
-    public String mqty;
-    public String mtitle;
-    public String mid;
-    public Context mContext;
-    public static String MyPREFERENCES = "sessiondata";
-    SharedPreferences sharedpreferences;
-    public TextView mtextCartItemCount;
-    UseSharedPreferences useSharedPreferences;
-    public String imgUrl="http://3.213.33.73/Ecommerce/upload/image/";
-    String[] qtyArray = {"qty","100gm", "200gm", "300gm", "50gm", "500gm", "1kg"};
-    int countVal=0;
-    public String str_priceValue;
-    public String getCustId;
-
-    public boolean status = true;
-    public boolean state = false;
     APIInterface apiInterface;
+    Context mContext;
 
-    public HomeCategoryItemGridView(Context context,TextView textCartItemCount, String id, String url, String title, String price,String qty) {
+    String prdId, image, prdName, prdPrice, prdDisPrice, prdQuantity;
+    String sPrice, sDisPrice;
+
+    int cartcount = 0;
+    String product_option_id[], product_option_value_id[];
+    String sQuantitySpinner, option_id, option_value_id;
+
+    public boolean state = false;
+
+
+    public HomeCategoryItemGridView(Context context, String productId, String image_url, String productName,
+                                    String productPrice, String productDisPrice, String quantity) {
         mContext = context;
-        mid = id;
-        murl = url;
-        mtitle = title;
-        mprice = price;
-        mqty=qty;
-        mtextCartItemCount = textCartItemCount;
+        prdId = productId;
+        image = image_url;
+        prdName = productName;
+        prdPrice = productPrice;
+        prdDisPrice = productDisPrice;
+        prdQuantity = quantity;
     }
 
     public String getTitle() {
-        return mtitle;
+        return prdName;
     }
-
-    public String getPrice() {
-        return mprice;
-    }
-
-    public String getUrl() {
-        return murl;
-    }
-
 
     @Resolve
     public void onResolved() {
         session = new SessionManager(mContext);
-        getCustId = session.getCustomerId();
-        titleCategoryGrid.setText(mtitle);
-        Glide.with(mContext)
-                .load(murl)
-                .into(imageCategoryGrid);
-        double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal
-        str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
-        newPriceCategoryGrid.setText("₹" + " " + str_priceValue);
+        tvProductName.setText(prdName);
+        Glide.with(mContext).load(image).into(ivImage);
 
-        qtyArray[0]=mqty;
-        final List<String> qtyList = new ArrayList<>(Arrays.asList(qtyArray));
-        // Initializing an ArrayAdapter
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_list_item_categ, qtyList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_list_item_categ);
-        qtyCategoryGrid.setAdapter(spinnerArrayAdapter);
+        double dbl_Price = Double.parseDouble(prdPrice);//need to convert string to decimal
+        sPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+        tvProdPrice.setText("₹" + " " + sPrice);
 
-        useSharedPreferences = new UseSharedPreferences(mContext);
+        double dbl_Dis_Price = Double.parseDouble(prdDisPrice);//need to convert string to decimal
+        sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
+        tvProdOldPrice.setText("₹" + " " + sDisPrice);
 
+        final ArrayList<String> product_qty_list = new ArrayList<>();
 
-    }
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final QuantityList quantityList = new QuantityList(prdId);
 
-    @Click(R.id.llProductsGrid)
-    public void onCardClick() {
-        Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", mid);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(myIntent);
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
+            callheight.enqueue(new Callback<QuantityList>() {
+                @Override
+                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
+                    QuantityList eduresource = response.body();
+                    List<QuantityList.Datum> datumList = eduresource.data;
+                    product_option_id = new String[datumList.size()];
+                    product_option_value_id = new String[datumList.size()];
+                    int i = 0;
+                    for (QuantityList.Datum datum : datumList) {
+                        product_qty_list.add(datum.name);
+                        product_option_id[i] = datum.product_option_id;
+                        product_option_value_id[i] = datum.product_option_value_id;
+                        i++;
+                    }
 
-    }
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
+                            product_qty_list);
+                    spQuantity.setAdapter(itemsAdapter);
+                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                            sQuantitySpinner = product_qty_list.get(position);
+                            option_id = product_option_id[position];
+                            option_value_id = product_option_value_id[position];
+                        }
 
-    @Click(R.id.btnAddCategoryGrid)
-    public void AddToCartClick() {
-       if(status == true)
-       {
-           session = new SessionManager(mContext);
-           countVal = countVal + 1;//display number in place of add to cart
-           Integer cnt = session.getCartCount();
-           cnt = cnt +1;//display number in cart icon
-           session.cartcount(cnt);
-           display(countVal);
-           mtextCartItemCount.setText(String.valueOf(cnt));
-           btnAddCategoryGrid.setVisibility(android.view.View.GONE);
-           llCountPrd.setVisibility(android.view.View.VISIBLE);
-           status = false;
-       }
-    }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-    @Click(R.id.imgBtn_incre)
-    public void addCount()
-    {
-        session = new SessionManager(mContext);
-        countVal = countVal + 1;//display number in place of add to cart
-        Integer cnt = session.getCartCount();
-        cnt = cnt +1;//display number in cart icon
-        session.cartcount(cnt);
-        display(countVal);
-        mtextCartItemCount.setText(String.valueOf(cnt));
-    }
-    @Click(R.id.imgBtn_decre)
-    public void removeCount()
-    {
-        if (countVal <= 1) {
-            countVal = countVal - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt -1;
-            session.cartcount(cnt);
-            display(countVal);
-            mtextCartItemCount.setText(String.valueOf(cnt));
-            btnAddCategoryGrid.setVisibility(android.view.View.VISIBLE);
-            llCountPrd.setVisibility(android.view.View.GONE);
-            status=true;
+                        }
+                    });
+                }
 
+                @Override
+                public void onFailure(Call<QuantityList> callheight, Throwable t) {
+                    callheight.cancel();
+                }
+            });
         } else {
-            countVal = countVal - 1;
-            session = new SessionManager(mContext);
-            Integer cnt = session.getCartCount();
-            cnt = cnt -1;
-            session.cartcount(cnt);
-            display(countVal);
-            mtextCartItemCount.setText(String.valueOf(cnt));
+            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
         }
     }
-    @Click(R.id.llAddwishlist)
-    public void onClick()
-    {
+
+    @Click(R.id.llProductGridView)
+    public void onCardClick() {
+        Intent myIntent = new Intent(mContext, ProductDetailHome.class);
+        myIntent.putExtra("prd_id", prdId);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(myIntent);
+    }
+
+    @Click(R.id.btnAddCart)
+    public void AddToCartClick() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
+        btnAddCart.setVisibility(android.view.View.GONE);
+        llProductCount.setVisibility(android.view.View.VISIBLE);
+
+        final AddToCartModel ref = new AddToCartModel(prdId, sQuantitySpinner, option_id, option_value_id);
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        //---------------------------------------------------------
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    @Click(R.id.llProductDecrese)
+    public void addCount() {
+        cartcount = cartcount + 1;//display number in place of add to cart
+        session.cartcount(cartcount);
+        display(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
+    }
+
+    @Click(R.id.imgBtn_decre)
+    public void removeCount() {
+        if (cartcount <= 1) {
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llProductCount.setVisibility(android.view.View.GONE);
+        } else {
+            cartcount = cartcount - 1;
+            session.cartcount(cartcount);
+            display(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
+        }
+    }
+
+    @Click(R.id.llAddWishlist)
+    public void onClick() {
+        apiInterface = APIClient.getClient().create(APIInterface.class);
         if (state == false) {
-            //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems(getCustId, mid);
+            final InsertWishListItems add_item = new InsertWishListItems(session.getCustomerId(), prdId);
             Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
             callAdd.enqueue(new Callback<InsertWishListItems>() {
                 @Override
                 public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
                     InsertWishListItems resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        likeCategoryGrid.setBackgroundResource(R.drawable.wishlist_red);
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                        ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
 
                     } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -248,17 +271,17 @@ public class HomeCategoryItemGridView {
             state = true;
         } else {
             //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem(getCustId, mid);
+            final RemoveWishListItem remove_item = new RemoveWishListItem(session.getCustomerId(), prdId);
             Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
             callRemove.enqueue(new Callback<RemoveWishListItem>() {
                 @Override
                 public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
                     RemoveWishListItem resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        likeCategoryGrid.setBackgroundResource(R.drawable.wishlistgrey);
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                        ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlistgrey);
                     } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -268,23 +291,10 @@ public class HomeCategoryItemGridView {
                 }
             });
             state = false;
-
         }
     }
 
     public void display(int number) {
-        tv_count.setText("" + number);
-    }
-    public void countCartDisplay(int number) {
-
-        BottomNavigationMenuView bottomNavigationMenuView =
-                (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
-        android.view.View v = bottomNavigationMenuView.getChildAt(4);
-        Integer name_session = useSharedPreferences.getCountValue();
-
-        new QBadgeView(mContext).bindTarget(v).setBadgeTextColor(mContext.getResources()
-                .getColor(R.color.white)).setGravityOffset(15, -2, true)
-                .setBadgeNumber(name_session).setBadgeBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
+        tvProductCount.setText("" + number);
     }
 }

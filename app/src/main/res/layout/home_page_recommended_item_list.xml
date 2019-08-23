@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/productItemRecommended"
-    android:layout_width="115dp"
-    android:layout_marginBottom="10dp"
-    android:layout_height="130dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginTop="0dp"
+    android:layout_width="130dp"
+    android:layout_height="150dp"
     android:layout_marginLeft="1dp"
-    app:cardCornerRadius="4dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="10dp"
     android:elevation="25dp"
-    app:cardElevation="2dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,14 +18,14 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/llRecommended"
+            android:id="@+id/llDealOfDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="2dp"
             android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:paddingRight="2dp">
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,11 +35,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="5">
+                    android:layout_weight=".4"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/headingTxtRecommended"
+                        android:id="@+id/tvItemName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_regular"
@@ -49,75 +47,65 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/light_black_1"
                         android:textSize="10sp" />
-
-
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="4">
+                    android:layout_weight=".6"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/item_NewPriceRecommended"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvItemPrice"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:layout_gravity="right"
+                        android:gravity="right"
                         android:text="₹ 1000.00"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/green_1"
                         android:textSize="10sp" />
 
-
                     <TextView
-                        android:id="@+id/item_OldPriceRecommended"
+                        android:id="@+id/tvOldPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
                         android:layout_gravity="right"
                         android:background="@drawable/strike_through"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="₹ 20"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/light_black_5"
                         android:textSize="8sp"
-                        android:visibility="visible"
-                        />
-
+                        android:visibility="visible" />
                 </LinearLayout>
-
-
-
-
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
                 android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:layout_gravity="center">
+                android:paddingBottom="2dp">
 
                 <ImageView
-                    android:id="@+id/imageViewRecommended"
-                    android:layout_width="52dp"
-                    android:layout_height="58dp"
-                    android:src="@drawable/deep" />
+                    android:id="@+id/ivProductImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_person" />
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
 
                 <Spinner
-                    android:id="@+id/qntyRecommended"
-                    android:layout_width="80dp"
-                    android:layout_height="14dp"
+                    android:id="@+id/spQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
                     android:text="100Gms"
@@ -135,68 +123,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom">
+
                 <LinearLayout
-                    android:id="@+id/llCountPrdRecomnd"
+                    android:id="@+id/llAddCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/cart_shadow"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:padding="2dp">
+                    android:padding="2dp"
+                    android:visibility="gone">
 
                     <LinearLayout
-                        android:id="@+id/fl_decrease"
+                        android:id="@+id/lldecreasePrdCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/plus_minus_ontouch_event"
                         android:gravity="center">
+
                         <ImageButton
-                            android:id="@+id/imgBtn_decreRecomnd"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:background="@drawable/minus"
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="2dp"
-                            />
+                            android:background="@drawable/minus" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
+
                         <TextView
-                            android:id="@+id/tv_countRecomnd"
+                            android:id="@+id/tvNoOfCount"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="0"
                             android:gravity="center"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/fl_increase"
+                        android:id="@+id/llincreasePrdCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/plus_minus_ontouch_event"
                         android:gravity="center">
+
                         <ImageButton
-                            android:id="@+id/imgBtn_increRecomnd"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:background="@drawable/plus"
                             android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"/>
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/plus" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/addcartRecommended"
+                    android:id="@+id/btnAddCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp"
                     android:background="@drawable/cart_shadow"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Add To Cart"

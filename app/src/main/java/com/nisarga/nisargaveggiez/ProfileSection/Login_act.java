@@ -112,9 +112,6 @@ public class Login_act extends AppCompatActivity {
                 sEmail = etEmail.getText().toString();
                 sPassword = etPassword.getText().toString();
                 if (validateLogin(sEmail, sPassword)) {
-                    if (!validateCheckBox()) {
-                        return;
-                    }
                     if (Utils.CheckInternetConnection(getApplicationContext())) {
                         saveLoginData(sEmail, sPassword);
                     } else {
@@ -213,23 +210,6 @@ public class Login_act extends AppCompatActivity {
             }
         }
 
-    }
-
-    private boolean validateCheckBox() {
-        if (!cbRememberMe.isChecked()) {
-            new AlertDialog.Builder(Login_act.this)
-                    .setMessage("Please Check on Remember Me !")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-
-            return false;
-        }
-        return true;
     }
 
     public final static boolean isValidEmail(CharSequence target) {

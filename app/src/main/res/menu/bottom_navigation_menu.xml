@@ -9,15 +9,15 @@
     <item
         android:id="@+id/navigation_categories"
         android:icon="@drawable/categories_selector"
-        android:title="Categories"/>
+        android:title="Categories" />
 
     <item
         android:id="@+id/navigation_wishlist"
         android:icon="@drawable/wishlist_selector"
-        android:title="Wish List"/>
+        android:title="Wish List" />
 
     <item
         android:id="@+id/navigation_wallet"
         android:icon="@drawable/wallet_selector"
-        android:title="Wallet"/>
+        android:title="Wallet" />
 </menu>

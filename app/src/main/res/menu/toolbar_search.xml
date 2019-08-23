@@ -1,26 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context=".ui.home.activities.TransactionSearchActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.home.activities.TransactionSearchActivity">
 
-<item
-    android:id="@+id/action_search"
-    android:icon="@drawable/ic_search"
-    android:title="Search"
-    app:actionViewClass="android.support.v7.widget.SearchView"
-    app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
 
-<item
-    android:id="@+id/notification"
-    android:icon="@drawable/ic_notification"
-    android:title="Notifications"
-    app:showAsAction="always" />
+    <item
+        android:id="@+id/notification"
+        android:icon="@drawable/ic_notification"
+        android:title="Notifications"
+        app:showAsAction="always" />
 
-<item
-    android:id="@+id/cartmenu"
-    android:icon="@drawable/ic_shopping_cart"
-    android:title="Cart"
-    app:actionLayout="@layout/custom_action_item_layout"
-    app:showAsAction="always" />
+    <item
+        android:id="@+id/cartmenu"
+        android:icon="@drawable/ic_shopping_cart"
+        android:title="Cart"
+        app:actionLayout="@layout/custom_action_item_layout"
+        app:showAsAction="always" />
 
 </menu>

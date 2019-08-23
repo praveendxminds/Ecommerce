@@ -111,6 +111,7 @@ public class ProductDetailsModel {
         public void setWishlistStatus(String status) {
             this.wishlist_status = status;
         }
+
         public String getAddPrdQty() {
             return add_prd_qty;
         }

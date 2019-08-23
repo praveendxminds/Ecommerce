@@ -22,38 +22,37 @@ import java.util.List;
 @Layout(R.layout.home_page_recommended_for_you)
 public class HomePageRecommended {
 
-    @View(R.id.placeholderviewRecommended)
-    public PlaceHolderView placeholderviewRecommended;
+    @View(R.id.tvViewAll)
+    public TextView tvViewAll;
 
-    public TextView mtextCartItemCount;
-    public Context mContext;
-    public List<ProductslHomePage.RecommendedList> mImageList;
+    @View(R.id.phvRecommendedList)
+    public PlaceHolderView phvRecommendedList;
+
+    Context mContext;
+    List<ProductslHomePage.RecommendedList> mImageList;
     SessionManager session;
 
-    public HomePageRecommended(Context context, TextView textCartItemCount, List<ProductslHomePage.RecommendedList> imageList) {
-        mContext = context;
-        mImageList = imageList;
-        mtextCartItemCount = textCartItemCount;
+    public HomePageRecommended(Context context, List<ProductslHomePage.RecommendedList> imageList) {
+        this.mContext = context;
+        this.mImageList = imageList;
     }
 
     @Resolve
     public void onResolved() {
-        placeholderviewRecommended.getBuilder()
+        phvRecommendedList.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
-            placeholderviewRecommended.addView(new HomePageRecommendedItemList(mContext, mtextCartItemCount, placeholderviewRecommended,
-                    image.product_id, image.image, image.name, image.price, image.discount_price, image.quantity));
+            phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image, image.name,
+                    image.price, image.discount_price, image.quantity));
         }
     }
 
-    @Click(R.id.tvSeeAllRecomnd)
+    @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
-
 }

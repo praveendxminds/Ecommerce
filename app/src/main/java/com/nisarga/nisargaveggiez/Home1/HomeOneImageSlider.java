@@ -28,14 +28,14 @@ import me.relex.circleindicator.CircleIndicator;
 @Layout(R.layout.image_gallary_home_1)
 public class HomeOneImageSlider {
 
-    @View(R.id.pager_home_1)
+    @View(R.id.vpSliderImage)
     public ViewPager mPager;
 
-    @View(R.id.indicator_home_1)
+    @View(R.id.tabIndicator)
     public CircleIndicator indicator;
 
     public static int currentPage = 0;
-  public static Integer[] XMEN= {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
+    public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
     public ArrayList<String> XMENArray = new ArrayList<String>();
 
 

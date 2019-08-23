@@ -195,9 +195,9 @@ public class SignUpFragment extends Fragment {
 
 
 
-//            final ArrayAdapter<String> adp = new ArrayAdapter<String>(getApplicationContext(), R.layout.apartment_spinner_item,
+//            final ArrayAdapter<String> adp = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item,
 //                    listAdd);
-//            adp.setDropDownViewResource(R.layout.apartment_spinner_item);
+//            adp.setDropDownViewResource(R.layout.spinner_item);
 //            spnrApartmentName.setAdapter(adp);
 //
 //            spnrApartmentName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
