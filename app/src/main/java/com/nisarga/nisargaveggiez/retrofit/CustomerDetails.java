@@ -52,4 +52,20 @@ public class CustomerDetails
     @SerializedName("customer_group_id")
     public String customer_group_id;
 
+    public CustomerDetails(String customer_id,String firstname,String lastname,String address_1,String city,String country_id,String zone_id,String company,String address_2,String postcode,String telephone,String email,String customer_group_id)
+    {
+        this.customer_id = customer_id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address_1 = address_1;
+        this.city = city;
+        this.zone_id = zone_id;
+        this.company = company;
+        this.address_2 = address_2;
+        this.postcode = postcode;
+        this.telephone = telephone;
+        this.email = email;
+        this.customer_group_id = customer_group_id;
+    }
+
 }
