@@ -2,9 +2,11 @@ package com.nisarga.nisargaveggiez.MyOrder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.payment.PayMentGateWay;
 import com.nisarga.nisargaveggiez.payment.PaymentDetails;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
@@ -42,6 +45,7 @@ public class CheckoutOrder extends AppCompatActivity {
     private TextView tvChkoutDelvInstruct, tvInvoiceNo, tvOrdNo, tvOrdItems, tvSubTotal, tvDeliveryCharges, tvPrice, tvFinalTotal;
     private TextView tvWalletAmnt;
     String strTotalAmnt, strPrice, strSubTotal, strDelvCharge;
+    private String getFirstName, getPhone, getEmail, getAmount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +80,14 @@ public class CheckoutOrder extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+
+
+        getFirstName = session.getFirstName();
+        getPhone = session.getTelephone();
+        getEmail = session.getEmail();
+
+
         //addPaymentOption(4);
         btnItems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +98,26 @@ public class CheckoutOrder extends AppCompatActivity {
         });
         llPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+
+
+                        Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ","")));
+                        Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
+                        intent.putExtra("FIRST_NAME", getFirstName);
+                        intent.putExtra("PHONE_NUMBER", getPhone);
+                        intent.putExtra("EMAIL_ADDRESS", getEmail);
+
+                double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ",""));
+                String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+
+                intent.putExtra("RECHARGE_AMT", strTotalAmntpay);
+
+                        startActivity(intent);
+
+
+
+
             }
         });
         showListView();
