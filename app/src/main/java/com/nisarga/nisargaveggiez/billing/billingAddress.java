@@ -169,6 +169,8 @@ public class billingAddress extends AppCompatActivity {
                         }
                         session.saveTotal(resource.total, resource.total_savings);
 
+                        addorder();
+
 
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
                         intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -224,22 +226,39 @@ public class billingAddress extends AppCompatActivity {
 
             Log.d("getToken", String.valueOf(session.getToken()));
 
-//            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
-//
-//            Call<AddOrder> call = apiInterface.getCartList("api/order/add", session.getToken(),ordadddetails);
-//            call.enqueue(new Callback<AddOrder>() {
-//                @Override
-//                public void onResponse(Call<AddOrder> call, Response<AddOrder> response)
-//                {
-//                    AddOrder resource = response.body();
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<AddOrder> call, Throwable t) {
-//                    call.cancel();
-//                }
-//            });
+            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
+
+            Call<AddOrder> call = apiInterface.AddOrder("api/order/add", session.getToken(),ordadddetails);
+            call.enqueue(new Callback<AddOrder>() {
+                @Override
+                public void onResponse(Call<AddOrder> call, Response<AddOrder> response)
+                {
+                    AddOrder resource = response.body();
+
+                    List<AddOrder.AddOrderDatum> datumList = resource.data;
+
+                    for (AddOrder.AddOrderDatum lsts : datumList)
+                    {
+                        if (response.isSuccessful())
+                        {
+                            //session.addorder(lsts.address,String.valueOf(lsts.savings),lsts.delivery_charges,String.valueOf(lsts.total));
+                        }
+                    }
+
+
+                    if (resource.status.equals("success"))
+                    {
+                        addorder();
+                        Log.d("success", "successonResponse: ");
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<AddOrder> call, Throwable t) {
+                    call.cancel();
+                }
+            });
 
 
 

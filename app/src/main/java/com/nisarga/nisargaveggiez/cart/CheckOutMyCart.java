@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.billing.billingAddress;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 
 public class CheckOutMyCart extends AppCompatActivity {
 
@@ -28,6 +31,8 @@ public class CheckOutMyCart extends AppCompatActivity {
     private TextView tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvCartValue, tvChkoutDeliveryDay;
     private String strCustFName, strCustLName, strPhoneNo, strAprtName, strAprtDetails, strInstruct, strDeliveryDay;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
+    APIInterface apiInterface;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,7 @@ public class CheckOutMyCart extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         session = new SessionManager(getApplicationContext());
+        apiInterface = APIClient.getClient().create(APIInterface.class);
 
         tvChkoutDeliveryDay = findViewById(R.id.tvChkoutDeliveryDay);
         tvChkoutDelvInstruct = findViewById(R.id.tvChkoutDelvInstruct);
@@ -74,6 +80,8 @@ public class CheckOutMyCart extends AppCompatActivity {
         tvChkoutDeliveryDay.setText(strDeliveryDay);
         confirmOrder();
         moveToEditAddress();
+
+        Log.d("ord address", session.addorder_total());
     }
     @Override
     public boolean onSupportNavigateUp() {

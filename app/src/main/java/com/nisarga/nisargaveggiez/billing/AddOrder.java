@@ -20,7 +20,7 @@ import java.util.List;
         public  String status;
 
         @SerializedName("data")
-        public List<AddOrderDatum> result=null;
+        public List<AddOrderDatum> data=null;
 
         public AddOrder(String delivery_date)
         {
@@ -29,17 +29,17 @@ import java.util.List;
 
         public class AddOrderDatum
         {
-            @SerializedName("address")
-            public String address;
+//            @SerializedName("address")
+//            public String address;
 
-            @SerializedName("savings")
-            public String savings;
+//            @SerializedName("savings")
+//            public Integer savings;
 
             @SerializedName("delivery_charges")
             public String delivery_charges;
 
-            @SerializedName("total")
-            public String total;
+//            @SerializedName("total")
+//            public Integer total;
 
         }
 
