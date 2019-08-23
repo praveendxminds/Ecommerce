@@ -109,7 +109,7 @@ public class cart extends AppCompatActivity {
                 categories_dtes.add("Select");
 
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
                 for (int i = 1; i < 4; i++)
                 {
                     Calendar calendars = new GregorianCalendar();

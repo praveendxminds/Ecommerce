@@ -29,7 +29,7 @@ public class ConfirmOrder extends AppCompatActivity {
     private TextView tvApartmentName,tvAddressDetails,tvMsg;
     private RatingBar ratingBar;
     private EditText etFeedback;
-    private Button btnSubmit;
+    private TextView btnSubmit;
 
 
     @Override

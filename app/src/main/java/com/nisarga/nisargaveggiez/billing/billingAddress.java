@@ -26,14 +26,18 @@ import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.cart.CheckOutMyCart;
 import com.nisarga.nisargaveggiez.cart.ShippingNewAddress;
+import com.nisarga.nisargaveggiez.cart.cartItem;
 import com.nisarga.nisargaveggiez.ccavenue.ccavenue;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.CartListModel;
+import com.nisarga.nisargaveggiez.retrofit.CustomerDetails;
 import com.nisarga.nisargaveggiez.retrofit.MyOrderList;
 import com.nisarga.nisargaveggiez.retrofit.ShippingAddrModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -133,6 +137,8 @@ public class billingAddress extends AppCompatActivity {
 
     public void moveToChkOut()
     {
+        Log.d("moveToChkOut", session.getDeliverydate());
+
 
         strFirstName = etFirstName.getText().toString();
         strLastName = etLastName.getText().toString();
@@ -210,4 +216,37 @@ public class billingAddress extends AppCompatActivity {
         }
         return true;
     }
+
+    public void addorder()
+    {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+
+            Log.d("getToken", String.valueOf(session.getToken()));
+
+//            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
+//
+//            Call<AddOrder> call = apiInterface.getCartList("api/order/add", session.getToken(),ordadddetails);
+//            call.enqueue(new Callback<AddOrder>() {
+//                @Override
+//                public void onResponse(Call<AddOrder> call, Response<AddOrder> response)
+//                {
+//                    AddOrder resource = response.body();
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<AddOrder> call, Throwable t) {
+//                    call.cancel();
+//                }
+//            });
+
+
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
