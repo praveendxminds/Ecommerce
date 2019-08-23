@@ -80,7 +80,7 @@ public class HomePageDealOfDayItemList {
     Context mContext;
     PlaceHolderView mPlaceHolderView;
 
-    String sProductId, sProductImage, sProductName, sProductPrice, sProductDis, sQuantity;
+    String sProductId, sProductImage, sProductName, sProductDis, sAddCart;
     int cartcount = 0;
 
     String product_option_id[], product_option_value_id[], product_price[];
@@ -88,14 +88,13 @@ public class HomePageDealOfDayItemList {
     String productPrice;
 
     public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name,
-                                     String prod_price, String prod_discount, String quantity) {
+                                     String prod_discount, String addCart) {
         this.mContext = context;
         this.sProductId = product_id;
         this.sProductImage = image_url;
         this.sProductName = prod_name;
-        this.sProductPrice = prod_price;
         this.sProductDis = prod_discount;
-        this.sQuantity = quantity;
+        this.sAddCart = addCart;
     }
 
     @Resolve
@@ -111,6 +110,15 @@ public class HomePageDealOfDayItemList {
             String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
             tvOldPrice.setVisibility(android.view.View.VISIBLE);
             tvOldPrice.setText("₹" + " " + str_disValue);
+        }
+
+        if (sAddCart.equals("0")) {
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llAddCart.setVisibility(android.view.View.GONE);
+        } else {
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llAddCart.setVisibility(android.view.View.VISIBLE);
+            tvNoOfCount.setText(sAddCart);
         }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();

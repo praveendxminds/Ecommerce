@@ -45,8 +45,8 @@ public class HomePageRecommended {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
-            phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image, image.name,
-                    image.price, image.discount_price, image.quantity));
+            phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image,
+                    image.name, image.discount_price, image.add_product_quantity_in_cart));
         }
     }
 
