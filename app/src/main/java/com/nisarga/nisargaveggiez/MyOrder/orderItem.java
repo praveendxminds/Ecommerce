@@ -3,6 +3,7 @@ package com.nisarga.nisargaveggiez.MyOrder;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,7 +22,11 @@ import com.nisarga.nisargaveggiez.R;
 import com.mindorks.placeholderview.annotations.View;
 import com.nisarga.nisargaveggiez.retrofit.CancelOrderModel;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -115,19 +120,66 @@ public class orderItem {
 
         chkStatus = session.getStatusOrder();
 
-        if (chkStatus.equals("Canceled")) {
+        if (chkStatus.equals("Canceled"))
+        {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
             canceledOrder.setText(mstatus);
 
-        } else if (chkStatus.equals("Pending")) {
+
+
+
+            Date dlocalTime = null;
+            try
+            {
+
+                dlocalTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(mdeliveryDate);
+                Date dateBefore = new Date(dlocalTime.getTime() - 1 * 24 * 3600 * 1000  );
+                String time1 = "04:00 AM";
+
+
+                SimpleDateFormat sdfs = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+                Date endtime = sdf.parse(dateBefore + " " + time1);
+
+
+                Date date = new Date();
+
+                if ( date.compareTo(endtime) < 0 )
+                {
+                    Log.d("dateblw", "dateblw: ");
+                }
+                else
+                {
+                    Log.d("dateabv", "dateabv: ");
+                }
+
+
+
+
+
+
+
+
+            }
+            catch (java.text.ParseException e)
+            {
+                e.printStackTrace();
+            }
+
+
+
+
+        }
+        else if (chkStatus.equals("Pending"))
+        {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setText(mstatus);
-
-        } else {
+        }
+        else
+        {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
@@ -136,7 +188,7 @@ public class orderItem {
         session.storeStatusOrder(null);
 
         chkCancel = session.getCancelId();
-        if (chkCancel.equals("0")) {
+        if (chkCancel.equals("1")) {
             btnCancelOrder.setVisibility(android.view.View.GONE);
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);

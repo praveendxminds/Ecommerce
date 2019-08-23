@@ -54,7 +54,7 @@ public class SessionManager {
     public static final String SHIP_DELIVERY_DAY = "ship_delivery_day";
 
     public static final String DELIVERY_DAY = "delivery_day";
-
+    public static final String DELIVERY_WEEK = "delivery_week";
 
 
     public static final String KEY_TOKEN_ID = "fcm_id";
@@ -284,6 +284,17 @@ public class SessionManager {
     public void setDeliverydate(String dte)
     {
         editor.putString(DELIVERY_DAY, dte);
+        editor.commit();
+    }
+
+    public String getDeliveryweek()
+    {
+        return pref.getString(DELIVERY_WEEK, null);
+    }
+
+    public void setDeliveryweek(String wk)
+    {
+        editor.putString(DELIVERY_WEEK, wk);
         editor.commit();
     }
 

@@ -1,7 +1,10 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,6 +35,8 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
 import com.nisarga.nisargaveggiez.retrofit.ProductDetailsModel;
+import com.nisarga.nisargaveggiez.retrofit.RemoveWishListItem;
+import com.nisarga.nisargaveggiez.retrofit.SimilarProductsModel;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import retrofit2.Call;
@@ -38,87 +44,81 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import com.nisarga.nisargaveggiez.cart.cart;
-import com.nisarga.nisargaveggiez.retrofit.SimilarProductsModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by sushmita 25/06/2019
  */
 
+
 public class ProductDetailHome extends AppCompatActivity {
 
-    SessionManager session;
+    private Toolbar toolbar;
+    private TextView tv_title, tv_original_price, tv_productCount, tvDisPricePrdDetail;
+    private Spinner qtyPrdDetail;
     APIInterface apiInterface;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_product_detail_home);
-
-        session = new SessionManager(getApplicationContext());
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-
-        init();
-    }
-
-    Toolbar toolbarSingleProduct;
-    PlaceHolderView phvSingleProductImage, phvSimilarProduct;
-    TextView tvPrdName, tvNewPrice, tvOldPrice, tvProductCount;
-    Spinner spQuantity;
-    ImageButton ivbtnAddItem, ivBtnDecrease, ivBtnIncrease;
-    LinearLayout llAddQuantity, llProductCount, llSimilarProduct;
-    WebView webViewDesc;
-    Button btnAddWishlist, btnAddCart;
-
-    String sPrdId, sPrdName, sPrdPrice, sPrdDisPrice, sPrdQty, sDesc, sWishlistStatus, sAddQtyStatus;
+    private PlaceHolderView mPlaceHolderView, img_list_PrdDetails;
+    private ImageButton imgBtn_decre, imgBtn_incre, btnAddItem;
+    private LinearLayout llAddCartItem, llCountItem, ll_similar_prd;
+    private Button addtoCartPrdDetail;
+    public Button addtoWishListPrdDetail;
+    private WebView webViewDesc;
+    String sprd_id, sname, sprice, sqty, sDisPrice, sDesc, sWishlistStatus, sAddQtyStatus;
+    SessionManager session;
+    SharedPreferences sharedpreferences;
+    public static final String mypreference = "mypref";
+    public String callPrdId, sCustId;
     int countVal = 0;
     private String str_priceValue, str_priceValue_1;
+    public ImageButton btn_addtoWishlistPrdDetail;
+    public boolean status_wish;
 
     String product_option_id[], product_option_value_id[];
     String sQuantitySpinner, option_id, option_value_id;
 
-    private void init() {
-        toolbarSingleProduct = (Toolbar) findViewById(R.id.toolbarSingleProduct);
-        setSupportActionBar(toolbarSingleProduct);
+    TextView cartcount;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.product_detail_home);
+
+        session = new SessionManager(getApplicationContext());
+        callPrdId = getIntent().getStringExtra("product_id");
+        sCustId = session.getCustomerId();
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        img_list_PrdDetails = findViewById(R.id.img_list_PrdDetails);
+        toolbar = (Toolbar) findViewById(R.id.toolbarPrdDetail);
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        phvSingleProductImage = findViewById(R.id.phvSingleProductImage);
-        tvPrdName = findViewById(R.id.tvPrdName);
-        spQuantity = findViewById(R.id.spQuantity);
-        tvNewPrice = findViewById(R.id.tvNewPrice);
-        tvOldPrice = findViewById(R.id.tvOldPrice);
-        ivbtnAddItem = findViewById(R.id.ivbtnAddItem);
-
-        llAddQuantity = findViewById(R.id.llAddQuantity);
-        llProductCount = findViewById(R.id.llProductCount);
-        ivBtnDecrease = findViewById(R.id.ivBtnDecrease);
-        tvProductCount = findViewById(R.id.tvProductCount);
-        ivBtnIncrease = findViewById(R.id.ivBtnIncrease);
-
-        llSimilarProduct = findViewById(R.id.llSimilarProduct);
-        phvSimilarProduct = findViewById(R.id.phvSimilarProduct);
+        tv_title = (TextView) findViewById(R.id.titlePrdDetail);
+        tv_original_price = (TextView) findViewById(R.id.originalPricePrdDetail);
+        tvDisPricePrdDetail = findViewById(R.id.tvDisPricePrdDetail);
+        qtyPrdDetail = findViewById(R.id.qntyPrdDetail);
+        mPlaceHolderView = (PlaceHolderView) findViewById(R.id.similarPrdDetail);
+        llAddCartItem = findViewById(R.id.llAddToCart);
+        llCountItem = findViewById(R.id.llCountItems);
+        imgBtn_decre = findViewById(R.id.imgBtn_decre);
+        imgBtn_incre = findViewById(R.id.imgBtn_incre);
+        btnAddItem = findViewById(R.id.btnAddItem);
+        tv_productCount = findViewById(R.id.tv_productCount);
+        addtoWishListPrdDetail = findViewById(R.id.addtoWishListPrdDetail);
+        addtoCartPrdDetail = findViewById(R.id.addtoCartPrdDetail);
         webViewDesc = findViewById(R.id.webViewDesc);
-
-        btnAddWishlist = findViewById(R.id.btnAddWishlist);
-        btnAddCart = findViewById(R.id.btnAddCart);
-
-        sPrdId = getIntent().getExtras().getString("product_id", "defaultKey");
-
-        phvSimilarProduct.getBuilder()
-                .setHasFixedSize(false)
-                .setItemViewCacheSize(10)
-                .setLayoutManager(new LinearLayoutManager(ProductDetailHome.this,
-                        LinearLayoutManager.HORIZONTAL, false));
+        ll_similar_prd = findViewById(R.id.ll_similar_prd);
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final QuantityList quantityList = new QuantityList(sPrdId);
+            final QuantityList quantityList = new QuantityList(callPrdId);
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
@@ -139,8 +139,8 @@ public class ProductDetailHome extends AppCompatActivity {
 
                     ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(ProductDetailHome.this, R.layout.spinner_item,
                             product_qty_list);
-                    spQuantity.setAdapter(itemsAdapter);
-                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    qtyPrdDetail.setAdapter(itemsAdapter);
+                    qtyPrdDetail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
                             sQuantitySpinner = product_qty_list.get(position);
@@ -164,90 +164,88 @@ public class ProductDetailHome extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
         }
 
-        final ArrayList<String> imageArr = new ArrayList<>();
 
+        mPlaceHolderView.getBuilder()
+                .setHasFixedSize(false)
+                .setItemViewCacheSize(10)
+                .setLayoutManager(new LinearLayoutManager(getApplicationContext(),
+                        LinearLayoutManager.HORIZONTAL, false));
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //-----------------------------------------------------------for product details ---------------------------------
-            final ProductDetailsModel productDetail = new ProductDetailsModel(session.getCustomerId(), sPrdId);
+
+            final ProductDetailsModel productDetail = new ProductDetailsModel(session.getCustomerId(), callPrdId);
             Call<ProductDetailsModel> call = apiInterface.getProductDetails(productDetail);
             call.enqueue(new Callback<ProductDetailsModel>() {
                 @Override
                 public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
                     ProductDetailsModel productResponse = response.body();
-                    if (productResponse.status.equals("success")) {
-                        List<ProductDetailsModel.Datum> datumList = productResponse.result;
-                        for (ProductDetailsModel.Datum imgs : datumList) {
-                            String PrdId = imgs.product_id;
-                            sPrdName = imgs.name;
-                            tvPrdName.setText(sPrdName);
-                            toolbarSingleProduct.setTitle(sPrdName);
-
-                            sPrdPrice = imgs.price;
-                            tvNewPrice.setText(sPrdPrice);
-
-                            sPrdDisPrice = imgs.discount_price;
-                            tvOldPrice.setText(sPrdDisPrice);
-
-                            sPrdQty = imgs.quantity;
-                            sDesc = imgs.description;
-                            if (sDesc.equals("null")) {
-                                webViewDesc.setVisibility(View.GONE);
+                    List<String> imageArr = new ArrayList<String>();
+                    List<ProductDetailsModel.Datum> datumList = productResponse.result;
+                    for (ProductDetailsModel.Datum imgs : datumList) {
+                        if (response.isSuccessful()) {
+                            sprd_id = imgs.getProduct_id();
+                            sname = imgs.getName();
+                            sprice = imgs.getPrice();
+                            sDisPrice = imgs.getDiscount();
+                            sqty = imgs.getQuantity();
+                            sDesc = imgs.getDesc();
+                            sWishlistStatus = imgs.getWishlistStatus();
+                            sAddQtyStatus = imgs.getAddPrdQty();
+                            if (sWishlistStatus.equals("0")) {
+                                addToWishList();
                             } else {
-                                String res = null;
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                                    res = Html.fromHtml(sDesc, Html.FROM_HTML_MODE_COMPACT).toString();
-                                } else {
-                                    res = Html.fromHtml(sDesc).toString();
+                               /* Intent intentAddedWishlist = new Intent(getBaseContext(),ProductDetailsImageSlider.class);
+                                intentAddedWishlist.putExtra("wishlist_status","1");*/
+                                getWishlistStatus();
+                            }
+                            if (sAddQtyStatus.equals("0")) {
+                                llAddCartItem.setVisibility(android.view.View.VISIBLE);
+                                llCountItem.setVisibility(android.view.View.GONE);
+                            } else {
+                                llAddCartItem.setVisibility(android.view.View.GONE);
+                                llCountItem.setVisibility(android.view.View.VISIBLE);
+                                try {
+                                    countVal = Integer.parseInt(sAddQtyStatus);
+                                } catch (NumberFormatException nfe) {
+                                    System.out.println("Could not parse " + nfe);
                                 }
-                                webViewDesc.loadDataWithBaseURL(null, res, "text/html", "utf-8",
-                                        null);
-                            }
-
-                            sWishlistStatus = imgs.wishlist_status;
-                            if (sWishlistStatus.equals("1")) {
-                                btnAddWishlist.setText("Added To WishList");
-                                btnAddWishlist.setEnabled(false);
-                                btnAddWishlist.setBackgroundColor(ProductDetailHome.this.getResources().getColor(R.color.green));
-                            }
-
-                            sAddQtyStatus = imgs.add_prd_qty;
-                            if (sAddQtyStatus.equals("1")) {
-                                btnAddCart.setText("Added To Cart");
-                                btnAddCart.setEnabled(false);
-                                btnAddCart.setBackgroundColor(ProductDetailHome.this.getResources().getColor(R.color.green));
+                                display(countVal);
                             }
 
                             List<ProductDetailsModel.Datum.ImageArr> imageList = imgs.image;
                             for (ProductDetailsModel.Datum.ImageArr imgSlide : imageList) {
                                 if (response.isSuccessful()) {
-                                    imageArr.add(imgSlide.image_1);
+                                    imageArr.add(imgSlide.getImage());
                                 }
                             }
-                            phvSingleProductImage.addView(new ProductDetailsImageSlider(ProductDetailHome.this,
-                                    imageArr, sWishlistStatus, sPrdId, btnAddWishlist));
+                            img_list_PrdDetails.addView(new ProductDetailsImageSlider(ProductDetailHome.this,
+                                    imageArr, addtoWishListPrdDetail, callPrdId, session.getCustomerId()));
 
-                            double dbl_Price = Double.parseDouble(imgs.price);//need to convert string to decimal
+                            toolbar.setTitle(sname);
+                            tv_title.setText(sname);
+
+                            double dbl_Price = Double.parseDouble(sprice);//need to convert string to decimal
                             str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-                            tvNewPrice.setText("₹" + " " + str_priceValue);
+                            tv_original_price.setText("₹" + " " + str_priceValue);
 
-                            double dbl_Price1 = Double.parseDouble(imgs.discount_price);//need to convert string to decimal
-                            str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
-                            tvOldPrice.setText("₹" + " " + str_priceValue_1);
-                        }
-
-                       /* if (productResponse.similarProduct.equals("null")) {
-                            llSimilarProduct.setVisibility(View.GONE);
-                        } else {
-                            List<ProductDetailsModel.SimilarProductDatum> similarProductData = productResponse.similarProduct;
-                            for (ProductDetailsModel.SimilarProductDatum data : similarProductData) {
-                                if (response.isSuccessful()) {
-                                    phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
-                                            data.related_id, data.product_id, data.image, data.wishlist_status,
-                                            data.add_product_quantity_in_cart, data.price, data.quantity,
-                                            data.discount_price, data.name));
-                                }
+                            if (sDisPrice.equals("null")) {
+                                tvDisPricePrdDetail.setVisibility(View.INVISIBLE);
+                            } else {
+                                double dbl_Price1 = Double.parseDouble(sDisPrice);//need to convert string to decimal
+                                str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
+                                tvDisPricePrdDetail.setVisibility(android.view.View.VISIBLE);
+                                tvDisPricePrdDetail.setText("₹" + " " + str_priceValue_1);
                             }
-                        }*/
+                            String res = null;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                                res = Html.fromHtml(sDesc, Html.FROM_HTML_MODE_COMPACT).toString();
+                            } else {
+                                res = Html.fromHtml(sDesc).toString();
+                            }
+                            webViewDesc.loadDataWithBaseURL(null, res, "text/html", "utf-8", null);
+                        }
                     }
                 }
 
@@ -256,143 +254,158 @@ public class ProductDetailHome extends AppCompatActivity {
                     call.cancel();
                 }
             });
+            //------------------------------------------------------------number of products-------------------------------------------------------------
+            addtoCartPrdDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AddToCartModel ref = new AddToCartModel(callPrdId, sQuantitySpinner, option_id, option_value_id);
 
+                    apiInterface = APIClient.getClient().create(APIInterface.class);
+                    Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+                    callAdd.enqueue(new Callback<AddToCartModel>() {
+                        @Override
+                        public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                            AddToCartModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            } else if (resource.status.equals("failure")) {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                }
+            });
+
+            btnAddItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    countVal = countVal + 1;//display number in place of add to cart
+                    session.cartcount(countVal);
+                    display(countVal);
+//                    tv_productCount.setText(countVal);
+                    llAddCartItem.setVisibility(android.view.View.GONE);
+                    llCountItem.setVisibility(android.view.View.VISIBLE);
+
+                }
+            });
+
+            imgBtn_incre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    countVal = countVal + 1;//display number in place of add to cart
+                    session.cartcount(countVal);
+                    display(countVal);
+                    tv_productCount.setText(countVal);
+                }
+            });
+
+            imgBtn_decre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (countVal <= 1) {
+                        countVal = countVal - 1;
+                        session.cartcount(countVal);
+                        display(countVal);
+                        tv_productCount.setText(countVal);
+                        llAddCartItem.setVisibility(android.view.View.VISIBLE);
+                        llCountItem.setVisibility(android.view.View.GONE);
+
+                    } else {
+                        countVal = countVal - 1;
+                        session.cartcount(countVal);
+                        display(countVal);
+                        tv_productCount.setText(countVal);
+                    }
+                }
+            });
+
+            //----------------------------------------------------------similar product response---------------------------------------
+            final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel(callPrdId, session.getCustomerId());
+            Call<SimilarProductsModel> callSimilarProducts = apiInterface.getSimilarProducts(productslSimilarPrd);
+            callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
+                @Override
+                public void onResponse(Call<SimilarProductsModel> call, Response<SimilarProductsModel> response) {
+
+                    SimilarProductsModel resource = response.body();
+
+                    if (resource.status.equals("success")) {
+
+                        ll_similar_prd.setVisibility(View.VISIBLE);
+
+                        List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
+                        for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
+                            if (response.isSuccessful()) {
+
+                                mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), cartcount,
+                                        mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
+                            }
+                        }
+
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<SimilarProductsModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
-
-        //--------------------------------------similar product response---------------------------------------
-        final SimilarProductsModel productslSimilarPrd = new SimilarProductsModel(sPrdId, session.getCustomerId());
-        Call<SimilarProductsModel> callSimilarProducts = apiInterface.getSimilarProducts(productslSimilarPrd);
-        callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
-            @Override
-            public void onResponse(Call<SimilarProductsModel> call, Response<SimilarProductsModel> response) {
-                SimilarProductsModel resource = response.body();
-                if (resource.status.equals("success")) {
-                    llSimilarProduct.setVisibility(View.VISIBLE);
-                    List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
-                    for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
-                            phvSimilarProduct.addView(new SimilarProductsListItem(getApplicationContext(),
-                                    imgs.related_id, imgs.product_id, imgs.image, imgs.price, imgs.quantity,
-                                    imgs.discount_price, imgs.name));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SimilarProductsModel> call, Throwable t) {
-                call.cancel();
-            }
-        });
-
-        btnAddCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addToCart();
-            }
-        });
-
-        btnAddWishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addToWishList();
-            }
-        });
-
-        ivbtnAddItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countVal = countVal + 1;//display number in place of add to cart
-                session.cartcount(countVal);
-                display(countVal);
-                tvProductCount.setText(countVal);
-                llAddQuantity.setVisibility(View.GONE);
-                llProductCount.setVisibility(View.VISIBLE);
-            }
-        });
-
-        ivBtnIncrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countVal = countVal + 1;//display number in place of add to carticon
-                session.cartcount(countVal);
-                display(countVal);
-                tvProductCount.setText(countVal);
-            }
-        });
-
-        ivBtnDecrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (countVal <= 1) {
-                    countVal = countVal - 1;
-                    session.cartcount(countVal);
-                    display(countVal);
-                    tvProductCount.setText(countVal);
-                    llAddQuantity.setVisibility(android.view.View.VISIBLE);
-                    llProductCount.setVisibility(android.view.View.GONE);
-                } else {
-                    countVal = countVal - 1;
-                    session.cartcount(countVal);
-                    display(countVal);
-                    tvProductCount.setText(countVal);
-                }
-            }
-        });
-    }
-
-    private void addToCart() {
-        final AddToCartModel ref = new AddToCartModel(sPrdId, sQuantitySpinner, option_id, option_value_id);
-
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-        callAdd.enqueue(new Callback<AddToCartModel>() {
-            @Override
-            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                AddToCartModel resource = response.body();
-                if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                } else if (resource.status.equals("failure")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AddToCartModel> call, Throwable t) {
-                call.cancel();
-            }
-        });
+        addToWishList();
     }
 
     public void addToWishList() {
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        final InsertWishListItems add_item = new InsertWishListItems(session.getCustomerId(), sPrdId);
-        Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-        callAdd.enqueue(new Callback<InsertWishListItems>() {
+        addtoWishListPrdDetail.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                InsertWishListItems resource = response.body();
-                if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    btnAddWishlist.setText("Added To WishList");
-                    btnAddWishlist.setEnabled(false);
-                    btnAddWishlist.setBackgroundColor(ProductDetailHome.this.getResources().getColor(R.color.green));
-                } else {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                }
-            }
+            public void onClick(View v) {
+                //------------------------------------------for adding to wishlist-----------------------------
+                final InsertWishListItems add_item = new InsertWishListItems(session.getCustomerId(), callPrdId);
+                Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
+                callAdd.enqueue(new Callback<InsertWishListItems>() {
+                    @Override
+                    public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
+                        InsertWishListItems resource = response.body();
+                        if (resource.status.equals("success")) {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            addtoWishListPrdDetail.setText("Added in Wishlist");
 
-            @Override
-            public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                call.cancel();
+                            btn_addtoWishlistPrdDetail = findViewById(R.id.btn_addtoWishlistPrdDetail);
+                            status_wish = getWishlistStatus();
+                            status_wish = true;
+                            btn_addtoWishlistPrdDetail.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
+                                    // status_wish = true;
+                                    // Do something after 1000 ms
+                                }
+                            }, 1000);
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<InsertWishListItems> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
             }
         });
     }
 
     public void display(int number) {
-        tvProductCount.setText("" + number);
+        tv_productCount.setText("" + number);
     }
 
     @Override
@@ -401,6 +414,7 @@ public class ProductDetailHome extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -408,22 +422,23 @@ public class ProductDetailHome extends AppCompatActivity {
 
         MenuItem cart_menuItem = menu.findItem(R.id.cart_menu_item);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        final TextView cart_badge = (TextView) rootView.findViewById(R.id.cart_badge);
+        cartcount = (TextView) rootView.findViewById(R.id.cart_badge);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
             Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
             call.enqueue(new Callback<CartCount>() {
                 @Override
                 public void onResponse(Call<CartCount> call, Response<CartCount> response) {
                     CartCount cartCount = response.body();
                     if (cartCount.status.equals("success")) {
-                        cart_badge.setText(cartCount.data);
+                        cartcount.setText(cartCount.data);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<CartCount> call, Throwable t) {
-                    call.cancel();
+
                 }
             });
         } else {
@@ -436,10 +451,28 @@ public class ProductDetailHome extends AppCompatActivity {
                 Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
                 DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(DeliveryIntent);
+
             }
         });
-
         return true;
+    }
+
+
+    public void buynow(android.view.View v) {
+        Intent cartIntent = new Intent(getBaseContext(), cart.class);
+        startActivity(cartIntent);
+    }
+
+
+    public void addcart(android.view.View v) {
+        Integer cnt = session.getCartCount();
+        cnt = cnt + 1;
+        session.cartcount(cnt);
+
+    }
+
+    public boolean getWishlistStatus() {
+        return false;
     }
 
     @Override
@@ -455,7 +488,7 @@ public class ProductDetailHome extends AppCompatActivity {
                 break;
 
             case R.id.cart_menu_item:
-                Intent myctIntent = new Intent(getApplicationContext(), cart.class);
+                Intent myctIntent = new Intent(getBaseContext(), cart.class);
                 startActivity(myctIntent);
                 break;
         }

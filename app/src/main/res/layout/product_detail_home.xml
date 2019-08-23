@@ -65,10 +65,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:background="@color/white"
                     android:gravity="left"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="5dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/titlePrdDetail"
@@ -92,10 +92,10 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
                             android:layout_weight="6"
                             android:background="@color/white"
-                            android:orientation="horizontal"
-                            android:layout_marginLeft="5dp">
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -103,14 +103,14 @@
                                 android:layout_marginRight="10dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_vertical|right"
+                                android:padding="5dp"
                                 android:text="Qty:"
                                 android:textColor="@color/blackshadow"
-                                android:textSize="15sp"
-                                android:padding="5dp"/>
+                                android:textSize="15sp" />
 
                             <Spinner
                                 android:id="@+id/qntyPrdDetail"
-                                android:layout_width="120dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/product_detail_spinner"
                                 android:padding="0dp"
@@ -157,7 +157,7 @@
                                     android:text="₹ 80"
                                     android:textColor="@color/black"
                                     android:textSize="10dp"
-                                    android:visibility="visible"/>
+                                    android:visibility="visible" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -165,20 +165,22 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
                             android:layout_weight="8"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:orientation="horizontal">
+
                             <LinearLayout
                                 android:id="@+id/llAddToCart"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:visibility="visible">
+
                                 <ImageButton
                                     android:id="@+id/btnAddItem"
                                     android:layout_width="48dp"
                                     android:layout_height="20dp"
                                     android:background="@drawable/addbutton"
-                                    android:duplicateParentState="true"/>
+                                    android:duplicateParentState="true" />
 
                             </LinearLayout>
 
@@ -231,9 +233,9 @@
 
                 <LinearLayout
                     android:id="@+id/ll_similar_prd"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
