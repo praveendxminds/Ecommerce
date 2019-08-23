@@ -8,37 +8,34 @@ import java.util.List;
 public class OrderFeedback
 {
 
-    @SerializedName("delivery_date")
-    public  String delivery_date;
-
-    @SerializedName("success")
-    public  String success;
 
     @SerializedName("status")
     public  String status;
 
-    @SerializedName("data")
-    public List<AddOrderDatum> result=null;
+    @SerializedName("message")
+    public  String message;
+
+
+    @SerializedName("order_id")
+    public  String order_id;
+
+    @SerializedName("customer_id")
+    public  String customer_id;
+
+    @SerializedName("rating")
+    public  String rating;
+
+    @SerializedName("feedback")
+    public  String feedback;
+
 
     public OrderFeedback(String delivery_date)
     {
-        this.delivery_date=delivery_date;
+        this.order_id=order_id;
+        this.customer_id=customer_id;
+        this.rating=rating;
+        this.feedback=feedback;
     }
 
-    public class AddOrderDatum
-    {
-        @SerializedName("address")
-        public String address;
-
-        @SerializedName("savings")
-        public String savings;
-
-        @SerializedName("delivery_charges")
-        public String delivery_charges;
-
-        @SerializedName("total")
-        public String total;
-
-    }
 
 }
