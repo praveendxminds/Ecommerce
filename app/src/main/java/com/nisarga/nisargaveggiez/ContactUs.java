@@ -42,7 +42,7 @@ public class ContactUs extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final WebPagesModel readContactUs = new WebPagesModel("4");
+            final WebPagesModel readContactUs = new WebPagesModel("7");
 
             Call<WebPagesModel> call = apiInterface.getContactUs(readContactUs);
             call.enqueue(new Callback<WebPagesModel>() {

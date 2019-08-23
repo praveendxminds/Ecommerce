@@ -77,12 +77,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="11:34 Am"
+                        android:text="00:00 00"
                         android:textAlignment="center"
                         android:textColor="@color/light_black_2"
                         android:textSize="10sp" />
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -156,7 +155,7 @@
                 android:layout_height="25dp"
                 android:src="@drawable/warning"
                 android:padding="5dp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

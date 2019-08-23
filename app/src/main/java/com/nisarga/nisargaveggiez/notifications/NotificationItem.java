@@ -15,6 +15,7 @@ import com.nisarga.nisargaveggiez.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by praveen on 19/12/18.
@@ -66,7 +67,15 @@ public class NotificationItem {
 
         orderTitleNotifi.setText(morderTitle);
         orderDateNotifi.setText(mordercontent);
-        timeNotifi.setText(mdate);
+        Date localTime = null;
+        try {
+            localTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(mdate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE hh:mm aa");
+        String delivDate = sdf.format(new Date(localTime.getTime()));
+        timeNotifi.setText(delivDate);
 
 
 
