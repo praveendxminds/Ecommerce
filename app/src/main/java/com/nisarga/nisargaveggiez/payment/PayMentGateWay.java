@@ -26,7 +26,17 @@ import java.util.Map;
 import java.util.Random;
 import android.os.Handler;
 
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddMoneytoWalletModel;
 import com.nisarga.nisargaveggiez.wallet.AddMoneyToWallet;
+import com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by varun Kumar on 23/1/16.
@@ -40,6 +50,10 @@ public class PayMentGateWay extends Activity {
     private String tag = "PayMentGateWay";
     private String hash,hashSequence;
     ProgressDialog progressDialog ;
+    public static String MyPREFERENCES = "sessiondata" ;
+    APIInterface apiInterface;
+    SessionManager session;
+
 
 //    String merchant_key="zBxSQi"; // live
 //    String salt="ZhraT96O"; // live
@@ -72,6 +86,9 @@ public class PayMentGateWay extends Activity {
         super.onCreate(savedInstanceState);
 
         progressDialog = new ProgressDialog(activity);
+
+        session = new SessionManager(getApplicationContext());
+        apiInterface = APIClient.getClient().create(APIInterface.class);
 
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
@@ -314,13 +331,12 @@ public class PayMentGateWay extends Activity {
 	                    finish();*/
                    // new PostRechargeData().execute();
 
+                    addMoneyToWallet(paymentId,getRechargeAmt);
 
-
-                    Intent intent=new Intent(PayMentGateWay.this, AddMoneyToWallet.class);
+                    Intent intent=new Intent(PayMentGateWay.this, AddtoMoneySuccessAck.class);
                     intent.putExtra("test",getFirstName);
                     startActivity(intent);
 
-                    Toast.makeText(getApplicationContext(), "Successfully payment", Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -525,5 +541,35 @@ public class PayMentGateWay extends Activity {
 
     /******************************************* closed send record to back end ************************************/
 
+    public void addMoneyToWallet(String Txnid,String Amnt)
+    {
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//-------------------------------------image slider view----------------------------------------------------------------------
+            final AddMoneytoWalletModel get_order_list = new AddMoneytoWalletModel("92",Txnid,Amnt);
+            Call<AddMoneytoWalletModel> call = apiInterface.addMoney(get_order_list);
+            call.enqueue(new Callback<AddMoneytoWalletModel>() {
+                @Override
+                public void onResponse(Call<AddMoneytoWalletModel> call, Response<AddMoneytoWalletModel> response)
+                {
+
+                    AddMoneytoWalletModel resource = response.body();
+                    Toast.makeText(getApplicationContext(), "Money is Successfully added to wallet", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+                @Override
+                public void onFailure(Call<AddMoneytoWalletModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
 
 }

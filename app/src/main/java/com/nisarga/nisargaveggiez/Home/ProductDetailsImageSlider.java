@@ -1,11 +1,16 @@
 package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
+import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.R;
@@ -39,7 +44,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 @Parent
 @SingleTop
 @Layout(R.layout.image_slider_product_details)
-public class ProductDetailsImageSlider {
+public class ProductDetailsImageSlider  {
 
     @View(R.id.pager_PrdDetails)
     public ViewPager pager_PrdDetails;
@@ -53,6 +58,10 @@ public class ProductDetailsImageSlider {
     public static int currentPage = 0;
     public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
     public ArrayList<String> XMENArray = new ArrayList<String>();
+    public Button maddtoCartPrdDetail;
+
+
+
 
 
     @ParentPosition
@@ -64,10 +73,14 @@ public class ProductDetailsImageSlider {
     public boolean state;
     APIInterface apiInterface;
     ProductDetailHome pdetailHome = new ProductDetailHome();
+    String PrdId,cust_Id;
 
-    public ProductDetailsImageSlider(Context context,List<String> CatImgUrl) {
+    public ProductDetailsImageSlider(Context context,List<String> CatImgUrl,Button addtoCartPrdDetail,String callPrdId,String mcust_Id) {
         mContext = context;
         mCatImgUrl = CatImgUrl;
+        maddtoCartPrdDetail = addtoCartPrdDetail;
+        PrdId=callPrdId;
+        cust_Id = mcust_Id;
 
         for (int i = 0; i < mCatImgUrl.size(); i++) {
             XMENArray.add(mCatImgUrl.get(i));
@@ -92,7 +105,7 @@ public class ProductDetailsImageSlider {
         //---------------------------------------------------------
         if (state == false) {
             //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems("1", "46");
+            final InsertWishListItems add_item = new InsertWishListItems(cust_Id, PrdId);
             Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
             callAdd.enqueue(new Callback<InsertWishListItems>() {
                 @Override
@@ -101,6 +114,7 @@ public class ProductDetailsImageSlider {
                     if (resource.status.equals("success")) {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                         btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
+                        maddtoCartPrdDetail.setText("Added in Wishlist");
 
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -115,7 +129,7 @@ public class ProductDetailsImageSlider {
             state = true;
         } else {
             //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem("1", "46");
+            final RemoveWishListItem remove_item = new RemoveWishListItem(cust_Id, PrdId);
             Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
             callRemove.enqueue(new Callback<RemoveWishListItem>() {
                 @Override
@@ -124,6 +138,7 @@ public class ProductDetailsImageSlider {
                     if (resource.status.equals("success")) {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                         btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.addwishlist);
+                        maddtoCartPrdDetail.setText("Add WishList");
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -139,6 +154,8 @@ public class ProductDetailsImageSlider {
         }
 
     }
+
+
 }
 
 

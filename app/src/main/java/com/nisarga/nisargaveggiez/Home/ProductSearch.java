@@ -1,21 +1,29 @@
 package com.nisarga.nisargaveggiez.Home;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,9 +54,11 @@ import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
+import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
+import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
@@ -69,6 +79,11 @@ import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,9 +92,17 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     APIInterface apiInterface;
     SessionManager session;
 
+    public static final int PICK_IMAGE_REQUEST = 1;
+    private static final int REQUEST_WRITE_PERMISSION = 786;
+
+
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private static ProductSearch instance;
     private Toolbar mToolbarHomePage;
+
+    private String imagepath = null;
+    String strProfilePic = "null";
+
 
     public static TextView textCartItemCount;
     public static BottomNavigationView bottomNavigationView;
@@ -89,7 +112,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private LinearLayout llProfileIcon, llProfileDesc;
     private AutoCompleteTextView searchEditText;
     private DrawerLayout drwLayout;
-    private CircularImageView ivProfilePic;
+    private ImageView ivProfilePic;
     private ImageView ivEditProfile;
     private TextView tvName, tvEmail, tvMobileNo;
     private Button btnEditProfilePic;
@@ -100,6 +123,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     String custId;
     String strSearchKey;
     private AutoCompleteTextView storeTV;
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +133,10 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         session = new SessionManager(getApplicationContext());
         mContext = this.getApplicationContext();
         instance = this;
+
+        progressdialog = new ProgressDialog(ProductSearch.this);
+        progressdialog.setMessage("Please Wait....");
+
 
         RemoteData remoteData = new RemoteData(this);
         remoteData.getStoreData();
@@ -163,7 +191,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
         llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
-       // ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
+        ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
         ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
         navigationView.setNavigationItemSelectedListener(this);
         setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
@@ -195,6 +223,13 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(View v) {
                 drwLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFile();
             }
         });
 
@@ -514,5 +549,110 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(DeliveryIntent);
     }
+
+    public void pickFile() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_PERMISSION);
+            return;
+        }
+        openGallery();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            imagepath = getPath(filePath);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+            ivProfilePic.setImageBitmap(bitmap);
+            imagePath(imagepath);
+        }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    private void imagePath(String imagepath) {
+        try {
+            progressdialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        File file0 = new File(imagepath);
+        RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);
+
+        MultipartBody.Part img1 = MultipartBody.Part.createFormData("file", file0.getName(),
+                requestFile0);
+
+        Call<SignUpImageResponse> call = apiInterface.signupImageUpload(img1);
+        call.enqueue(new Callback<SignUpImageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<SignUpImageResponse> call, @NonNull Response<SignUpImageResponse> response) {
+                SignUpImageResponse responseModel = response.body();
+                if (responseModel.status.equals("success")) {
+                    strProfilePic = responseModel.profile_url;
+                    if (Utils.CheckInternetConnection(getApplicationContext())) {
+                        navImageUpload(strProfilePic);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SignUpImageResponse> call, @NonNull Throwable t) {
+                Log.d("val", "Exception");
+            }
+        });
+    }
+
+    private void navImageUpload(String strProfilePic) {
+        final NavEditImage navEditImage = new NavEditImage(session.getCustomerId(), strProfilePic);
+
+        Call<NavEditImage> call = apiInterface.nav_edit_image(navEditImage);
+        call.enqueue(new Callback<NavEditImage>() {
+            @Override
+            public void onResponse(Call<NavEditImage> call, Response<NavEditImage> response) {
+                NavEditImage responsedata = response.body();
+                if (responsedata.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                } else if (responsedata.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                }
+                progressdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<NavEditImage> call, Throwable t) {
+                call.cancel();
+
+            }
+        });
+    }
+
 
 }

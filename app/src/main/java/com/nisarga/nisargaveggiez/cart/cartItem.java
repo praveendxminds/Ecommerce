@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.Home.ProductDetailHome;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
@@ -133,9 +134,13 @@ public class cartItem {
     }
     @Resolve
     public void onResolved() {
-       /* prd_nameMyCart.setText(mtitle);
-        Glide.with(mcontext).load(murl).into(itemIconMyCart);
 
+
+        prd_nameMyCart.setText(mtitle);
+        Glide.with(mcontext).load(murl).into(itemIconMyCart);
+        tvpriceNewMyCart.setText("\u20B9 "+mprice);
+
+/*
         double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal
         str_priceValue = String.format("%.2f",dbl_Price);//display only 2 decimal places of price
         tvpriceNewMyCart.setText("₹" + " " + str_priceValue);

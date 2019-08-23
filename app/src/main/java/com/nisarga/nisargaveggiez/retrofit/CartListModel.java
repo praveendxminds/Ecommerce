@@ -35,8 +35,8 @@ public class CartListModel {
         @SerializedName("quantity")
         public String quantity;
 
-        @SerializedName("stock")
-        public String stock;
+        @SerializedName("wishlist")
+        public String wishlist;
 
         @SerializedName("shipping")
         public String shipping;
@@ -51,28 +51,28 @@ public class CartListModel {
         public String reward;
 
 
-        @SerializedName("option")
-        public List<CartListOption> options = null;
-
-        public class CartListOption
-        {
-
-            @SerializedName("product_option_id")
-            public String product_option_id;
-
-            @SerializedName("product_option_value_id")
-            public String product_option_value_id;
-
-            @SerializedName("name")
-            public String name;
-
-            @SerializedName("value")
-            public String value;
-
-            @SerializedName("type")
-            public String type;
-
-        }
+//        @SerializedName("option")
+//        public List<CartListOption> options = null;
+//
+//        public class CartListOption
+//        {
+//
+//            @SerializedName("product_option_id")
+//            public String product_option_id;
+//
+//            @SerializedName("product_option_value_id")
+//            public String product_option_value_id;
+//
+//            @SerializedName("name")
+//            public String name;
+//
+//            @SerializedName("value")
+//            public String value;
+//
+//            @SerializedName("type")
+//            public String type;
+//
+//        }
     }
 
 
