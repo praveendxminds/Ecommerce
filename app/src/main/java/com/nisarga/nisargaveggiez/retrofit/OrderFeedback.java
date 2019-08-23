@@ -29,7 +29,7 @@ public class OrderFeedback
     public  String feedback;
 
 
-    public OrderFeedback(String delivery_date)
+    public OrderFeedback(String order_id,String customer_id,String rating,String feedback)
     {
         this.order_id=order_id;
         this.customer_id=customer_id;
