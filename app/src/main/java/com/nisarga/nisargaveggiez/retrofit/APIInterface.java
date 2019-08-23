@@ -13,6 +13,7 @@ import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
 import com.nisarga.nisargaveggiez.ProfileSection.VerifyOTP;
+import com.nisarga.nisargaveggiez.billing.AddOrder;
 import com.nisarga.nisargaveggiez.fcm.TokenFCM;
 import com.nisarga.nisargaveggiez.notifications.NotificationListModel;
 
@@ -187,6 +188,12 @@ public interface APIInterface {
     @POST("index.php")
     Call<UpdateToCartModel> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
                                        @Body UpdateToCartModel model);
+
+
+    @POST("index.php")
+    Call<AddOrder> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
+                                   @Body AddOrder model);
+
 
     @POST("index.php?route=api/custom/notificationList")
     Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
