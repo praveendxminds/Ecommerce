@@ -238,28 +238,29 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(HomePage.this, HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentHomePage);
+                                Intent intentHome = new Intent(HomePage.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(HomePage.this, CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentCategories);
+                                Intent intentCateg = new Intent(HomePage.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
                                 Intent intentWishlist = new Intent(HomePage.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
                                 Intent intentWallet = new Intent(HomePage.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }

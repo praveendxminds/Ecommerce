@@ -228,22 +228,27 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHome = new Intent(getBaseContext(), HomePage.class);
+                                Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCateg = new Intent(getBaseContext(), CategoriesBottomNav.class);
+                                Intent intentCateg = new Intent(HomeCategory.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentWishlist = new Intent(HomeCategory.this, WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentWallet);
                                 break;
 
                         }
