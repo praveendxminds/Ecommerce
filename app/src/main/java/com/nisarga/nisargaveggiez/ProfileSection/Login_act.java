@@ -143,20 +143,15 @@ public class Login_act extends AppCompatActivity {
                 final UserLogin resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(Login_act.this, resource.message, Toast.LENGTH_LONG).show();
-
                     List<UserLogin.Datum> datumList = resource.resultdata;
-                    for (UserLogin.Datum datum : datumList)
-                    {
+                    for (UserLogin.Datum datum : datumList) {
                         sessionManager.createLoginSession(datum.customer_id, datum.customer_group_id,
-                                datum.firstname, datum.lastname, datum.email, datum.cart, datum.wishlist,datum.address_id,
-                                datum.date_added, datum.image,datum.telephone,datum.company, datum.address_1,
-                                datum.address_2, datum.city, datum.country_id, datum.zone_id,datum.postcode, datum.floor,
-                                datum.door, datum.block,datum.apartment_name,datum.api_token);
+                                datum.firstname, datum.lastname, datum.email, datum.cart, datum.wishlist, datum.address_id,
+                                datum.date_added, datum.image, datum.telephone, datum.company, datum.address_1,
+                                datum.address_2, datum.city, datum.country_id, datum.zone_id, datum.postcode, datum.floor,
+                                datum.door, datum.block, datum.apartment_name, datum.api_token);
 
-                        addcustomerseession(datum.api_token,datum.customer_id,datum.firstname,datum.lastname,datum.address_1,datum.city,datum.country_id,datum.zone_id,datum.company,datum.address_2,datum.postcode,datum.telephone,datum.email,datum.customer_group_id);
-
-
-
+                        addcustomerseession(datum.api_token, datum.customer_id, datum.firstname, datum.lastname, datum.address_1, datum.city, datum.country_id, datum.zone_id, datum.company, datum.address_2, datum.postcode, datum.telephone, datum.email, datum.customer_group_id);
                     }
 
                 } else if (resource.status.equals("error")) {
@@ -237,22 +232,19 @@ public class Login_act extends AppCompatActivity {
     }
 
 
-
-    public void addcustomerseession(String token,String customer_id,String firstname,String lastname,String address_1,String city,String country_id,String zone_id,String company,String address_2,String postcode,String telephone,String email,String customer_group_id) {
+    public void addcustomerseession(String token, String customer_id, String firstname, String lastname, String address_1, String city, String country_id, String zone_id, String company, String address_2, String postcode, String telephone, String email, String customer_group_id) {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
 
             Log.d("getToken", String.valueOf(token));
 
-            final CustomerDetails custdetails = new CustomerDetails(customer_id,firstname,lastname,address_1,city,country_id,zone_id,company,address_2,postcode,telephone,email,customer_group_id);
-            Call<CustomerDetails> call = apiInterface.addcustdetails("api/customer/customerindex", token,custdetails);
+            final CustomerDetails custdetails = new CustomerDetails(customer_id, firstname, lastname, address_1, city, country_id, zone_id, company, address_2, postcode, telephone, email, customer_group_id);
+            Call<CustomerDetails> call = apiInterface.addcustdetails("api/customer/customerindex", token, custdetails);
             call.enqueue(new Callback<CustomerDetails>() {
                 @Override
-                public void onResponse(Call<CustomerDetails> call, Response<CustomerDetails> response)
-                {
+                public void onResponse(Call<CustomerDetails> call, Response<CustomerDetails> response) {
                     CustomerDetails resource = response.body();
-                    if (resource.status.equals("success"))
-                    {
+                    if (resource.status.equals("success")) {
 
                         Intent intentHomePage = new Intent(Login_act.this, HomePage.class);
                         startActivity(intentHomePage);
@@ -262,14 +254,11 @@ public class Login_act extends AppCompatActivity {
                 }
 
 
-
                 @Override
                 public void onFailure(Call<CustomerDetails> call, Throwable t) {
                     call.cancel();
                 }
             });
-
-
 
 
         } else {

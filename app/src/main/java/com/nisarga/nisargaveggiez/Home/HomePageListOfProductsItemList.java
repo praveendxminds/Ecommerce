@@ -193,7 +193,7 @@ public class HomePageListOfProductsItemList {
     public void addtocart() {
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
-        tvNoOfCount.setText(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
@@ -224,13 +224,13 @@ public class HomePageListOfProductsItemList {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
             display(cartcount);
-            tvNoOfCount.setText(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llAddCart.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
             display(cartcount);
-            tvNoOfCount.setText(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
 
             final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 
@@ -259,7 +259,7 @@ public class HomePageListOfProductsItemList {
     public void onIncreaseClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
-        tvNoOfCount.setText(cartcount);
+        tvNoOfCount.setText(String.valueOf(cartcount));
 
         final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 

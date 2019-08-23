@@ -109,7 +109,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_gravity="center"
-                            android:background="@color/orange" />
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginRight="40dp"
+                            android:background="@color/white"
+                            android:backgroundTint="@color/orange" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -149,7 +152,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@null"
-                                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                     android:gravity="left|center"
                                     android:hint="First Name *"
                                     android:inputType="text"
@@ -176,7 +179,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@null"
-                                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                     android:gravity="left|center"
                                     android:hint="Last Name *"
                                     android:inputType="text"
