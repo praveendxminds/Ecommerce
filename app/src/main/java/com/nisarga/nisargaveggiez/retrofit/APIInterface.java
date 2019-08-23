@@ -78,8 +78,8 @@ public interface APIInterface {
     @POST("index.php?route=account/wishlist/insertWishList")
     Call<InsertWishListItems> addtoWishList(@Body InsertWishListItems id);
 
-    @POST("index.php?route=api/shipping/address&api_token=454c62c0f0c745c90e5b93b4c0")
-    Call<ShippingAddrModel> addShippingAddress(@Body ShippingAddrModel id);
+    @POST("index.php")
+    Call<ShippingAddrModel> addShippingAddress(@Query("route") String route, @Query("api_token") String api_token,@Body ShippingAddrModel id);
 
     @POST("index.php?route=api/order/cusOrder")
     Call<MyOrderList> getMyOrdersList(@Body MyOrderList customer_id);
@@ -131,7 +131,7 @@ public interface APIInterface {
     Call<CartListModel> getCartList(@Query("route") String route, @Query("api_token") String api_token);
 
     @POST("index.php")
-    Call<CartListModel> addcustdetails(@Query("route") String route, @Query("api_token") String api_token);
+    Call<CustomerDetails> addcustdetails(@Query("route") String route, @Query("api_token") String api_token,@Body CustomerDetails customer_id);
 
     @POST("index.php?route=account/wishlist/insertWishListToCart")
     Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);
