@@ -160,7 +160,7 @@ public class WishListItem {
 
     @Click(R.id.btn_moveToCart)
     public void moveToCartClick() {
-        
+
       /*  if (Utils.CheckInternetConnection(mContext)) {
 
             MoveToCartModel move_item = new MoveToCartModel(session.getCustomerId(), prod_id);
