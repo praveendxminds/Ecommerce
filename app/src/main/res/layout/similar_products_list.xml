@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ord_itCategorySimilarPrd"
     android:layout_width="115dp"
     android:layout_height="130dp"
     android:layout_marginLeft="1dp"
@@ -19,7 +18,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/llDealOfDay"
+            android:id="@+id/llSimilarProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -49,9 +48,7 @@
                         android:textColor="@color/light_black_1"
                         android:textSize="10sp" />
 
-
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"

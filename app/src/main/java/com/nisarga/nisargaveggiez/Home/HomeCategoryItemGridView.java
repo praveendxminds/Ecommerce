@@ -181,7 +181,7 @@ public class HomeCategoryItemGridView {
     @Click(R.id.llProductGridView)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", prdId);
+        myIntent.putExtra("product_id", prdId);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }

@@ -172,7 +172,7 @@ public class HomeCategoryItem {
     @Click(R.id.llProductsListView)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", productId);
+        myIntent.putExtra("product_id", productId);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }

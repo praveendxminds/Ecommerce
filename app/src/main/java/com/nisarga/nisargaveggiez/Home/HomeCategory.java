@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -414,25 +415,31 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         final TextView cartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cartItemCount.setText(cartCount.data);
-                    }
-                }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+                    call.enqueue(new Callback<CartCount>() {
+                        @Override
+                        public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                            CartCount cartCount = response.body();
+                            if (cartCount.status.equals("success")) {
+                                cartItemCount.setText(cartCount.data);
+                            }
+                        }
 
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-                    call.cancel();
+                        @Override
+                        public void onFailure(Call<CartCount> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        }, 500);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

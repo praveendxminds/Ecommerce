@@ -35,7 +35,6 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
 import com.nisarga.nisargaveggiez.retrofit.ProductDetailsModel;
-import com.nisarga.nisargaveggiez.retrofit.RemoveWishListItem;
 import com.nisarga.nisargaveggiez.retrofit.SimilarProductsModel;
 import com.mindorks.placeholderview.PlaceHolderView;
 
@@ -46,7 +45,6 @@ import retrofit2.Response;
 import com.nisarga.nisargaveggiez.cart.cart;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -270,7 +268,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             AddToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                            } else if (resource.status.equals("failure")) {
+                            } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
                         }
@@ -338,7 +336,8 @@ public class ProductDetailHome extends AppCompatActivity {
                         for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
                             if (response.isSuccessful()) {
                                 mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), cartcount,
-                                        mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
+                                        mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name,
+                                        imgs.price, imgs.quantity, imgs.discount_price));
                             }
                         }
                     }
@@ -417,26 +416,31 @@ public class ProductDetailHome extends AppCompatActivity {
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         cartcount = (TextView) rootView.findViewById(R.id.cart_badge);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cartcount.setText(cartCount.data);
-                    }
-                }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+                    call.enqueue(new Callback<CartCount>() {
+                        @Override
+                        public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                            CartCount cartCount = response.body();
+                            if (cartCount.status.equals("success")) {
+                                cartcount.setText(cartCount.data);
+                            }
+                        }
 
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-
+                        @Override
+                        public void onFailure(Call<CartCount> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        }, 500);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
