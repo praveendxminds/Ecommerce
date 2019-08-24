@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
@@ -55,7 +56,8 @@ public class WishListHolder extends AppCompatActivity {
     public static String MyPREFERENCES = "sessiondata";
     View view_count;
     Integer scount;
-
+    public Integer countItems;
+    public WishListHolder activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,7 @@ public class WishListHolder extends AppCompatActivity {
         });*/
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final GetWishList wishListItems = new GetWishList("1");
+            final GetWishList wishListItems = new GetWishList(session.getCustomerId());
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<GetWishList> call = apiInterface.getWishList(wishListItems);
             call.enqueue(new Callback<GetWishList>() {
@@ -96,19 +98,23 @@ public class WishListHolder extends AppCompatActivity {
                 public void onResponse(Call<GetWishList> call, Response<GetWishList> response) {
                     GetWishList resource = response.body();
                     List<GetWishList.WishListDatum> datumList = resource.result;
-                    for (GetWishList.WishListDatum imgs : datumList) {
-                        list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image, imgs.name,
-                                imgs.price, imgs.quantity, list_items));
-                        scount = resource.count;
-                        if (scount == 0) {
-                            totalWishList.setText("No Items");
-                        } else if (scount == 1) {
-                            totalWishList.setText(scount + " " + "Item");
-                        } else {
-                            totalWishList.setText(scount + " " + "Items");
-                        }
+                    if((resource.status).equals("success")) {
+                            for (GetWishList.WishListDatum imgs : datumList) {
+                                list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image, imgs.name,
+                                        imgs.price, imgs.quantity, imgs.discount_price, list_items));
+                                scount = resource.count;
+                                if (scount == 0) {
+                                    totalWishList.setText("No Items");
+                                } else if (scount == 1) {
+                                    totalWishList.setText(scount + " " + "Item");
+                                } else {
+                                    totalWishList.setText(scount + " " + "Items");
+                                }
+
+                            }
 
                     }
+                    list_items.refresh();
                 }
 
                 @Override
@@ -156,13 +162,6 @@ public class WishListHolder extends AppCompatActivity {
                     }
                 });
         bottomNavigationView.setItemIconSize(40);
-
-
-
-    }
-
-    public static WishListHolder getInstance() {
-        return instance;
     }
 
     //----------------------------------------------------------------------for go back to previous page-----------------
@@ -191,10 +190,12 @@ public class WishListHolder extends AppCompatActivity {
 
             case R.id.menu_notifi:
                 Intent intentNotifications = new Intent(getBaseContext(),MyNotifications.class);
-                startActivity(intentNotifications);
-                break;
+            startActivity(intentNotifications);
+            break;
 
             case R.id.menu_info:
+                Intent intentDeliveryInfo = new Intent(getBaseContext(),DeliveryInformation.class);
+                startActivity(intentDeliveryInfo);
                 break;
         }
         return true;
