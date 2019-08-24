@@ -51,7 +51,6 @@ import java.util.List;
  * Created by sushmita 25/06/2019
  */
 
-
 public class ProductDetailHome extends AppCompatActivity {
 
     private Toolbar toolbar;

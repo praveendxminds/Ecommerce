@@ -11,15 +11,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
-import com.nisarga.nisargaveggiez.R;
-import com.nisarga.nisargaveggiez.SessionManager;
 import com.bumptech.glide.Glide;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
+import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
@@ -189,7 +189,7 @@ public class HomeCategoryItem {
     public void AddToCartClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
-        tvProductCount.setText(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
         btnAddItem.setVisibility(android.view.View.GONE);
         llAccountItem.setVisibility(android.view.View.VISIBLE);
 
@@ -220,13 +220,13 @@ public class HomeCategoryItem {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
             display(cartcount);
-            tvProductCount.setText(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
             btnAddItem.setVisibility(android.view.View.VISIBLE);
             llAccountItem.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
             display(cartcount);
-            tvProductCount.setText(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
 
             final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 

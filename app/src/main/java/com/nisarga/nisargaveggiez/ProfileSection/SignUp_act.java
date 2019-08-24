@@ -163,7 +163,6 @@ public class SignUp_act extends AppCompatActivity {
             public void onClick(View v) {
                 mDrawer.openDrawer(Gravity.RIGHT);
                 final ArrayList<String> apartment_list = new ArrayList<>();
-                apartment_list.add("Select Apartment");
 
                 if (Utils.CheckInternetConnection(getApplicationContext())) {
                     Call<ApartmentList> callheight = apiInterface.getApartmentList();
@@ -232,14 +231,12 @@ public class SignUp_act extends AppCompatActivity {
                         strCity, strAddress, strPincode)) {
 
                     if (Utils.CheckInternetConnection(getApplicationContext())) {
-                        saveSignUpData(strFirstName, strLastName, strMobile, strEmail, strPassword, strApartmentName, strBlock,
-                                strFloor, strDoor, strArea, strAddress, strPincode, strCity, strNearBy, strApartmentId,
-                                strLandmark, strProfilePic);
+                        saveSignUpData(strFirstName, strLastName, strMobile, strEmail, strPassword, strApartmentName,
+                                strBlock, strFloor, strDoor, strArea, strAddress, strPincode, strCity, strNearBy,
+                                strApartmentId, strLandmark, strProfilePic);
                     } else {
                         Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please Enter all the Details", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -273,10 +270,9 @@ public class SignUp_act extends AppCompatActivity {
                 etMobileNo.requestFocus();
                 etMobileNo.setError("Enter 10 digit Mobile Number");
                 return false;
-            } else {
-                return true;
             }
         }
+
         if (!(emailid.matches(emailPattern) && emailid.length() > 0)) {
             etEmail.requestFocus();
             etEmail.setError("Invalid email address");
@@ -288,19 +284,18 @@ public class SignUp_act extends AppCompatActivity {
             etPassword.setError("Please enter a valid Password");
             return false;
 
-        } else {
-            if (password.trim().length() < 4) {
-                etPassword.requestFocus();
-                etPassword.setError("Password should not be less than 4 digit");
-                return false;
-            }
+        }
+        
+        if (password.trim().length() < 4) {
+            etPassword.requestFocus();
+            etPassword.setError("Password should not be less than 4 digit");
+            return false;
         }
 
         if (doorno == null || doorno.trim().length() == 0) {
             etDoorNumber.requestFocus();
             etDoorNumber.setError("Door Number is required");
             return false;
-
         }
 
         if (address == null || address.trim().length() == 0) {

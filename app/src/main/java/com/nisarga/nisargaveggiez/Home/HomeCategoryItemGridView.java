@@ -205,7 +205,7 @@ public class HomeCategoryItemGridView {
     public void AddToCartClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
-        tvProductCount.setText(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
         btnAddCart.setVisibility(android.view.View.GONE);
         llProductCount.setVisibility(android.view.View.VISIBLE);
 
@@ -236,13 +236,13 @@ public class HomeCategoryItemGridView {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
             display(cartcount);
-            tvProductCount.setText(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llProductCount.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
             display(cartcount);
-            tvProductCount.setText(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
 
             final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 
@@ -271,7 +271,7 @@ public class HomeCategoryItemGridView {
     public void addCount() {
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
-        tvProductCount.setText(cartcount);
+        tvProductCount.setText(String.valueOf(cartcount));
 
         final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 
