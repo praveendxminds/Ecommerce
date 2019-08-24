@@ -40,6 +40,8 @@ public class ConfirmOrder extends AppCompatActivity {
     private RatingBar ratingBar;
     private EditText etFeedback;
     private TextView btnSubmit;
+    private String order_id;
+    private String feedback_txt;
 
 
     @Override
@@ -74,6 +76,7 @@ public class ConfirmOrder extends AppCompatActivity {
         String savings = intent.getStringExtra("savings");
         String delivery_charges = intent.getStringExtra("delivery_charges");
         String total = intent.getStringExtra("total");
+        order_id = intent.getStringExtra("total");
 
         tvDelivCharge.setText(delivery_charges);
         tvAddressDetails.setText(address);
@@ -119,7 +122,7 @@ public class ConfirmOrder extends AppCompatActivity {
 
                 Log.d("getToken", String.valueOf(session.getToken()));
 
-                final OrderFeedback feedbackddetails = new OrderFeedback("23", session.getCustomerId(), (int) Math.round(ratingBar.getRating()), "good");
+                final OrderFeedback feedbackddetails = new OrderFeedback(order_id, session.getCustomerId(), (int) Math.round(ratingBar.getRating()), String.valueOf(etFeedback.getText()));
                 Call<OrderFeedback> call = apiInterface.orderfeedback(feedbackddetails);
                 call.enqueue(new Callback<OrderFeedback>() {
                     @Override
