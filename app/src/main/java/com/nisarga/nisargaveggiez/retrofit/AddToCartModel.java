@@ -25,7 +25,7 @@ public class AddToCartModel {
 
     @SerializedName("cart_id")
     public String cart_id;
-    
+
     public AddToCartModel(String productId, String prdQty, String option_id, String option_value_id) {
         this.product_id = productId;
         this.quantity = prdQty;

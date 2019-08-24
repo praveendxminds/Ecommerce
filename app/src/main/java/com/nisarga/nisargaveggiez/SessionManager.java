@@ -82,6 +82,9 @@ public class SessionManager {
     public static final String KEY_APRT_NAME = "apartment_name";
     public static final String KEY_CUSTOM_FIELD = "custom_field";
 
+
+    public static final String KEY_CART_ID = "cart_id";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -437,5 +440,14 @@ public class SessionManager {
     public void setDeliveryweek(String wk) {
         editor.putString(DELIVERY_WEEK, wk);
         editor.commit();
+    }
+
+    public void addCartId(String cart_id) {
+        editor.putString(KEY_CART_ID, cart_id);
+        editor.commit();
+    }
+
+    public String getCartId() {
+        return pref.getString(KEY_CART_ID, null);
     }
 }
