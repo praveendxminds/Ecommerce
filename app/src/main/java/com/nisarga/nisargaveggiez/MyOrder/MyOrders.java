@@ -71,7 +71,7 @@ public class MyOrders extends AppCompatActivity {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final MyOrderList get_order_list = new MyOrderList("1");
+            final MyOrderList get_order_list = new MyOrderList(session.getCustomerId());
             Call<MyOrderList> call = apiInterface.getMyOrdersList(get_order_list);
             call.enqueue(new Callback<MyOrderList>() {
                 @Override

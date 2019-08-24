@@ -152,7 +152,8 @@ public class billingAddress extends AppCompatActivity {
 
                     List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
                     if ((resource.status).equals("success")) {
-                        for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
+                        for (ShippingAddrModel.ShippingDatum dataList : datumList1)
+                        {
 
                             session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
 

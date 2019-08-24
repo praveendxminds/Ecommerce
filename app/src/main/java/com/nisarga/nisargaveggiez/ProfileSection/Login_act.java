@@ -23,9 +23,14 @@ import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.cart.cartItem;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.CartListModel;
+import com.nisarga.nisargaveggiez.retrofit.CustomerDetails;
+import com.nisarga.nisargaveggiez.retrofit.MyOrderList;
 
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -139,14 +144,21 @@ public class Login_act extends AppCompatActivity {
                 if (resource.status.equals("success")) {
                     Toast.makeText(Login_act.this, resource.message, Toast.LENGTH_LONG).show();
                     Intent intentHomePage = new Intent(Login_act.this, HomePage.class);
+
                     List<UserLogin.Datum> datumList = resource.resultdata;
-                    for (UserLogin.Datum datum : datumList) {
+                    for (UserLogin.Datum datum : datumList)
+                    {
                         sessionManager.createLoginSession(datum.customer_id, datum.customer_group_id,
                                 datum.firstname, datum.lastname, datum.email, datum.cart, datum.wishlist,datum.address_id,
                                 datum.date_added, datum.image,datum.telephone,datum.company, datum.address_1,
                                 datum.address_2, datum.city, datum.country_id, datum.zone_id,datum.postcode, datum.floor,
                                 datum.door, datum.block,datum.apartment_name,datum.api_token);
+
+                       // addcustomerseession(datum.api_token,datum.customer_id,datum.firstname,datum.lastname,datum.address_1,datum.city,datum.country_id,datum.zone_id,datum.company,datum.address_2,datum.postcode,datum.telephone,datum.email,datum.customer_group_id);
+
                         startActivity(intentHomePage);
+
+
                     }
 
                 } else if (resource.status.equals("error")) {
@@ -225,4 +237,47 @@ public class Login_act extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+
+
+//    public void addcustomerseession(String token) {
+//        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+//
+//            Log.d("getToken", String.valueOf(token));
+//
+//            final CustomerDetails custdetails = new CustomerDetails("1");
+//            Call<CustomerDetails> call = apiInterface.addcustdetails("api/customer/customerindex", token,custdetails);
+//            call.enqueue(new Callback<CustomerDetails>() {
+//                @Override
+//                public void onResponse(Call<CustomerDetails> call, Response<CustomerDetails> response)
+//                {
+//                    CustomerDetails resource = response.body();
+//                    if (resource.status.equals("success"))
+//                    {
+//
+//                        Intent intentHomePage = new Intent(Login_act.this, HomePage.class);
+//                        startActivity(intentHomePage);
+//
+//                    }
+//
+//                }
+//
+//
+//
+//                @Override
+//                public void onFailure(Call<CustomerDetails> call, Throwable t) {
+//                    call.cancel();
+//                }
+//            });
+//
+//
+//
+//
+//        } else {
+//            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+
 }

@@ -130,6 +130,8 @@ public interface APIInterface {
     @POST("index.php")
     Call<CartListModel> getCartList(@Query("route") String route, @Query("api_token") String api_token);
 
+    @POST("index.php")
+    Call<CustomerDetails> addcustdetails(@Query("route") String route, @Query("api_token") String api_token,@Body CustomerDetails customer_id);
 
     @POST("index.php?route=account/wishlist/insertWishListToCart")
     Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);
