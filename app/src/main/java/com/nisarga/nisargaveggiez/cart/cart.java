@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
@@ -312,7 +313,7 @@ public class cart extends AppCompatActivity {
                 break;
 
             case R.id.menu_info:
-                Intent infoIntent = new Intent(getBaseContext(), cart.class);
+                Intent infoIntent = new Intent(getBaseContext(), DeliveryInformation.class);
                 infoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(infoIntent);
                 break;
