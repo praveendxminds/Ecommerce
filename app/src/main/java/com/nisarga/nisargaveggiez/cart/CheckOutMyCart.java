@@ -192,6 +192,7 @@ public class CheckOutMyCart extends AppCompatActivity {
                               intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
                               intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);
                               intentConfirmOrder.putExtra("total",String.valueOf(lsss.total));
+                              intentConfirmOrder.putExtra("order_id",String.valueOf(lsss.order_id));
                               startActivity(intentConfirmOrder);
 
                           }

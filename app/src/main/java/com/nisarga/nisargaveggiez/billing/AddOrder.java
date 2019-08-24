@@ -19,6 +19,8 @@ import java.util.List;
         @SerializedName("status")
         public  String status;
 
+
+
         @SerializedName("data")
         public List<AddOrderList> data=null;
 
@@ -40,6 +42,9 @@ import java.util.List;
 
             @SerializedName("total")
             public  int total;
+
+            @SerializedName("order_id")
+            public  int order_id;
 
         }
 
