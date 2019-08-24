@@ -192,7 +192,7 @@ public class HomePageDealOfDayItemList {
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
-        final AddToCartModel ref = new AddToCartModel(sProductId, sQuantitySpinner, option_id, option_value_id);
+        final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(cartcount), option_id, option_value_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);

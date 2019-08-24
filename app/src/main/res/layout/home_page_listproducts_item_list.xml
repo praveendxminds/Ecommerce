@@ -109,6 +109,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
+                    android:overlapAnchor="false"
                     android:text="100Gms"
                     android:textColor="@color/light_black_2"
                     android:textSize="12sp" />
@@ -143,8 +144,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="2dp"
                             android:background="@drawable/minus" />
@@ -176,8 +177,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="2dp"
                             android:background="@drawable/plus" />

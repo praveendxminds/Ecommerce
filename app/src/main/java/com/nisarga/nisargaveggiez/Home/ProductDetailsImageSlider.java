@@ -55,30 +55,20 @@ public class ProductDetailsImageSlider {
     @View(R.id.btn_addtoWishlistPrdDetail)
     public ImageButton btn_addtoWishlistPrdDetail;
 
-    public static int currentPage = 0;
-    public static Integer[] XMEN = {R.drawable.flower, R.drawable.deep, R.drawable.flower, R.drawable.deep};
     public ArrayList<String> XMENArray = new ArrayList<String>();
     public Button maddtoCartPrdDetail;
-
 
     @ParentPosition
     public int mParentPosition;
 
     public Context mContext;
-    public ArrayList<String> mHeading;
     public List<String> mCatImgUrl;
-    public boolean state;
-    APIInterface apiInterface;
-    ProductDetailHome pdetailHome = new ProductDetailHome();
-    String PrdId, cust_Id;
+    String sWhishlistStatus;
 
-    public ProductDetailsImageSlider(Context context, List<String> CatImgUrl, Button addtoCartPrdDetail, String
-            callPrdId, String mcust_Id) {
+    public ProductDetailsImageSlider(Context context, List<String> CatImgUrl, String wishlistStatus) {
         mContext = context;
         mCatImgUrl = CatImgUrl;
-        maddtoCartPrdDetail = addtoCartPrdDetail;
-        PrdId = callPrdId;
-        cust_Id = mcust_Id;
+        sWhishlistStatus = wishlistStatus;
 
         for (int i = 0; i < mCatImgUrl.size(); i++) {
             XMENArray.add(mCatImgUrl.get(i));
@@ -88,71 +78,15 @@ public class ProductDetailsImageSlider {
 
     @Resolve
     public void onResolved() {
-
         pager_PrdDetails.setAdapter(new ProductDetailImageSliderAdapter(mContext, XMENArray));
-
         indicator_PrdDetails.setupWithViewPager(pager_PrdDetails);//for tab layout
-        state = pdetailHome.getWishlistStatus();
 
-    }
-
-    @Click(R.id.btn_addtoWishlistPrdDetail)
-    public void onClick() {
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        //---------------------------------------------------------
-        if (state == false) {
-            //------------------------------------------for adding to wishlist-----------------------------
-            final InsertWishListItems add_item = new InsertWishListItems(cust_Id, PrdId);
-            Call<InsertWishListItems> callAdd = apiInterface.addtoWishList(add_item);
-            callAdd.enqueue(new Callback<InsertWishListItems>() {
-                @Override
-                public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
-                    InsertWishListItems resource = response.body();
-                    if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
-                        maddtoCartPrdDetail.setText("Added in Wishlist");
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<InsertWishListItems> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-            state = true;
+        if (sWhishlistStatus.equals("0")) {
+            btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlistgrey);
         } else {
-            //---------------------for removing from wishlist---------------------------
-            final RemoveWishListItem remove_item = new RemoveWishListItem(cust_Id, PrdId);
-            Call<RemoveWishListItem> callRemove = apiInterface.removeWishListItem(remove_item);
-            callRemove.enqueue(new Callback<RemoveWishListItem>() {
-                @Override
-                public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
-                    RemoveWishListItem resource = response.body();
-                    if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                        btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.addwishlist);
-                        maddtoCartPrdDetail.setText("Add WishList");
-                    } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<RemoveWishListItem> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-            state = false;
-
+            btn_addtoWishlistPrdDetail.setBackgroundResource(R.drawable.wishlist_red);
         }
-
     }
-
-
 }
 
 

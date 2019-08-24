@@ -209,7 +209,7 @@ public class HomeCategoryItemGridView {
         btnAddCart.setVisibility(android.view.View.GONE);
         llProductCount.setVisibility(android.view.View.VISIBLE);
 
-        final AddToCartModel ref = new AddToCartModel(prdId, sQuantitySpinner, option_id, option_value_id);
+        final AddToCartModel ref = new AddToCartModel(prdId, String.valueOf(cartcount), option_id, option_value_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);

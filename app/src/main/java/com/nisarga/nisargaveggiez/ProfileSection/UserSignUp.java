@@ -63,8 +63,8 @@ public class UserSignUp {
     public String sprofile;
 
     public UserSignUp(String fname, String lname, String mobile, String email, String passwd, String apartment_name,
-                      String block, String floor, String door, String area, String address, String pincode,
-                      String city, String nearby, String apartment_id, String landmark, String profile) {
+                      String block, String floor, String door, String address, String city, String landmark,
+                      String pincode, String nearby, String apartment_id, String profile) {
 
         this.sfirstname = fname;
         this.slastname = lname;
@@ -75,13 +75,12 @@ public class UserSignUp {
         this.sblock = block;
         this.sfloor = floor;
         this.sdoor = door;
-        this.sarea = area;
         this.saddress = address;
-        this.spincode = pincode;
         this.scity = city;
+        this.slandmark = landmark;
+        this.spincode = pincode;
         this.snearby = nearby;
         this.sapartment_id = apartment_id;
-        this.slandmark = landmark;
         this.sprofile = profile;
     }
 }

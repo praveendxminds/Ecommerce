@@ -122,8 +122,6 @@ public class Login_act extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Invalid User Id and Password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -151,7 +149,9 @@ public class Login_act extends AppCompatActivity {
                                 datum.address_2, datum.city, datum.country_id, datum.zone_id, datum.postcode, datum.floor,
                                 datum.door, datum.block, datum.apartment_name, datum.api_token);
 
-                        addcustomerseession(datum.api_token, datum.customer_id, datum.firstname, datum.lastname, datum.address_1, datum.city, datum.country_id, datum.zone_id, datum.company, datum.address_2, datum.postcode, datum.telephone, datum.email, datum.customer_group_id);
+                        addcustomerseession(datum.api_token, datum.customer_id, datum.firstname, datum.lastname,
+                                datum.address_1, datum.city, datum.country_id, datum.zone_id, datum.company,
+                                datum.address_2, datum.postcode, datum.telephone, datum.email, datum.customer_group_id);
                     }
 
                 } else if (resource.status.equals("error")) {
@@ -168,59 +168,21 @@ public class Login_act extends AppCompatActivity {
     }
 
     private boolean validateLogin(String loginid, String passwd) {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         if (loginid == null || loginid.trim().length() == 0) {
-            Toast.makeText(getApplicationContext(), "Invalid User Id", Toast.LENGTH_SHORT).show();
+            etEmail.requestFocus();
+            etEmail.setError("Please enter valid mobile number / email");
             return false;
 
-        } else {
-            if (loginid.matches("[0-9]+")) {
-                if (loginid.length() < 10 && loginid.length() > 10) {
-                    etEmail.setError("Please Enter valid phone number");
-                    etEmail.requestFocus();
-                    return false;
-                } else {
-                    if (passwd == null || passwd.trim().length() == 0) {
-                        etPassword.requestFocus();
-                        etPassword.setError("Please enter password");
-                        return false;
-                    } else {
-                        if (passwd.trim().length() < 4) {
-                            etPassword.requestFocus();
-                            etPassword.setError("Password should not be less than 4 digit");
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-            } else {
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(loginid).matches()) {
-                    etEmail.setError("Please Enter valid email");
-                    etEmail.requestFocus();
-                    return false;
-                } else {
-                    if (passwd == null || passwd.trim().length() == 0) {
-                        etPassword.requestFocus();
-                        etPassword.setError("Please enter password");
-                        return false;
-                    } else {
-                        if (passwd.trim().length() < 4) {
-                            etPassword.requestFocus();
-                            etPassword.setError("Password should not be less than 4 digit");
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-            }
         }
 
-    }
+        if (passwd == null || passwd.trim().length() == 0) {
+            etPassword.requestFocus();
+            etPassword.setError("Please enter a valid Password");
+            return false;
 
-    public final static boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+        return true;
     }
 
     @Override
