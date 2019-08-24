@@ -70,28 +70,29 @@ public class PaymentHistory extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentHomePage);
+                                Intent intentHome = new Intent(PaymentHistory.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(getBaseContext(), CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentCategories);
+                                Intent intentCateg = new Intent(PaymentHistory.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
+                                Intent intentWishlist = new Intent(PaymentHistory.this, WishListHolder.class);
                                 intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(getBaseContext(), MyWalletActivity.class);
+                                Intent intentWallet = new Intent(PaymentHistory.this, MyWalletActivity.class);
                                 intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }

@@ -98,23 +98,25 @@ public class MyProfile_act extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
                                 Intent intentHome = new Intent(MyProfile_act.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
                                 Intent intentCateg = new Intent(MyProfile_act.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
                                 Intent intentWishlist = new Intent(MyProfile_act.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
                                 Intent intentWallet = new Intent(MyProfile_act.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
 
