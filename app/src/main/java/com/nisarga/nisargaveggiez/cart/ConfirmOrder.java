@@ -53,13 +53,24 @@ public class ConfirmOrder extends AppCompatActivity {
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
         tvOrdAmount = findViewById(R.id.tvOrdAmount);
         tvDelivCharge = findViewById(R.id.tvDelivCharge);
-        tvSubTotal = findViewById(R.id.tvSubTotal);
         tvPaymentStatus = findViewById(R.id.tvPaymentStatus);
         tvMsg = findViewById(R.id.tvMsg);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
         session.setReferalStatus();
+
+        Intent intent = getIntent();
+        String address = intent.getStringExtra("address");
+        String savings = intent.getStringExtra("savings");
+        String delivery_charges = intent.getStringExtra("delivery_charges");
+        String total = intent.getStringExtra("total");
+
+        tvDelivCharge.setText(delivery_charges);
+        tvAddressDetails.setText(address);
+        tvOrdAmount.setText(total);
+        tvTotalSaving.setText(savings);
+
 
         submitFeedback();
 

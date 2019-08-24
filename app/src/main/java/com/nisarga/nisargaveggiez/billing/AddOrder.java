@@ -20,27 +20,28 @@ import java.util.List;
         public  String status;
 
         @SerializedName("data")
-        public List<AddOrderDatum> data=null;
+        public List<AddOrderList> data=null;
 
         public AddOrder(String delivery_date)
         {
             this.delivery_date=delivery_date;
         }
 
-        public class AddOrderDatum
+        public class AddOrderList
         {
-//            @SerializedName("address")
-//            public String address;
+            @SerializedName("address")
+            public  String address;
 
-//            @SerializedName("savings")
-//            public Integer savings;
+            @SerializedName("savings")
+            public  int savings;
 
             @SerializedName("delivery_charges")
-            public String delivery_charges;
+            public  String delivery_charges;
 
-//            @SerializedName("total")
-//            public Integer total;
+            @SerializedName("total")
+            public  int total;
 
         }
+
 
     }

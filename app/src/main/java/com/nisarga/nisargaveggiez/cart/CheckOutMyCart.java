@@ -13,19 +13,28 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.billing.AddOrder;
 import com.nisarga.nisargaveggiez.billing.billingAddress;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CheckOutMyCart extends AppCompatActivity {
 
     SessionManager session;
     Toolbar toolbar;
-    private LinearLayout llConfirmOrder;
+    private TextView llConfirmOrder;
     private ImageButton imgBtnEditAddress;
     private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName;
     private TextView tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvCartValue, tvChkoutDeliveryDay;
@@ -78,6 +87,12 @@ public class CheckOutMyCart extends AppCompatActivity {
                 "," + " " + strAddress + "," + " " + strArea + "," + " " + strCity + "," + " " + strPincode);
         tvChkoutDelvInstruct.setText(strInstruct);
         tvChkoutDeliveryDay.setText(strDeliveryDay);
+
+
+        tvTotalSaving.setText(session.getTotalSavingAmount());
+        tvCartValue.setText(session.getTotalAmount());
+        tvPayableAmount.setText(session.getTotalAmount());
+
         confirmOrder();
         moveToEditAddress();
 
@@ -115,10 +130,10 @@ public class CheckOutMyCart extends AppCompatActivity {
     public void confirmOrder() {
         llConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
-                intentConfirmOrder.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentConfirmOrder);
+            public void onClick(View v)
+            {
+
+                addorder();
             }
         });
     }
@@ -135,10 +150,68 @@ public class CheckOutMyCart extends AppCompatActivity {
                 strBackInstruct = tvChkoutDelvInstruct.getText().toString();
                 strBackDeliveryDay = tvChkoutDeliveryDay.getText().toString();*/
 
-
                 Intent intentEditAddress = new Intent(CheckOutMyCart.this, billingAddress.class);
                 startActivity(intentEditAddress);
+
+
             }
         });
     }
+
+
+    public void addorder() {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+
+            Log.d("getToken", String.valueOf(session.getToken()));
+
+            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
+
+            Call<AddOrder> call = apiInterface.AddOrder("api/order/add", session.getToken(), ordadddetails);
+            call.enqueue(new Callback<AddOrder>() {
+                @Override
+                public void onResponse(Call<AddOrder> call, Response<AddOrder> response) {
+                    AddOrder resource = response.body();
+                    if ((resource.status).equals("success")) {
+
+                        List<AddOrder.AddOrderList> datumList = resource.data;
+
+                      //  Log.d("Addorderlist", String.valueOf(datumList));
+
+                          for (AddOrder.AddOrderList lsss : datumList)
+                          {
+                              Log.d("addressdddd", String.valueOf(lsss.address));
+                              // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
+
+                              Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
+                              intentConfirmOrder.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                              intentConfirmOrder.putExtra("address",lsss.address);
+                              intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
+                              intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);
+                              intentConfirmOrder.putExtra("total",String.valueOf(lsss.total));
+                              startActivity(intentConfirmOrder);
+
+                          }
+
+
+
+
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<AddOrder> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

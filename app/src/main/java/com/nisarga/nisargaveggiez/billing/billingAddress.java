@@ -166,7 +166,7 @@ public class billingAddress extends AppCompatActivity {
                         }
                         session.saveTotal(resource.total, resource.total_savings);
 
-                        addorder();
+
 
 
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
@@ -214,42 +214,5 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void addorder() {
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-
-            Log.d("getToken", String.valueOf(session.getToken()));
-
-            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
-
-            Call<AddOrder> call = apiInterface.AddOrder("api/order/add", session.getToken(), ordadddetails);
-            call.enqueue(new Callback<AddOrder>() {
-                @Override
-                public void onResponse(Call<AddOrder> call, Response<AddOrder> response) {
-                    AddOrder resource = response.body();
-                    if ((resource.status).equals("success")) {
-
-                        List<AddOrder.AddOrderDatum> datumList = resource.data;
-
-                        for (AddOrder.AddOrderDatum lsts : datumList) {
-                            //session.addorder(lsts.address,String.valueOf(lsts.savings),lsts.delivery_charges,String.valueOf(lsts.total));
-
-                        }
-                    }
-
-
-                }
-
-                @Override
-                public void onFailure(Call<AddOrder> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-
-
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 }
