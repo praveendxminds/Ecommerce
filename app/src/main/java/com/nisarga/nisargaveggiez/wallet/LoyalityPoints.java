@@ -67,12 +67,11 @@ public class LoyalityPoints extends AppCompatActivity {
         getLoyalityPoints();
     }
 
-    public void redeemLoyalityPoints() {
+    public void redeemLoyalityPoints(int pointBlnc) {
         strRedeemPoint = etReedem.getText().toString();
-        if (strRedeemPoint.equals("")) {
-            etReedem.requestFocus();
-            etReedem.setError("Enter some points");
-        } else {
+        strRedeemPoint = strRedeemPoint.trim();
+        final int intReedemPoint = !strRedeemPoint.equals("") ? Integer.parseInt(strRedeemPoint) : 0; //checking blank space replace with zero
+        if (intReedemPoint >= 10 && intReedemPoint <= pointBlnc) {
             final ReedemLoyalityPoints get_loyltyPoints = new ReedemLoyalityPoints(sessionManager.getCustomerId(), strRedeemPoint);
             Call<ReedemLoyalityPoints> call = apiInterface.redeemPoints(get_loyltyPoints);
             call.enqueue(new Callback<ReedemLoyalityPoints>() {
@@ -81,6 +80,8 @@ public class LoyalityPoints extends AppCompatActivity {
 
                     ReedemLoyalityPoints resource = response.body();
                     Toast.makeText(LoyalityPoints.this, resource.message, Toast.LENGTH_SHORT).show();
+                    Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this, LoyalityPointSuccessAck.class);
+                    startActivity(intentRedeemptionSuccess);
                 }
 
                 @Override
@@ -88,6 +89,13 @@ public class LoyalityPoints extends AppCompatActivity {
                     call.cancel();
                 }
             });
+        } else if(intReedemPoint < 10){
+           etReedem.requestFocus();
+           etReedem.setError("Minimum redemption point is 10!");
+        }
+        else
+        {
+            Toast.makeText(LoyalityPoints.this, "Insufficient Points", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -104,12 +112,11 @@ public class LoyalityPoints extends AppCompatActivity {
                     final LoyalityPointsModel resource = response.body();
 
 
-
                     Log.d("lo", String.valueOf(resource.data));
 
                     if ((resource.data).equals("null")) {
 
-                        tvPoints.setText("0"+" "+"Points");
+                        tvPoints.setText("0" + " " + "Points");
                         btnProceed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -118,19 +125,12 @@ public class LoyalityPoints extends AppCompatActivity {
                         });
 
                     } else {
-                        tvPoints.setText(resource.data+" "+"Points");
+                        tvPoints.setText(resource.data + " " + "Points");
                         btnProceed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 int number = Integer.parseInt(resource.data);
-                                if (number >= 50) {
-                                    redeemLoyalityPoints();
-                                    Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this, LoyalityPointSuccessAck.class);
-                                    startActivity(intentRedeemptionSuccess);
-                                } else {
-                                    Toast.makeText(LoyalityPoints.this, "No sufficient points", Toast.LENGTH_SHORT).show();
-
-                                }
+                                redeemLoyalityPoints(number);
                             }
                         });
                     }
@@ -138,11 +138,11 @@ public class LoyalityPoints extends AppCompatActivity {
                     Log.d("resource----", String.valueOf(resource.note));
 
                     List<LoyalityPointsModel.DatumLP> datumList = resource.note;
-                    int count=1;
+                    int count = 1;
                     for (LoyalityPointsModel.DatumLP notes : datumList) {
                         if (response.isSuccessful()) {
-                            phvLoyalityPoints.addView(new LoyalityPointNotes(LoyalityPoints.this,count,notes.desciption));
-                            count = count+1;
+                            phvLoyalityPoints.addView(new LoyalityPointNotes(LoyalityPoints.this, count, notes.desciption));
+                             count = count + 1;
                         }
                     }
 

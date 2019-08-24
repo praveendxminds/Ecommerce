@@ -39,5 +39,8 @@ public class GetWishList {
         @SerializedName("price")
         public String price;
 
+        @SerializedName("discount_price")
+        public String discount_price;
+
     }
 }

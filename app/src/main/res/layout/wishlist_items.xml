@@ -63,7 +63,7 @@
                         android:id="@+id/prd_nameWishList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Potato"
                         android:textAllCaps="false"
                         android:textColor="@color/light_black_2"
@@ -92,7 +92,8 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="4"
+                android:paddingRight="10dp">
 
                 <LinearLayout
                     android:id="@+id/lldeletebtn"

@@ -16,6 +16,9 @@ public class RemoveWishListItem {
     @SerializedName("message")
     public String message;
 
+    @SerializedName("count")
+    public Integer count;
+
     public RemoveWishListItem(String cust_id, String prd_id) {
         this.customer_id = cust_id;
         this.product_id = prd_id;
