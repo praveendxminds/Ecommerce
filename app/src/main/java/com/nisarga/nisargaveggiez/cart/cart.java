@@ -213,8 +213,16 @@ public class cart extends AppCompatActivity {
                             mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount,
                                     session.getCustomerId(), imgs.product_id, imgs.image, imgs.name,
                                     imgs.price, imgs.discount_price, imgs.quantity, mCartView));
-                            tvtotalAmount.setText("Total"+" "+"\u20B9 "+imgs.total);
 
+                        }
+                    }
+
+                    List<CartListModel.TotalsDatum> datumtotla = resource.totals;
+                    for (CartListModel.TotalsDatum imgs : datumtotla)
+                    {
+                        if (response.isSuccessful())
+                        {
+                            tvtotalAmount.setText("Total"+" "+"\u20B9 "+imgs.text);
                         }
                     }
 

@@ -118,11 +118,15 @@
                         <Spinner
                             android:id="@+id/spnr_qntyMyCart"
                             android:layout_width="90dp"
-                            android:layout_height="30dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_regular"
                             android:layout_below="@+id/prd_name"
-                            android:padding="0dp"
-                            android:spinnerMode="dropdown"
-                            android:popupBackground="@android:drawable/dialog_holo_light_frame" />
+                            android:gravity="center"
+                            android:overlapAnchor="false"
+                            android:text="100Gms"
+                            android:textColor="@color/light_black_2"
+                            android:textSize="12sp" />
+
 
                     </LinearLayout>
 
