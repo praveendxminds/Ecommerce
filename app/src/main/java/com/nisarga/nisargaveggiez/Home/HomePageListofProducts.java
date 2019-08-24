@@ -44,7 +44,7 @@ public class HomePageListofProducts {
 
         for (ProductslHomePage.Products image : mImageList) {
             phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.product_id, image.image, image.name,
-                    image.price, image.discount_price, image.quantity));
+                     image.discount_price, image.add_product_quantity_in_cart));
         }
     }
 

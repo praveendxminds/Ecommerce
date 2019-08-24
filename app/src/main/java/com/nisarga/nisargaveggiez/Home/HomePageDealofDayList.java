@@ -43,7 +43,7 @@ public class HomePageDealofDayList {
 
         for (ProductslHomePage.DealOfDayList image : mImageList) {
             phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                    image.price, image.discount_price, image.qty));
+                    image.discount_price, image.add_product_quantity_in_cart));
         }
     }
 
