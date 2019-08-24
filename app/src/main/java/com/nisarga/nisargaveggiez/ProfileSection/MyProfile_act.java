@@ -28,6 +28,7 @@ import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 
 import java.util.List;
 
@@ -112,6 +113,9 @@ public class MyProfile_act extends AppCompatActivity {
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(MyProfile_act.this, MyWalletActivity.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentWallet);
                                 break;
 
                         }
