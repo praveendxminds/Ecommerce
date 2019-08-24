@@ -131,7 +131,8 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void moveToChkOut() {
+    public void moveToChkOut()
+    {
 
         strFirstName = etFirstName.getText().toString();
         strLastName = etLastName.getText().toString();
@@ -151,7 +152,9 @@ public class billingAddress extends AppCompatActivity {
                     ShippingAddrModel resource = response.body();
 
                     List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
-                    if ((resource.status).equals("success")) {
+                    if ((resource.status).equals("success"))
+                    {
+
                         for (ShippingAddrModel.ShippingDatum dataList : datumList1)
                         {
 
@@ -159,6 +162,8 @@ public class billingAddress extends AppCompatActivity {
 
                         }
                         session.saveTotal(resource.total, resource.total_savings);
+
+
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
                         intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intentChkout);
@@ -181,14 +186,16 @@ public class billingAddress extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId()) {
 
             case android.R.id.home:

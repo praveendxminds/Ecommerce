@@ -212,7 +212,8 @@ public class cart extends AppCompatActivity {
         showListView();
     }
 
-    public void showListView() {
+    public void showListView()
+    {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
 
