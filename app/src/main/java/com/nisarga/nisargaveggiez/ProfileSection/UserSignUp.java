@@ -38,9 +38,6 @@ public class UserSignUp {
     @SerializedName("door")
     public String sdoor;
 
-    @SerializedName("area")
-    public String sarea;
-
     @SerializedName("address")
     public String saddress;
 
@@ -61,6 +58,9 @@ public class UserSignUp {
 
     @SerializedName("profile")
     public String sprofile;
+
+    @SerializedName("area")
+    public String sarea;
 
     public UserSignUp(String fname, String lname, String mobile, String email, String passwd, String apartment_name,
                       String block, String floor, String door, String address, String city, String landmark,

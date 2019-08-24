@@ -17,16 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.nisarga.nisargaveggiez.EditProfile;
-import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.EditProfileModel;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -56,7 +52,7 @@ public class EditProfile_act extends AppCompatActivity {
 
     Toolbar toolbar;
     ImageView ivOldHidePass, ivOldShowPass, ivNewHidePass, ivNewShowPass, ivConfHidePass, ivConfShowPass;
-    ImageView ivProfile;
+    CircleImageView ivProfile;
     TextView tvNearBy;
     EditText etFName, etLName, etEmail, etMobileNo, etOldPass, etNewPass, etConfirmPass, etApartmentName,
             etDoorNo, etArea, etAddress, etPinCode;
@@ -81,7 +77,9 @@ public class EditProfile_act extends AppCompatActivity {
         ivConfShowPass = findViewById(R.id.ivConfShowPass);
 
         etFName = findViewById(R.id.etFName);
+        etFName.setEnabled(false);
         etLName = findViewById(R.id.etLName);
+        etLName.setEnabled(false);
         etEmail = findViewById(R.id.etEmail);
         etMobileNo = findViewById(R.id.etMobileNo);
         etOldPass = findViewById(R.id.etOldPass);
@@ -198,8 +196,6 @@ public class EditProfile_act extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sFName = etFName.getText().toString();
-                sLName = etLName.getText().toString();
                 sEmail = etEmail.getText().toString();
                 sMobileNo = etMobileNo.getText().toString();
                 sNewPass = etNewPass.getText().toString();
@@ -268,19 +264,6 @@ public class EditProfile_act extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            if (!TextUtils.isEmpty(session.getCustomerId())) {
-                saveEditData(sFName, sLName, sEmail, sMobileNo, sApartmentName, sPinCode, sAddress, sConfirmPass,
-                        sDoorNo, sArea);
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
     }
 }
 
