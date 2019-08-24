@@ -89,8 +89,10 @@ public class HomeCategoryItemGridView {
     String sPrice, sDisPrice;
 
     int cartcount = 0;
-    String product_option_id[], product_option_value_id[];
-    String sQuantitySpinner, option_id, option_value_id;
+
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
 
     public boolean state = false;
 
@@ -115,10 +117,6 @@ public class HomeCategoryItemGridView {
         tvProductName.setText(prdName);
         Glide.with(mContext).load(image).into(ivImage);
 
-        double dbl_Price = Double.parseDouble(prdPrice);//need to convert string to decimal
-        sPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        tvProdPrice.setText("₹" + " " + sPrice);
-
         double dbl_Dis_Price = Double.parseDouble(prdDisPrice);//need to convert string to decimal
         sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
         tvProdOldPrice.setText("₹" + " " + sDisPrice);
@@ -137,11 +135,13 @@ public class HomeCategoryItemGridView {
                     List<QuantityList.Datum> datumList = eduresource.data;
                     product_option_id = new String[datumList.size()];
                     product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
                     int i = 0;
                     for (QuantityList.Datum datum : datumList) {
                         product_qty_list.add(datum.name);
                         product_option_id[i] = datum.product_option_id;
                         product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
                         i++;
                     }
 
@@ -154,6 +154,11 @@ public class HomeCategoryItemGridView {
                             sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tvProdPrice.setText("₹" + " " + productPrice);
                         }
 
                         @Override
@@ -235,6 +240,27 @@ public class HomeCategoryItemGridView {
         session.cartcount(cartcount);
         display(cartcount);
         tvProductCount.setText(String.valueOf(cartcount));
+
+        final AddToCartModel ref = new AddToCartModel(prdId, sQuantitySpinner, option_id, option_value_id);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     @Click(R.id.llAddWishlist)

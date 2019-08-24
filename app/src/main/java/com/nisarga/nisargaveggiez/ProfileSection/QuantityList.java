@@ -32,5 +32,8 @@ public class QuantityList {
 
         @SerializedName("name")
         public String name;
+
+        @SerializedName("price")
+        public String price;
     }
 }

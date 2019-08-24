@@ -56,7 +56,7 @@ public class billingAddress extends AppCompatActivity {
     private Button btnContinue;
     private String strFirstName, strLastName, strEmail, strMobile, strInstruct, strDeliveryDay, strApartmentName, strApartmentDetails;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode, strCountryId, strZoneId;
-    private String strTotal,strTotalSaving;
+    private String strTotal, strTotalSaving;
     APIInterface apiInterface;
 
     @Override
@@ -95,7 +95,7 @@ public class billingAddress extends AppCompatActivity {
         strAddress = session.getAddrFirst();
         strCity = session.getCity();
         strPincode = session.getPincode();
-        strDeliveryDay = session.getDeliverydate();
+        strDeliveryDay = session.getDeliveryweek();
         strCountryId = session.getCountryId();
         strZoneId = session.getZoneId();
 
@@ -151,19 +151,17 @@ public class billingAddress extends AppCompatActivity {
                     ShippingAddrModel resource = response.body();
 
                     List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
-                    if((resource.status).equals("success")) {
+                    if ((resource.status).equals("success")) {
                         for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
 
                             session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
 
                         }
-                        session.saveTotal(resource.total,resource.total_savings);
+                        session.saveTotal(resource.total, resource.total_savings);
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
                         intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intentChkout);
-                    }
-                  else
-                    {
+                    } else {
                         Toast.makeText(billingAddress.this, resource.message, Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -83,8 +83,9 @@ public class HomePageDealOfDayItemList {
     String sProductId, sProductImage, sProductName, sProductPrice, sProductDis, sQuantity;
     int cartcount = 0;
 
-    String product_option_id[], product_option_value_id[];
-    String sQuantitySpinner, option_id, option_value_id;
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
 
     public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name,
                                      String prod_price, String prod_discount, String quantity) {
@@ -102,10 +103,6 @@ public class HomePageDealOfDayItemList {
         session = new SessionManager(mContext);
         Glide.with(mContext).load(sProductImage).into(ivProductImage);
         tvItemName.setText(sProductName);
-
-        double dbl_Price = Double.parseDouble(sProductPrice);//need to convert string to decimal
-        String str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        tvItemPrice.setText("₹" + " " + str_priceValue);
 
         if (sProductDis.equals("null")) {
             tvOldPrice.setVisibility(android.view.View.INVISIBLE);
@@ -130,11 +127,13 @@ public class HomePageDealOfDayItemList {
                     List<QuantityList.Datum> datumList = eduresource.data;
                     product_option_id = new String[datumList.size()];
                     product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
                     int i = 0;
                     for (QuantityList.Datum datum : datumList) {
                         product_qty_list.add(datum.name);
                         product_option_id[i] = datum.product_option_id;
                         product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
                         i++;
                     }
 
@@ -147,6 +146,11 @@ public class HomePageDealOfDayItemList {
                             sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tvItemPrice.setText("₹" + " " + productPrice);
                         }
 
                         @Override
@@ -228,6 +232,27 @@ public class HomePageDealOfDayItemList {
         session.cartcount(cartcount);
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
+
+        final AddToCartModel ref = new AddToCartModel(sProductId, sQuantitySpinner, option_id, option_value_id);
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+        callAdd.enqueue(new Callback<AddToCartModel>() {
+            @Override
+            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                AddToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     public void display(int number) {
