@@ -86,7 +86,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
                 if(strAmount.equals("")||strAmount.equals("0"))
                 {
                     etAmount.requestFocus();
-                    etAmount.setError("Enter some amount...");
+                    etAmount.setError("Insufficient amount!");
                 }else {
                     intent.putExtra("RECHARGE_AMT", strAmount);
                     startActivity(intent);
@@ -138,6 +138,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 onBackPressed();
                 return true;

@@ -16,7 +16,7 @@
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:title="Loyality Point Details"
+        app:title="Loyalty Point Details"
         app:titleTextColor="@color/white">
 
     </android.support.v7.widget.Toolbar>
@@ -54,7 +54,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Loyality Point"
+                            android:text="Loyalty Point"
                             android:textColor="@color/light_black_2"
                             android:textSize="16sp" />
 
@@ -108,6 +108,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center|left"
                             android:hint="0"
+                            android:inputType="number"
                             android:padding="10dp"
                             android:textColor="@color/light_black_1"
                             android:textSize="16sp" />
@@ -134,7 +135,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:paddingTop="10dp"
                             android:paddingBottom="10dp"></com.mindorks.placeholderview.PlaceHolderView>
 
 

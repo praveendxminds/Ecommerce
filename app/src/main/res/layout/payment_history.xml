@@ -37,7 +37,7 @@
             android:paddingTop="12dp"
             android:paddingRight="14dp"
             android:paddingBottom="12dp"
-            android:layout_marginBottom="70dp">
+            android:layout_marginBottom="50dp">
 
         </com.mindorks.placeholderview.PlaceHolderView>
 
