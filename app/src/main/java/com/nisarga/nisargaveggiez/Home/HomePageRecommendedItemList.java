@@ -33,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Home.HomePage.hometotalCartItemCount;
 
 @NonReusable
 @Layout(R.layout.home_page_recommended_item_list)
@@ -116,6 +117,8 @@ public class HomePageRecommendedItemList {
             tvNoOfCount.setText(sAddCart);
         }
 
+        cartcount = Integer.parseInt(sAddCart);
+
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -182,7 +185,15 @@ public class HomePageRecommendedItemList {
     }
 
     @Click(R.id.btnAddCart)
-    public void addtocart() {
+    public void addtocart()
+    {
+
+        Integer total_crtcnt = session.getCartCount();
+        total_crtcnt = total_crtcnt + 1;
+        session.cartcount(total_crtcnt);
+        hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
@@ -212,14 +223,18 @@ public class HomePageRecommendedItemList {
     }
 
     @Click(R.id.lldecreasePrdCount)
-    public void onDecreaseClick() {
-        if (cartcount <= 1) {
-            cartcount = cartcount - 1;
-            display(cartcount);
-            tvNoOfCount.setText(String.valueOf(cartcount));
-            btnAddCart.setVisibility(android.view.View.VISIBLE);
-            llAddCart.setVisibility(android.view.View.GONE);
-        } else {
+    public void onDecreaseClick()
+    {
+
+         if (cartcount <= 1)
+        {
+
+            Integer total_crtcnt = session.getCartCount();
+            total_crtcnt = total_crtcnt - 1;
+            session.cartcount(total_crtcnt);
+            hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
@@ -232,7 +247,8 @@ public class HomePageRecommendedItemList {
                 @Override
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
+                    if (resource.status.equals("success"))
+                    {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -248,7 +264,11 @@ public class HomePageRecommendedItemList {
     }
 
     @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick() {
+    public void onIncreaseClick()
+    {
+
+
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
