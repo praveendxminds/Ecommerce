@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +17,17 @@ import android.widget.Toast;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.billing.AddOrder;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.OrderFeedback;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmOrder extends AppCompatActivity {
 
@@ -25,8 +35,8 @@ public class ConfirmOrder extends AppCompatActivity {
     private LinearLayout llSubmitFeedback;
     APIInterface apiInterface;
     SessionManager session;
-    private TextView tvPaymentStatus,tvSubTotal,tvDelivCharge,tvOrdAmount,tvTotalSaving;
-    private TextView tvApartmentName,tvAddressDetails,tvMsg;
+    private TextView tvPaymentStatus, tvSubTotal, tvDelivCharge, tvOrdAmount, tvTotalSaving;
+    private TextView tvApartmentName, tvAddressDetails, tvMsg;
     private RatingBar ratingBar;
     private EditText etFeedback;
     private TextView btnSubmit;
@@ -39,8 +49,7 @@ public class ConfirmOrder extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -76,21 +85,78 @@ public class ConfirmOrder extends AppCompatActivity {
 
 
     }
+
+
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        //onBackPressed();
+
+        Intent intentSubmitBack = new Intent(ConfirmOrder.this, HomePage.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
         return true;
     }
-    public  void submitFeedback()
-    {
+
+    public void submitFeedback() {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intentSubmitBack = new Intent(ConfirmOrder.this, HomePage.class);
-                intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentSubmitBack);
-                Toast.makeText(getApplicationContext(),"Your feedback has submitted successfully",Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                sendfeedback();
             }
         });
+    }
+
+
+    public void sendfeedback()
+    {
+
+        if (ratingBar.getRating() > 0)
+        {
+            if (Utils.CheckInternetConnection(getApplicationContext())) {
+                //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+
+                Log.d("getToken", String.valueOf(session.getToken()));
+
+                final OrderFeedback feedbackddetails = new OrderFeedback("23", session.getCustomerId(), (int) Math.round(ratingBar.getRating()), "good");
+                Call<OrderFeedback> call = apiInterface.orderfeedback(feedbackddetails);
+                call.enqueue(new Callback<OrderFeedback>() {
+                    @Override
+                    public void onResponse(Call<OrderFeedback> call, Response<OrderFeedback> response) {
+                        OrderFeedback resource = response.body();
+                        if ((resource.status).equals("success"))
+                        {
+
+                            Intent intentSubmitBack = new Intent(ConfirmOrder.this, HomePage.class);
+                            intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intentSubmitBack);
+                            Toast.makeText(getApplicationContext(), "Your feedback has submitted successfully", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderFeedback> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+
+
+            } else {
+                Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            Intent intentSubmitBack = new Intent(ConfirmOrder.this, HomePage.class);
+            intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentSubmitBack);
+        }
+
+
     }
 }

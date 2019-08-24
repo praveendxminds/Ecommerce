@@ -95,6 +95,7 @@ public class cart extends AppCompatActivity {
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
+        slct_itm ="Select";
 
         linkDeliveryDay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,33 +158,6 @@ public class cart extends AppCompatActivity {
                     }
                 });
 
-               // dayspinner.setSelection(adapterDay.getCount());
-
-
-//                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-//                {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-//                    {
-//                        if (dayspinner.getSelectedItem() == "Select")
-//                        {
-//                            Toast.makeText(cart.this, "you have selected nothing", Toast.LENGTH_LONG).show();
-//                        }
-//                        else
-//                        {
-//                            session.setDeliverydate(dayspinner.getSelectedItem().toString());
-//                            Log.e("-----day selected-----", "----day selected---");
-//                            Toast.makeText(cart.this, dayspinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent)
-//                    {
-//
-//                    }
-//                });
 
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(cart.this).create();
@@ -282,9 +256,18 @@ public class cart extends AppCompatActivity {
         return true;
     }
 
-    public void billing(View v) {
-        Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
-        startActivity(myIntent);
+    public void billing(View v)
+    {
+        Log.d("storeDayTime", String.valueOf(slct_itm));
+        if(slct_itm.equals("Select"))
+        {
+            Toast.makeText(getApplicationContext(), "Please Select Delivery Day", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
+            startActivity(myIntent);
+        }
 
        /* Boolean login_st_session = sharedpreferences.getBoolean("status", false);
         if (login_st_session == true) {

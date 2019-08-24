@@ -3,6 +3,7 @@ package com.nisarga.nisargaveggiez.cart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -184,7 +185,9 @@ public class CheckOutMyCart extends AppCompatActivity {
                               // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
 
                               Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
-                              intentConfirmOrder.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                              intentConfirmOrder.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                      Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                               intentConfirmOrder.putExtra("address",lsss.address);
                               intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
                               intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);

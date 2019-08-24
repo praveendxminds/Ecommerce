@@ -174,7 +174,8 @@ public class cartItem {
     }
 
     @Click(R.id.llProductsListViewMyCart)
-    public void onCardClick() {
+    public void onCardClick()
+    {
         Intent myIntent = new Intent(mcontext, ProductDetailHome.class);
         myIntent.putExtra("product_id", mprdid);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
