@@ -439,7 +439,7 @@ public class SignUp_act extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        APIInterface apiInterface = RetrofitApiClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
 
         File file0 = new File(imagepath);
         RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);

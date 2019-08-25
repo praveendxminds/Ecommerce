@@ -270,12 +270,12 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     if (resourceMyProfile.status.equals("success")) {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
-                            if (String.valueOf(mpmResult.image) == "null") {
-                                ivProfilePic.setImageResource(R.drawable.camera);
-                            } else {
-                                Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                        .into(ivProfilePic);
-                            }
+                            Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivProfilePic);
+
+                            Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivToolbarProfile);
+
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
                             tvMobileNo.setText(mpmResult.telephone);
@@ -311,12 +311,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
                     ProductListModel resource = response.body();
                     if (resource.status.equals("success")) {
-                        if (String.valueOf(resource.profile_pic) == "null") {
-                            ivToolbarProfile.setImageResource(R.drawable.camera);
-                        } else {
-                            Glide.with(HomeCategory.this).load(resource.profile_pic).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
-                        }
                         tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
@@ -369,12 +363,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 public void onResponse(Call<ProductListModel> call, Response<ProductListModel> response) {
                     ProductListModel resource = response.body();
                     if (resource.status.equals("success")) {
-                        if (String.valueOf(resource.profile_pic) == "null") {
-                            ivToolbarProfile.setImageResource(R.drawable.camera);
-                        } else {
-                            Glide.with(HomeCategory.this).load(resource.profile_pic).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
-                        }
                         tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
