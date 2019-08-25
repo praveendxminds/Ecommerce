@@ -77,9 +77,10 @@
 
                     <Spinner
                         android:id="@+id/spQuantity"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/prd_name"
+                        android:overlapAnchor="false"
                         android:padding="5dp"
                         android:popupBackground="@android:drawable/dialog_holo_light_frame"
                         android:spinnerMode="dropdown" />
@@ -163,8 +164,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:layout_gravity="left|bottom"
                             android:background="@drawable/blackdecre" />
                     </LinearLayout>
@@ -188,8 +189,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:layout_gravity="right|bottom"
                             android:background="@drawable/blackincr" />
                     </LinearLayout>

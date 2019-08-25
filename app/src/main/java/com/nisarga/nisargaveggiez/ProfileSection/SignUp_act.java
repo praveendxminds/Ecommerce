@@ -34,6 +34,7 @@ import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.RetrofitApiClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,21 +69,21 @@ public class SignUp_act extends AppCompatActivity {
     }
 
     EditText etFirstName, etLastName, etMobileNo, etEmail, etPassword, etBlock, etFloorNumber, etDoorNumber,
-            etArea, etCity, etLandMark, etPincode;
+            etAddress, etCity, etLandMark, etPincode;
     ImageView ivSubmit;
     CircleImageView ivProfile;
-    TextView tvApartment, tvAddress;
+    TextView tvApartment;
     ListView lvApartmentList;
     DrawerLayout mDrawer;
     CheckBox cbNearByApartment;
     Button btnLogIn;
 
     private String imagepath = null;
-    String strFirstName, strLastName, strMobile, strEmail, strPassword, strApartmentName, strBlock, strFloor, strDoor,
-            strArea, strAddress, strPincode, strCity, strNearBy = "0", strApartmentId, strLandmark;
+    String strFirstName, strLastName, strMobile, strEmail, strPassword, strApartmentName, strBlock, strFloor,
+            strDoor, strAddress, strPincode, strCity, strNearBy = "0", strApartmentId, strLandmark;
     String strProfilePic = "null";
 
-    String apartment_address[], apartment_id[];
+    String apartment_pincode[], apartment_address[], apartment_id[], apartment_city[], apartment_landmark[];
 
     private void init() {
         etFirstName = findViewById(R.id.etFirstName);
@@ -93,13 +94,12 @@ public class SignUp_act extends AppCompatActivity {
         etBlock = findViewById(R.id.etBlock);
         etFloorNumber = findViewById(R.id.etFloorNumber);
         etDoorNumber = findViewById(R.id.etDoorNumber);
-        etArea = findViewById(R.id.etArea);
-        etPincode = findViewById(R.id.etPincode);
+        etAddress = findViewById(R.id.etAddress);
         etCity = findViewById(R.id.etCity);
         etLandMark = findViewById(R.id.etLandMark);
+        etPincode = findViewById(R.id.etPincode);
 
         tvApartment = findViewById(R.id.tvApartment);
-        tvAddress = findViewById(R.id.tvAddress);
 
         lvApartmentList = findViewById(R.id.lvApartmentList);
         mDrawer = findViewById(R.id.mDrawer);
@@ -115,6 +115,12 @@ public class SignUp_act extends AppCompatActivity {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     strNearBy = "1";
+                    etBlock.getText().clear();
+                    etFloorNumber.getText().clear();
+                    etDoorNumber.getText().clear();
+                    etAddress.getText().clear();
+                    etCity.getText().clear();
+                    etLandMark.getText().clear();
                 }
             }
         });
@@ -171,13 +177,19 @@ public class SignUp_act extends AppCompatActivity {
                         public void onResponse(Call<ApartmentList> callheight, Response<ApartmentList> response) {
                             ApartmentList eduresource = response.body();
                             List<ApartmentList.ApartmentListDatum> datumList = eduresource.data;
-                            apartment_address = new String[datumList.size()];
                             apartment_id = new String[datumList.size()];
+                            apartment_address = new String[datumList.size()];
+                            apartment_pincode = new String[datumList.size()];
+                            apartment_city = new String[datumList.size()];
+                            apartment_landmark = new String[datumList.size()];
                             int i = 0;
                             for (ApartmentList.ApartmentListDatum datum : datumList) {
                                 apartment_list.add(datum.name);
-                                apartment_address[i] = datum.address;
                                 apartment_id[i] = datum.apartment_id;
+                                apartment_address[i] = datum.address;
+                                apartment_pincode[i] = datum.pincode;
+                                apartment_city[i] = datum.city;
+                                apartment_landmark[i] = datum.landmark;
                                 i++;
                             }
 
@@ -188,13 +200,24 @@ public class SignUp_act extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String apartmentName = (String) lvApartmentList.getItemAtPosition(position);
+                                    String apartmentId = apartment_id[position];
                                     String apartmentAddress = apartment_address[position];
-                                    String ApartmentId = apartment_id[position];
-                                    tvApartment.setText(apartmentName);
-                                    tvAddress.setText(apartmentAddress);
+                                    String apartmentPinCode = apartment_pincode[position];
+                                    String apartmentCity = apartment_city[position];
+                                    String apartmentLandmark = apartment_landmark[position];
+                                    strApartmentId = apartmentId;
                                     strApartmentName = apartmentName;
                                     strAddress = apartmentAddress;
-                                    strApartmentId = ApartmentId;
+                                    strPincode = apartmentPinCode;
+                                    strCity = apartmentCity;
+                                    strLandmark = apartmentLandmark;
+
+                                    tvApartment.setText(strApartmentName);
+                                    etAddress.setText(strAddress);
+                                    etCity.setText(strCity);
+                                    etLandMark.setText(strLandmark);
+                                    etPincode.setText(strPincode);
+
                                     mDrawer.closeDrawer(Gravity.RIGHT);
                                 }
                             });
@@ -222,18 +245,17 @@ public class SignUp_act extends AppCompatActivity {
                 strBlock = etBlock.getText().toString();//
                 strFloor = etFloorNumber.getText().toString();//
                 strDoor = etDoorNumber.getText().toString();
-                strArea = etArea.getText().toString();//
                 strPincode = etPincode.getText().toString();
                 strCity = etCity.getText().toString();//
                 strLandmark = etLandMark.getText().toString();
 
                 if (validateRegister(strFirstName, strLastName, strMobile, strEmail, strPassword, strDoor,
-                        strCity, strAddress, strPincode)) {
+                        strApartmentName, strAddress, strCity, strPincode)) {
 
                     if (Utils.CheckInternetConnection(getApplicationContext())) {
                         saveSignUpData(strFirstName, strLastName, strMobile, strEmail, strPassword, strApartmentName,
-                                strBlock, strFloor, strDoor, strArea, strAddress, strPincode, strCity, strNearBy,
-                                strApartmentId, strLandmark, strProfilePic);
+                                strBlock, strFloor, strDoor, strAddress, strCity, strLandmark, strPincode, strNearBy,
+                                strApartmentId, strProfilePic);
                     } else {
                         Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
                     }
@@ -243,7 +265,7 @@ public class SignUp_act extends AppCompatActivity {
     }
 
     private boolean validateRegister(String firstname, String lastname, String mobile, String emailid, String password,
-                                     String doorno, String city, String address, String pincode) {
+                                     String doorno, String apartmentname, String address, String city, String pincode) {
 
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -285,10 +307,16 @@ public class SignUp_act extends AppCompatActivity {
             return false;
 
         }
-        
+
         if (password.trim().length() < 4) {
             etPassword.requestFocus();
             etPassword.setError("Password should not be less than 4 digit");
+            return false;
+        }
+
+        if (apartmentname == null || apartmentname.trim().length() == 0) {
+            tvApartment.requestFocus();
+            tvApartment.setError("Apartment Name Required");
             return false;
         }
 
@@ -299,10 +327,9 @@ public class SignUp_act extends AppCompatActivity {
         }
 
         if (address == null || address.trim().length() == 0) {
-            tvAddress.requestFocus();
-            tvAddress.setError("Address is required");
+            etAddress.requestFocus();
+            etAddress.setError("Address is required");
             return false;
-
         }
 
         if (pincode == null || pincode.trim().length() == 0) {
@@ -326,9 +353,9 @@ public class SignUp_act extends AppCompatActivity {
     }
 
     private void saveSignUpData(String firstname, String lastname, String mobile, String emailid, String password,
-                                String apartment_name, String block, String floorno, String doorno, String area,
-                                String address, String pincode, String city, final String near_by, String apartment_id,
-                                String landmark, String profile_pic) {
+                                String apartment_name, String block, String floorno, String doorno, String address,
+                                String city, String landmark, String pincode, final String near_by,
+                                String apartment_id, String profile_pic) {
         try {
             progressdialog.show();
         } catch (Exception e) {
@@ -336,7 +363,7 @@ public class SignUp_act extends AppCompatActivity {
         }
 
         final UserSignUp userSignUp = new UserSignUp(firstname, lastname, mobile, emailid, password, apartment_name,
-                block, floorno, doorno, area, address, pincode, city, near_by, apartment_id, landmark, profile_pic);
+                block, floorno, doorno, address, city, landmark, pincode, near_by, apartment_id, profile_pic);
 
         Call<UserSignUp> calledu = apiInterface.postRegisterUser(userSignUp);
         calledu.enqueue(new Callback<UserSignUp>() {
@@ -410,7 +437,7 @@ public class SignUp_act extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = RetrofitApiClient.getClient().create(APIInterface.class);
 
         File file0 = new File(imagepath);
         RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);
