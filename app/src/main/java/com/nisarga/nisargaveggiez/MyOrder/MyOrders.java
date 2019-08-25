@@ -51,7 +51,7 @@ public class MyOrders extends AppCompatActivity {
     public static BottomNavigationView navigationMyOrders;
     View view_count;
     APIInterface apiInterface;
-    // public orderItem orderItem;
+   // public orderItem orderItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +63,16 @@ public class MyOrders extends AppCompatActivity {
         mCartView = findViewById(R.id.recycler_order);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //  orderItem = new orderItem(MyOrders.this);
+          //  orderItem = new orderItem(MyOrders.this);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final MyOrderList get_order_list = new MyOrderList("147");
+            final MyOrderList get_order_list = new MyOrderList(session.getCustomerId());
             Call<MyOrderList> call = apiInterface.getMyOrdersList(get_order_list);
             call.enqueue(new Callback<MyOrderList>() {
                 @Override
@@ -81,17 +81,23 @@ public class MyOrders extends AppCompatActivity {
                     MyOrderList resource = response.body();
 
                     List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
-
+                    if((resource.mstatus).equals("success"))
+                    {
                     for (MyOrderList.MyOrderListDatum orderList : datumList1) {
 
-                        session.storeStatusOrder(orderList.sstatus);
-                        session.storeCancelId(orderList.scancel);
-                        mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
-                                orderList.sstatus, orderList.scancel));
+                            session.storeStatusOrder(orderList.sstatus);
+                            session.storeCancelId(orderList.scancel);
+                            mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
+                                    orderList.sstatus, orderList.scancel));
 
-                        Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
+                            Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
 
+                        }
 
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),resource.msg,Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -162,19 +168,20 @@ public class MyOrders extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater miMyOrders = getMenuInflater();
-        miMyOrders.inflate(R.menu.notifi_and_info_menu, menu);
+        miMyOrders.inflate(R.menu.notifi_and_info_menu,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch(item.getItemId())
+        {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
             case R.id.menu_notifi:
-                Intent intentNotifi = new Intent(getBaseContext(), MyNotifications.class);
+                Intent intentNotifi = new Intent(getBaseContext(),MyNotifications.class);
                 startActivity(intentNotifi);
                 break;
             case R.id.menu_info:
