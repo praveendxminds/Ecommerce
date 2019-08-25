@@ -294,8 +294,30 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="15dp"
+                            android:background="@drawable/login_reg_border"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvApartment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:drawableRight="@drawable/ic_chevron_right"
+                                android:gravity="left|center"
+                                android:hint="Apartment Name *"
+                                android:inputType="textMultiLine"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="0dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="horizontal">
@@ -315,28 +337,6 @@
                                 android:text="Near By Apartment"
                                 android:textColor="#FF4A4A4A"
                                 android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:background="@drawable/login_reg_border"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tvApartment"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
-                                android:drawableRight="@drawable/ic_chevron_right"
-                                android:gravity="left|center"
-                                android:hint="Apartment Name *"
-                                android:inputType="textMultiLine"
-                                android:padding="16dp"
-                                android:textColor="#696969"
-                                android:textColorHint="#5E4A4A4A"
-                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout

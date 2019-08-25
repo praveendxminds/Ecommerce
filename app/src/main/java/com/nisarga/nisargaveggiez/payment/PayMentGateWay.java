@@ -333,8 +333,8 @@ public class PayMentGateWay extends Activity {
 	                    finish();*/
                    // new PostRechargeData().execute();
 
-                    intent.putExtra("txnid", paymentId);
-                    testStatus(paymentId,getRechargeAmt,"success","Money Added to Wallet");
+                    //intent.putExtra("txnid", paymentId);
+                   // testStatus(paymentId,getRechargeAmt,"success","Money Added to Wallet");
 
 
                 }

@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
@@ -419,9 +420,27 @@ public class SignUp_act extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-            ivProfile.setImageBitmap(bitmap);
-            imagePath(imagepath);
+
+            Glide.with(getApplicationContext()).load(filePath).into(ivProfile);
+
+//            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+//            ivProfile.setImageBitmap(bitmap);
+
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        /*Intent galleryImages = new Intent(Registration_act.this, RegistrationImageCrop.class);
+                        galleryImages.putExtra("images", imagepath);
+                        startActivity(galleryImages);*/
+
+                        imagePath(imagepath);
+                        Log.e("----imagepath---", "" + imagepath);
+
+                    }
+                }).start();
+            }
+
+
         }
     }
 
