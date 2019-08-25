@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Home.CategoriesBottomNav.textCartItemCount;
+import static com.nisarga.nisargaveggiez.Home.HomePage.hometotalCartItemCount;
 
 
 @NonReusable
@@ -110,14 +113,19 @@ public class HomePageDealOfDayItemList {
             tvOldPrice.setText("₹" + " " + str_disValue);
         }
 
-        if (sAddCart.equals("0")) {
+        if (sAddCart.equals("0"))
+        {
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llAddCart.setVisibility(android.view.View.GONE);
-        } else {
+        }
+        else
+        {
             btnAddCart.setVisibility(android.view.View.GONE);
             llAddCart.setVisibility(android.view.View.VISIBLE);
             tvNoOfCount.setText(sAddCart);
         }
+
+        cartcount = Integer.parseInt(sAddCart);
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
@@ -185,15 +193,25 @@ public class HomePageDealOfDayItemList {
     }
 
     @Click(R.id.btnAddCart)
-    public void addtocart() {
+    public void addtocart()
+    {
+
+
+        Integer total_crtcnt = session.getCartCount();
+        total_crtcnt = total_crtcnt + 1;
+        session.cartcount(total_crtcnt);
+        hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
-        final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(cartcount), option_id, option_value_id);
 
+
+        final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(cartcount), option_id, option_value_id);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
         callAdd.enqueue(new Callback<AddToCartModel>() {
@@ -213,23 +231,41 @@ public class HomePageDealOfDayItemList {
                 call.cancel();
             }
         });
+
+
+
     }
 
     @Click(R.id.lldecreasePrdCount)
-    public void onDecreaseClick() {
-        if (cartcount <= 1) {
+    public void onDecreaseClick()
+    {
+
+        Log.d("cartcountsdfdsf", String.valueOf(cartcount));
+
+        if (cartcount <= 1)
+        {
+
+            Integer total_crtcnt = session.getCartCount();
+            total_crtcnt = total_crtcnt - 1;
+            session.cartcount(total_crtcnt);
+            hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llAddCart.setVisibility(android.view.View.GONE);
-        } else {
+        }
+        else
+            {
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
 
-            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
 
+            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
             callAdd.enqueue(new Callback<UpdateToCartModel>() {
@@ -252,7 +288,10 @@ public class HomePageDealOfDayItemList {
     }
 
     @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick() {
+    public void onIncreaseClick()
+    {
+
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
@@ -265,7 +304,8 @@ public class HomePageDealOfDayItemList {
             @Override
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                 UpdateToCartModel resource = response.body();
-                if (resource.status.equals("success")) {
+                if (resource.status.equals("success"))
+                {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();

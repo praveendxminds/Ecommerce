@@ -104,6 +104,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     SessionManager session;
     ProgressDialog progressdialog;
     InstallReferrerClient mReferrerClient;
+    public static TextView hometotalCartItemCount;
 
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
@@ -371,7 +372,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        final TextView textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+        hometotalCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -383,8 +384,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         @Override
                         public void onResponse(Call<CartCount> call, Response<CartCount> response) {
                             CartCount cartCount = response.body();
-                            if (cartCount.status.equals("success")) {
-                                textCartItemCount.setText(cartCount.data);
+                            if (cartCount.status.equals("success"))
+                            {
+                                hometotalCartItemCount.setText(cartCount.data);
+                                 session.cartcount(Integer.parseInt(cartCount.data));
                             }
                         }
 

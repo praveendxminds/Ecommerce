@@ -39,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Home.HomePage.hometotalCartItemCount;
 
 
 @NonReusable
@@ -124,6 +125,8 @@ public class HomePageListOfProductsItemList {
             tvNoOfCount.setText(sAddCart);
         }
 
+        cartcount = Integer.parseInt(sAddCart);
+
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -190,7 +193,15 @@ public class HomePageListOfProductsItemList {
     }
 
     @Click(R.id.btnAddCart)
-    public void addtocart() {
+    public void addtocart()
+    {
+
+        Integer total_crtcnt = session.getCartCount();
+        total_crtcnt = total_crtcnt + 1;
+        session.cartcount(total_crtcnt);
+        hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
@@ -220,8 +231,19 @@ public class HomePageListOfProductsItemList {
     }
 
     @Click(R.id.lldecreasePrdCount)
-    public void onDecreaseClick() {
-        if (cartcount <= 1) {
+    public void onDecreaseClick()
+    {
+
+
+        if (cartcount <= 1)
+        {
+
+            Integer total_crtcnt = session.getCartCount();
+            total_crtcnt = total_crtcnt - 1;
+            session.cartcount(total_crtcnt);
+            hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
@@ -256,7 +278,11 @@ public class HomePageListOfProductsItemList {
     }
 
     @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick() {
+    public void onIncreaseClick()
+    {
+
+
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
