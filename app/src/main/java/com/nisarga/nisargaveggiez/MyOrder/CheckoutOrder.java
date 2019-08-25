@@ -45,14 +45,14 @@ public class CheckoutOrder extends AppCompatActivity {
     private TextView tvChkoutDelvInstruct, tvInvoiceNo, tvOrdNo, tvOrdItems, tvSubTotal, tvDeliveryCharges, tvPrice, tvFinalTotal;
     private TextView tvWalletAmnt;
     String strTotalAmnt, strPrice, strSubTotal, strDelvCharge;
-    private String getFirstName, getPhone, getEmail, getAmount;
+    private String getFirstName, getPhone, getEmail, getAmount,getOrdId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_order);
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        order_id = getIntent().getExtras().getString("order_id", "1");
+        order_id = getIntent().getExtras().getString("order_id", null);
         session = new SessionManager(getApplicationContext());
         str_custid = session.getCustomerId();
 
@@ -92,7 +92,9 @@ public class CheckoutOrder extends AppCompatActivity {
         btnItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getOrdId = tvOrdId.getText().toString();
                 Intent intentReorder = new Intent(CheckoutOrder.this, ReorderHolder.class);
+                intentReorder.putExtra("order_id",getOrdId);
                 startActivity(intentReorder);
             }
         });
@@ -174,14 +176,14 @@ public class CheckoutOrder extends AppCompatActivity {
 
     public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            ReorderItemsModel reorderModel = new ReorderItemsModel("1", "1");
+            ReorderItemsModel reorderModel = new ReorderItemsModel(session.getCustomerId(), order_id);
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
                 @Override
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         for (ReorderItemsModel.ReorderResult reorderData : result) {
                             tvOrdId.setText(reorderData.order_id);

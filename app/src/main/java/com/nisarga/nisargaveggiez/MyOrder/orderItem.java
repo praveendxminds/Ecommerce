@@ -283,7 +283,7 @@ public class orderItem {
     public void onDetailsOrder() {
         Intent myIntent = new Intent(mContext, OrderDetailsHolder.class);
         myIntent.putExtra("order_id", morderId);
-        // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
 
@@ -291,7 +291,7 @@ public class orderItem {
     public void onPayNow() {
         Intent myIntent = new Intent(mContext, CheckoutOrder.class);
         myIntent.putExtra("order_id", morderId);
-        // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
 

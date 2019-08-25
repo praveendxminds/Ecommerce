@@ -63,7 +63,7 @@ public class ReorderHolder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reorder_holder);
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        order_id = getIntent().getExtras().getString("order_id", "1");
+        order_id = getIntent().getExtras().getString("order_id", null);
         session = new SessionManager(getApplicationContext());
         str_custid = session.getCustomerId();
 
@@ -149,7 +149,7 @@ public class ReorderHolder extends AppCompatActivity {
 
     public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            ReorderItemsModel reorderModel = new ReorderItemsModel("1", "1");
+            ReorderItemsModel reorderModel = new ReorderItemsModel(session.getCustomerId(), order_id);
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
                 @Override
@@ -165,7 +165,7 @@ public class ReorderHolder extends AppCompatActivity {
                                     reorderData.weight_classes, reorderData.revised_price));
                         }
                         tv_total.setText(resourcesReorder.TotalProduct+" "+"Items");
-                        tvtotalAmount.setText("Rs."+" "+resourcesReorder.totalMoney);
+                        tvtotalAmount.setText("Total"+" "+"\u20B9 "+resourcesReorder.totalMoney);
                     } else if (resourcesReorder.status.equals("failure")) {
                         Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                     }
