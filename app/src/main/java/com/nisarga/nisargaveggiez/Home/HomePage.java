@@ -282,12 +282,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
                     ProductslHomePage resource = response.body();
                     if (resource.status.equals("success")) {
-                        if (String.valueOf(resource.profile_pic) == "null") {
-                            ivToolbarProfile.setImageResource(R.drawable.camera);
-                        } else {
-                            Glide.with(HomePage.this).load(resource.profile_pic).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
-                        }
+
+                        Glide.with(HomePage.this).load(resource.profile_pic).fitCenter().dontAnimate()
+                                .into(ivToolbarProfile);
+
                         List<ProductslHomePage.BannerList> datumList = resource.banner;
                         for (ProductslHomePage.BannerList imageslider1 : datumList) {
                             imageArray.add(imageslider1.image);
@@ -384,10 +382,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         @Override
                         public void onResponse(Call<CartCount> call, Response<CartCount> response) {
                             CartCount cartCount = response.body();
-                            if (cartCount.status.equals("success"))
-                            {
+                            if (cartCount.status.equals("success")) {
                                 hometotalCartItemCount.setText(cartCount.data);
-                                 session.cartcount(Integer.parseInt(cartCount.data));
+                                session.cartcount(Integer.parseInt(cartCount.data));
                             }
                         }
 
