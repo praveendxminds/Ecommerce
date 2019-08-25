@@ -86,6 +86,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -121,6 +122,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
+
+
+
+
 
         init();
         initApiCall();
