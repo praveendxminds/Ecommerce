@@ -2,8 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#FBD249</color>
 
-    <color name="colorPrimaryDark">#f4bd06</color>
+    <color name="colorPrimaryDark">#4a4a4a</color>
     <color name="colorAccent">#34773C</color>
+    <color name="statusbarcolor">#f4bd06</color>
     <color name="green_1">#FF34773C</color>#FF34773C
     <color name="darkerGreen">#34773C</color>
     <color name="green">#55AE3A</color>

@@ -152,7 +152,7 @@ public class billingAddress extends AppCompatActivity {
           //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
 
             Log.d("strArea", String.valueOf(strArea));
-            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strArea, strCity, strCountryId, strZoneId, strApartmentName, strAddress, strPincode, strInstruct);
+            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName,strAddress , strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
             Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);
             call.enqueue(new Callback<ShippingAddrModel>() {
                 @Override
