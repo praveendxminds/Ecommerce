@@ -24,7 +24,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/llConfirmOrder"
+        android:layout_above="@id/cnflyt"
         android:layout_below="@id/toolbar">
 
         <LinearLayout
@@ -50,7 +50,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
+                        android:layout_weight="5"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Cart Value"
                         android:textColor="@color/light_black_4"
@@ -60,7 +60,7 @@
                         android:id="@+id/tvCartValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="5"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="right"
                         android:text="Rs. 000.00"
@@ -92,7 +92,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
+                        android:layout_weight="5"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Total Saving"
                         android:textColor="@color/light_black_4"
@@ -102,7 +102,7 @@
                         android:id="@+id/tvTotalSaving"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="5"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="right"
                         android:text="Rs. 000.00"
@@ -318,13 +318,14 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/llConfirmOrder"
+        android:id="@+id/cnflyt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom">
 
         <TextView
+            android:id="@+id/llConfirmOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
