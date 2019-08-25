@@ -6,25 +6,25 @@ import java.util.List;
 
 public class SimilarProductsModel {
 
-    @SerializedName("product_id")
-    public String productid;
-
-    @SerializedName("customer_id")
-    public String customer_id;
-
-    public SimilarProductsModel(String product_id, String customer_id) {
-        this.productid = product_id;
-        this.customer_id = customer_id;
-    }
-
     @SerializedName("status")
     public String status;
 
     @SerializedName("message")
     public String message;
 
+    @SerializedName("product_id")
+    public String productid;
+
+    @SerializedName("customer_id")
+    public String customer_id;
+
     @SerializedName("result")
     public List<SimilarPrdDatum> result;
+
+    public SimilarProductsModel(String product_id, String customer_id) {
+        this.productid = product_id;
+        this.customer_id = customer_id;
+    }
 
     public static class SimilarPrdDatum {
 
@@ -36,6 +36,12 @@ public class SimilarProductsModel {
 
         @SerializedName("image")
         public String image;
+
+        @SerializedName("wishlist_status")
+        public String wishlist_status;
+
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_product_quantity_in_cart;
 
         @SerializedName("price")
         public String price;

@@ -81,7 +81,7 @@ public class SignUp_act extends AppCompatActivity {
     private String imagepath = null;
     String strFirstName, strLastName, strMobile, strEmail, strPassword, strApartmentName, strBlock, strFloor,
             strDoor, strAddress, strPincode, strCity, strNearBy = "0", strApartmentId, strLandmark;
-    String strProfilePic = "null";
+    String strProfilePic = "0";
 
     String apartment_pincode[], apartment_address[], apartment_id[], apartment_city[], apartment_landmark[];
 
@@ -120,6 +120,10 @@ public class SignUp_act extends AppCompatActivity {
                     etDoorNumber.getText().clear();
                     etAddress.getText().clear();
                     etLandMark.getText().clear();
+                   // etBlock.setHint("Block/Wing/House No");
+                } else {
+                    etAddress.setText(strAddress);
+                    etLandMark.setText(strLandmark);
                 }
             }
         });
@@ -138,7 +142,6 @@ public class SignUp_act extends AppCompatActivity {
                         } else {
                             etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                             etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_pass, 0);
-
                         }
                         return true;
                     }
@@ -436,7 +439,7 @@ public class SignUp_act extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        APIInterface apiInterface = RetrofitApiClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
 
         File file0 = new File(imagepath);
         RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);

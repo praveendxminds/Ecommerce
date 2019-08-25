@@ -125,8 +125,6 @@ public class HomePageListOfProductsItemList {
             tvNoOfCount.setText(sAddCart);
         }
 
-        cartcount = Integer.parseInt(sAddCart);
-
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -182,6 +180,9 @@ public class HomePageListOfProductsItemList {
         } else {
             Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
         }
+
+        cartcount = Integer.parseInt(sAddCart);
+
     }
 
     @Click(R.id.llDealOfDay)
@@ -193,14 +194,11 @@ public class HomePageListOfProductsItemList {
     }
 
     @Click(R.id.btnAddCart)
-    public void addtocart()
-    {
-
+    public void addtocart() {
         Integer total_crtcnt = session.getCartCount();
         total_crtcnt = total_crtcnt + 1;
         session.cartcount(total_crtcnt);
         hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
-
 
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
@@ -217,7 +215,7 @@ public class HomePageListOfProductsItemList {
             public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                 AddToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
@@ -231,39 +229,56 @@ public class HomePageListOfProductsItemList {
     }
 
     @Click(R.id.lldecreasePrdCount)
-    public void onDecreaseClick()
-    {
-
-
-        if (cartcount <= 1)
-        {
-
+    public void onDecreaseClick() {
+        if (cartcount <= 1) {
             Integer total_crtcnt = session.getCartCount();
             total_crtcnt = total_crtcnt - 1;
             session.cartcount(total_crtcnt);
             hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
-
 
             cartcount = cartcount - 1;
             display(cartcount);
             tvNoOfCount.setText(String.valueOf(cartcount));
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llAddCart.setVisibility(android.view.View.GONE);
-        } else {
-            cartcount = cartcount - 1;
-            display(cartcount);
-            tvNoOfCount.setText(String.valueOf(cartcount));
 
-            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(cartcount));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
             callAdd.enqueue(new Callback<UpdateToCartModel>() {
                 @Override
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                    } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+
+            cartcount = cartcount - 1;
+            display(cartcount);
+            tvNoOfCount.setText(String.valueOf(cartcount));
+
+            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -278,25 +293,21 @@ public class HomePageListOfProductsItemList {
     }
 
     @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick()
-    {
-
-
-
+    public void onIncreaseClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvNoOfCount.setText(String.valueOf(cartcount));
 
-        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+        final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(cartcount));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
         callAdd.enqueue(new Callback<UpdateToCartModel>() {
             @Override
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                 UpdateToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }

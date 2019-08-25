@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Home.HomeCategory.cartItemCount;
 
 /**
  * Created by sushmita on 17th June 2019
@@ -117,9 +118,14 @@ public class HomeCategoryItemGridView {
         tvProductName.setText(prdName);
         Glide.with(mContext).load(image).into(ivImage);
 
-        double dbl_Dis_Price = Double.parseDouble(prdDisPrice);//need to convert string to decimal
-        sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
-        tvProdOldPrice.setText("₹" + " " + sDisPrice);
+        if (prdDisPrice.equals("null")) {
+            tvProdOldPrice.setVisibility(android.view.View.INVISIBLE);
+        } else {
+            double dbl_Discount = Double.parseDouble(prdDisPrice);//need to convert string to decimal
+            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            tvProdOldPrice.setVisibility(android.view.View.VISIBLE);
+            tvProdOldPrice.setText("₹" + " " + str_disValue);
+        }
 
         if (prdAddCart.equals("0")) {
             btnAddCart.setVisibility(android.view.View.VISIBLE);
@@ -191,6 +197,8 @@ public class HomeCategoryItemGridView {
         } else {
             Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
         }
+
+        cartcount = Integer.parseInt(prdAddCart);
     }
 
     @Click(R.id.llProductGridView)
@@ -203,6 +211,11 @@ public class HomeCategoryItemGridView {
 
     @Click(R.id.btnAddCart)
     public void AddToCartClick() {
+        Integer total_crtcnt = session.getCartCount();
+        total_crtcnt = total_crtcnt + 1;
+        session.cartcount(total_crtcnt);
+        cartItemCount.setText(String.valueOf(total_crtcnt));
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvProductCount.setText(String.valueOf(cartcount));
@@ -218,8 +231,8 @@ public class HomeCategoryItemGridView {
             public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                 AddToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                } else if (resource.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
             }
@@ -234,26 +247,54 @@ public class HomeCategoryItemGridView {
     @Click(R.id.llProductDecrese)
     public void removeCount() {
         if (cartcount <= 1) {
+            Integer total_crtcnt = session.getCartCount();
+            total_crtcnt = total_crtcnt - 1;
+            session.cartcount(total_crtcnt);
+            cartItemCount.setText(String.valueOf(total_crtcnt));
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvProductCount.setText(String.valueOf(cartcount));
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llProductCount.setVisibility(android.view.View.GONE);
-        } else {
-            cartcount = cartcount - 1;
-            display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
 
-            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(cartcount));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
             callAdd.enqueue(new Callback<UpdateToCartModel>() {
                 @Override
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                    } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+
+            cartcount = cartcount - 1;
+            display(cartcount);
+            tvProductCount.setText(String.valueOf(cartcount));
+
+            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -273,16 +314,16 @@ public class HomeCategoryItemGridView {
         display(cartcount);
         tvProductCount.setText(String.valueOf(cartcount));
 
-        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+        final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(cartcount));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
         callAdd.enqueue(new Callback<UpdateToCartModel>() {
             @Override
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                 UpdateToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
@@ -295,7 +336,7 @@ public class HomeCategoryItemGridView {
         });
     }
 
-    @Click(R.id.llAddWishlist)
+    @Click(R.id.ivbtnAddWishlist)
     public void onClick() {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         if (state == false) {
@@ -306,7 +347,7 @@ public class HomeCategoryItemGridView {
                 public void onResponse(Call<InsertWishListItems> call, Response<InsertWishListItems> response) {
                     InsertWishListItems resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Added In Wishlist", Toast.LENGTH_LONG).show();
                         ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
                     } else {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
@@ -328,7 +369,7 @@ public class HomeCategoryItemGridView {
                 public void onResponse(Call<RemoveWishListItem> call, Response<RemoveWishListItem> response) {
                     RemoveWishListItem resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Remove from Wishlist", Toast.LENGTH_LONG).show();
                         ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlistgrey);
                     } else {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();

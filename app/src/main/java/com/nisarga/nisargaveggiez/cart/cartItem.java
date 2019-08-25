@@ -3,6 +3,8 @@ package com.nisarga.nisargaveggiez.cart;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,7 +14,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.Home.ProductDetailHome;
+import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
@@ -25,6 +29,9 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
 import com.nisarga.nisargaveggiez.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,6 +109,9 @@ public class cartItem {
     APIInterface apiInterface;
     public boolean chkState = false;
     PlaceHolderView mPlaceHolderView;
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
 
     public cartItem(Context context, TextView textCartItemCount, String custid,String prdid, String url,
                     String title, String price,String disprice,String qty, PlaceHolderView placeHolderView) {
@@ -139,6 +149,8 @@ public class cartItem {
         prd_nameMyCart.setText(mtitle);
         Glide.with(mcontext).load(murl).into(itemIconMyCart);
         tvpriceNewMyCart.setText("\u20B9 "+mprice);
+
+        quntity();
 
 /*
         double dbl_Price = Double.parseDouble(mprice);//need to convert string to decimal
@@ -273,5 +285,64 @@ public class cartItem {
         tvProductCountMyCart.setText("" + number);
     }
 
+    public void quntity()
+    {
+        final ArrayList<String> product_qty_list = new ArrayList<>();
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final QuantityList quantityList = new QuantityList(mprdid);
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
+            callheight.enqueue(new Callback<QuantityList>() {
+                @Override
+                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
+                    QuantityList eduresource = response.body();
+                    List<QuantityList.Datum> datumList = eduresource.data;
+                    product_option_id = new String[datumList.size()];
+                    product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
+                    int i = 0;
+                    for (QuantityList.Datum datum : datumList) {
+                        product_qty_list.add(datum.name);
+                        product_option_id[i] = datum.product_option_id;
+                        product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
+                        i++;
+                    }
+
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mcontext, R.layout.spinner_item,
+                            product_qty_list);
+                    spnr_qntyMyCart.setAdapter(itemsAdapter);
+                    spnr_qntyMyCart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                            sQuantitySpinner = product_qty_list.get(position);
+                            option_id = product_option_id[position];
+                            option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tvpriceNewMyCart.setText("₹" + " " + productPrice);
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<QuantityList> callheight, Throwable t) {
+                    callheight.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
