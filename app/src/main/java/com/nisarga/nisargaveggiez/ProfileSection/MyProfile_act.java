@@ -32,6 +32,7 @@ import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +57,7 @@ public class MyProfile_act extends AppCompatActivity {
     }
 
     Toolbar toolbar;
-    ImageView ivProfile;
+    CircleImageView ivProfile;
     ImageView ivEditProfile;
     TextView tvName, tvMobileNo, tvEmail, tvApartmentName, tvNearBy, tvDoorNo, tvArea, tvAddress, tvPinCode;
     public static BottomNavigationView bottom_navigation;
@@ -125,7 +126,6 @@ public class MyProfile_act extends AppCompatActivity {
                     }
                 });
         bottom_navigation.setItemIconSize(40);
-
 
         //---------------------------My Profile API Call-----------------
         if (Utils.CheckInternetConnection(getApplicationContext())) {

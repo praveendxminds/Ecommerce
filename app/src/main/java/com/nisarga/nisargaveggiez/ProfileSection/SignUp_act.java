@@ -119,7 +119,6 @@ public class SignUp_act extends AppCompatActivity {
                     etFloorNumber.getText().clear();
                     etDoorNumber.getText().clear();
                     etAddress.getText().clear();
-                    etCity.getText().clear();
                     etLandMark.getText().clear();
                 }
             }
@@ -168,6 +167,7 @@ public class SignUp_act extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawer.openDrawer(Gravity.RIGHT);
+                cbNearByApartment.setChecked(false);
                 final ArrayList<String> apartment_list = new ArrayList<>();
 
                 if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -271,7 +271,7 @@ public class SignUp_act extends AppCompatActivity {
 
         if (firstname == null || firstname.trim().length() == 0) {
             etFirstName.requestFocus();
-            etFirstName.setError("First name is Required");
+            etFirstName.setError("First Name is Required");
             return false;
 
         }
@@ -297,15 +297,14 @@ public class SignUp_act extends AppCompatActivity {
 
         if (!(emailid.matches(emailPattern) && emailid.length() > 0)) {
             etEmail.requestFocus();
-            etEmail.setError("Invalid email address");
+            etEmail.setError("Email is Required");
             return false;
         }
 
         if (password == null || password.trim().length() == 0) {
             etPassword.requestFocus();
-            etPassword.setError("Please enter a valid Password");
+            etPassword.setError("Please enter a Valid Password");
             return false;
-
         }
 
         if (password.trim().length() < 4) {

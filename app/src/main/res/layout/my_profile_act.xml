@@ -39,7 +39,7 @@
                         android:background="@drawable/rounded_login_button"
                         android:backgroundTint="@color/white">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/ivProfile"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
