@@ -12,6 +12,9 @@ public class MoveToCartModel {
     @SerializedName("product_id")
     public String product_id;
 
+    @SerializedName("session_id")
+    public String session_id;
+
     @SerializedName("status")
     public String status;
 
@@ -21,10 +24,11 @@ public class MoveToCartModel {
     @SerializedName("count")
     public String count;
 
-    public MoveToCartModel(String cust_id,String prd_id)
+    public MoveToCartModel(String cust_id,String prd_id,String session)
     {
         this.customer_id = cust_id;
         this.product_id = prd_id;
+        this.session_id  = session;
     }
     @SerializedName("result")
     public List<MoveToCartDatum> result=null;

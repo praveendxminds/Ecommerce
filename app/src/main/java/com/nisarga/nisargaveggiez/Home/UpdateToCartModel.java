@@ -10,14 +10,14 @@ public class UpdateToCartModel {
     @SerializedName("message")
     public String message;
 
-    @SerializedName("key")
-    public String cart_id;
+    @SerializedName("product_id")
+    public String product_id;
 
     @SerializedName("quantity")
     public String quantity;
 
-    public UpdateToCartModel(String sCartId, String sQuantity) {
-        this.cart_id = sCartId;
+    public UpdateToCartModel(String product_id, String sQuantity) {
+        this.product_id = product_id;
         this.quantity = sQuantity;
     }
 }

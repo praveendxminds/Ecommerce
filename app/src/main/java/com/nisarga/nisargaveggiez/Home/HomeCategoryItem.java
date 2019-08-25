@@ -228,10 +228,10 @@ public class HomeCategoryItem {
             display(cartcount);
             tvProductCount.setText(String.valueOf(cartcount));
 
-            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+            final UpdateToCartModel ref = new UpdateToCartModel(productId, String.valueOf(cartcount));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
             callAdd.enqueue(new Callback<UpdateToCartModel>() {
                 @Override
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
@@ -257,10 +257,10 @@ public class HomeCategoryItem {
         display(cartcount);
         tvProductCount.setText(String.valueOf(cartcount));
 
-        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+        final UpdateToCartModel ref = new UpdateToCartModel(productId, String.valueOf(cartcount));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
         callAdd.enqueue(new Callback<UpdateToCartModel>() {
             @Override
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {

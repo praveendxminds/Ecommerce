@@ -161,9 +161,7 @@ public class WishListItem {
     @Click(R.id.btn_moveToCart)
     public void moveToCartClick() {
 
-      /*  if (Utils.CheckInternetConnection(mContext)) {
-
-            MoveToCartModel move_item = new MoveToCartModel(session.getCustomerId(), prod_id);
+           MoveToCartModel move_item = new MoveToCartModel(session.getCustomerId(), prod_id,session.getToken());
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<MoveToCartModel> call = apiInterface.moveToCart(move_item);
             call.enqueue(new Callback<MoveToCartModel>() {
@@ -171,10 +169,10 @@ public class WishListItem {
                 public void onResponse(Call<MoveToCartModel> call, Response<MoveToCartModel> response) {
                     MoveToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
-                        mPlaceHolderView.removeView(this);
-                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+
+                        //Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -183,9 +181,8 @@ public class WishListItem {
                     call.cancel();
                 }
             });
-        } else {
-            Toast.makeText(mContext, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }*/
+
+        mPlaceHolderView.removeView(this);
     }
 
 
