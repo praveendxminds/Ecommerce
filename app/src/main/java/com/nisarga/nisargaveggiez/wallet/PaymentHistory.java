@@ -44,7 +44,7 @@ public class PaymentHistory extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     SessionManager session;
     APIInterface apiInterface;
-
+    private static String paymentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +112,11 @@ public class PaymentHistory extends AppCompatActivity {
                     List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
                     for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
                         if (response.isSuccessful()) {
-
+                            Intent oIntent  = getIntent();
+                            paymentId    = oIntent.getExtras().getString("txnid");
                             recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(),imgs.date, imgs.transaction_type,
-                                    imgs.description, imgs.amount,imgs.balance, imgs.type));
+                                    imgs.description, imgs.amount,imgs.balance, imgs.type,imgs.status,paymentId));
+
                         }
                     }
                 }

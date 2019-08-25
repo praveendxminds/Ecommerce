@@ -77,10 +77,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="11:34 Am"
+                        android:text="EEEE HH:mm a"
                         android:textAlignment="center"
                         android:textColor="@color/light_black_2"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"/>
                 </LinearLayout>
 
 
@@ -136,7 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="11th June 2019"
+                        android:text="dd mmmm yyyy"
                         android:textColor="@color/light_black_2"
                         android:textSize="10sp" />
 
@@ -156,7 +158,7 @@
                 android:layout_height="25dp"
                 android:src="@drawable/warning"
                 android:padding="5dp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
