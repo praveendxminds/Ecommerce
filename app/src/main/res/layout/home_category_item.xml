@@ -164,8 +164,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="left|bottom"
                             android:background="@drawable/blackdecre" />
                     </LinearLayout>
@@ -189,8 +189,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="right|bottom"
                             android:background="@drawable/blackincr" />
                     </LinearLayout>

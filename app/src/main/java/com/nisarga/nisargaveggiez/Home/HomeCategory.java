@@ -137,6 +137,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     private String imagepath = null;
     String strProfilePic = "null";
 
+    public static TextView cartItemCount;
+
     private void init() {
         drawerHomeCategory = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
         toolbar = (Toolbar) findViewById(R.id.toolbarHomeCategory);
@@ -408,7 +410,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        final TextView cartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+        cartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -422,6 +424,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             CartCount cartCount = response.body();
                             if (cartCount.status.equals("success")) {
                                 cartItemCount.setText(cartCount.data);
+                                session.cartcount(Integer.parseInt(cartCount.data));
                             }
                         }
 

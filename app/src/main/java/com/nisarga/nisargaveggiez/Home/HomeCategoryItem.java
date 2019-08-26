@@ -33,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Home.HomeCategory.cartItemCount;
 
 /**
  * Created by sushmita
@@ -107,9 +108,14 @@ public class HomeCategoryItem {
         tvProductName.setText(productName);
         Glide.with(mContext).load(image).into(ivProductImage);
 
-        double dbl_Dis_Price = Double.parseDouble(productDisPrice);//need to convert string to decimal
-        sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
-        tvOldPrice.setText("₹" + " " + sDisPrice);
+        if (productDisPrice.equals("null")) {
+            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+        } else {
+            double dbl_Discount = Double.parseDouble(productDisPrice);//need to convert string to decimal
+            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+            tvOldPrice.setVisibility(android.view.View.VISIBLE);
+            tvOldPrice.setText("₹" + " " + str_disValue);
+        }
 
         if (sAddCart.equals("0")) {
             btnAddItem.setVisibility(android.view.View.VISIBLE);
@@ -175,6 +181,8 @@ public class HomeCategoryItem {
         } else {
             Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
         }
+
+        cartcount = Integer.parseInt(sAddCart);
     }
 
     @Click(R.id.llProductsListView)
@@ -187,6 +195,11 @@ public class HomeCategoryItem {
 
     @Click(R.id.btnAddItem)
     public void AddToCartClick() {
+        Integer total_crtcnt = session.getCartCount();
+        total_crtcnt = total_crtcnt + 1;
+        session.cartcount(total_crtcnt);
+        cartItemCount.setText(String.valueOf(total_crtcnt));
+
         cartcount = cartcount + 1;//display number in place of add to cart
         display(cartcount);
         tvProductCount.setText(String.valueOf(cartcount));
@@ -202,7 +215,7 @@ public class HomeCategoryItem {
             public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                 AddToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
@@ -218,12 +231,40 @@ public class HomeCategoryItem {
     @Click(R.id.llDecreaseCount)
     public void removeItem() {
         if (cartcount <= 1) {
+            Integer total_crtcnt = session.getCartCount();
+            total_crtcnt = total_crtcnt - 1;
+            session.cartcount(total_crtcnt);
+            cartItemCount.setText(String.valueOf(total_crtcnt));
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvProductCount.setText(String.valueOf(cartcount));
             btnAddItem.setVisibility(android.view.View.VISIBLE);
             llAccountItem.setVisibility(android.view.View.GONE);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(productId, String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
         } else {
+
             cartcount = cartcount - 1;
             display(cartcount);
             tvProductCount.setText(String.valueOf(cartcount));
@@ -237,7 +278,7 @@ public class HomeCategoryItem {
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -266,7 +307,7 @@ public class HomeCategoryItem {
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                 UpdateToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }

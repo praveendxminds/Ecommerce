@@ -143,7 +143,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <ImageButton
                                     android:id="@+id/ivbtnAddItem"
@@ -157,32 +157,50 @@
                                 android:id="@+id/llProductCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:visibility="gone">
+                                android:visibility="visible">
 
-                                <ImageButton
-                                    android:id="@+id/ivBtnDecrease"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:layout_gravity="left|bottom"
-                                    android:background="@drawable/blackdecre" />
-
-                                <TextView
-                                    android:id="@+id/tvProductCount"
+                                <LinearLayout
+                                    android:id="@+id/lldecreasePrdCount"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:gravity="center_horizontal|bottom"
-                                    android:text="2"
-                                    android:textSize="13sp"
-                                    tools:textColor="@android:color/black" />
+                                    android:gravity="center">
 
-                                <ImageButton
-                                    android:id="@+id/ivBtnIncrease"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:layout_gravity="right|bottom"
-                                    android:background="@drawable/blackincr" />
+                                    <ImageButton
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:background="@drawable/blackdecre" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:id="@+id/tvProductCount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:gravity="center"
+                                        android:text="2"
+                                        android:textSize="13sp"
+                                        tools:textColor="@android:color/black" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llincreasePrdCount"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center">
+
+                                    <ImageButton
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:background="@drawable/blackincr" />
+                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
