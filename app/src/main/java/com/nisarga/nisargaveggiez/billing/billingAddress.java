@@ -26,14 +26,18 @@ import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.cart.CheckOutMyCart;
 import com.nisarga.nisargaveggiez.cart.ShippingNewAddress;
+import com.nisarga.nisargaveggiez.cart.cartItem;
 import com.nisarga.nisargaveggiez.ccavenue.ccavenue;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.CartListModel;
+import com.nisarga.nisargaveggiez.retrofit.CustomerDetails;
 import com.nisarga.nisargaveggiez.retrofit.MyOrderList;
 import com.nisarga.nisargaveggiez.retrofit.ShippingAddrModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,7 +60,7 @@ public class billingAddress extends AppCompatActivity {
     private Button btnContinue;
     private String strFirstName, strLastName, strEmail, strMobile, strInstruct, strDeliveryDay, strApartmentName, strApartmentDetails;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode, strCountryId, strZoneId;
-    private String strTotal,strTotalSaving;
+    private String strTotal, strTotalSaving;
     APIInterface apiInterface;
 
     @Override
@@ -95,7 +99,7 @@ public class billingAddress extends AppCompatActivity {
         strAddress = session.getAddrFirst();
         strCity = session.getCity();
         strPincode = session.getPincode();
-        strDeliveryDay = session.getDeliverydate();
+        strDeliveryDay = session.getDeliveryweek();
         strCountryId = session.getCountryId();
         strZoneId = session.getZoneId();
 
@@ -131,7 +135,10 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void moveToChkOut() {
+    public void moveToChkOut()
+    {
+        Log.d("moveToChkOut", session.getDeliverydate());
+
 
         strFirstName = etFirstName.getText().toString();
         strLastName = etLastName.getText().toString();
@@ -151,19 +158,22 @@ public class billingAddress extends AppCompatActivity {
                     ShippingAddrModel resource = response.body();
 
                     List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
-                    if((resource.status).equals("success")) {
-                        for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
+                    if ((resource.status).equals("success"))
+                    {
+
+                        for (ShippingAddrModel.ShippingDatum dataList : datumList1)
+                        {
 
                             session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
 
                         }
-                        session.saveTotal(resource.total,resource.total_savings);
+                        session.saveTotal(resource.total, resource.total_savings);
+
+
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
                         intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intentChkout);
-                    }
-                  else
-                    {
+                    } else {
                         Toast.makeText(billingAddress.this, resource.message, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -182,14 +192,16 @@ public class billingAddress extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId()) {
 
             case android.R.id.home:
@@ -204,4 +216,37 @@ public class billingAddress extends AppCompatActivity {
         }
         return true;
     }
+
+    public void addorder()
+    {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
+
+            Log.d("getToken", String.valueOf(session.getToken()));
+
+//            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
+//
+//            Call<AddOrder> call = apiInterface.getCartList("api/order/add", session.getToken(),ordadddetails);
+//            call.enqueue(new Callback<AddOrder>() {
+//                @Override
+//                public void onResponse(Call<AddOrder> call, Response<AddOrder> response)
+//                {
+//                    AddOrder resource = response.body();
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<AddOrder> call, Throwable t) {
+//                    call.cancel();
+//                }
+//            });
+
+
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

@@ -149,28 +149,29 @@ public class MyWalletActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentHomePage);
+                                Intent intentHome = new Intent(MyWalletActivity.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(getBaseContext(), CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentCategories);
+                                Intent intentCateg = new Intent(MyWalletActivity.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
+                                Intent intentWishlist = new Intent(MyWalletActivity.this, WishListHolder.class);
                                 intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(getBaseContext(), WishListHolder.class);
+                                Intent intentWallet = new Intent(MyWalletActivity.this, MyWalletActivity.class);
                                 intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }

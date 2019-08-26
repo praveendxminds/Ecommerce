@@ -315,22 +315,29 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentHomePage);
+                                Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
+                                Intent intentCateg = new Intent(CategoriesBottomNav.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentWishlist = new Intent(CategoriesBottomNav.this, WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }

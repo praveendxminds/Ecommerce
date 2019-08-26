@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -227,22 +228,27 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHome = new Intent(getBaseContext(), HomePage.class);
+                                Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCateg = new Intent(getBaseContext(), CategoriesBottomNav.class);
+                                Intent intentCateg = new Intent(HomeCategory.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentWishlist = new Intent(HomeCategory.this, WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentWallet);
                                 break;
 
                         }
@@ -314,8 +320,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
-                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.discount_price, imgs.qty));
+                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
+                                    imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                    imgs.wishlist_status));
                         }
                     }
 
@@ -372,7 +379,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
                             phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                    imgs.image, imgs.name, imgs.price, imgs.discount_price, imgs.qty));
+                                    imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                    imgs.wishlist_status));
                         }
                     }
 
@@ -414,25 +422,31 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         final TextView cartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cartItemCount.setText(cartCount.data);
-                    }
-                }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+                    call.enqueue(new Callback<CartCount>() {
+                        @Override
+                        public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                            CartCount cartCount = response.body();
+                            if (cartCount.status.equals("success")) {
+                                cartItemCount.setText(cartCount.data);
+                            }
+                        }
 
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-                    call.cancel();
+                        @Override
+                        public void onFailure(Call<CartCount> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        }, 500);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

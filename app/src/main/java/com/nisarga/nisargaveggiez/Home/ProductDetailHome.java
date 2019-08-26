@@ -35,7 +35,6 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
 import com.nisarga.nisargaveggiez.retrofit.ProductDetailsModel;
-import com.nisarga.nisargaveggiez.retrofit.RemoveWishListItem;
 import com.nisarga.nisargaveggiez.retrofit.SimilarProductsModel;
 import com.mindorks.placeholderview.PlaceHolderView;
 
@@ -46,7 +45,6 @@ import retrofit2.Response;
 import com.nisarga.nisargaveggiez.cart.cart;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -76,8 +74,9 @@ public class ProductDetailHome extends AppCompatActivity {
     public ImageButton btn_addtoWishlistPrdDetail;
     public boolean status_wish;
 
-    String product_option_id[], product_option_value_id[];
-    String sQuantitySpinner, option_id, option_value_id;
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
 
     TextView cartcount;
 
@@ -129,11 +128,13 @@ public class ProductDetailHome extends AppCompatActivity {
                     List<QuantityList.Datum> datumList = eduresource.data;
                     product_option_id = new String[datumList.size()];
                     product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
                     int i = 0;
                     for (QuantityList.Datum datum : datumList) {
                         product_qty_list.add(datum.name);
                         product_option_id[i] = datum.product_option_id;
                         product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
                         i++;
                     }
 
@@ -146,6 +147,11 @@ public class ProductDetailHome extends AppCompatActivity {
                             sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tv_original_price.setText("₹" + " " + productPrice);
                         }
 
                         @Override
@@ -196,8 +202,6 @@ public class ProductDetailHome extends AppCompatActivity {
                             if (sWishlistStatus.equals("0")) {
                                 addToWishList();
                             } else {
-                               /* Intent intentAddedWishlist = new Intent(getBaseContext(),ProductDetailsImageSlider.class);
-                                intentAddedWishlist.putExtra("wishlist_status","1");*/
                                 getWishlistStatus();
                             }
                             if (sAddQtyStatus.equals("0")) {
@@ -225,10 +229,6 @@ public class ProductDetailHome extends AppCompatActivity {
 
                             toolbar.setTitle(sname);
                             tv_title.setText(sname);
-
-                            double dbl_Price = Double.parseDouble(sprice);//need to convert string to decimal
-                            str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-                            tv_original_price.setText("₹" + " " + str_priceValue);
 
                             if (sDisPrice.equals("null")) {
                                 tvDisPricePrdDetail.setVisibility(View.INVISIBLE);
@@ -268,7 +268,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             AddToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                            } else if (resource.status.equals("failure")) {
+                            } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
                         }
@@ -287,7 +287,6 @@ public class ProductDetailHome extends AppCompatActivity {
                     countVal = countVal + 1;//display number in place of add to cart
                     session.cartcount(countVal);
                     display(countVal);
-//                    tv_productCount.setText(countVal);
                     llAddCartItem.setVisibility(android.view.View.GONE);
                     llCountItem.setVisibility(android.view.View.VISIBLE);
 
@@ -330,25 +329,18 @@ public class ProductDetailHome extends AppCompatActivity {
             callSimilarProducts.enqueue(new Callback<SimilarProductsModel>() {
                 @Override
                 public void onResponse(Call<SimilarProductsModel> call, Response<SimilarProductsModel> response) {
-
                     SimilarProductsModel resource = response.body();
-
                     if (resource.status.equals("success")) {
-
                         ll_similar_prd.setVisibility(View.VISIBLE);
-
                         List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
                         for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
                             if (response.isSuccessful()) {
-
                                 mPlaceHolderView.addView(new SimilarProductsListItem(getApplicationContext(), cartcount,
-                                        mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price, imgs.quantity));
+                                        mPlaceHolderView, imgs.related_id, imgs.product_id, imgs.image, imgs.name,
+                                        imgs.price, imgs.quantity, imgs.discount_price));
                             }
                         }
-
                     }
-
-
                 }
 
                 @Override
@@ -424,26 +416,31 @@ public class ProductDetailHome extends AppCompatActivity {
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         cartcount = (TextView) rootView.findViewById(R.id.cart_badge);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        cartcount.setText(cartCount.data);
-                    }
-                }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+                    call.enqueue(new Callback<CartCount>() {
+                        @Override
+                        public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                            CartCount cartCount = response.body();
+                            if (cartCount.status.equals("success")) {
+                                cartcount.setText(cartCount.data);
+                            }
+                        }
 
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-
+                        @Override
+                        public void onFailure(Call<CartCount> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        }, 500);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

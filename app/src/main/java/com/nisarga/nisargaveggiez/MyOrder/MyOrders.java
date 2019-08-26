@@ -30,6 +30,7 @@ import com.nisarga.nisargaveggiez.retrofit.MyOrderList;
 import com.mindorks.placeholderview.PlaceHolderView;
 
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class MyOrders extends AppCompatActivity {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final MyOrderList get_order_list = new MyOrderList("1");
+            final MyOrderList get_order_list = new MyOrderList(session.getCustomerId());
             Call<MyOrderList> call = apiInterface.getMyOrdersList(get_order_list);
             call.enqueue(new Callback<MyOrderList>() {
                 @Override
@@ -113,27 +114,33 @@ public class MyOrders extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHome = new Intent(getBaseContext(),HomePage.class);
+                                Intent intentHome = new Intent(MyOrders.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCateg = new Intent(getBaseContext(),CategoriesBottomNav.class);
+                                Intent intentCateg = new Intent(MyOrders.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(),WishListHolder.class);
+                                Intent intentWishlist = new Intent(MyOrders.this, WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(MyOrders.this, MyWalletActivity.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }
                 });
-
         navigationMyOrders.setItemIconSize(40);
     }
 

@@ -2,8 +2,6 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.widget.CardView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,20 +16,17 @@ import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.bumptech.glide.Glide;
-import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
-import com.mindorks.placeholderview.annotations.expand.Toggle;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -81,21 +76,21 @@ public class HomePageRecommendedItemList {
     SessionManager session;
     Context mContext;
 
-    String sProductId, sProductImage, sProductName, sProductPrice, sProductDis, sQuantity;
+    String sProductId, sProductImage, sProductName, sProductPrice, sProductDis, sAddCart;
     int cartcount = 0;
 
-    String product_option_id[], product_option_value_id[];
-    String sQuantitySpinner, option_id, option_value_id;
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
 
-    public HomePageRecommendedItemList(Context context, String product_id, String image_url, String prod_name, String prod_price,
-                                       String prod_discount, String quantity) {
+    public HomePageRecommendedItemList(Context context, String product_id, String image_url, String prod_name,
+                                       String prod_discount, String addCart) {
         this.mContext = context;
         this.sProductId = product_id;
         this.sProductImage = image_url;
         this.sProductName = prod_name;
-        this.sProductPrice = prod_price;
         this.sProductDis = prod_discount;
-        this.sQuantity = quantity;
+        this.sAddCart = addCart;
     }
 
     @Resolve
@@ -104,10 +99,6 @@ public class HomePageRecommendedItemList {
         Glide.with(mContext).load(sProductImage).into(ivProductImage);
         tvItemName.setText(sProductName);
 
-        double dbl_Price = Double.parseDouble(sProductPrice);//need to convert string to decimal
-        String str_priceValue = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        tvItemPrice.setText("₹" + " " + str_priceValue);
-
         if (sProductDis.equals("null")) {
             tvOldPrice.setVisibility(android.view.View.INVISIBLE);
         } else {
@@ -115,6 +106,15 @@ public class HomePageRecommendedItemList {
             String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
             tvOldPrice.setVisibility(android.view.View.VISIBLE);
             tvOldPrice.setText("₹" + " " + str_disValue);
+        }
+
+        if (sAddCart.equals("0")) {
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llAddCart.setVisibility(android.view.View.GONE);
+        } else {
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llAddCart.setVisibility(android.view.View.VISIBLE);
+            tvNoOfCount.setText(sAddCart);
         }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
@@ -131,11 +131,13 @@ public class HomePageRecommendedItemList {
                     List<QuantityList.Datum> datumList = eduresource.data;
                     product_option_id = new String[datumList.size()];
                     product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
                     int i = 0;
                     for (QuantityList.Datum datum : datumList) {
                         product_qty_list.add(datum.name);
                         product_option_id[i] = datum.product_option_id;
                         product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
                         i++;
                     }
 
@@ -148,6 +150,11 @@ public class HomePageRecommendedItemList {
                             sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tvItemPrice.setText("₹" + " " + productPrice);
                         }
 
                         @Override
@@ -178,9 +185,8 @@ public class HomePageRecommendedItemList {
     @Click(R.id.btnAddCart)
     public void addtocart() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvNoOfCount.setText(String.valueOf(cartcount));
+        tvNoOfCount.setText(cartcount);
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
@@ -210,25 +216,64 @@ public class HomePageRecommendedItemList {
     public void onDecreaseClick() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvNoOfCount.setText(String.valueOf(cartcount));
+            tvNoOfCount.setText(cartcount);
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llAddCart.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvNoOfCount.setText(String.valueOf(cartcount));
+            tvNoOfCount.setText(cartcount);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
     }
 
     @Click(R.id.llincreasePrdCount)
     public void onIncreaseClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvNoOfCount.setText(String.valueOf(cartcount));
+        tvNoOfCount.setText(cartcount);
+
+        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+            @Override
+            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                UpdateToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     public void display(int number) {

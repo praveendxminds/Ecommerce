@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +31,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -76,23 +76,25 @@ public class HomeCategoryItem {
     SessionManager session;
     APIInterface apiInterface;
 
-    String productId, image, productName, productPrice, productDisPrice, productQty;
+    String productId, image, productName, productDisPrice, sAddCart, sWhislistStatus;
     String sPrice, sDisPrice;
 
-    String product_option_id[], product_option_value_id[];
-    String sQuantitySpinner, option_id, option_value_id;
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
+
     int cartcount = 0;
 
-    public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName, String prdPrice,
-                            String prdDisPrice, String quantity) {
+    public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName,
+                            String prdDisPrice, String addCart, String whislistStatus) {
 
         mContext = context;
         productId = prdId;
         image = imageUrl;
         productName = prdName;
-        productPrice = prdPrice;
         productDisPrice = prdDisPrice;
-        productQty = quantity;
+        sAddCart = addCart;
+        sWhislistStatus = whislistStatus;
     }
 
     public String getTitle() {
@@ -105,13 +107,18 @@ public class HomeCategoryItem {
         tvProductName.setText(productName);
         Glide.with(mContext).load(image).into(ivProductImage);
 
-        double dbl_Price = Double.parseDouble(productPrice);//need to convert string to decimal
-        sPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        tvNewPrice.setText("₹" + " " + sPrice);
-
         double dbl_Dis_Price = Double.parseDouble(productDisPrice);//need to convert string to decimal
         sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
         tvOldPrice.setText("₹" + " " + sDisPrice);
+
+        if (sAddCart.equals("0")) {
+            btnAddItem.setVisibility(android.view.View.VISIBLE);
+            llAccountItem.setVisibility(android.view.View.GONE);
+        } else {
+            btnAddItem.setVisibility(android.view.View.GONE);
+            llAccountItem.setVisibility(android.view.View.VISIBLE);
+            tvProductCount.setText(sAddCart);
+        }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
@@ -127,11 +134,13 @@ public class HomeCategoryItem {
                     List<QuantityList.Datum> datumList = eduresource.data;
                     product_option_id = new String[datumList.size()];
                     product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
                     int i = 0;
                     for (QuantityList.Datum datum : datumList) {
                         product_qty_list.add(datum.name);
                         product_option_id[i] = datum.product_option_id;
                         product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
                         i++;
                     }
 
@@ -144,6 +153,11 @@ public class HomeCategoryItem {
                             sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tvNewPrice.setText("₹" + " " + productPrice);
                         }
 
                         @Override
@@ -166,7 +180,7 @@ public class HomeCategoryItem {
     @Click(R.id.llProductsListView)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", productId);
+        myIntent.putExtra("product_id", productId);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
@@ -174,9 +188,8 @@ public class HomeCategoryItem {
     @Click(R.id.btnAddItem)
     public void AddToCartClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        tvProductCount.setText(cartcount);
         btnAddItem.setVisibility(android.view.View.GONE);
         llAccountItem.setVisibility(android.view.View.VISIBLE);
 
@@ -190,7 +203,7 @@ public class HomeCategoryItem {
                 AddToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                } else if (resource.status.equals("failure")) {
+                } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
             }
@@ -206,25 +219,64 @@ public class HomeCategoryItem {
     public void removeItem() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            tvProductCount.setText(cartcount);
             btnAddItem.setVisibility(android.view.View.VISIBLE);
             llAccountItem.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            tvProductCount.setText(cartcount);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
     }
 
     @Click(R.id.llIncreaseCount)
     public void AddItem() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
         tvProductCount.setText(String.valueOf(cartcount));
+
+        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+            @Override
+            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                UpdateToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     public void display(int number) {

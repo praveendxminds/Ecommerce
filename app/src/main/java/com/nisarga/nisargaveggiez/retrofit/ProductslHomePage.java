@@ -60,6 +60,9 @@ public class ProductslHomePage {
         @SerializedName("price")
         public String price;
 
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_product_quantity_in_cart;
+
         @SerializedName("discount_price")
         public String discount_price;
     }
@@ -81,6 +84,9 @@ public class ProductslHomePage {
         @SerializedName("price")
         public String price;
 
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_product_quantity_in_cart;
+
         @SerializedName("discount_price")
         public String discount_price;
     }
@@ -101,6 +107,9 @@ public class ProductslHomePage {
 
         @SerializedName("price")
         public String price;
+
+        @SerializedName("Add_product_quantity_in_cart")
+        public String add_product_quantity_in_cart;
 
         @SerializedName("discount_price")
         public String discount_price;

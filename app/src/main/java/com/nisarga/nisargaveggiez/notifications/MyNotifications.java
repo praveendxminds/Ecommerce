@@ -28,6 +28,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 
 import java.util.List;
 
@@ -115,29 +116,35 @@ public class MyNotifications extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(getBaseContext(), HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentHomePage);
+                                Intent intentHome = new Intent(MyNotifications.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(getBaseContext(), CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentCategories);
+                                Intent intentCateg = new Intent(MyNotifications.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(getBaseContext(), WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentWishlist = new Intent(MyNotifications.this, WishListHolder.class);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                Intent intentWallet = new Intent(MyNotifications.this, MyWalletActivity.class);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }
                 });
+        bottomNavigationView.setItemIconSize(40);
+
     }
 
     @Override

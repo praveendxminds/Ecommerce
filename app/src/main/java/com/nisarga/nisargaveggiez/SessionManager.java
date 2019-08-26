@@ -82,21 +82,21 @@ public class SessionManager {
     public static final String KEY_APRT_NAME = "apartment_name";
     public static final String KEY_CUSTOM_FIELD = "custom_field";
 
-    public SessionManager(Context context)
-    {
+
+    public static final String KEY_CART_ID = "cart_id";
+
+    public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
-    public void createTokenSession(String tkn)
-    {
+    public void createTokenSession(String tkn) {
         editor.putString(KEY_TOKEN_ID, tkn);
         editor.commit();
     }
 
-    public String getKeyTokenId()
-    {
+    public String getKeyTokenId() {
         return pref.getString(KEY_TOKEN_ID, null);
     }
 
@@ -140,7 +140,7 @@ public class SessionManager {
                                    String email, String cart, String wishlist, String address_id,
                                    String date_added, String image, String telephone, String company, String address_1,
                                    String address_2, String city, String country_id, String zone_id, String postcode, String floor,
-                                   String door, String block,String apartment_name, String api_token) {
+                                   String door, String block, String apartment_name, String api_token) {
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_CUST_ID, customer_id);
@@ -168,7 +168,6 @@ public class SessionManager {
         editor.putString(KEY_TOKEN_LOGIN, api_token);
         editor.commit();
     }
-
 
 
     public String getCustomerId() {
@@ -290,6 +289,7 @@ public class SessionManager {
         editor.putString(KEY_PINCODE_ADDRS, pincode);
         editor.commit();
     }
+
     public String showFirstName() {
         return pref.getString(KEY_FNAME_ADDRS, null);
     }
@@ -306,12 +306,12 @@ public class SessionManager {
         return pref.getString(KEY_EMAIL_ADDRESS, null);
     }
 
-    public void saveTotal(String total,String totalSaving)
-    {
+    public void saveTotal(String total, String totalSaving) {
         editor.putString(KEY_TOTAL, total);
         editor.putString(KEY_TOTAL_SAVING, totalSaving);
         editor.commit();
     }
+
     public String getTotalAmount() {
         return pref.getString(KEY_TOTAL, null);
     }
@@ -319,9 +319,6 @@ public class SessionManager {
     public String getTotalSavingAmount() {
         return pref.getString(KEY_TOTAL_SAVING, null);
     }
-
-
-
 
 
     public String getApartmentName() {
@@ -396,9 +393,9 @@ public class SessionManager {
     }
 
 
-    public void saveShippingDetails(String first_name, String last_name,String address_1,
-                                    String city,String countryId,String zoneId,String apartment,String area,
-                                    String pincode,String instruct) {
+    public void saveShippingDetails(String first_name, String last_name, String address_1,
+                                    String city, String countryId, String zoneId, String apartment, String area,
+                                    String pincode, String instruct) {
 
         editor.putString(KEY_FNAME, first_name);
         editor.putString(KEY_LNAME, last_name);
@@ -413,6 +410,7 @@ public class SessionManager {
 
         editor.commit();
     }
+
     public String getShipInstruct() {
         return pref.getString(KEY_CUSTOM_FIELD, null);
     }
@@ -426,29 +424,30 @@ public class SessionManager {
         editor.commit();
     }
 
-    public String getDeliverydate()
-    {
+    public String getDeliverydate() {
         return pref.getString(DELIVERY_DAY, null);
     }
 
-    public void setDeliverydate(String dte)
-    {
+    public void setDeliverydate(String dte) {
         editor.putString(DELIVERY_DAY, dte);
         editor.commit();
     }
 
-    public String getDeliveryweek()
-    {
+    public String getDeliveryweek() {
         return pref.getString(DELIVERY_WEEK, null);
     }
 
-    public void setDeliveryweek(String wk)
-    {
+    public void setDeliveryweek(String wk) {
         editor.putString(DELIVERY_WEEK, wk);
         editor.commit();
     }
 
+    public void addCartId(String cart_id) {
+        editor.putString(KEY_CART_ID, cart_id);
+        editor.commit();
+    }
 
-
-
+    public String getCartId() {
+        return pref.getString(KEY_CART_ID, null);
+    }
 }

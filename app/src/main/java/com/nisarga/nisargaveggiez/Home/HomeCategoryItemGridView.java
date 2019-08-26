@@ -85,24 +85,26 @@ public class HomeCategoryItemGridView {
     APIInterface apiInterface;
     Context mContext;
 
-    String prdId, image, prdName, prdPrice, prdDisPrice, prdQuantity;
+    String prdId, image, prdName, prdDisPrice, prdAddCart, prdWhishStatus;
     String sPrice, sDisPrice;
 
     int cartcount = 0;
-    String product_option_id[], product_option_value_id[];
-    String sQuantitySpinner, option_id, option_value_id;
+
+    String product_option_id[], product_option_value_id[], product_price[];
+    String sQuantitySpinner, option_id, option_value_id, price;
+    String productPrice;
 
     public boolean state = false;
 
     public HomeCategoryItemGridView(Context context, String productId, String image_url, String productName,
-                                    String productPrice, String productDisPrice, String quantity) {
+                                    String productDisPrice, String addCart, String whishlistStatus) {
         mContext = context;
         prdId = productId;
         image = image_url;
         prdName = productName;
-        prdPrice = productPrice;
         prdDisPrice = productDisPrice;
-        prdQuantity = quantity;
+        prdAddCart = addCart;
+        prdWhishStatus = whishlistStatus;
     }
 
     public String getTitle() {
@@ -115,13 +117,24 @@ public class HomeCategoryItemGridView {
         tvProductName.setText(prdName);
         Glide.with(mContext).load(image).into(ivImage);
 
-        double dbl_Price = Double.parseDouble(prdPrice);//need to convert string to decimal
-        sPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-        tvProdPrice.setText("₹" + " " + sPrice);
-
         double dbl_Dis_Price = Double.parseDouble(prdDisPrice);//need to convert string to decimal
         sDisPrice = String.format("%.2f", dbl_Dis_Price);//display only 2 decimal places of price
         tvProdOldPrice.setText("₹" + " " + sDisPrice);
+
+        if (prdAddCart.equals("0")) {
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llProductCount.setVisibility(android.view.View.GONE);
+        } else {
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llProductCount.setVisibility(android.view.View.VISIBLE);
+            tvProductCount.setText(prdAddCart);
+        }
+
+        if (prdWhishStatus.equals("0")) {
+            ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlistgrey);
+        } else {
+            ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
+        }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
@@ -137,11 +150,13 @@ public class HomeCategoryItemGridView {
                     List<QuantityList.Datum> datumList = eduresource.data;
                     product_option_id = new String[datumList.size()];
                     product_option_value_id = new String[datumList.size()];
+                    product_price = new String[datumList.size()];
                     int i = 0;
                     for (QuantityList.Datum datum : datumList) {
                         product_qty_list.add(datum.name);
                         product_option_id[i] = datum.product_option_id;
                         product_option_value_id[i] = datum.product_option_value_id;
+                        product_price[i] = datum.price;
                         i++;
                     }
 
@@ -154,6 +169,11 @@ public class HomeCategoryItemGridView {
                             sQuantitySpinner = product_qty_list.get(position);
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
+                            price = product_price[position];
+
+                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            tvProdPrice.setText("₹" + " " + productPrice);
                         }
 
                         @Override
@@ -176,7 +196,7 @@ public class HomeCategoryItemGridView {
     @Click(R.id.llProductGridView)
     public void onCardClick() {
         Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        myIntent.putExtra("prd_id", prdId);
+        myIntent.putExtra("product_id", prdId);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
@@ -184,9 +204,8 @@ public class HomeCategoryItemGridView {
     @Click(R.id.btnAddCart)
     public void AddToCartClick() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        tvProductCount.setText(cartcount);
         btnAddCart.setVisibility(android.view.View.GONE);
         llProductCount.setVisibility(android.view.View.VISIBLE);
 
@@ -216,25 +235,64 @@ public class HomeCategoryItemGridView {
     public void removeCount() {
         if (cartcount <= 1) {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            tvProductCount.setText(cartcount);
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llProductCount.setVisibility(android.view.View.GONE);
         } else {
             cartcount = cartcount - 1;
-            session.cartcount(cartcount);
             display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            tvProductCount.setText(cartcount);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         }
     }
 
     @Click(R.id.llProductIncrease)
     public void addCount() {
         cartcount = cartcount + 1;//display number in place of add to cart
-        session.cartcount(cartcount);
         display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        tvProductCount.setText(cartcount);
+
+        final UpdateToCartModel ref = new UpdateToCartModel(session.getCartId(), String.valueOf(cartcount));
+
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit", session.getToken(), ref);
+        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+            @Override
+            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                UpdateToCartModel resource = response.body();
+                if (resource.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     @Click(R.id.llAddWishlist)
@@ -250,7 +308,6 @@ public class HomeCategoryItemGridView {
                     if (resource.status.equals("success")) {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                         ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
-
                     } else {
                         Toast.makeText(mContext, resource.message, Toast.LENGTH_LONG).show();
                     }

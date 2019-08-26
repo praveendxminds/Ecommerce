@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -237,28 +238,29 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(HomePage.this, HomePage.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentHomePage);
+                                Intent intentHome = new Intent(HomePage.this, HomePage.class);
+                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(HomePage.this, CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentCategories);
+                                Intent intentCateg = new Intent(HomePage.this, CategoriesBottomNav.class);
+                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
                                 Intent intentWishlist = new Intent(HomePage.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
                                 Intent intentWallet = new Intent(HomePage.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
+
                         }
                         return true;
                     }
@@ -371,26 +373,31 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
         final TextView textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
-            call.enqueue(new Callback<CartCount>() {
-                @Override
-                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-                    CartCount cartCount = response.body();
-                    if (cartCount.status.equals("success")) {
-                        textCartItemCount.setText(cartCount.data);
-                    }
-                }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+                    call.enqueue(new Callback<CartCount>() {
+                        @Override
+                        public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                            CartCount cartCount = response.body();
+                            if (cartCount.status.equals("success")) {
+                                textCartItemCount.setText(cartCount.data);
+                            }
+                        }
 
-                @Override
-                public void onFailure(Call<CartCount> call, Throwable t) {
-                    call.cancel();
+                        @Override
+                        public void onFailure(Call<CartCount> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        }, 500);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override

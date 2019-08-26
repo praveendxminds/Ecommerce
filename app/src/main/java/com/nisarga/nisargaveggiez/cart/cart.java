@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
@@ -108,7 +109,7 @@ public class cart extends AppCompatActivity {
                 categories_dtes.add("Select");
 
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
                 for (int i = 1; i < 4; i++)
                 {
                     Calendar calendars = new GregorianCalendar();
@@ -211,7 +212,8 @@ public class cart extends AppCompatActivity {
         showListView();
     }
 
-    public void showListView() {
+    public void showListView()
+    {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
 
@@ -312,7 +314,7 @@ public class cart extends AppCompatActivity {
                 break;
 
             case R.id.menu_info:
-                Intent infoIntent = new Intent(getBaseContext(), cart.class);
+                Intent infoIntent = new Intent(getBaseContext(), DeliveryInformation.class);
                 infoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(infoIntent);
                 break;

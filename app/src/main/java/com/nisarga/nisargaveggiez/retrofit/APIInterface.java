@@ -1,6 +1,7 @@
 package com.nisarga.nisargaveggiez.retrofit;
 
 import com.nisarga.nisargaveggiez.Home.CartCount;
+import com.nisarga.nisargaveggiez.Home.UpdateToCartModel;
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
 import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
 import com.nisarga.nisargaveggiez.ProfileSection.ForgetPasswordModel;
@@ -12,6 +13,7 @@ import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.ProfileSection.UserLogin;
 import com.nisarga.nisargaveggiez.ProfileSection.UserSignUp;
 import com.nisarga.nisargaveggiez.ProfileSection.VerifyOTP;
+import com.nisarga.nisargaveggiez.billing.AddOrder;
 import com.nisarga.nisargaveggiez.fcm.TokenFCM;
 import com.nisarga.nisargaveggiez.notifications.NotificationListModel;
 
@@ -130,6 +132,8 @@ public interface APIInterface {
     @POST("index.php")
     Call<CartListModel> getCartList(@Query("route") String route, @Query("api_token") String api_token);
 
+    @POST("index.php")
+    Call<CustomerDetails> addcustdetails(@Query("route") String route, @Query("api_token") String api_token,@Body CustomerDetails customer_id);
 
     @POST("index.php?route=account/wishlist/insertWishListToCart")
     Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);
@@ -180,6 +184,19 @@ public interface APIInterface {
     @POST("index.php")
     Call<AddToCartModel> callAddToCart(@Query("route") String route, @Query("api_token") String api_token,
                                        @Body AddToCartModel model);
+
+    @POST("index.php")
+    Call<UpdateToCartModel> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
+                                       @Body UpdateToCartModel model);
+
+
+    @POST("index.php")
+    Call<AddOrder> AddOrder(@Query("route") String route, @Query("api_token") String api_token,
+                                   @Body AddOrder model);
+
+    @POST("index.php?route=api/orderreview/giveOrderreview")
+    Call<OrderFeedback> orderfeedback(@Body OrderFeedback feed);
+
 
     @POST("index.php?route=api/custom/notificationList")
     Call<NotificationListModel> getnotificationlist(@Body NotificationListModel notify);
