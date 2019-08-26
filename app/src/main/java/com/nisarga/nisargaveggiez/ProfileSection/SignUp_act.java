@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,7 +33,6 @@ import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
-import com.nisarga.nisargaveggiez.retrofit.RetrofitApiClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -64,6 +61,7 @@ public class SignUp_act extends AppCompatActivity {
 
         progressdialog = new ProgressDialog(SignUp_act.this);
         progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         init();
@@ -121,7 +119,7 @@ public class SignUp_act extends AppCompatActivity {
                     etDoorNumber.getText().clear();
                     etAddress.getText().clear();
                     etLandMark.getText().clear();
-                   // etBlock.setHint("Block/Wing/House No");
+                    // etBlock.setHint("Block/Wing/House No");
                 } else {
                     etAddress.setText(strAddress);
                     etLandMark.setText(strLandmark);
@@ -420,27 +418,19 @@ public class SignUp_act extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-
             Glide.with(getApplicationContext()).load(filePath).into(ivProfile);
-
-//            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-//            ivProfile.setImageBitmap(bitmap);
+//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+//          ivProfile.setImageBitmap(bitmap);
 
             if (requestCode == PICK_IMAGE_REQUEST) {
                 new Thread(new Runnable() {
                     public void run() {
-                        /*Intent galleryImages = new Intent(Registration_act.this, RegistrationImageCrop.class);
-                        galleryImages.putExtra("images", imagepath);
-                        startActivity(galleryImages);*/
-
                         imagePath(imagepath);
                         Log.e("----imagepath---", "" + imagepath);
 
                     }
                 }).start();
             }
-
-
         }
     }
 

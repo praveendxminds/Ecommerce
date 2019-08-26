@@ -143,7 +143,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:visibility="gone">
+                                android:visibility="visible">
 
                                 <ImageButton
                                     android:id="@+id/ivbtnAddItem"
@@ -157,7 +157,7 @@
                                 android:id="@+id/llProductCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <LinearLayout
                                     android:id="@+id/lldecreasePrdCount"

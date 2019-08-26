@@ -61,6 +61,9 @@ public class HomeCategoryItemGridView {
     @View(R.id.spQuantity)
     public Spinner spQuantity;
 
+    @View(R.id.llQuantityList)
+    public LinearLayout llQuantityList;
+
     @View(R.id.tvProdPrice)
     public TextView tvProdPrice;
 
@@ -153,19 +156,22 @@ public class HomeCategoryItemGridView {
                 @Override
                 public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
                     QuantityList eduresource = response.body();
-                    List<QuantityList.Datum> datumList = eduresource.data;
-                    product_option_id = new String[datumList.size()];
-                    product_option_value_id = new String[datumList.size()];
-                    product_price = new String[datumList.size()];
-                    int i = 0;
-                    for (QuantityList.Datum datum : datumList) {
-                        product_qty_list.add(datum.name);
-                        product_option_id[i] = datum.product_option_id;
-                        product_option_value_id[i] = datum.product_option_value_id;
-                        product_price[i] = datum.price;
-                        i++;
+                    if (eduresource.data.equals("null")) {
+                        llQuantityList.setVisibility(android.view.View.VISIBLE);
+                    } else {
+                        List<QuantityList.Datum> datumList = eduresource.data;
+                        product_option_id = new String[datumList.size()];
+                        product_option_value_id = new String[datumList.size()];
+                        product_price = new String[datumList.size()];
+                        int i = 0;
+                        for (QuantityList.Datum datum : datumList) {
+                            product_qty_list.add(datum.name);
+                            product_option_id[i] = datum.product_option_id;
+                            product_option_value_id[i] = datum.product_option_value_id;
+                            product_price[i] = datum.price;
+                            i++;
+                        }
                     }
-
                     ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
                             product_qty_list);
                     spQuantity.setAdapter(itemsAdapter);

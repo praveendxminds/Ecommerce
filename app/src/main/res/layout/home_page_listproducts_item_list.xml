@@ -101,7 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp">
+                android:layout_marginBottom="2dp"
+                android:visibility="visible">
 
                 <Spinner
                     android:id="@+id/spQuantity"
@@ -113,6 +114,24 @@
                     android:text="100Gms"
                     android:textColor="@color/light_black_2"
                     android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llQuantityList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="5dp"
+                    android:text="1 Piece"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_black_1"
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </LinearLayout>
