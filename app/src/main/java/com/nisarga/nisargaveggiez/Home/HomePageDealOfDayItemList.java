@@ -136,7 +136,10 @@ public class HomePageDealOfDayItemList {
                     QuantityList eduresource = response.body();
                     if (eduresource.data.equals("null")) {
                         llQuantityList.setVisibility(android.view.View.VISIBLE);
-                    } else {
+                        spQuantity.setVisibility(android.view.View.GONE);
+                    } else if (!eduresource.data.equals("null")) {
+                        llQuantityList.setVisibility(android.view.View.GONE);
+                        spQuantity.setVisibility(android.view.View.VISIBLE);
                         List<QuantityList.Datum> datumList = eduresource.data;
                         product_option_id = new String[datumList.size()];
                         product_option_value_id = new String[datumList.size()];

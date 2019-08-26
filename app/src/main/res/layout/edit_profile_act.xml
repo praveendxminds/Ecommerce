@@ -78,10 +78,8 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                            android:hint="First Name"
                             android:inputType="text"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -102,10 +100,8 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                            android:hint="Last Name"
                             android:inputType="text"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -126,10 +122,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:hint="ankit.ajpoot@gmail.com"
                             android:inputType="text"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -149,11 +143,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:hint="7565434387"
                             android:inputType="number"
                             android:maxLength="10"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -341,25 +333,25 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
                                 android:layout_weight=".2"
                                 android:background="@null"
                                 android:drawableRight="@drawable/ic_chevron_right"
                                 android:gravity="left|center"
-                                android:hint="Provident Harmony"
                                 android:inputType="text"
                                 android:textColor="#FF4A4A4A"
-                                android:textColorHint="#FF4A4A4A"
                                 android:textSize="15sp" />
 
                             <LinearLayout
+                                android:id="@+id/llNearBy"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="15dp"
                                 android:layout_weight=".8"
+                                android:visibility="visible"
                                 android:gravity="right">
 
                                 <TextView
-                                    android:id="@+id/tvNearBy"
                                     android:layout_width="50dp"
                                     android:layout_height="25dp"
                                     android:layout_marginTop="10dp"
@@ -424,10 +416,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:hint="A-11 802"
                             android:inputType="text"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -447,10 +437,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:hint="Hegde Nagar, Bengaluru"
                             android:inputType="text"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -470,11 +458,9 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:hint="Chokkanahalli Main Rd, Sri Balaji Krupa Layout, RK Hegde Nagar, Bengaluru, Karnataka"
                             android:inputType="text"
                             android:singleLine="false"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
 
                         <TextView
@@ -495,12 +481,10 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="15dp"
-                            android:hint="560077"
                             android:inputType="number"
                             android:maxLength="6"
                             android:singleLine="false"
                             android:textColor="#FF4A4A4A"
-                            android:textColorHint="#FF4A4A4A"
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
