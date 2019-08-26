@@ -458,7 +458,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         //searchViews.setQueryHint("Search...");
         searchViews.setBackgroundColor(getResources().getColor(R.color.white));
 
-        int actionBarHeight = ivToolbarProfile.getLayoutParams().height;
+        int actionBarHeight = toolbar.getLayoutParams().height;
         int actionBarwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         Log.d("ccccc", String.valueOf(actionBarwidth));

@@ -87,8 +87,7 @@ public class cartItem {
 
     public TextView mtextCartItemCount;
     public String mcustid, mprdid;
-    public String murl, mtitle, mprice, mdisprice, mqty, str_priceValue, str_priceValue_1;
-
+    public String murl, mtitle, mprice, mdisprice, mqty;
 
     PlaceHolderView mPlaceHolderView;
     String product_option_id[], product_option_value_id[], product_price[];
@@ -133,14 +132,14 @@ public class cartItem {
         tvProductName.setText(mtitle);
         Glide.with(mcontext).load(murl).into(ivImage);
 
-        /*if (mdisprice.equals("null")) {
-            tvpriceOldMyCart.setVisibility(android.view.View.INVISIBLE);
+        if (mdisprice.equals("null")) {
+            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
         } else {
             double dbl_Price_1 = Double.parseDouble(mdisprice);//need to convert string to decimal
-            str_priceValue_1 = String.format("%.2f", dbl_Price_1);//display only 2 decimal places of price
-            tvpriceOldMyCart.setVisibility(android.view.View.VISIBLE);
-            tvpriceOldMyCart.setText("₹" + " " + str_priceValue_1);
-        }*/
+            String str_priceValue_1 = String.format("%.2f", dbl_Price_1);//display only 2 decimal places of price
+            tvOldPrice.setVisibility(android.view.View.VISIBLE);
+            tvOldPrice.setText("₹" + " " + str_priceValue_1);
+        }
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
@@ -180,7 +179,6 @@ public class cartItem {
                             double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
                             productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
                             tvNewPrice.setText("₹" + " " + productPrice);
-
                         }
 
                         @Override
@@ -210,15 +208,12 @@ public class cartItem {
 
     }
 
-   /* @Click(R.id.btnAddCart)
+    @Click(R.id.btnAddCart)
     public void AddToCartClick() {
-        if (statusCount == true) {
-            intCount = intCount + 1;//display number in place of add to cart
-            display(intCount);
-            btnAddCart.setVisibility(android.view.View.GONE);
-            llcountItemMyCart.setVisibility(android.view.View.VISIBLE);
-            statusCount = false;
-        }
+        intCount = intCount + 1;//display number in place of add to cart
+        display(intCount);
+        btnAddCart.setVisibility(android.view.View.GONE);
+        llcountItemMyCart.setVisibility(android.view.View.VISIBLE);
     }
 
     @Click(R.id.lldecreasePrdCount)
@@ -227,13 +222,12 @@ public class cartItem {
             intCount = intCount - 1;
             display(intCount);
             mPlaceHolderView.removeView(this);
-            statusCount = true;
 
         } else {
             intCount = intCount - 1;
             display(intCount);
         }
-    }*/
+    }
 
     @Click(R.id.llincreasePrdCount)
     public void onIncreaseClick() {

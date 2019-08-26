@@ -57,7 +57,7 @@ public class ProductDetailHome extends AppCompatActivity {
 
     Toolbar toolbar;
     PlaceHolderView phvSingleProductImage, phvSimilarProduct;
-    TextView tvTitle, tvPrdName, tvNewPrice, tvOldPrice, tvProductCount;
+    TextView tvTitle, tvPrdName, tvNewPrice, tvOldPrice, tvProductCount, tvQuantityList;
     Spinner spQuantity;
     LinearLayout llAddQuantity, llProductCount, llSimilarProduct, lldecreasePrdCount, llincreasePrdCount;
     ImageButton ivbtnAddItem;
@@ -101,6 +101,7 @@ public class ProductDetailHome extends AppCompatActivity {
         spQuantity = findViewById(R.id.spQuantity);
         tvNewPrice = findViewById(R.id.tvNewPrice);
         tvOldPrice = findViewById(R.id.tvOldPrice);
+        tvQuantityList = findViewById(R.id.tvQuantityList);
 
         llAddQuantity = findViewById(R.id.llAddQuantity);
         ivbtnAddItem = findViewById(R.id.ivbtnAddItem);
@@ -130,17 +131,22 @@ public class ProductDetailHome extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
                     QuantityList eduresource = response.body();
-                    List<QuantityList.Datum> datumList = eduresource.data;
-                    product_option_id = new String[datumList.size()];
-                    product_option_value_id = new String[datumList.size()];
-                    product_price = new String[datumList.size()];
-                    int i = 0;
-                    for (QuantityList.Datum datum : datumList) {
-                        product_qty_list.add(datum.name);
-                        product_option_id[i] = datum.product_option_id;
-                        product_option_value_id[i] = datum.product_option_value_id;
-                        product_price[i] = datum.price;
-                        i++;
+                    if (eduresource.data.equals("null")) {
+                        tvQuantityList.setVisibility(View.VISIBLE);
+                    } else {
+
+                        List<QuantityList.Datum> datumList = eduresource.data;
+                        product_option_id = new String[datumList.size()];
+                        product_option_value_id = new String[datumList.size()];
+                        product_price = new String[datumList.size()];
+                        int i = 0;
+                        for (QuantityList.Datum datum : datumList) {
+                            product_qty_list.add(datum.name);
+                            product_option_id[i] = datum.product_option_id;
+                            product_option_value_id[i] = datum.product_option_value_id;
+                            product_price[i] = datum.price;
+                            i++;
+                        }
                     }
 
                     ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(ProductDetailHome.this, R.layout.spinner_item,
