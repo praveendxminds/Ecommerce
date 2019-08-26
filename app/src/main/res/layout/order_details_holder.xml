@@ -53,7 +53,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="end"
-                android:text="6 items"
+                android:text="0 Items"
                 android:textColor="@color/white"
                 android:textSize="16sp"></TextView>
         </LinearLayout>

@@ -49,7 +49,7 @@ public class ReorderHolder extends AppCompatActivity {
     private TextView linkDeliveryDay;
     private Button buttonChkOut;
     private String storeDayTime;
-    String str_custid;
+    String str_custid,str_TotalAmnt;
     SessionManager session;
     private TextView tv_total, tvtotalAmount;
     private String order_id;
@@ -82,6 +82,7 @@ public class ReorderHolder extends AppCompatActivity {
             }
         });
         tv_total = findViewById(R.id.tv_total);
+        tvtotalAmount = findViewById(R.id.tvtotalAmount);
         buttonChkOut = findViewById(R.id.buttonChkOut);
 
         //-----delivery day link------------------
@@ -156,16 +157,36 @@ public class ReorderHolder extends AppCompatActivity {
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
-                        for (ReorderItemsModel.ReorderResult reorderData : result) {
-                            mCartView.addView(new ReorderItems(getApplicationContext(), reorderData.order_id,
-                                    reorderData.order_product_id, reorderData.image, reorderData.name,
-                                    reorderData.quantity, reorderData.discount_price, reorderData.price,
-                                    reorderData.weight_classes, reorderData.revised_price));
+                        if(result.size()>0) {
+
+                            for (ReorderItemsModel.ReorderResult reorderData : result) {
+
+                                mCartView.addView(new ReorderItems(getApplicationContext(), reorderData.order_id,
+                                        reorderData.order_product_id, reorderData.image, reorderData.name,
+                                        reorderData.quantity, reorderData.discount_price, reorderData.price,
+                                        reorderData.weight_classes, reorderData.revised_price));
+                            }
+
+                            if((resourcesReorder.TotalProduct).equals("1"))
+                            {
+                                tv_total.setText(resourcesReorder.TotalProduct + " " + "Item");
+                            }
+                            else
+                            {
+                                tv_total.setText(resourcesReorder.TotalProduct + " " + "Items");
+
+                            }
+
+                            double dbl_Price_2 = Double.parseDouble(resourcesReorder.totalMoney);
+                            str_TotalAmnt = String.format("%.2f", dbl_Price_2);
+                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + str_TotalAmnt);
                         }
-                        tv_total.setText(resourcesReorder.TotalProduct+" "+"Items");
-                        tvtotalAmount.setText("Total"+" "+"\u20B9 "+resourcesReorder.totalMoney);
+                        else {
+
+                            Toast.makeText(getApplicationContext(), "No items", Toast.LENGTH_LONG).show();
+                        }
+
                     } else if (resourcesReorder.status.equals("failure")) {
                         Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                     }
@@ -173,7 +194,7 @@ public class ReorderHolder extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ReorderItemsModel> call, Throwable t) {
-
+                    call.cancel();
                 }
             });
 

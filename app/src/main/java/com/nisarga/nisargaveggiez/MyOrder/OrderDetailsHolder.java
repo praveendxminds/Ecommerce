@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
@@ -55,6 +56,7 @@ public class OrderDetailsHolder extends AppCompatActivity {
         setContentView(R.layout.order_details_holder);
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
+        order_id = getIntent().getExtras().getString("order_id", null);
         str_custid = session.getCustomerId();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,34 +77,43 @@ public class OrderDetailsHolder extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         tv_total = findViewById(R.id.tv_total);
-        for (int i = 0; i <= 10; i++) {
-            mCartView.addView(new ReorderItems(getApplicationContext()));
-        }
         /*  mCartView.addView(new cartItem_footer());*/
-        order_id = getIntent().getExtras().getString("order_id", "defaultKey");
+
         showListView();
     }
 
     public void showListView() {
         if(Utils.CheckInternetConnection(getApplicationContext()))
         {
-            ReorderItemsModel reorderModel = new ReorderItemsModel("1","1");
+            ReorderItemsModel reorderModel = new ReorderItemsModel(session.getCustomerId(),order_id);
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
                 @Override
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if(resourcesReorder.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
-                        for (ReorderItemsModel.ReorderResult reorderData : result )
-                        {
-                            mCartView.addView(new OrderDetailsItems(getApplicationContext(), reorderData.order_id,
-                                    reorderData.order_product_id, reorderData.image, reorderData.name,
-                                    reorderData.quantity,reorderData.discount_price,reorderData.price,
-                                    reorderData.weight_classes));
+                        if(result.size()>0) {
+                            for (ReorderItemsModel.ReorderResult reorderData : result) {
+                                mCartView.addView(new OrderDetailsItems(getApplicationContext(), reorderData.order_id,
+                                        reorderData.order_product_id, reorderData.image, reorderData.name,
+                                        reorderData.quantity, reorderData.discount_price, reorderData.price,
+                                        reorderData.weight_classes));
+                            }
+                           if((resourcesReorder.TotalProduct).equals("1"))
+                            {
+                                tv_total.setText(resourcesReorder.TotalProduct + " " + "Item");
+                            }
+                            else
+                            {
+                                tv_total.setText(resourcesReorder.TotalProduct + " " + "Items");
+
+                            }
                         }
-                        tv_total.setText(resourcesReorder.TotalProduct);
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "No Items", Toast.LENGTH_LONG).show();
+                        }
                     }
                     else if(resourcesReorder.status.equals("failure"))
                     {
@@ -112,7 +123,7 @@ public class OrderDetailsHolder extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ReorderItemsModel> call, Throwable t) {
-
+                    call.cancel();
                 }
             });
 
@@ -168,7 +179,7 @@ public class OrderDetailsHolder extends AppCompatActivity {
                 break;
 
             case R.id.menu_info:
-                Intent infoIntent = new Intent(getBaseContext(), cart.class);
+                Intent infoIntent = new Intent(getBaseContext(), DeliveryInformation.class);
                 infoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(infoIntent);
                 break;

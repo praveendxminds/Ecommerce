@@ -44,10 +44,10 @@
 
                     <ImageView
                         android:id="@+id/ivitemIconOrdDetails"
-                        android:layout_width="58dp"
+                        android:layout_width="57dp"
                         android:layout_height="57dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/deep" />
+                        android:scaleType="fitXY"
+                        android:src="@drawable/englishitem" />
 
                 </LinearLayout>
 
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="left"
-                        android:text="Potato"
+                        android:text="Product"
                         android:textAllCaps="false"
                         android:textColor="@color/light_black_2"
                         android:textSize="16sp" />
@@ -101,7 +101,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="1000kg"
+                            android:text="0"
                             android:textColor="@color/light_black_1"
                             android:textSize="12sp"
                             android:paddingBottom="5dp"/>
@@ -126,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/strike_through"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="$ 80"
+                            android:text="0"
                             android:textColor="@color/light_black_2"
                             android:textSize="7sp"
                             android:visibility="invisible"/>
@@ -136,7 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="₹ 5000.0000"
+                            android:text="₹ 0"
                             android:textColor="@color/light_black_2"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -164,7 +164,7 @@
                         android:id="@+id/tvcountItemsOrdDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Quantity : 1"
+                        android:text="Quantity : 0"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="14sp"
                         android:textColor="@color/light_black_1"

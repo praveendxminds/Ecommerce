@@ -56,22 +56,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:gravity="left"
                             android:text="Order"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvOrdId"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:gravity="right"
-                            android:text="XXXXXXXXXX"
+                            android:text=""
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <View
@@ -90,11 +90,11 @@
                             android:layout_height="24dp"
                             android:layout_margin="8dp"
                             android:background="@drawable/checkout_items_border"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="Items"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -112,7 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="3dp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:padding="5dp"
                         android:text="Name"
                         android:textColor="@color/light_black_2"
@@ -123,7 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="3dp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:padding="5dp"
                         android:text="+91 0000000000"
                         android:textColor="@color/light_black_2"
@@ -147,7 +147,7 @@
                                 android:id="@+id/tvApartmentNameChkoutOrder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:text="Apartment Name :"
                                 android:textColor="@color/light_black_1"
                                 android:textSize="13sp" />
@@ -157,7 +157,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Provident Harmony"
+                                android:text=""
                                 android:textColor="#8C4A4A4A"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -167,7 +167,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="A11 802 ,Chokkanahalli Main Rd, Sri Balaji Krupa Layout, RK Hegde Nagar, Bengaluru, Karnataka 560077"
+                            android:text=""
                             android:textColor="#8C4A4A4A"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -182,7 +182,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="Delivery Instructions : "
                             android:textColor="@color/light_black_1"
                             android:textSize="13sp" />
@@ -192,7 +192,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="If I would not be there than call me and drop my package near my neighbour"
+                            android:text=""
                             android:textColor="#8C4A4A4A"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -207,10 +207,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="Delivery Day :"
                             android:textColor="@color/light_black_1"
-                            android:textSize="13sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvDelivDayChkoutOrder"
@@ -218,9 +218,9 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="50dp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Day"
+                            android:text=""
                             android:textColor="#8C4A4A4A"
-                            android:textSize="13sp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -238,7 +238,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="INVOICE"
                         android:textAllCaps="true"
                         android:textColor="@color/light_black_1"
@@ -262,7 +262,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Invoice No"
                                 android:textColor="@color/light_black_1"
@@ -273,9 +273,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="Mbi8756462334567"
+                                android:text=""
                                 android:textColor="@color/light_black_1"
                                 android:textSize="12sp" />
 
@@ -292,7 +292,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Order No"
                                 android:textColor="@color/light_black_1"
@@ -303,9 +303,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="7678455635357"
+                                android:text=""
                                 android:textColor="@color/light_black_1"
                                 android:textSize="12sp" />
 
@@ -322,7 +322,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Order Items"
                                 android:textColor="@color/light_black_1"
@@ -333,9 +333,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="10 Items"
+                                android:text=""
                                 android:textColor="@color/light_black_1"
                                 android:textSize="12sp" />
 
@@ -352,7 +352,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Sub Total"
                                 android:textColor="@color/light_black_1"
@@ -363,9 +363,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="Rs. 500"
+                                android:text=""
                                 android:textColor="@color/light_black_1"
                                 android:textSize="12sp" />
 
@@ -382,7 +382,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Delivery Charge"
                                 android:textColor="@color/light_black_1"
@@ -393,9 +393,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="Rs. 0"
+                                android:text=""
                                 android:textColor="@color/light_black_1"
                                 android:textSize="12sp" />
 
@@ -412,7 +412,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Variable Price"
                                 android:textColor="@color/light_black_1"
@@ -423,9 +423,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="Rs. +100"
+                                android:text=""
                                 android:textColor="@color/light_black_1"
                                 android:textSize="12sp" />
 
@@ -442,7 +442,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="left"
                                 android:text="Final Total"
                                 android:textColor="@color/light_black_2"
@@ -453,9 +453,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/roboto_medium"
                                 android:gravity="right"
-                                android:text="Rs. 000"
+                                android:text=""
                                 android:textColor="@color/light_black_2"
                                 android:textSize="12sp" />
 
@@ -479,7 +479,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="left|center"
                         android:text="Use from Nisarga Wallet"
                         android:textColor="@color/light_black_2"
@@ -490,9 +490,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="right|center"
-                        android:text="Rs. 200"
+                        android:text=""
                         android:textColor="@color/light_black_2"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -514,12 +514,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_medium"
             android:padding="12dp"
             android:text="Pay Now"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 
