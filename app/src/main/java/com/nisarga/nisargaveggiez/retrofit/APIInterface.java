@@ -82,7 +82,7 @@ public interface APIInterface {
     Call<InsertWishListItems> addtoWishList(@Body InsertWishListItems id);
 
     @POST("index.php")
-    Call<ShippingAddrModel> addShippingAddress(@Query("route") String route, @Query("api_token") String api_token,@Body ShippingAddrModel id);
+    Call<ShippingAddrModel> addShippingAddress(@Query("route") String route, @Query("api_token") String api_token, @Body ShippingAddrModel id);
 
     @POST("index.php?route=api/order/cusOrder")
     Call<MyOrderList> getMyOrdersList(@Body MyOrderList customer_id);
@@ -131,10 +131,12 @@ public interface APIInterface {
     Call<RemoveCartItems> removeCartItems(@Body RemoveCartItems key);*/
 
     @POST("index.php")
-    Call<CartListModel> getCartList(@Query("route") String route, @Query("api_token") String api_token);
+    Call<CartListModel> getCartList(@Query("route") String route, @Query("api_token") String api_token,
+                                    @Body CartListModel model);
 
     @POST("index.php")
-    Call<CustomerDetails> addcustdetails(@Query("route") String route, @Query("api_token") String api_token,@Body CustomerDetails customer_id);
+    Call<CustomerDetails> addcustdetails(@Query("route") String route, @Query("api_token") String api_token,
+                                         @Body CustomerDetails customer_id);
 
     @POST("index.php?route=account/wishlist/insertWishListToCart")
     Call<MoveToCartModel> moveToCart(@Body MoveToCartModel id);
@@ -151,7 +153,6 @@ public interface APIInterface {
     @Multipart
     @POST("index.php?route=api/uploadprofile/fileupload")
     Call<SignUpImageResponse> signupImageUpload(@Part MultipartBody.Part file);
-
 
 
     @POST("index.php?route=api/uploadprofile/editNavImage")
@@ -190,12 +191,12 @@ public interface APIInterface {
 
     @POST("index.php")
     Call<UpdateToCartModel> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
-                                       @Body UpdateToCartModel model);
+                                            @Body UpdateToCartModel model);
 
 
     @POST("index.php")
     Call<AddOrder> AddOrder(@Query("route") String route, @Query("api_token") String api_token,
-                                   @Body AddOrder model);
+                            @Body AddOrder model);
 
     @POST("index.php?route=api/orderreview/giveOrderreview")
     Call<OrderFeedback> orderfeedback(@Body OrderFeedback feed);

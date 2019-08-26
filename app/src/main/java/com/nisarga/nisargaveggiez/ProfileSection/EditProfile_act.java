@@ -316,6 +316,8 @@ public class EditProfile_act extends AppCompatActivity {
                             sCity = mpmResult.city;
                             sAddress = mpmResult.address_1;
                             sPinCode = mpmResult.postcode;
+                            strNearBy = mpmResult.nearby;
+                            strApartmentId = mpmResult.apartment_id;
 
                             if (mpmResult.nearby.equals("0")) {
                                 llNearBy.setVisibility(View.GONE);

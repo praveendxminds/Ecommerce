@@ -43,21 +43,15 @@ import retrofit2.Response;
 public class WishListHolder extends AppCompatActivity {
 
     APIInterface apiInterface;
-    private PlaceHolderView list_items;
-    private TextView veggiesWishListTitle, totalWishList;
-    private DrawerLayout mDrawer;
-    private Toolbar mToolbar;
-    public Context mContext;
-    private static WishListHolder instance;
-    public static BottomNavigationView bottomNavigationView;
-    Integer name_session;
     SessionManager session;
-    SharedPreferences sharedpreferences;
-    public static String MyPREFERENCES = "sessiondata";
-    View view_count;
+
+    PlaceHolderView list_items;
+    TextView veggiesWishListTitle, totalWishList, tvEmptyWishlist;
+    DrawerLayout mDrawer;
+    Toolbar mToolbar;
+    BottomNavigationView bottomNavigationView;
+
     Integer scount;
-    public Integer countItems;
-    public WishListHolder activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,26 +62,18 @@ public class WishListHolder extends AppCompatActivity {
         list_items = (PlaceHolderView) findViewById(R.id.list_items);
         veggiesWishListTitle = findViewById(R.id.veggiesWishListTitle);
         totalWishList = findViewById(R.id.totalWishList);
+        tvEmptyWishlist = findViewById(R.id.tvEmptyWishlist);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+
         AndroidNetworking.initialize(getApplicationContext());
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        instance = this;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-       /* mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pIntent = new Intent(getBaseContext(), HomePage.class);
-                startActivity(pIntent);
-            }
-        });*/
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             final GetWishList wishListItems = new GetWishList(session.getCustomerId());
@@ -97,22 +83,23 @@ public class WishListHolder extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<GetWishList> call, Response<GetWishList> response) {
                     GetWishList resource = response.body();
+                    scount = resource.count;
+                    if (scount == 0) {
+                        totalWishList.setText("No Items");
+                    } else if (scount == 1) {
+                        totalWishList.setText(scount + " " + "Item");
+                    } else {
+                        totalWishList.setText(scount + " " + "Items");
+                    }
                     List<GetWishList.WishListDatum> datumList = resource.result;
-                    if((resource.status).equals("success")) {
-                            for (GetWishList.WishListDatum imgs : datumList) {
-                                list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image, imgs.name,
-                                        imgs.price, imgs.quantity, imgs.discount_price, list_items));
-                                scount = resource.count;
-                                if (scount == 0) {
-                                    totalWishList.setText("No Items");
-                                } else if (scount == 1) {
-                                    totalWishList.setText(scount + " " + "Item");
-                                } else {
-                                    totalWishList.setText(scount + " " + "Items");
-                                }
-
-                            }
-
+                    if ((resource.status).equals("success")) {
+                        for (GetWishList.WishListDatum imgs : datumList) {
+                            list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image,
+                                    imgs.name, imgs.price, imgs.quantity, imgs.discount_price, list_items));
+                        }
+                    } else if (resource.status.equals("failure")) {
+                        tvEmptyWishlist.setVisibility(View.VISIBLE);
+                        list_items.setVisibility(View.GONE);
                     }
                     list_items.refresh();
                 }
@@ -126,7 +113,7 @@ public class WishListHolder extends AppCompatActivity {
             Toast.makeText(WishListHolder.this, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
         //------------------------------Bottom Navigation---------------------------------------------------------------------
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -173,28 +160,25 @@ public class WishListHolder extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater miWishlist =  getMenuInflater();
-        miWishlist.inflate(R.menu.notifi_and_info_menu,menu);
+        MenuInflater miWishlist = getMenuInflater();
+        miWishlist.inflate(R.menu.notifi_and_info_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId())
-        {
-
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
-
             case R.id.menu_notifi:
-                Intent intentNotifications = new Intent(getBaseContext(),MyNotifications.class);
-            startActivity(intentNotifications);
-            break;
+                Intent intentNotifications = new Intent(getBaseContext(), MyNotifications.class);
+                startActivity(intentNotifications);
+                break;
 
             case R.id.menu_info:
-                Intent intentDeliveryInfo = new Intent(getBaseContext(),DeliveryInformation.class);
+                Intent intentDeliveryInfo = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentDeliveryInfo);
                 break;
         }

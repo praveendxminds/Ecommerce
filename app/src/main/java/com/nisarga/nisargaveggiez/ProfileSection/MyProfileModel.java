@@ -59,5 +59,8 @@ public class MyProfileModel {
 
         @SerializedName("nearby")
         public String nearby;
+
+        @SerializedName("apartment_id")
+        public String apartment_id;
     }
 }
