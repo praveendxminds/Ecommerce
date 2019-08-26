@@ -105,7 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="Delivered"
+                            android:text="Processed"
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="#FF34773C"

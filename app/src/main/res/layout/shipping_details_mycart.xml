@@ -50,6 +50,7 @@
 
                 <EditText
                     android:id="@+id/etFName"
+                    android:enabled="false"
                     style="@style/shipping_details_edittxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -69,6 +70,7 @@
 
                 <EditText
                     android:id="@+id/etLName"
+                    android:enabled="false"
                     style="@style/shipping_details_edittxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -89,6 +91,7 @@
 
                 <EditText
                     android:id="@+id/etMobile_No"
+                    android:enabled="false"
                     style="@style/shipping_details_edittxt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -121,6 +124,7 @@
                         <ImageButton
                             android:id="@+id/imgBtnEditAddress"
                             android:layout_width="18dp"
+                            android:visibility="gone"
                             android:layout_height="16dp"
                             android:layout_gravity="bottom"
                             android:background="@drawable/edit_black" />

@@ -26,6 +26,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,10 +35,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -68,6 +71,7 @@ import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.ProductListModel;
 import com.nisarga.nisargaveggiez.retrofit.RateModel;
+import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.mindorks.placeholderview.PlaceHolderView;
 
@@ -125,7 +129,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
     //----Toolbar----
     CircleImageView ivToolbarProfile;
-    AutoCompleteTextView searchEditText;
+    EditText searchEditText;
     LinearLayout llProfileIcon;
 
     LinearLayout llProfileDesc, llEditProfile;
@@ -450,11 +454,11 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final android.support.v7.widget.SearchView searchViews = (android.support.v7.widget.SearchView) searchViewItem.getActionView();
+        final SearchView searchViews = (SearchView) searchViewItem.getActionView();
         //searchViews.setQueryHint("Search...");
         searchViews.setBackgroundColor(getResources().getColor(R.color.white));
 
-        int actionBarHeight = toolbar.getLayoutParams().height;
+        int actionBarHeight = ivToolbarProfile.getLayoutParams().height;
         int actionBarwidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         Log.d("ccccc", String.valueOf(actionBarwidth));
@@ -472,19 +476,61 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         searchMagIcon.setImageResource(R.drawable.ic_search_black_24dp);
         searchMagIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         searchMagIcon.setPadding(0, 0, 0, 0);
-        //searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
+        searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchEditText = (AutoCompleteTextView) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+
+
+
+        searchEditText = (EditText) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.black));
-        searchEditText.setPadding(2, 2, 2, 2);
+        searchEditText.setPadding(0, 2, 2, 2);
         searchEditText.setHint(null);//removing search hint from search layout
         strSearchKey = searchEditText.getText().toString();
-        searchEditText.setThreshold(1);//will start working from first character
         searchEditText.setTextColor(Color.parseColor("#824A4A4A"));
-        searchEditText.setBackgroundColor(Color.TRANSPARENT);
-        searchEditText.setOnItemClickListener(onItemClickListener);
-        searchMagIcon.setImageDrawable(null);//remove search icon
+
         searchEditText.clearFocus();
+
+
+        searchEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
+                    prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(prdIntent);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        searchViews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
+                prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(prdIntent);
+
+            }
+        });
+
+        //here we will get the search query
+        searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent accountIntent = new Intent(getBaseContext(), search.class);
+                startActivity(accountIntent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("seaerchesssssssssssssss", "onQueryTextSubmit: ");
+//                RemoteData remoteData = new RemoteData(HomePage.this);
+//                remoteData.getStoreData(newText);
+                return false;
+            }
+        });
 
 //        RemoteData remoteData = new RemoteData(this);
 //        remoteData.getStoreData(strSearchKey);
