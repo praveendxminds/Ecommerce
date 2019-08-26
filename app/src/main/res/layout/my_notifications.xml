@@ -40,6 +40,14 @@
             android:background="@color/white">
 
         </com.mindorks.placeholderview.PlaceHolderView>
+        <TextView
+            android:id="@+id/tvEmptyNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/recycler_notify"
+            android:gravity="center"
+            android:text="Your Notifications is Empty."
+            android:visibility="gone" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bnav_Notifications"

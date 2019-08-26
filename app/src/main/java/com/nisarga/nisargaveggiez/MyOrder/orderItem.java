@@ -200,7 +200,7 @@ public class orderItem {
             public void onClick(android.view.View v) {
                 //api-call
                 if (Utils.CheckInternetConnection(mContext)) {
-                    final CancelOrderModel get_order_list = new CancelOrderModel(morderId);
+                    final CancelOrderModel get_order_list = new CancelOrderModel(morderId,session.getCustomerId());
                     Call<CancelOrderModel> call = apiInterface.cancelOrder(get_order_list);
                     call.enqueue(new Callback<CancelOrderModel>() {
                         @Override
