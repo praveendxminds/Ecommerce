@@ -3,9 +3,13 @@ package com.nisarga.nisargaveggiez.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.retrofit.DealItemModel;
 import com.nisarga.nisargaveggiez.retrofit.ProductslHomePage;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
@@ -14,6 +18,11 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @NonReusable
@@ -41,9 +50,34 @@ public class HomePageDealofDayList {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        for (ProductslHomePage.DealOfDayList image : mImageList) {
-            phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                    image.discount_price, image.add_product_quantity_in_cart));
+        for (ProductslHomePage.DealOfDayList image : mImageList)
+        {
+            Object qtyspinner ="null";
+
+            if((image.options.equals("null")) && (!image.weight_classes.equals("null")))
+            {
+                qtyspinner = image.weight_classes;
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
+                        image.discount_price, image.add_product_quantity_in_cart,qtyspinner));
+            }
+            else if((!image.options.equals("null")) && (image.weight_classes.equals("null")))
+            {
+                qtyspinner = image.options;
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
+                        image.discount_price, image.add_product_quantity_in_cart,qtyspinner));
+
+            }
+            else if((image.options.equals("null")) && (image.weight_classes.equals("null")))
+            {
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
+                        image.discount_price, image.add_product_quantity_in_cart,qtyspinner));
+            }
+            else
+            {
+
+            }
+
+
         }
     }
 
