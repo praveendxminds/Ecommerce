@@ -89,7 +89,6 @@ public class orderItem {
     AlertDialog.Builder builder;
 
 
-
     public orderItem(Context context, String orderId, String deliveryDate, String status, String cancel) {
         this.mContext = context;
         this.mstatus = status;
@@ -120,22 +119,17 @@ public class orderItem {
 
         chkStatus = session.getStatusOrder();
 
-        if (chkStatus.equals("Canceled"))
-        {
+        if (chkStatus.equals("Canceled")) {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
             canceledOrder.setText(mstatus);
 
-
-
-
             Date dlocalTime = null;
-            try
-            {
+            try {
 
                 dlocalTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(mdeliveryDate);
-                Date dateBefore = new Date(dlocalTime.getTime() - 1 * 24 * 3600 * 1000  );
+                Date dateBefore = new Date(dlocalTime.getTime() - 1 * 24 * 3600 * 1000);
                 String time1 = "04:00 AM";
 
 
@@ -145,56 +139,36 @@ public class orderItem {
 
                 Date date = new Date();
 
-                if ( date.compareTo(endtime) < 0 )
-                {
+                if (date.compareTo(endtime) < 0) {
                     Log.d("dateblw", "dateblw: ");
-                }
-                else
-                {
+                } else {
                     Log.d("dateabv", "dateabv: ");
                 }
 
-
-
-
-
-
-
-
-            }
-            catch (java.text.ParseException e)
-            {
+            } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
-
-
-
-
-        }
-        else if (chkStatus.equals("Pending"))
-        {
+        } else if (chkStatus.equals("Pending")) {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setText(mstatus);
-        }
-        else
-        {
+        } else {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setText(mstatus);
         }
-        session.storeStatusOrder(null);
+        // session.storeStatusOrder(null);
 
         chkCancel = session.getCancelId();
         if (chkCancel.equals("0")) {
             btnCancelOrder.setVisibility(android.view.View.GONE);
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
-            btnCancelOrder.setText(mcancel);
+            btnCancelOrder.setText("Cancel");
         }
-        session.storeCancelId(null);
+        // session.storeCancelId(null);
 
     }
 
@@ -264,8 +238,7 @@ public class orderItem {
 
 
     @Click(R.id.btnReOrder)
-    public void onReorderClick()
-    {
+    public void onReorderClick() {
         LayoutInflater li = LayoutInflater.from(mContext);
         android.view.View promptsView = li.inflate(R.layout.reorder_dialog, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.AlertDialogStyle);
@@ -321,10 +294,6 @@ public class orderItem {
         // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
-
-
-
-
 
 
 }

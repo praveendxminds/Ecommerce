@@ -86,7 +86,7 @@
                             android:textAllCaps="false"
                             android:textColor="#FFFA990E"
                             android:textSize="10sp"
-                            android:visibility="gone" />
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/canceledOrder"
@@ -98,7 +98,7 @@
                             android:textAllCaps="false"
                             android:textColor="#FFFA5400"
                             android:textSize="10sp"
-                            android:visibility="visible" />
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/deliveredOrder"
@@ -110,7 +110,7 @@
                             android:textAllCaps="false"
                             android:textColor="#FF34773C"
                             android:textSize="10sp"
-                            android:visibility="gone" />
+                            android:visibility="invisible" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -148,13 +148,13 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:gravity="right">
 
                         <Button
                             android:id="@+id/btnPayNow"
-                            android:layout_width="60dp"
+                            android:layout_width="55dp"
                             android:layout_height="20dp"
                             android:background="@drawable/paynow_buttons"
                             android:duplicateParentState="true"
@@ -176,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="left"
-                            android:text="Order Id:767845563"
+                            android:text="Order Id:XXXXXXXX"
                             android:textAllCaps="false"
                             android:textColor="@color/light_black_4"
                             android:textSize="12sp" />
@@ -196,7 +196,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Delivered on Tue, June 11th’19"
+                            android:text="Delivered on EEE, MMMM D’YY"
                             android:textColor="@color/light_black_5"
                             android:textSize="10sp" />
 
