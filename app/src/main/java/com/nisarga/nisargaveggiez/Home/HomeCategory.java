@@ -132,7 +132,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     CircleImageView ivProfilePic;
     TextView tvName, tvEmail, tvMobileNo;
 
-    String strSearchKey, cart_count;
+    String strSearchKey;
     public boolean chngView = true;
     private String imagepath = null;
     String strProfilePic = "null";

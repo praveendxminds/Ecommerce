@@ -46,8 +46,9 @@ public class EditProfileModel {
     @SerializedName("area")
     public String area;
 
-    public EditProfileModel(String mcustId, String mfname, String mlname, String memail, String mphn, String aptmnt,
-                            String spincode, String addrss, String passwd, String doorno, String area) {
+    public EditProfileModel(String mcustId, String mfname, String mlname, String memail, String mphn, String passwd,
+                            String confPass, String aptmnt, String doorno, String addrss, String city,
+                            String spincode, String nearby, String apartment_id) {
 
         this.customer_id = mcustId;
         this.firstname = mfname;
@@ -59,6 +60,5 @@ public class EditProfileModel {
         this.address = addrss;
         this.password = passwd;
         this.door = doorno;
-        this.area = area;
     }
 }

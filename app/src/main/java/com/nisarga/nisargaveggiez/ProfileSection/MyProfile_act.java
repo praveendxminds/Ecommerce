@@ -12,14 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
@@ -59,7 +56,7 @@ public class MyProfile_act extends AppCompatActivity {
     Toolbar toolbar;
     CircleImageView ivProfile;
     ImageView ivEditProfile;
-    TextView tvName, tvMobileNo, tvEmail, tvApartmentName, tvNearBy, tvDoorNo, tvArea, tvAddress, tvPinCode;
+    TextView tvName, tvMobileNo, tvEmail, tvApartmentName, tvNearBy, tvDoorNo, tvCity, tvAddress, tvPinCode;
     public static BottomNavigationView bottom_navigation;
 
     private void init() {
@@ -76,7 +73,7 @@ public class MyProfile_act extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvEmail);
         tvApartmentName = findViewById(R.id.tvApartmentName);
         tvDoorNo = findViewById(R.id.tvDoorNo);
-        tvArea = findViewById(R.id.tvArea);
+        tvCity = findViewById(R.id.tvCity);
         tvAddress = findViewById(R.id.tvAddress);
         tvPinCode = findViewById(R.id.tvPinCode);
         tvNearBy = findViewById(R.id.tvNearBy);
@@ -144,21 +141,23 @@ public class MyProfile_act extends AppCompatActivity {
                     if (resourceMyProfile.status.equals("success")) {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
-                            if (String.valueOf(mpmResult.image) == "null") {
-                                ivProfile.setImageResource(R.drawable.camera);
-                            } else {
-                                Glide.with(MyProfile_act.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                        .into(ivProfile);
-                            }
+                            Glide.with(MyProfile_act.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivProfile);
+
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
                             tvMobileNo.setText(mpmResult.telephone);
                             tvApartmentName.setText(mpmResult.apartment);
                             tvDoorNo.setText(mpmResult.door);
-                            tvArea.setText(mpmResult.area);
+                            tvCity.setText(mpmResult.city);
                             tvAddress.setText(mpmResult.address_1);
                             tvPinCode.setText(mpmResult.postcode);
 
+                            if (mpmResult.nearby.equals("0")) {
+                                tvNearBy.setVisibility(View.GONE);
+                            } else {
+                                tvNearBy.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                     progressdialog.dismiss();

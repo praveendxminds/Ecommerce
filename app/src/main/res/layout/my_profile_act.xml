@@ -132,7 +132,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="15dp"
-                        android:text="Apartment Name*"
+                        android:text="Apartment Name"
                         android:textColor="#784A4A4A"
                         android:textSize="14sp" />
 
@@ -151,14 +151,15 @@
                             android:layout_height="match_parent"
                             android:layout_weight=".21"
                             android:text="Provident Harmony"
-                            android:textColor="#AB4A4A4A"
+                            android:textColor="#FF4A4A4A"
                             android:textSize="16sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight=".89"
-                            android:gravity="right|center">
+                            android:gravity="right|center"
+                            android:visibility="gone">
 
                             <TextView
                                 android:id="@+id/tvNearBy"
@@ -193,7 +194,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="15dp"
-                        android:text="Door Number*"
+                        android:text="Door Number"
                         android:textColor="#784A4A4A"
                         android:textSize="14sp" />
 
@@ -206,43 +207,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="5dp"
                         android:text="A-11 802"
-                        android:textColor="#AB4A4A4A"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@color/grey" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginRight="15dp"
-                        android:text="Area*"
-                        android:textColor="#784A4A4A"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="Hegde Nagar, Bengaluru"
-                        android:textColor="#AB4A4A4A"
+                        android:textColor="#FF4A4A4A"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -278,7 +243,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="5dp"
                         android:text="Chokkanahalli Main Rd, Sri Balaji Krupa Layout, RK Hegde Nagar, Bengaluru, Karnataka"
-                        android:textColor="#AB4A4A4A"
+                        android:textColor="#FF4A4A4A"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -301,7 +266,43 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="15dp"
-                        android:text="Pin Code*"
+                        android:text="City"
+                        android:textColor="#784A4A4A"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Hegde Nagar, Bengaluru"
+                        android:textColor="#FF4A4A4A"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="15dp"
+                        android:text="Pin Code"
                         android:textColor="#784A4A4A"
                         android:textSize="14sp" />
 
@@ -314,7 +315,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="5dp"
                         android:text="560077"
-                        android:textColor="#AB4A4A4A"
+                        android:textColor="#FF4A4A4A"
                         android:textSize="16sp" />
 
                 </LinearLayout>
