@@ -1,6 +1,7 @@
 package com.nisarga.nisargaveggiez.ProfileSection;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -76,13 +78,13 @@ public class EditProfile_act extends AppCompatActivity {
     Toolbar toolbar;
     ImageView ivOldHidePass, ivOldShowPass, ivNewHidePass, ivNewShowPass, ivConfHidePass, ivConfShowPass;
     CircleImageView ivProfile;
-    TextView tvNearBy, tvApartmentName;
+    TextView tvApartmentName;
     EditText etFName, etLName, etEmail, etMobileNo, etOldPass, etNewPass, etConfirmPass, etDoorNo, etCity,
             etAddress, etPinCode;
     Button btnUpdate;
     ListView lvApartmentList;
     DrawerLayout mDrawer;
-    LinearLayout llCheckBox;
+    LinearLayout llCheckBox, llNearBy;
     CheckBox cbNearByApartment;
 
     String sFName, sLName, sEmail, sMobileNo, sPassword, sNewPass, sConfirmPass, sApartmentName,
@@ -124,12 +126,12 @@ public class EditProfile_act extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         etPinCode = findViewById(R.id.etPinCode);
 
-        tvNearBy = findViewById(R.id.tvNearBy);
         btnUpdate = findViewById(R.id.btnUpdate);
 
         lvApartmentList = findViewById(R.id.lvApartmentList);
         mDrawer = findViewById(R.id.mDrawer);
         llCheckBox = findViewById(R.id.llCheckBox);
+        llNearBy = findViewById(R.id.llNearBy);
         cbNearByApartment = findViewById(R.id.cbNearByApartment);
 
         ivOldHidePass.setOnClickListener(new View.OnClickListener() {
@@ -210,7 +212,7 @@ public class EditProfile_act extends AppCompatActivity {
             public void onClick(View v) {
                 mDrawer.openDrawer(Gravity.RIGHT);
                 llCheckBox.setVisibility(View.VISIBLE);
-                tvApartmentName.setVisibility(View.GONE);
+                llNearBy.setVisibility(View.GONE);
                 final ArrayList<String> apartment_list = new ArrayList<>();
 
                 if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -316,9 +318,9 @@ public class EditProfile_act extends AppCompatActivity {
                             sPinCode = mpmResult.postcode;
 
                             if (mpmResult.nearby.equals("0")) {
-                                tvNearBy.setVisibility(View.GONE);
+                                llNearBy.setVisibility(View.GONE);
                             } else {
-                                tvNearBy.setVisibility(View.VISIBLE);
+                                llNearBy.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -342,11 +344,18 @@ public class EditProfile_act extends AppCompatActivity {
                 sPassword = etOldPass.getText().toString();
                 sNewPass = etNewPass.getText().toString();
                 sConfirmPass = etConfirmPass.getText().toString();
-                if ((sConfirmPass.trim()).equals(sNewPass.trim())) {
-                    sNewPass = sConfirmPass;
-                } else {
-                    etConfirmPass.requestFocus();
-                    etConfirmPass.setError("Password mismatch");
+
+                if (!(etNewPass.getText().toString().equals(etConfirmPass.getText().toString()))) {
+                    new AlertDialog.Builder(EditProfile_act.this)
+                            .setMessage("Password Entered is not Matching")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                    return;
                 }
 
                 sDoorNo = etDoorNo.getText().toString();
@@ -397,6 +406,7 @@ public class EditProfile_act extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<EditProfileModel> call, Throwable t) {
+                call.cancel();
 
             }
         });
