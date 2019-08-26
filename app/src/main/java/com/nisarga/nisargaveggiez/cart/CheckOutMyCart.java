@@ -185,9 +185,6 @@ public class CheckOutMyCart extends AppCompatActivity {
                               // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
 
                               Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
-                              intentConfirmOrder.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                      Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
                               intentConfirmOrder.putExtra("address",lsss.address);
                               intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
                               intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);

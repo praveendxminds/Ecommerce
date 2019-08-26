@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#FBD249</color>
 
     <color name="colorPrimaryDark">#4a4a4a</color>
     <color name="colorAccent">#34773C</color>
+    <color name="statusbarcolor">#f4bd06</color>
     <color name="green_1">#FF34773C</color>#FF34773C
     <color name="darkerGreen">#34773C</color>
     <color name="green">#55AE3A</color>
@@ -59,5 +60,7 @@
     <color name="sky_blue">#ecf7fc</color>
     <color name="orange">#FF6600</color>
     <color name="yellow">#f9d71c</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#34773C</color>
 
 </resources>
