@@ -39,13 +39,14 @@ public class PaymentHistoryItems {
 
 
     Context mContext;
-    public String mDate, mtxnType, mDesc, mAmnt, mBlnc, mType;
+    public String mDate, mtxnType, mDesc, mAmnt, mBlnc, mType, mStatus, paymentId;
 
     public PaymentHistoryItems(Context contxt) {
         this.mContext = contxt;
     }
 
-    public PaymentHistoryItems(Context contxt, String date, String txn_Type, String desc, String amnt, String blnc, String type) {
+    public PaymentHistoryItems(Context contxt, String date, String txn_Type, String desc,
+                               String amnt, String blnc, String type,String status,String txnId) {
         this.mContext = contxt;
         this.mDate = date;
         this.mtxnType = txn_Type;
@@ -53,6 +54,8 @@ public class PaymentHistoryItems {
         this.mAmnt = amnt;
         this.mBlnc = blnc;
         this.mType = type;
+        this.mStatus = status;
+        this.paymentId = txnId;
     }
 
     @Resolve
@@ -80,9 +83,9 @@ public class PaymentHistoryItems {
                 Glide.with(mContext).load(R.drawable.loyalitypoints).into(iconPayHistory);
             }
         }
-        tvStatusPayHistory.setText("Success");
+        tvStatusPayHistory.setText(mStatus);
         tvTitlePayHistory.setText(mDesc);
-      //  tvTxnId.setText(mtxnType);
+            tvTxnId.setText(paymentId);
         tvAmountPayHistory.setText("\u20B9" + " " +mAmnt);
     }
 }

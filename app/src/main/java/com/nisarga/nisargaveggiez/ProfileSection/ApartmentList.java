@@ -10,24 +10,29 @@ public class ApartmentList {
     public String status;
 
     @SerializedName("data")
-    public List<ApartmentListDatum> data=null;
+    public List<ApartmentListDatum> data = null;
 
-    public class ApartmentListDatum{
+    public class ApartmentListDatum {
+
         @SerializedName("apartment_id")
         public String apartment_id;
 
         @SerializedName("name")
-        public String  name;
+        public String name;
 
         @SerializedName("address")
-        public String  address;
+        public String address;
 
         @SerializedName("pincode")
         public String pincode;
 
         @SerializedName("status")
-        public String  status;
+        public String status;
 
+        @SerializedName("city")
+        public String city;
 
+        @SerializedName("landmark")
+        public String landmark;
     }
 }

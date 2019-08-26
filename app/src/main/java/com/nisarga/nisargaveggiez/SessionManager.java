@@ -81,6 +81,10 @@ public class SessionManager {
     public static final String KEY_BLOCK = "block";
     public static final String KEY_APRT_NAME = "apartment_name";
     public static final String KEY_CUSTOM_FIELD = "custom_field";
+    public static final String KEY_ORDER_ADDRESS = "order_address";
+    public static final String KEY_ORDER_SAVINGS = "order_svings";
+    public static final String KEY_DELIVERY_CHARGES = "delivery_charges";
+    public static final String KEY_ORDER_TOTAL = "total";
 
 
     public static final String KEY_CART_ID = "cart_id";
@@ -447,7 +451,39 @@ public class SessionManager {
         editor.commit();
     }
 
-    public String getCartId() {
+    public String getCartId()
+    {
         return pref.getString(KEY_CART_ID, null);
     }
+
+    public void addorder(String ord_addr,String ord_savings,String ord_charges,String ord_total)
+    {
+        editor.putString(KEY_ORDER_ADDRESS, ord_addr);
+        editor.putString(KEY_ORDER_SAVINGS, ord_savings);
+        editor.putString(KEY_DELIVERY_CHARGES, ord_charges);
+        editor.putString(KEY_ORDER_TOTAL, ord_total);
+        editor.commit();
+    }
+
+    public String addorder_address()
+    {
+        return pref.getString(KEY_ORDER_ADDRESS, null);
+    }
+
+    public String addorder_savings()
+    {
+        return pref.getString(KEY_ORDER_SAVINGS, null);
+    }
+
+    public String addorder_delvery_charges()
+    {
+        return pref.getString(KEY_DELIVERY_CHARGES, null);
+    }
+
+    public String addorder_total()
+    {
+        return pref.getString(KEY_ORDER_TOTAL, null);
+    }
+
+
 }

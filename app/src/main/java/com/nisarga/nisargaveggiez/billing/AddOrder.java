@@ -19,28 +19,34 @@ import java.util.List;
         @SerializedName("status")
         public  String status;
 
+
+
         @SerializedName("data")
-        public List<AddOrderDatum> result=null;
+        public List<AddOrderList> data=null;
 
         public AddOrder(String delivery_date)
         {
             this.delivery_date=delivery_date;
         }
 
-        public class AddOrderDatum
+        public class AddOrderList
         {
             @SerializedName("address")
-            public String address;
+            public  String address;
 
             @SerializedName("savings")
-            public String savings;
+            public  int savings;
 
             @SerializedName("delivery_charges")
-            public String delivery_charges;
+            public  String delivery_charges;
 
             @SerializedName("total")
-            public String total;
+            public  int total;
+
+            @SerializedName("order_id")
+            public  int order_id;
 
         }
+
 
     }

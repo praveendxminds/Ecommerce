@@ -36,20 +36,11 @@ public class MyProfileModel {
         @SerializedName("address_1")
         public String address_1;
 
-        @SerializedName("address_2")
-        public String address_2;
-
         @SerializedName("city")
         public String city;
 
         @SerializedName("postcode")
         public String postcode;
-
-        @SerializedName("area")
-        public String area;
-
-        @SerializedName("zone_id")
-        public String zone_id;
 
         @SerializedName("email")
         public String email;
@@ -63,11 +54,10 @@ public class MyProfileModel {
         @SerializedName("apartment")
         public String apartment;
 
-        @SerializedName("password")
-        public String password;
-
         @SerializedName("image")
         public String image;
 
+        @SerializedName("nearby")
+        public String nearby;
     }
 }

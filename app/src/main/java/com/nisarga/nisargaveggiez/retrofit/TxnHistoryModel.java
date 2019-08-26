@@ -44,6 +44,8 @@ public class TxnHistoryModel {
         @SerializedName("type")
         public String type;
 
+        @SerializedName("status")
+        public String status;
 
     }
 

@@ -77,12 +77,33 @@
 
                     <Spinner
                         android:id="@+id/spQuantity"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/prd_name"
+                        android:overlapAnchor="false"
                         android:padding="5dp"
                         android:popupBackground="@android:drawable/dialog_holo_light_frame"
                         android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llQuantityPiece"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="left"
+                        android:padding="2dp"
+                        android:text="1 Pieces"
+                        android:textAllCaps="false"
+                        android:textColor="@color/light_black_3"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -163,8 +184,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="left|bottom"
                             android:background="@drawable/blackdecre" />
                     </LinearLayout>
@@ -188,8 +209,8 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="right|bottom"
                             android:background="@drawable/blackincr" />
                     </LinearLayout>

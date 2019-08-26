@@ -45,16 +45,14 @@ public class NotificationItem {
     public ImageView iv_warning;
 
 
-
     public Context mContext;
-    String mUrl,mday,mtime,mdate,morderTitle,mordercontent;
+    String mUrl, mday, mtime, mdate, morderTitle, mordercontent;
 //    public  NotificationItem(Context context)
 //    {
 //        mContext=  context;
 //    }
 
-    public NotificationItem(Context context,String dte,String orderTitle,String ordercontent)
-    {
+    public NotificationItem(Context context, String dte, String orderTitle, String ordercontent) {
         mContext = context;
         mdate = dte;
         morderTitle = orderTitle;
@@ -62,8 +60,7 @@ public class NotificationItem {
     }
 
     @Resolve
-    public void onResolved()
-    {
+    public void onResolved() {
 
         orderTitleNotifi.setText(morderTitle);
         orderDateNotifi.setText(mordercontent);

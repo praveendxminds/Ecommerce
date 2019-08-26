@@ -39,8 +39,8 @@ public class LoyalityPointNotes {
 //            res = Html.fromHtml(mNotes).toString();
 //        }
 //        webViewNotes.loadDataWithBaseURL(null, res, "text/html", "utf-8", null);
-
-        String data = Html.fromHtml(mNotes).toString();
+        String noteLines = mNumber.toString()+"."+" "+mNotes;
+        String data = Html.fromHtml(noteLines).toString();
         webViewNotes.loadData(data, "text/html", "UTF-8");
 
 

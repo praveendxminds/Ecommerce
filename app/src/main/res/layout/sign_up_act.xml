@@ -4,7 +4,7 @@
     android:id="@+id/mDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#83b69c"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <ScrollView
@@ -35,7 +35,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="left|center"
-                    android:text="Welcome to Nisarga Veggiez ,"
+                    android:text="Welcome to Nisarga Veggiez"
                     android:textColor="#FFFFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -48,70 +48,33 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="10dp"
                     android:gravity="left|center"
-                    android:text="SignUp for Continue"
+                    android:text="Sign Up to Continue"
                     android:textColor="#FFFFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="70dp"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/button_border_add"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/btnLogIn"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:text="LOG IN"
-                            android:textColor="@color/grey"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:text="SIGN UP"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:layout_gravity="center"
-                            android:background="@color/orange" />
-                    </LinearLayout>
-                </LinearLayout>
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,151 +84,201 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivProfile"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_margin="20dp"
-                            android:background="@drawable/circle_view"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/camera" />
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:gravity="center">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            <Button
+                                android:id="@+id/btnLogIn"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/etFirstName"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@null"
-                                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                    android:gravity="left|center"
-                                    android:hint="First Name *"
-                                    android:inputType="text"
-                                    android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
-                                    android:textColorHint="#5E4A4A4A"
-                                    android:textSize="14sp" />
-                            </android.support.design.widget.TextInputLayout>
+                                android:layout_height="match_parent"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="Log In"
+                                android:minHeight="0dp"
+                                android:paddingTop="23dp"
+                                android:paddingBottom="7dp"
+                                android:textAllCaps="false"
+                                android:textColor="@color/grey"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:gravity="center">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            <Button
+                                style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="Sign Up"
+                                android:minHeight="0dp"
+                                android:paddingTop="23dp"
+                                android:paddingBottom="7dp"
+                                android:textAllCaps="false"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
-                                <EditText
-                                    android:id="@+id/etLastName"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@null"
-                                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                    android:gravity="left|center"
-                                    android:hint="Last Name *"
-                                    android:inputType="text"
-                                    android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
-                                    android:textColorHint="#5E4A4A4A"
-                                    android:textSize="14sp" />
-                            </android.support.design.widget.TextInputLayout>
+                            <View
+                                android:layout_width="70dp"
+                                android:layout_height="3dp"
+                                android:layout_gravity="center"
+                                android:background="@color/orange" />
                         </LinearLayout>
+                    </LinearLayout>
 
-                        <LinearLayout
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/circle_view"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/camera" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:gravity="center">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:gravity="center">
+                            android:layout_height="wrap_content">
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            <EditText
+                                android:id="@+id/etFirstName"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:gravity="left|center"
+                                android:hint="First Name *"
+                                android:inputType="text"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
 
-                                <EditText
-                                    android:id="@+id/etMobileNo"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@null"
-                                    android:gravity="left|center"
-                                    android:hint="Mobile Number *"
-                                    android:inputType="number"
-                                    android:maxLength="10"
-                                    android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
-                                    android:textColorHint="#5E4A4A4A"
-                                    android:textSize="14sp" />
-                            </android.support.design.widget.TextInputLayout>
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:gravity="center">
 
-                        <LinearLayout
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:gravity="center">
+                            android:layout_height="wrap_content">
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            <EditText
+                                android:id="@+id/etLastName"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:gravity="left|center"
+                                android:hint="Last Name *"
+                                android:inputType="text"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
 
-                                <EditText
-                                    android:id="@+id/etEmail"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@null"
-                                    android:gravity="left|center"
-                                    android:hint="Email *"
-                                    android:inputType="text"
-                                    android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
-                                    android:textColorHint="#5E4A4A4A"
-                                    android:textSize="14sp" />
-                            </android.support.design.widget.TextInputLayout>
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:gravity="center">
 
-                        <LinearLayout
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:gravity="center">
+                            android:layout_height="wrap_content">
 
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            <EditText
+                                android:id="@+id/etMobileNo"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:gravity="left|center"
+                                android:hint="Mobile Number *"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
 
-                                <EditText
-                                    android:id="@+id/etPassword"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@null"
-                                    android:drawableRight="@drawable/ic_visibility_off_pass"
-                                    android:gravity="left|center"
-                                    android:hint="Password *"
-                                    android:inputType="textPassword"
-                                    android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
-                                    android:textColorHint="#5E4A4A4A"
-                                    android:textSize="14sp" />
-                            </android.support.design.widget.TextInputLayout>
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:gravity="center">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/etEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:gravity="left|center"
+                                android:hint="Email *"
+                                android:inputType="text"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:gravity="center">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/etPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:drawableRight="@drawable/ic_visibility_off_pass"
+                                android:gravity="left|center"
+                                android:hint="Password *"
+                                android:inputType="textPassword"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
                     <View
@@ -281,8 +294,30 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="15dp"
+                            android:background="@drawable/login_reg_border"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvApartment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:drawableRight="@drawable/ic_chevron_right"
+                                android:gravity="left|center"
+                                android:hint="Apartment Name *"
+                                android:inputType="textMultiLine"
+                                android:padding="16dp"
+                                android:textColor="#696969"
+                                android:textColorHint="#5E4A4A4A"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="0dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="horizontal">
@@ -308,28 +343,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="15dp"
-                            android:background="@drawable/login_reg_border"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tvApartment"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
-                                android:drawableRight="@drawable/ic_chevron_right"
-                                android:gravity="left|center"
-                                android:hint="Apartment Name *"
-                                android:inputType="textMultiLine"
-                                android:padding="16dp"
-                                android:textColor="#5E4A4A4A"
-                                android:textColorHint="#5E4A4A4A"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
                             android:gravity="center">
 
                             <android.support.design.widget.TextInputLayout
@@ -346,7 +359,7 @@
                                     android:hint="Block/Wing"
                                     android:inputType="textMultiLine"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
@@ -372,7 +385,7 @@
                                     android:hint="Floor Number"
                                     android:inputType="textMultiLine"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
@@ -398,7 +411,7 @@
                                     android:hint="Door Number *"
                                     android:inputType="textMultiLine"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
@@ -416,19 +429,40 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/etArea"
+                                    android:id="@+id/etAddress"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@null"
                                     android:gravity="left|center"
-                                    android:hint="Area"
+                                    android:hint="Area *"
                                     android:inputType="textMultiLine"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
+
+                        <!--  <LinearLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_margin="15dp"
+                              android:background="@drawable/login_reg_border"
+                              android:gravity="center">
+
+                              <TextView
+                                  android:id="@+id/tvAddress"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  android:background="@null"
+                                  android:gravity="left|center"
+                                  android:hint="Address *"
+                                  android:inputType="textMultiLine"
+                                  android:padding="16dp"
+                                  android:textColor="#5E4A4A4A"
+                                  android:textColorHint="#5E4A4A4A"
+                                  android:textSize="14sp" />
+                          </LinearLayout>-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -450,31 +484,10 @@
                                     android:hint="City *"
                                     android:inputType="textMultiLine"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:background="@drawable/login_reg_border"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tvAddress"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
-                                android:gravity="left|center"
-                                android:hint="Address *"
-                                android:inputType="textMultiLine"
-                                android:padding="16dp"
-                                android:textColor="#5E4A4A4A"
-                                android:textColorHint="#5E4A4A4A"
-                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -497,7 +510,7 @@
                                     android:hint="Land Mark"
                                     android:inputType="textMultiLine"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
@@ -507,6 +520,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="15dp"
+                            android:paddingBottom="50dp"
                             android:gravity="center">
 
                             <android.support.design.widget.TextInputLayout
@@ -524,23 +538,45 @@
                                     android:inputType="number"
                                     android:maxLength="6"
                                     android:padding="16dp"
-                                    android:textColor="#5E4A4A4A"
+                                    android:textColor="#696969"
                                     android:textColorHint="#5E4A4A4A"
                                     android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/ivSubmit"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center|bottom"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/login_button" />
-            </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lay_rel_img"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:background="@drawable/rounded_login">
+
+                    <ImageView
+                        android:id="@+id/ivSubmit"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center|bottom"
+                        android:src="@drawable/login_button" />
+
+
+
+                </RelativeLayout>
+            </FrameLayout>
+        </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ord_itMyCart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
@@ -15,8 +13,9 @@
         android:layout_height="fill_parent"
         android:orientation="horizontal"
         android:padding="15dp">
+
         <LinearLayout
-            android:id="@+id/llProductsListViewMyCart"
+            android:id="@+id/llCartList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8">
@@ -28,35 +27,28 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="vertical">
 
-
                     <ImageView
-                        android:id="@+id/itemIconMyCart"
+                        android:id="@+id/ivImage"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:scaleType="centerCrop"
                         android:src="@android:color/holo_orange_dark" />
 
                 </LinearLayout>
-
-
             </LinearLayout>
 
-
             <LinearLayout
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="3"
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -65,7 +57,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/prd_nameMyCart"
+                        android:id="@+id/tvProductName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -76,7 +68,6 @@
                         android:textColor="@color/light_black_3"
                         android:textSize="14sp" />
 
-
                 </LinearLayout>
 
                 <RelativeLayout
@@ -85,29 +76,6 @@
                     android:padding="0dp">
 
                     <LinearLayout
-                        android:id="@+id/lltvQntyMyCart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
-
-
-                        <TextView
-                            android:id="@+id/tvqntyMyCart"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="1000kg"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llspnrQntyMyCart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="0dp"
@@ -116,16 +84,18 @@
                         android:visibility="visible">
 
                         <Spinner
-                            android:id="@+id/spnr_qntyMyCart"
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
+                            android:id="@+id/spQuantity"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
                             android:layout_below="@+id/prd_name"
-                            android:padding="0dp"
-                            android:spinnerMode="dropdown"
-                            android:popupBackground="@android:drawable/dialog_holo_light_frame" />
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
+                            android:overlapAnchor="false"
+                            android:text="100Gms"
+                            android:textColor="@color/light_black_2"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -133,36 +103,28 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvNewPrice"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:fontFamily="@font/roboto_regular"
+                        android:text=""
+                        android:textColor="@color/green_1"
+                        android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/tvpriceNewMyCart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text=""
-                            android:textColor="@color/green_1"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tvpriceOldMyCart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/strike_through"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="00.000"
-                            android:textColor="@color/light_black_1"
-                            android:textSize="9sp"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
+                    <TextView
+                        android:id="@+id/tvOldPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/strike_through"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="00.000"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="10sp"
+                        android:visibility="visible" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -172,37 +134,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:layout_marginBottom="5dp"
             android:layout_weight="2"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|right">
-                <ImageButton
-                    android:id="@+id/addWishListMyCart"
-                    android:layout_width="18dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/wishlistgrey" />
-            </LinearLayout>
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
-                    android:id="@+id/lladdItemMyCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="bottom|right"
-                    android:visibility="visible">
+                    android:gravity="bottom|center">
 
                     <ImageButton
-                        android:id="@+id/btnAddItemMyCart"
-                        android:layout_width="48dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/addbutton" />
+                        android:id="@+id/btnAddCart"
+                        android:layout_width="60dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/addbutton"
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -210,38 +159,54 @@
                     android:id="@+id/llcountItemMyCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="bottom|right"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="bottom|center"
                     android:visibility="gone">
 
-                    <ImageButton
-                        android:id="@+id/imgBtn_decreMyCart"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="left|bottom"
-                        android:background="@drawable/blackdecre" />
-
-                    <TextView
-                        android:id="@+id/tvProductCountMyCart"
+                    <LinearLayout
+                        android:id="@+id/lldecreasePrdCount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center|bottom"
-                        android:text="2"
-                        android:textSize="13sp"
-                        tools:textColor="@color/light_black_2" />
+                        android:gravity="center">
 
-                    <ImageButton
-                        android:id="@+id/imgBtn_increMyCart"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="right|bottom"
-                        android:background="@drawable/blackincr" />
+                        <ImageButton
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@drawable/blackdecre" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/tvProductCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textSize="13sp"
+                            tools:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llincreasePrdCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@drawable/blackincr" />
+                    </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
-
-
 </android.support.v7.widget.CardView>

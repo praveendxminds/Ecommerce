@@ -86,6 +86,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -104,6 +105,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     SessionManager session;
     ProgressDialog progressdialog;
     InstallReferrerClient mReferrerClient;
+    public static TextView hometotalCartItemCount;
 
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
@@ -120,6 +122,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
+
+
+
+
 
         init();
         initApiCall();
@@ -281,12 +287,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 public void onResponse(Call<ProductslHomePage> call, Response<ProductslHomePage> response) {
                     ProductslHomePage resource = response.body();
                     if (resource.status.equals("success")) {
-                        if (String.valueOf(resource.profile_pic) == "null") {
-                            ivToolbarProfile.setImageResource(R.drawable.camera);
-                        } else {
-                            Glide.with(HomePage.this).load(resource.profile_pic).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
-                        }
                         List<ProductslHomePage.BannerList> datumList = resource.banner;
                         for (ProductslHomePage.BannerList imageslider1 : datumList) {
                             imageArray.add(imageslider1.image);
@@ -341,12 +341,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     if (resourceMyProfile.status.equals("success")) {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
-                            if (String.valueOf(mpmResult.image) == "null") {
-                                ivProfilePic.setImageResource(R.drawable.camera);
-                            } else {
-                                Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                        .into(ivProfilePic);
-                            }
+
+                            Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivProfilePic);
+
+                            Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivToolbarProfile);
+
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
                             tvMobileNo.setText(mpmResult.telephone);
@@ -371,7 +372,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
-        final TextView textCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
+        hometotalCartItemCount = (TextView) rootView.findViewById(R.id.cart_badge);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -384,7 +385,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         public void onResponse(Call<CartCount> call, Response<CartCount> response) {
                             CartCount cartCount = response.body();
                             if (cartCount.status.equals("success")) {
-                                textCartItemCount.setText(cartCount.data);
+                                hometotalCartItemCount.setText(cartCount.data);
+                                session.cartcount(Integer.parseInt(cartCount.data));
                             }
                         }
 
@@ -764,9 +766,19 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-            ivProfilePic.setImageBitmap(bitmap);
-            imagePath(imagepath);
+            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
+//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+//          ivProfile.setImageBitmap(bitmap);
+
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        imagePath(imagepath);
+                        Log.e("----imagepath---", "" + imagepath);
+
+                    }
+                }).start();
+            }
         }
     }
 

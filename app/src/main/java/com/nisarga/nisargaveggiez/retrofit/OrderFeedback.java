@@ -23,13 +23,13 @@ public class OrderFeedback
     public  String customer_id;
 
     @SerializedName("rating")
-    public  String rating;
+    public  int rating;
 
     @SerializedName("feedback")
     public  String feedback;
 
 
-    public OrderFeedback(String order_id,String customer_id,String rating,String feedback)
+    public OrderFeedback(String order_id,String customer_id,int rating,String feedback)
     {
         this.order_id=order_id;
         this.customer_id=customer_id;

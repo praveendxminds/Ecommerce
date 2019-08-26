@@ -57,15 +57,13 @@ public class cart extends AppCompatActivity {
     private PlaceHolderView mCartView;
     public static String MyPREFERENCES = "sessiondata";
     SharedPreferences sharedpreferences;
-    TextView linkDeliveryDay, tvtotalAmount,tv_total;
+    TextView linkDeliveryDay, tvtotalAmount, tv_total;
     private String storeDayTime;
     SessionManager session;
 
     APIInterface apiInterface;
     public static TextView textCartItemCount;
     public String slct_itm;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +93,11 @@ public class cart extends AppCompatActivity {
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
+        slct_itm = "Select";
 
         linkDeliveryDay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0)
-            {
-
-
+            public void onClick(View arg0) {
 
                 final List<String> categories = new ArrayList<String>();
                 final List<String> categories_dtes = new ArrayList<String>();
@@ -110,8 +106,7 @@ public class cart extends AppCompatActivity {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
                 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-                for (int i = 1; i < 4; i++)
-                {
+                for (int i = 1; i < 4; i++) {
                     Calendar calendars = new GregorianCalendar();
                     calendars.add(Calendar.DAY_OF_WEEK, i);
                     String catdays = sdf.format(calendars.getTime());
@@ -121,29 +116,25 @@ public class cart extends AppCompatActivity {
                     categories_dtes.add(days);
                 }
 
-
-
                 LayoutInflater inflater = getLayoutInflater();
                 View alertLayout = inflater.inflate(R.layout.delivery_time_popup, null);
                 final TextView deliveryTimeDialog = alertLayout.findViewById(R.id.deliveryTimeDialog);
                 //----day spinner--------
                 final Spinner dayspinner = alertLayout.findViewById(R.id.dayspinner);
                 final Button schedule = alertLayout.findViewById(R.id.btnSchedule);
-               // final SpinnerAdapter adapterDay = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
-              //  adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // final SpinnerAdapter adapterDay = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
+                //  adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 //adapterDay.addAll(categories);
-               // adapterDay.add("Select Day");
-               // dayspinner.setAdapter(adapterDay);
+                // adapterDay.add("Select Day");
+                // dayspinner.setAdapter(adapterDay);
 
-                dayspinner.setAdapter(new DeliverydateAdapter(getApplicationContext(),categories , categories));
+                dayspinner.setAdapter(new DeliverydateAdapter(getApplicationContext(), categories, categories));
 
 
-                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-                {
+                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-                    {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
                         session.setDeliverydate(categories_dtes.get(position));
                         session.setDeliveryweek(categories.get(position));
@@ -151,47 +142,16 @@ public class cart extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNothingSelected(AdapterView<?> parent)
-                    {
+                    public void onNothingSelected(AdapterView<?> parent) {
 
                     }
                 });
 
-               // dayspinner.setSelection(adapterDay.getCount());
-
-
-//                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-//                {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-//                    {
-//                        if (dayspinner.getSelectedItem() == "Select")
-//                        {
-//                            Toast.makeText(cart.this, "you have selected nothing", Toast.LENGTH_LONG).show();
-//                        }
-//                        else
-//                        {
-//                            session.setDeliverydate(dayspinner.getSelectedItem().toString());
-//                            Log.e("-----day selected-----", "----day selected---");
-//                            Toast.makeText(cart.this, dayspinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent)
-//                    {
-//
-//                    }
-//                });
-
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(cart.this).create();
-                schedule.setOnClickListener(new View.OnClickListener()
-                {
+                schedule.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         //storeDayTime = dayspinner.getSelectedItem().toString();
                         storeDayTime = slct_itm;
                         alertDialog.dismiss();
@@ -212,35 +172,28 @@ public class cart extends AppCompatActivity {
         showListView();
     }
 
-    public void showListView()
-    {
+    public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-
             Log.d("getToken", String.valueOf(session.getToken()));
-
-
             Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken());
             call.enqueue(new Callback<CartListModel>() {
                 @Override
                 public void onResponse(Call<CartListModel> call, Response<CartListModel> response) {
                     CartListModel resource = response.body();
                     List<CartListModel.CartListDatum> datumList = resource.result;
-
-                    Log.d("items",String.valueOf(datumList) );
-
-                    tv_total.setText(String.valueOf(datumList.size())+" Items");
-
-                    for (CartListModel.CartListDatum imgs : datumList)
-                    {
-                        if (response.isSuccessful())
-                        {
-
+                    tv_total.setText(String.valueOf(datumList.size()) + " Items");
+                    for (CartListModel.CartListDatum imgs : datumList) {
+                        if (response.isSuccessful()) {
                             mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount,
                                     session.getCustomerId(), imgs.product_id, imgs.image, imgs.name,
                                     imgs.price, imgs.discount_price, imgs.quantity, mCartView));
-                            tvtotalAmount.setText("Total"+" "+"\u20B9 "+imgs.total);
+                        }
+                    }
 
+                    List<CartListModel.TotalsDatum> datumtotla = resource.totals;
+                    for (CartListModel.TotalsDatum imgs : datumtotla) {
+                        if (response.isSuccessful()) {
+                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + imgs.text);
                         }
                     }
 
@@ -257,7 +210,6 @@ public class cart extends AppCompatActivity {
                     });
 
 
-
                     mCartView.refresh();
                 }
 
@@ -266,8 +218,6 @@ public class cart extends AppCompatActivity {
                     call.cancel();
                 }
             });
-
-
 
 
         } else {
@@ -283,8 +233,13 @@ public class cart extends AppCompatActivity {
     }
 
     public void billing(View v) {
-        Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
-        startActivity(myIntent);
+        Log.d("storeDayTime", String.valueOf(slct_itm));
+        if (slct_itm.equals("Select")) {
+            Toast.makeText(getApplicationContext(), "Please Select Delivery Day", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
+            startActivity(myIntent);
+        }
 
        /* Boolean login_st_session = sharedpreferences.getBoolean("status", false);
         if (login_st_session == true) {

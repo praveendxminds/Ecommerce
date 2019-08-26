@@ -135,8 +135,7 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void moveToChkOut()
-    {
+    public void moveToChkOut() {
         Log.d("moveToChkOut", session.getDeliverydate());
 
 
@@ -148,8 +147,12 @@ public class billingAddress extends AppCompatActivity {
         strApartmentDetails = tvApartmentDetails.getText().toString();
         strApartmentName = tvApartmentName.getText().toString();
         //api call-----
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strArea, strCity, strCountryId, strZoneId, strApartmentName, strAddress, strPincode, strInstruct);
+        if (Utils.CheckInternetConnection(getApplicationContext()))
+        {
+          //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
+
+            Log.d("strArea", String.valueOf(strArea));
+            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName,strAddress , strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
             Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);
             call.enqueue(new Callback<ShippingAddrModel>() {
                 @Override
@@ -158,16 +161,16 @@ public class billingAddress extends AppCompatActivity {
                     ShippingAddrModel resource = response.body();
 
                     List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
-                    if ((resource.status).equals("success"))
-                    {
+                    if ((resource.status).equals("success")) {
 
-                        for (ShippingAddrModel.ShippingDatum dataList : datumList1)
-                        {
+                        for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
 
                             session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
 
                         }
                         session.saveTotal(resource.total, resource.total_savings);
+
+
 
 
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
@@ -192,16 +195,14 @@ public class billingAddress extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case android.R.id.home:
@@ -217,36 +218,5 @@ public class billingAddress extends AppCompatActivity {
         return true;
     }
 
-    public void addorder()
-    {
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-
-            Log.d("getToken", String.valueOf(session.getToken()));
-
-//            final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
-//
-//            Call<AddOrder> call = apiInterface.getCartList("api/order/add", session.getToken(),ordadddetails);
-//            call.enqueue(new Callback<AddOrder>() {
-//                @Override
-//                public void onResponse(Call<AddOrder> call, Response<AddOrder> response)
-//                {
-//                    AddOrder resource = response.body();
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<AddOrder> call, Throwable t) {
-//                    call.cancel();
-//                }
-//            });
-
-
-
-
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 }

@@ -32,7 +32,9 @@ import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.AddMoneytoWalletModel;
 import com.nisarga.nisargaveggiez.wallet.AddMoneyToWallet;
+import com.nisarga.nisargaveggiez.wallet.AddtoMoneyFailureAck;
 import com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck;
+import com.nisarga.nisargaveggiez.wallet.PaymentHistory;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,7 +86,7 @@ public class PayMentGateWay extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
+        Intent intent = new Intent(getApplicationContext(), PaymentHistory.class);
         progressDialog = new ProgressDialog(activity);
 
         session = new SessionManager(getApplicationContext());
@@ -331,11 +333,9 @@ public class PayMentGateWay extends Activity {
 	                    finish();*/
                    // new PostRechargeData().execute();
 
-                    addMoneyToWallet(paymentId,getRechargeAmt);
-
-                    Intent intent=new Intent(PayMentGateWay.this, AddtoMoneySuccessAck.class);
-                    intent.putExtra("test",getFirstName);
-                    startActivity(intent);
+                    //intent.putExtra("txnid", paymentId);
+                    testStatus(paymentId,getRechargeAmt,"success","Money Added to Wallet");
+                    Toast.makeText(getApplicationContext(),"Money added to wallet" ,Toast.LENGTH_LONG).show();
 
 
                 }
@@ -343,11 +343,12 @@ public class PayMentGateWay extends Activity {
         }
 
         @JavascriptInterface
-        public void failure(final String id, String error) {
+        public void failure(final String id, final String error) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     //cancelPayment();
+                    testStatus("",getRechargeAmt,"failure",error);
                     Toast.makeText(getApplicationContext(),"Cancel payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -368,6 +369,7 @@ public class PayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
+                    testStatus("",getRechargeAmt,"failure",params);
                     Toast.makeText(getApplicationContext(),"Failed payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -541,12 +543,12 @@ public class PayMentGateWay extends Activity {
 
     /******************************************* closed send record to back end ************************************/
 
-    public void addMoneyToWallet(String Txnid,String Amnt)
+    public void addMoneyToWallet(String Txnid,String Amnt,String status,String desc)
     {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final AddMoneytoWalletModel get_order_list = new AddMoneytoWalletModel("92",Txnid,Amnt);
+            final AddMoneytoWalletModel get_order_list = new AddMoneytoWalletModel(session.getCustomerId(),Txnid,Amnt,status,desc);
             Call<AddMoneytoWalletModel> call = apiInterface.addMoney(get_order_list);
             call.enqueue(new Callback<AddMoneytoWalletModel>() {
                 @Override
@@ -554,7 +556,6 @@ public class PayMentGateWay extends Activity {
                 {
 
                     AddMoneytoWalletModel resource = response.body();
-                    Toast.makeText(getApplicationContext(), "Money is Successfully added to wallet", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -570,6 +571,24 @@ public class PayMentGateWay extends Activity {
         }
 
 
+    }
+    public void testStatus(String txnId,String amount,String strStatus,String strDesc)
+    {
+        if(strStatus.equals("failure"))
+        {
+            addMoneyToWallet(txnId,amount,strStatus,strDesc);
+            Intent intent=new Intent(PayMentGateWay.this, AddtoMoneyFailureAck.class);
+            intent.putExtra("test",getFirstName);
+            startActivity(intent);
+
+        }
+        else
+        {
+            addMoneyToWallet(txnId,amount,strStatus,strDesc);
+            Intent intent=new Intent(PayMentGateWay.this, AddtoMoneySuccessAck.class);
+            intent.putExtra("test",getFirstName);
+            startActivity(intent);
+        }
     }
 
 }

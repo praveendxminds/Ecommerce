@@ -81,17 +81,23 @@ public class MyOrders extends AppCompatActivity {
                     MyOrderList resource = response.body();
 
                     List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
-
+                    if((resource.mstatus).equals("success"))
+                    {
                     for (MyOrderList.MyOrderListDatum orderList : datumList1) {
 
-                        mCartView.addView(new orderItem(MyOrders.this,orderList.sorder_id,orderList.sdate_added,
-                                orderList.sstatus,orderList.scancel ));
-                        session.storeCancelId(orderList.scancel);
-                        session.storeStatusOrder(orderList.sstatus);
+                            session.storeStatusOrder(orderList.sstatus);
+                            session.storeCancelId(orderList.scancel);
+                            mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
+                                    orderList.sstatus, orderList.scancel));
 
-                        Log.e("-----OrdersList--",orderList.sfirstname+" "+orderList.scancel);
+                            Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
 
+                        }
 
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),resource.msg,Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -52,7 +52,7 @@
                             android:text="Veggiez"
                             android:textAlignment="textStart"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:layout_marginLeft="20dp"/>
 
                         <TextView
@@ -63,7 +63,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="No items"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:layout_marginRight="20dp"/>
                     </LinearLayout>
 
@@ -75,9 +75,11 @@
                         <com.mindorks.placeholderview.PlaceHolderView
                             android:id="@+id/list_items"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:scrollbars="vertical"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp" />
                     </LinearLayout>
                 </RelativeLayout>
             </FrameLayout>
