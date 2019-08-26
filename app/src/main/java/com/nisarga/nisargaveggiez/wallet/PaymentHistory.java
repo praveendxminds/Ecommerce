@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
@@ -45,13 +47,14 @@ public class PaymentHistory extends AppCompatActivity {
     SessionManager session;
     APIInterface apiInterface;
     public String paymentId;
+    TextView tvEmptyPaymentHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_history);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        paymentId    =  getIntent().getExtras().getString("txnid");
+        paymentId = getIntent().getExtras().getString("txnid");
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
         setSupportActionBar(toolbar);
@@ -62,6 +65,7 @@ public class PaymentHistory extends AppCompatActivity {
         }
 
         recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
+        tvEmptyPaymentHistory = (TextView) findViewById(R.id.tvEmptyPaymentHistory);
         showListView();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_PayHistory);
         bottomNavigationView.setOnNavigationItemSelectedListener
@@ -101,24 +105,28 @@ public class PaymentHistory extends AppCompatActivity {
         bottomNavigationView.setItemIconSize(40);
     }
 
-    public void showListView()
-    {
+    public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             final TxnHistoryModel paymentHistoryModel = new TxnHistoryModel(session.getCustomerId());
             Call<TxnHistoryModel> call = apiInterface.getHistory(paymentHistoryModel);
-           call.enqueue(new Callback<TxnHistoryModel>() {
+            call.enqueue(new Callback<TxnHistoryModel>() {
                 @Override
                 public void onResponse(Call<TxnHistoryModel> call, Response<TxnHistoryModel> response) {
                     TxnHistoryModel resource = response.body();
+                    if ((resource.status).equals("success")) {
                     List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
-                    for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
-                            recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(),imgs.date, imgs.transaction_type,
-                                    imgs.description, imgs.amount,imgs.balance, imgs.type,imgs.status,paymentId));
+                        for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
+
+                            recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(), imgs.date, imgs.transaction_type,
+                                    imgs.description, imgs.amount, imgs.balance, imgs.type, imgs.status, paymentId));
 
                         }
+                    } else if ((resource.status).equals("failure")) {
+                        tvEmptyPaymentHistory.setVisibility(View.VISIBLE);
+                        recycler_payHistory.setVisibility(View.GONE);
                     }
                 }
+
 
                 @Override
                 public void onFailure(Call<TxnHistoryModel> call, Throwable t) {
@@ -142,24 +150,23 @@ public class PaymentHistory extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater miNotification = getMenuInflater();
-        miNotification.inflate(R.menu.notifi_and_info_menu,menu);
+        miNotification.inflate(R.menu.notifi_and_info_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
             case R.id.menu_notifi:
-                Intent intentNotifi = new Intent(getBaseContext(),MyNotifications.class);
+                Intent intentNotifi = new Intent(getBaseContext(), MyNotifications.class);
                 startActivity(intentNotifi);
                 break;
             case R.id.menu_info:
-                Intent intentInfo = new Intent(getBaseContext(),DeliveryInformation.class);
+                Intent intentInfo = new Intent(getBaseContext(), DeliveryInformation.class);
                 startActivity(intentInfo);
                 break;
         }

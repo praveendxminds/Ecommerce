@@ -124,9 +124,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         session = new SessionManager(getApplicationContext());
 
 
-
-
-
         init();
         initApiCall();
 
@@ -245,25 +242,24 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
                                 Intent intentHome = new Intent(HomePage.this, HomePage.class);
-                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
+                                finish();
                                 Intent intentCateg = new Intent(HomePage.this, CategoriesBottomNav.class);
-                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
+                                finish();
                                 Intent intentWishlist = new Intent(HomePage.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                finish();
                                 Intent intentWallet = new Intent(HomePage.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
 

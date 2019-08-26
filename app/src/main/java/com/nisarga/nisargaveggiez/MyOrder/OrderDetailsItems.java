@@ -50,7 +50,6 @@ public class OrderDetailsItems {
     public String mtitle;
     public String mordid;
     public String mord_prd_id;
-   //public String mCount;
     public Context mContext;
     public String str_priceValue,str_priceValue1;
     public String mWeight;
@@ -74,34 +73,53 @@ public class OrderDetailsItems {
     @Resolve
     public void onResolved() {
 
+        //image------
         Glide.with(mContext).load(murl).into(ivitemIconOrdDetails);
+
+        //---title--------
         tvPrdTitleOrdDetails.setText(mtitle);
-        //tv_qntyReorder.setText(mqty);
 
-        double dbl_Price_1 = Double.parseDouble(mnewPrice);//need to convert string to decimal
-        str_priceValue = String.format("%.2f",dbl_Price_1);//display only 2 decimal places of price
-        tvpriceNewOrdDetails.setText("\u20B9" + " " + str_priceValue );
-
-        if(moldPrice.equals("null"))
-        {
-            tvpriceOldOrdDetails.setVisibility(android.view.View.INVISIBLE);
+        //Actual price------
+        if (mnewPrice != null && !mnewPrice.isEmpty() && !mnewPrice.equals("null")) {
+            double dbl_Price_1 = Double.parseDouble(mnewPrice);//need to convert string to decimal
+            str_priceValue = String.format("%.2f", dbl_Price_1);//display only 2 decimal places of price
+            tvpriceNewOrdDetails.setText("\u20B9" + " " + str_priceValue);
         }
         else {
+            tvpriceNewOrdDetails.setText("\u20B9" + " " +"00.00");
+
+        }
+
+        //------old price-------
+        if (moldPrice != null && !moldPrice.isEmpty() && !moldPrice.equals("null")) {
+
             double dbl_Price_2 = Double.parseDouble(moldPrice);//need to convert string to decimal
             str_priceValue1 = String.format("%.2f", dbl_Price_2);//display only 2 decimal places of price
             tvpriceOldOrdDetails.setVisibility(android.view.View.VISIBLE);
             tvpriceOldOrdDetails.setText("\u20B9" + " " + str_priceValue1);
-        }
-        tv_qntyOrdDetails.setText(mWeight);
-        tvcountItemsOrdDetails.setText("Quantity"+" "+":"+" "+mqty);
-    }
-    @Click(R.id.cardOrderDetails)
-    public void onCardClick() {
-        Intent myIntent = new Intent(mContext, ProductDetailHome.class);
-        //myIntent.putExtra("prd_id", mordid);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(myIntent);
 
+        }
+        else {
+            tvpriceOldOrdDetails.setVisibility(android.view.View.INVISIBLE);
+        }
+
+        //-----weight-------
+        if (mWeight != null && !mWeight.isEmpty() && !mWeight.equals("null")) {
+            tv_qntyOrdDetails.setText(mWeight);
+        }
+        else {
+            tv_qntyOrdDetails.setVisibility(android.view.View.INVISIBLE);
+        }
+
+        //quantity--------------------
+        if (!mqty.equals("null") && !mqty.isEmpty()) {
+            tvcountItemsOrdDetails.setText("Quantity" + " " + ":" + " " + mqty);
+
+        }
+        else {
+            tvcountItemsOrdDetails.setText("Quantity" + " " + ":" + " " + "0");
+        }
     }
+
 
 }

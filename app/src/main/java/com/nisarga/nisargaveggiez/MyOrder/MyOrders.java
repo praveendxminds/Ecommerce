@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
@@ -51,6 +52,7 @@ public class MyOrders extends AppCompatActivity {
     public static BottomNavigationView navigationMyOrders;
     View view_count;
     APIInterface apiInterface;
+    TextView tvEmptyMyOrders;
    // public orderItem orderItem;
 
     @Override
@@ -61,12 +63,11 @@ public class MyOrders extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationMyOrders = findViewById(R.id.navigationMyOrders);
         mCartView = findViewById(R.id.recycler_order);
+        tvEmptyMyOrders = findViewById(R.id.tvEmptyMyOrders);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-          //  orderItem = new orderItem(MyOrders.this);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -83,22 +84,29 @@ public class MyOrders extends AppCompatActivity {
                     List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
                     if((resource.mstatus).equals("success"))
                     {
-                    for (MyOrderList.MyOrderListDatum orderList : datumList1) {
+                        if(datumList1.size()>0) {
+                            for (MyOrderList.MyOrderListDatum orderList : datumList1) {
 
-                            session.storeStatusOrder(orderList.sstatus);
-                            session.storeCancelId(orderList.scancel);
-                            mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
-                                    orderList.sstatus, orderList.scancel));
+                                session.storeStatusOrder(orderList.sstatus);
+                                session.storeCancelId(orderList.scancel);
+                                mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
+                                        orderList.sstatus, orderList.scancel));
 
-                            Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
+                                Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
 
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "No Orders", Toast.LENGTH_LONG).show();
                         }
 
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),resource.msg,Toast.LENGTH_SHORT).show();
-                    }
+
+                    else if (resource.mstatus.equals("failure")) {
+                        tvEmptyMyOrders.setVisibility(View.VISIBLE);
+                        mCartView.setVisibility(View.GONE);
+                        }
                 }
 
 

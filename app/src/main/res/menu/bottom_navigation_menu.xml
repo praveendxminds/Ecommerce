@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
     <item
         android:id="@+id/navigation_home"
+        android:checked="true"
         android:icon="@drawable/home_selector"
         android:title="Home" />
 
     <item
         android:id="@+id/navigation_categories"
+        android:checked="true"
         android:icon="@drawable/categories_selector"
         android:title="Categories" />
 
     <item
         android:id="@+id/navigation_wishlist"
+        android:checked="true"
         android:icon="@drawable/wishlist_selector"
         android:title="Wish List" />
 
     <item
         android:id="@+id/navigation_wallet"
+        android:checked="true"
         android:icon="@drawable/wallet_selector"
         android:title="Wallet" />
 </menu>

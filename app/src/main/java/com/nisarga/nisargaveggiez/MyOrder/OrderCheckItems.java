@@ -40,8 +40,9 @@ public class OrderCheckItems extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chk_items_holder);
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        order_id = getIntent().getExtras().getString("order_id", "1");
         session = new SessionManager(getApplicationContext());
+        order_id = getIntent().getExtras().getString("order_id", null);
+
         str_custid = session.getCustomerId();
 
         toolbar = findViewById(R.id.toolbar);
@@ -56,19 +57,25 @@ public class OrderCheckItems extends AppCompatActivity {
 
     public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            ReorderItemsModel reorderModel = new ReorderItemsModel("1", "1");
+            ReorderItemsModel reorderModel = new ReorderItemsModel(session.getCustomerId(), order_id);
             Call<ReorderItemsModel> callReorderItems = apiInterface.showReorderItems(reorderModel);
             callReorderItems.enqueue(new Callback<ReorderItemsModel>() {
                 @Override
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
-                        for (ReorderItemsModel.ReorderResult reorderData : result) {
-                            phvGetItems.addView(new OrderChkItemsList(getApplicationContext(), reorderData.order_id,
-                                    reorderData.order_product_id, reorderData.name, reorderData.weight_classes,
-                                    reorderData.quantity, reorderData.price, reorderData.revised_price));
+                        if(result.size()>0) {
+                            for (ReorderItemsModel.ReorderResult reorderData : result) {
+                                phvGetItems.addView(new OrderChkItemsList(getApplicationContext(), reorderData.order_id,
+                                        reorderData.order_product_id, reorderData.name, reorderData.weight_classes,
+                                        reorderData.quantity, reorderData.price, reorderData.revised_price));
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "No Items", Toast.LENGTH_LONG).show();
+
                         }
                     } else if (resourcesReorder.status.equals("failure")) {
                         Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
@@ -77,7 +84,7 @@ public class OrderCheckItems extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ReorderItemsModel> call, Throwable t) {
-
+                        call.cancel();
                 }
             });
 

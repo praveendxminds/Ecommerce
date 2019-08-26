@@ -117,9 +117,7 @@ public class orderItem {
         String delivDate = sdf.format(new Date(localTime.getTime()));
         deliveryDateOrder.setText("Delivered on" + " " + delivDate);
 
-        chkStatus = session.getStatusOrder();
-
-        if (chkStatus.equals("Canceled")) {
+        if (mstatus.equals("Canceled")) {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
@@ -148,7 +146,7 @@ public class orderItem {
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
-        } else if (chkStatus.equals("Pending")) {
+        } else if (mstatus.equals("Pending")) {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setVisibility(android.view.View.GONE);
@@ -157,18 +155,15 @@ public class orderItem {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
-            deliveredOrder.setText(mstatus);
+            deliveredOrder.setText("Delivered");
         }
-        // session.storeStatusOrder(null);
 
-        chkCancel = session.getCancelId();
-        if (chkCancel.equals("0")) {
+        if (mcancel.equals("0")) {
             btnCancelOrder.setVisibility(android.view.View.GONE);
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
         }
-        // session.storeCancelId(null);
 
     }
 
@@ -205,7 +200,7 @@ public class orderItem {
             public void onClick(android.view.View v) {
                 //api-call
                 if (Utils.CheckInternetConnection(mContext)) {
-                    final CancelOrderModel get_order_list = new CancelOrderModel(morderId);
+                    final CancelOrderModel get_order_list = new CancelOrderModel(morderId,session.getCustomerId());
                     Call<CancelOrderModel> call = apiInterface.cancelOrder(get_order_list);
                     call.enqueue(new Callback<CancelOrderModel>() {
                         @Override
@@ -213,6 +208,11 @@ public class orderItem {
 
                             CancelOrderModel resource = response.body();
                             Toast.makeText(mContext, resource.message, Toast.LENGTH_SHORT).show();
+                            btnCancelOrder.setVisibility(android.view.View.GONE);
+                            canceledOrder.setVisibility(android.view.View.VISIBLE);
+                            pendingOrder.setVisibility(android.view.View.GONE);
+                            deliveredOrder.setVisibility(android.view.View.GONE);
+                            canceledOrder.setText("Canceled");
                             alertDialog.dismiss();
 
                         }
@@ -265,7 +265,7 @@ public class orderItem {
             public void onClick(android.view.View v) {
                 Intent myIntent = new Intent(mContext, ReorderHolder.class);
                 myIntent.putExtra("order_id", morderId);
-                // myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(myIntent);
             }
         });

@@ -32,12 +32,21 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:background="@color/white"
+            android:layout_above="@id/navigationMyOrders"
             android:paddingRight="12dp"
             android:paddingLeft="12dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp">
 
         </com.mindorks.placeholderview.PlaceHolderView>
+        <TextView
+            android:id="@+id/tvEmptyMyOrders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/recycler_order"
+            android:gravity="center"
+            android:text="Your Order List is Empty."
+            android:visibility="gone" />
 
 
         <android.support.design.widget.BottomNavigationView

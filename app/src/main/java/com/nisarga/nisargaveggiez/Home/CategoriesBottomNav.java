@@ -1,20 +1,27 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,11 +36,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -41,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
@@ -48,10 +53,12 @@ import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
 import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
+import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
-import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
+import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
+import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
@@ -66,11 +73,15 @@ import com.nisarga.nisargaveggiez.retrofit.ShopByCategModel;
 import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.ExpandablePlaceHolderView;
 
+import java.io.File;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,45 +89,29 @@ import retrofit2.Response;
 public class CategoriesBottomNav extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     APIInterface apiInterface;
-    private ExpandablePlaceHolderView phviewCategList;
-    private ProgressBar pbarLoading;
-    private EditText searchEditText;
-    public static TextView textCartItemCount;
-    public static BottomNavigationView bottomNavigationView;
     SessionManager session;
-    private Toolbar mToolbarShopBy;
+    ProgressDialog progressdialog;
+    public static TextView headerCartCount;
+
+    public static final int PICK_IMAGE_REQUEST = 1;
+    private static final int REQUEST_WRITE_PERMISSION = 786;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-
-    private DrawerLayout drawerLayoutShopBy;
-    NavigationView navigationView;
-    private LinearLayout llLeftMenuLogOut;
-    View headerView;
-    private ImageView ivEditProfile;
-    private TextView tvName, tvEmail, tvMobileNo;
-    private LinearLayout llProfileIcon, llProfileDesc;
-    private ImageView ivProfilePic;
-    String strSearchKey;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_layout);
 
+        progressdialog = new ProgressDialog(CategoriesBottomNav.this);
+        progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
+
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        drawerLayoutShopBy = findViewById(R.id.drawerLayoutShopBy);
-        phviewCategList = findViewById(R.id.phviewCategList);
-        pbarLoading = findViewById(R.id.pBarloading);
-
-        mToolbarShopBy = findViewById(R.id.toolbarShopBy);
-        setSupportActionBar(mToolbarShopBy);
-        getSupportActionBar().setTitle(null);
-
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationShopBy);
-        AndroidNetworking.initialize(getApplicationContext());
 
         init();
+        initApiCall();
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -130,13 +125,46 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                 }
             }
         };
-        showLeftMenu();
+
         displayFirebaseRegId();
-        initBottomNavigation();
     }
 
-    public void showLeftMenu() {
-        //-----------------------------------------------------------------------------------
+    Toolbar mToolbarShopBy;
+    ProgressBar pbarLoading;
+    LinearLayout llProfileIcon;
+    CircleImageView ivToolbarProfile;
+    ExpandablePlaceHolderView phviewCategList;
+    BottomNavigationView bottomNavigationView;
+    DrawerLayout drawerLayoutShopBy;
+
+    NavigationView navigationView;
+    View headerView;
+    TextView tvName, tvEmail, tvMobileNo;
+    LinearLayout llProfileDesc, llEditProfile, llLeftMenuLogOut;
+    CircleImageView ivProfilePic;
+
+    EditText searchEditText;
+    String strSearchKey;
+
+    private String imagepath = null;
+    String strProfilePic = "null";
+
+    public void init() {
+        mToolbarShopBy = (Toolbar) findViewById(R.id.toolbarShopBy);
+        setSupportActionBar(mToolbarShopBy);
+        getSupportActionBar().setTitle(null);
+
+        pbarLoading = findViewById(R.id.pBarloading);
+        pbarLoading.setVisibility(View.VISIBLE);
+        llProfileIcon = findViewById(R.id.llProfileIcon);
+        ivToolbarProfile = findViewById(R.id.ivToolbarProfile);
+
+        phviewCategList = findViewById(R.id.phviewCategList);
+        bottomNavigationView = findViewById(R.id.navigationShopBy);
+        drawerLayoutShopBy = findViewById(R.id.drawerLayoutShopBy);
+        AndroidNetworking.initialize(getApplicationContext());
+
+        //  -----------Navigation Menu--------
         navigationView = (NavigationView) findViewById(R.id.nav_viewShopByCateg);
         headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
@@ -145,9 +173,8 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
         llProfileDesc = headerView.findViewById(R.id.llProfileDesc);
-        llProfileIcon = headerView.findViewById(R.id.llProfileIcon);
+        llEditProfile = headerView.findViewById(R.id.llEditProfile);
         ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
-        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
         llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
         //--------------------------------------------------------------------------------
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
@@ -158,13 +185,13 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
 
-//        ivEditProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
-//                startActivity(intentEditProfile);
-//            }
-//        });
+        llEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
+                startActivity(intentEditProfile);
+            }
+        });
 
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,15 +204,56 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         });
 
 
-      /*  llProfileIcon.setOnClickListener(new View.OnClickListener() {
+        llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayoutShopBy.openDrawer(Gravity.LEFT);
             }
-        });*/
+        });
+
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFile();
+            }
+        });
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        finish();
+                        Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
+                        startActivity(intentHome);
+                        break;
+
+                    case R.id.navigation_categories:
+                        Intent intentCateg = new Intent(CategoriesBottomNav.this, CategoriesBottomNav.class);
+                        startActivity(intentCateg);
+                        break;
+
+                    case R.id.navigation_wishlist:
+                        finish();
+                        Intent intentWishlist = new Intent(CategoriesBottomNav.this, WishListHolder.class);
+                        startActivity(intentWishlist);
+                        break;
+
+                    case R.id.navigation_wallet:
+                        finish();
+                        Intent intentWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
+                        startActivity(intentWallet);
+                        break;
+                }
+                return true;
+            }
+        });
+
+        bottomNavigationView.setItemIconSize(40);
     }
 
-    public void init() {
+    private void initApiCall() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             Call<ShopByCategModel> call = apiInterface.getShopByCateg();
             call.enqueue(new Callback<ShopByCategModel>() {
@@ -193,8 +261,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                 public void onResponse(Call<ShopByCategModel> call, Response<ShopByCategModel> response) {
                     ShopByCategModel resource = response.body();
                     if (resource.status.equals("success")) {
-                        pbarLoading.setVisibility(View.INVISIBLE);
-                        Toast.makeText(CategoriesBottomNav.this, resource.message, Toast.LENGTH_LONG).show();
                         List<ShopByCategModel.ResultDatum> datumList = resource.result;
                         for (ShopByCategModel.ResultDatum datum : datumList) {
                             phviewCategList.addView(new ShopByCategItems(getApplicationContext(), datum.category_id,
@@ -205,9 +271,8 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                                         datum_1.product_id, datum_1.product_name));
                             }
                         }
-                    } else {
-                        Toast.makeText(CategoriesBottomNav.this, "Error", Toast.LENGTH_LONG).show();
                     }
+                    pbarLoading.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -215,10 +280,42 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                     call.cancel();
                 }
             });
-
-
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+
+                            Glide.with(CategoriesBottomNav.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivProfilePic);
+
+                            Glide.with(CategoriesBottomNav.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivToolbarProfile);
+
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -226,8 +323,37 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuShopBy = getMenuInflater();
         menuShopBy.inflate(R.menu.toolbar_search, menu);
+
         MenuItem cart_menuItem = menu.findItem(R.id.cartmenu);
         FrameLayout rootView = (FrameLayout) cart_menuItem.getActionView();
+        headerCartCount = (TextView) rootView.findViewById(R.id.cart_badge);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    //------------------------------------- My profile view section------------------------------------------------
+                    Call<CartCount> call = apiInterface.getCartCount("api/cart/cartcount", session.getToken());
+                    call.enqueue(new Callback<CartCount>() {
+                        @Override
+                        public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                            CartCount cartCount = response.body();
+                            if (cartCount.status.equals("success")) {
+                                headerCartCount.setText(cartCount.data);
+                                session.cartcount(Integer.parseInt(cartCount.data));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CartCount> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 500);
 
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,7 +391,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         searchMagIcon.setPadding(0, 0, 0, 0);
         searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
 
 
         searchEditText = (EditText) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -355,44 +480,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         String regId = pref.getString("regId", null);
     }
 
-    private void initBottomNavigation() {
-        bottomNavigationView.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
-                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentHome);
-                                break;
-
-                            case R.id.navigation_categories:
-                                Intent intentCateg = new Intent(CategoriesBottomNav.this, CategoriesBottomNav.class);
-                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentCateg);
-                                break;
-
-                            case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(CategoriesBottomNav.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentWishlist);
-                                break;
-
-                            case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentWallet);
-                                break;
-
-                        }
-                        return true;
-                    }
-                });
-        bottomNavigationView.setItemIconSize(40);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -471,5 +558,119 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
 
         navigationView.setItemTextColor(navMenuTextList);
         navigationView.setItemIconTintList(navMenuIconList);
+    }
+
+    public void pickFile() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_PERMISSION);
+            return;
+        }
+        openGallery();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            imagepath = getPath(filePath);
+            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
+//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+//          ivProfile.setImageBitmap(bitmap);
+
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        imagePath(imagepath);
+                        Log.e("----imagepath---", "" + imagepath);
+
+                    }
+                }).start();
+            }
+        }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    private void imagePath(String imagepath) {
+        try {
+            progressdialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        File file0 = new File(imagepath);
+        RequestBody requestFile0 = RequestBody.create(MediaType.parse("image"), file0);
+
+        MultipartBody.Part img1 = MultipartBody.Part.createFormData("file", file0.getName(),
+                requestFile0);
+
+        Call<SignUpImageResponse> call = apiInterface.signupImageUpload(img1);
+        call.enqueue(new Callback<SignUpImageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<SignUpImageResponse> call, @NonNull Response<SignUpImageResponse> response) {
+                SignUpImageResponse responseModel = response.body();
+                if (responseModel.status.equals("success")) {
+                    strProfilePic = responseModel.profile_url;
+                    if (Utils.CheckInternetConnection(getApplicationContext())) {
+                        navImageUpload(strProfilePic);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SignUpImageResponse> call, @NonNull Throwable t) {
+                Log.d("val", "Exception");
+            }
+        });
+    }
+
+    private void navImageUpload(String strProfilePic) {
+        final NavEditImage navEditImage = new NavEditImage(session.getCustomerId(), strProfilePic);
+
+        Call<NavEditImage> call = apiInterface.nav_edit_image(navEditImage);
+        call.enqueue(new Callback<NavEditImage>() {
+            @Override
+            public void onResponse(Call<NavEditImage> call, Response<NavEditImage> response) {
+                NavEditImage responsedata = response.body();
+                if (responsedata.status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), responsedata.message, Toast.LENGTH_SHORT).show();
+                }
+                progressdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<NavEditImage> call, Throwable t) {
+                call.cancel();
+
+            }
+        });
     }
 }

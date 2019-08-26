@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="3"
                 android:orientation="vertical">
 
@@ -99,7 +99,7 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
@@ -134,7 +134,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -150,7 +150,9 @@
                         android:id="@+id/btnAddCart"
                         android:layout_width="60dp"
                         android:layout_height="25dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/addbutton"
+                        android:duplicateParentState="true"
                         android:visibility="visible" />
 
                 </LinearLayout>
@@ -166,20 +168,22 @@
                     <LinearLayout
                         android:id="@+id/lldecreasePrdCount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center">
+                        android:layout_height="match_parent"
+                        android:layout_weight=".3"
+                        android:gravity="bottom|center">
 
                         <ImageButton
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:background="@drawable/blackdecre" />
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/blackdecre"
+                            android:duplicateParentState="true" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_height="match_parent"
+                        android:layout_weight=".39">
 
                         <TextView
                             android:id="@+id/tvProductCount"
@@ -187,8 +191,10 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="2"
+                            android:gravity="bottom|center"
+                            android:paddingBottom="10dp"
+                            android:text="0"
+
                             android:textSize="13sp"
                             tools:textColor="@android:color/black" />
                     </LinearLayout>
@@ -196,14 +202,16 @@
                     <LinearLayout
                         android:id="@+id/llincreasePrdCount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center">
+                        android:layout_height="match_parent"
+                        android:layout_weight=".3"
+                        android:gravity="bottom|center">
 
                         <ImageButton
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:background="@drawable/blackincr" />
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/blackincr"
+                            android:duplicateParentState="true" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

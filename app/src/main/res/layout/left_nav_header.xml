@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="left|center"
-                android:text="Amaresh Chandra"
+                android:text=""
                 android:textColor="@color/light_black_2"
                 android:textSize="16sp" />
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="amaresh.chandra@gmail.com"
+                android:text=""
                 android:textColor="@color/light_black_2"
                 android:textSize="10sp"
                 android:textStyle="normal" />
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
-                android:text="+918335960237"
+                android:text=""
                 android:textColor="@color/light_black_2"
                 android:textSize="10sp"
                 android:textStyle="normal" />

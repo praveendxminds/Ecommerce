@@ -41,6 +41,15 @@
 
         </com.mindorks.placeholderview.PlaceHolderView>
 
+        <TextView
+            android:id="@+id/tvEmptyPaymentHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/recycler_payHistory"
+            android:gravity="center"
+            android:text="Your Payment History is Empty."
+            android:visibility="gone" />
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bnav_PayHistory"
             android:layout_width="match_parent"
