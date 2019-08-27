@@ -85,15 +85,17 @@ public class HomePageRecommendedItemList {
     String product_option_id[], product_option_value_id[], product_price[];
     String sQuantitySpinner, option_id, option_value_id, price;
     String productPrice;
+    Object spnrqty;
 
     public HomePageRecommendedItemList(Context context, String product_id, String image_url, String prod_name,
-                                       String prod_discount, String addCart) {
+                                       String prod_discount, String addCart,Object spnrqty) {
         this.mContext = context;
         this.sProductId = product_id;
         this.sProductImage = image_url;
         this.sProductName = prod_name;
         this.sProductDis = prod_discount;
         this.sAddCart = addCart;
+        this.spnrqty = spnrqty;
     }
 
     @Resolve

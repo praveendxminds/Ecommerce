@@ -65,6 +65,13 @@ public class ProductslHomePage {
 
         @SerializedName("discount_price")
         public String discount_price;
+
+        @SerializedName("weight_classes")
+        public Object weight_classes;
+
+        @SerializedName("options")
+        public Object options;
+
     }
 
     public class DealOfDayList {
@@ -89,7 +96,14 @@ public class ProductslHomePage {
 
         @SerializedName("discount_price")
         public String discount_price;
+
+        @SerializedName("weight_classes")
+        public Object weight_classes;
+
+        @SerializedName("options")
+        public Object options;
     }
+
 
     public class Products {
 
@@ -113,6 +127,13 @@ public class ProductslHomePage {
 
         @SerializedName("discount_price")
         public String discount_price;
+
+        @SerializedName("weight_classes")
+        public Object weight_classes;
+
+        @SerializedName("options")
+        public Object options;
+
     }
 }
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -35,28 +34,25 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
+import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
-import com.nisarga.nisargaveggiez.ProfileSection.GoogleFeedback_act;
+import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
+import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
-import com.nisarga.nisargaveggiez.ProfileSection.Offers_act;
-import com.nisarga.nisargaveggiez.ProfileSection.RateUs_act;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.R;
@@ -64,7 +60,6 @@ import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.TermsConditions;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.Wishlist.WishListHolder;
-import com.nisarga.nisargaveggiez.adapter.AutoCompleteAdapter;
 import com.nisarga.nisargaveggiez.adapter.RemoteData;
 import com.nisarga.nisargaveggiez.cart.cart;
 import com.nisarga.nisargaveggiez.fcm.NotificationUtils;
@@ -72,15 +67,14 @@ import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
-import com.nisarga.nisargaveggiez.retrofit.CancelOrderModel;
-import com.nisarga.nisargaveggiez.retrofit.EarnReferal;
 import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.File;
+import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -95,7 +89,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
 
-
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private static ProductSearch instance;
     private Toolbar mToolbarHomePage;
@@ -103,52 +96,39 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private String imagepath = null;
     String strProfilePic = "null";
 
+    BottomNavigationView bottomNavigationView;
 
-    public static TextView textCartItemCount;
-    public static BottomNavigationView bottomNavigationView;
-    public Context mContext;
-
-    private ProgressBar progressBarHomePage;
-    private LinearLayout llProfileIcon, llProfileDesc;
-    private AutoCompleteTextView searchEditText;
-    private DrawerLayout drwLayout;
-    private ImageView ivProfilePic;
-    private ImageView ivEditProfile;
-    private TextView tvName, tvEmail, tvMobileNo;
-    private Button btnEditProfilePic;
-    private ImageButton imgBtnProfile;
+    LinearLayout llProfileIcon, llProfileDesc, llEditProfile;
+    ImageButton ivbtnNotification, ivbtnCart;
+    DrawerLayout drwLayout;
+    TextView tvName, tvEmail, tvMobileNo;
+    CircleImageView ivToolbarPic, ivProfilePic;
     NavigationView navigationView;
-    private LinearLayout llLeftMenuLogOut;
+    LinearLayout llLeftMenuLogOut;
     View headerView;
-    String custId;
-    String strSearchKey;
-    private AutoCompleteTextView storeTV;
+    AutoCompleteTextView storeTV;
     ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_search);
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
-        mContext = this.getApplicationContext();
         instance = this;
 
         progressdialog = new ProgressDialog(ProductSearch.this);
         progressdialog.setMessage("Please Wait....");
-
 
         RemoteData remoteData = new RemoteData(this);
         remoteData.getStoreData();
 
         storeTV = (AutoCompleteTextView) findViewById(R.id.store);
         storeTV.requestFocus();
-        //storeTV.setOnItemClickListener(onItemClickListener);
-
 
         AndroidNetworking.initialize(getApplicationContext());
         init();
-        initBottomNavigation();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -176,25 +156,25 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(mToolbarHomePage);
         getSupportActionBar().setTitle(null);
 
-        llProfileIcon = (LinearLayout) findViewById(R.id.llProfileIcon);
-        imgBtnProfile = findViewById(R.id.imgBtnProfile);
+        llProfileIcon =  findViewById(R.id.llProfileIcon);
+        ivToolbarPic = findViewById(R.id.ivToolbarPic);
+        ivbtnNotification = findViewById(R.id.ivbtnNotification);
+        ivbtnCart = findViewById(R.id.ivbtnCart);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigationHomePage);
         drwLayout = findViewById(R.id.drwLayout);
 
-
         //-----------------------------------------------------------------------------------
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         headerView = navigationView.getHeaderView(0);
-        //btnEditProfilePic = headerView.findViewById(R.id.btnEditProfilePic);
+        navigationView.setNavigationItemSelectedListener(this);
+        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
-        llProfileDesc = (LinearLayout) headerView.findViewById(R.id.llProfileDesc);
+        llProfileDesc = headerView.findViewById(R.id.llProfileDesc);
+        llEditProfile = headerView.findViewById(R.id.llEditProfile);
         ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
-        ivEditProfile = headerView.findViewById(R.id.ivEditProfile);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         llLeftMenuLogOut = findViewById(R.id.llleftMenuLogOut);
         //--------------------------------------------------------------------------------
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
@@ -205,21 +185,24 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             }
         });
 
-//        ivEditProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
-//                startActivity(intentEditProfile);
-//            }
-//        });
+        llEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
+                startActivity(intentEditProfile);
+            }
+        });
+
         llLeftMenuLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //session.checkLogin();
                 session.logoutUser();
+                Intent intent = new Intent(ProductSearch.this, Login_act.class);
+                startActivity(intent);
             }
         });
-        imgBtnProfile.setOnClickListener(new View.OnClickListener() {
+
+        llProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drwLayout.openDrawer(Gravity.LEFT);
@@ -233,43 +216,73 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             }
         });
 
-    }
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        finish();
+                        Intent intentHomePage = new Intent(ProductSearch.this, ProductSearch.class);
+                        startActivity(intentHomePage);
+                        break;
 
-    private void initBottomNavigation() {
-        bottomNavigationView.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                Intent intentHomePage = new Intent(ProductSearch.this, ProductSearch.class);
-                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentHomePage);
-                                break;
+                    case R.id.navigation_categories:
+                        finish();
+                        Intent intentCategories = new Intent(ProductSearch.this, CategoriesBottomNav.class);
+                        startActivity(intentCategories);
+                        break;
 
-                            case R.id.navigation_categories:
-                                Intent intentCategories = new Intent(ProductSearch.this, CategoriesBottomNav.class);
-                                intentCategories.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentCategories);
-                                break;
+                    case R.id.navigation_wishlist:
+                        finish();
+                        Intent intentWishlist = new Intent(ProductSearch.this, WishListHolder.class);
+                        startActivity(intentWishlist);
+                        break;
 
-                            case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(ProductSearch.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentWishlist);
-                                break;
-
-                            case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                startActivity(intentWallet);
-                                break;
-                        }
-                        return true;
-                    }
-                });
+                    case R.id.navigation_wallet:
+                        finish();
+                        Intent intentWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
+                        startActivity(intentWallet);
+                        break;
+                }
+                return true;
+            }
+        });
         bottomNavigationView.setItemIconSize(40);
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+
+                            Glide.with(ProductSearch.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivProfilePic);
+
+                            Glide.with(ProductSearch.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .into(ivToolbarPic);
+
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -279,7 +292,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         return true;
     }
 
@@ -291,25 +303,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 //           // Log.d("Firebase reg i: ", String.valueOf(customer.getTitle()));
 //        }
 //    };
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.notification:
-                Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(notificationIntent);
-                break;
-
-            case R.id.cartmenu:
-                Intent DeliveryIntent = new Intent(getBaseContext(), cart.class);
-                DeliveryIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(DeliveryIntent);
-                break;
-        }
-        return true;
-    }
 
     // Fetches reg id from shared preferences
     // and displays on the screen
@@ -328,7 +321,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
-
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(fcmConfig.REGISTRATION_COMPLETE));
@@ -348,14 +340,14 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         super.onPause();
     }
 
-    @Override
+/*    @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         drwLayout.closeDrawers();
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -365,12 +357,15 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             menuItem.setEnabled(true);
             Intent intentHome = new Intent(ProductSearch.this, ProductSearch.class);
             startActivity(intentHome);
+
         } else if (id == R.id.menuleft_myorders) {
             Intent intentMyOrder = new Intent(ProductSearch.this, MyOrders.class);
             startActivity(intentMyOrder);
+
         } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
+
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(ProductSearch.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
@@ -394,22 +389,16 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
             ivLike.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View view)
-                {
-
-
-                    final RateModel ref = new RateModel(session.getCustomerId(),"1");
+                public void onClick(android.view.View view) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), "1");
                     Call<RateModel> calledu = apiInterface.setrate(ref);
                     calledu.enqueue(new Callback<RateModel>() {
                         @Override
                         public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
                             final RateModel resource = response.body();
-                            if (resource.status.equals("success"))
-                            {
+                            if (resource.status.equals("success")) {
                                 Log.d("ivsuccess", "onResponse: ");
-                            }
-                            else if (resource.status.equals("error"))
-                            {
+                            } else if (resource.status.equals("error")) {
 
                             }
                         }
@@ -419,28 +408,21 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                             calledu.cancel();
                         }
                     });
-
-
                 }
             });
 
             ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View view)
-                {
-
-                    final RateModel ref = new RateModel(session.getCustomerId(),"0");
+                public void onClick(android.view.View view) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), "0");
                     Call<RateModel> calledu = apiInterface.setrate(ref);
                     calledu.enqueue(new Callback<RateModel>() {
                         @Override
                         public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
                             final RateModel resource = response.body();
-                            if (resource.status.equals("success"))
-                            {
+                            if (resource.status.equals("success")) {
                                 Log.d("ivfail", "onResponse: ");
-                            }
-                            else if (resource.status.equals("error"))
-                            {
+                            } else if (resource.status.equals("error")) {
 
                             }
                         }
@@ -450,22 +432,18 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                             calledu.cancel();
                         }
                     });
-
-
                 }
             });
 
             ivClose.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View view)
-                {
+                public void onClick(android.view.View view) {
                     alertDialog.cancel();
                 }
             });
             btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(android.view.View v)
-                {
+                public void onClick(android.view.View v) {
                     alertDialog.cancel();
                 }
             });
@@ -480,7 +458,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             Intent intentTerms = new Intent(ProductSearch.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-
             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -488,18 +465,15 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
             }
 
-
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(ProductSearch.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     public void setNavMenuItemThemeColors(int color, int icolor) {
         //Setting default colors for menu item Text and Icon
@@ -653,6 +627,4 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             }
         });
     }
-
-
 }

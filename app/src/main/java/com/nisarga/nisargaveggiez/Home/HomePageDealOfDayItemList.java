@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +12,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
@@ -26,7 +33,12 @@ import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -88,15 +100,17 @@ public class HomePageDealOfDayItemList {
     String product_option_id[], product_option_value_id[], product_price[];
     String sQuantitySpinner, option_id, option_value_id, price;
     String productPrice;
+    Object spnrqty;
 
     public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name,
-                                     String prod_discount, String addCart) {
+                                     String prod_discount, String addCart,Object spnrqty) {
         this.mContext = context;
         this.sProductId = product_id;
         this.sProductImage = image_url;
         this.sProductName = prod_name;
         this.sProductDis = prod_discount;
         this.sAddCart = addCart;
+        this.spnrqty = spnrqty;
     }
 
     @Resolve
@@ -105,9 +119,18 @@ public class HomePageDealOfDayItemList {
         Glide.with(mContext).load(sProductImage).into(ivProductImage);
         tvItemName.setText(sProductName);
 
+
+
+
+
+
+
+
+
         if (sProductDis.equals("null")) {
             tvOldPrice.setVisibility(android.view.View.INVISIBLE);
-        } else {
+        } else
+            {
             double dbl_Discount = Double.parseDouble(sProductDis);//need to convert string to decimal
             String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
             tvOldPrice.setVisibility(android.view.View.VISIBLE);
@@ -145,13 +168,32 @@ public class HomePageDealOfDayItemList {
                         product_option_value_id = new String[datumList.size()];
                         product_price = new String[datumList.size()];
                         int i = 0;
-                        for (QuantityList.Datum datum : datumList) {
-                            product_qty_list.add(datum.name);
-                            product_option_id[i] = datum.product_option_id;
-                            product_option_value_id[i] = datum.product_option_value_id;
-                            product_price[i] = datum.price;
-                            i++;
+//                        for (QuantityList.Datum datum : datumList) {
+//                            product_qty_list.add(datum.name);
+//                            product_option_id[i] = datum.product_option_id;
+//                            product_option_value_id[i] = datum.product_option_value_id;
+//                            product_price[i] = datum.price;
+//                            i++;
+//                        }
+
+
+                        if(!spnrqty.equals("null"))
+                        {
+                            JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
+                            for (int ii = 0; ii < jsonElements.size(); ii++)
+                            {
+                                Log.d("qqqqqqqqqqqqqqq", String.valueOf(jsonElements.get(ii).getAsJsonObject().get("name")));
+                                product_qty_list.add(String.valueOf(jsonElements.get(ii).getAsJsonObject().get("name")).replace("\"", ""));
+                                product_option_id[i] = String.valueOf(jsonElements.get(ii).getAsJsonObject().get("product_option_id")).replace("\"", "");
+                                product_option_value_id[i] = String.valueOf(jsonElements.get(ii).getAsJsonObject().get("product_option_value_id")).replace("\"", "");
+                                product_price[i] = String.valueOf(jsonElements.get(ii).getAsJsonObject().get("price")).replace("\"", "");
+                            }
                         }
+                        else
+                        {
+
+                        }
+
                     }
 
                     ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,

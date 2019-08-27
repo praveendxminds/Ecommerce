@@ -21,23 +21,6 @@
             android:layout_below="@+id/toolbarHomePage"
             android:orientation="vertical">
 
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/store_til"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="70dp"-->
-                <!--android:layout_marginBottom="0dp"-->
-                <!--android:paddingTop="0dp"-->
-                <!--android:layout_marginTop="0dp">-->
-                <!--&lt;!&ndash;<AutoCompleteTextView&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:id="@+id/store"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:background="@android:color/transparent"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:hint="Search">&ndash;&gt;-->
-                <!--&lt;!&ndash;</AutoCompleteTextView>&ndash;&gt;-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
-
         </LinearLayout>
 
         <android.support.design.widget.BottomNavigationView
@@ -45,37 +28,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/whiteshadow"
+            app:itemBackground="@color/white"
             app:itemTextColor="@color/light_black_2"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_navigation_menu" />
+
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/rlNavMenu"
         android:layout_width="281dp"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_gravity="left"
+        android:background="@color/white"
         android:orientation="vertical">
-
-
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_viewHomePage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:itemBackground="@color/white"
-            android:background="@color/white"
-            app:menu="@menu/left_menu_drawer"
-            app:theme="@style/LeftNavTheme"
-            app:headerLayout="@layout/left_nav_header"
-            android:theme="@style/NavigationView"
-            app:itemIconPadding="12dp"
             android:layout_margin="0dp"
-            >
+            android:background="@color/white"
+            android:fitsSystemWindows="true"
+            android:theme="@style/NavigationView"
+            app:headerLayout="@layout/left_nav_header"
+            app:itemBackground="@color/white"
+            app:itemIconPadding="12dp"
+            app:menu="@menu/left_menu_drawer"
+            app:theme="@style/LeftNavTheme">
 
             <LinearLayout
                 android:id="@+id/llleftMenuLogOut"
@@ -84,40 +65,39 @@
                 android:layout_gravity="bottom"
                 android:background="@color/white"
                 android:orientation="vertical">
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#454A4A4A" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="16dp"
                     android:duplicateParentState="true"
-                    >
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="22dp"
-                    android:background="@drawable/logout_yellow"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center"
-                    android:duplicateParentState="true"
-                  />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textSize="14sp"
-                    android:textColor="@color/light_black_1"
-                    android:text="Logout"
-                    android:layout_marginLeft="16dp"
-                    android:layout_gravity="center"
-                    android:duplicateParentState="true"
-                    />
+                    android:paddingLeft="16dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/logout_yellow"
+                        android:duplicateParentState="true"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:duplicateParentState="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Logout"
+                        android:textColor="@color/light_black_1"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.design.widget.NavigationView>
     </LinearLayout>
-
-
 </android.support.v4.widget.DrawerLayout>
 

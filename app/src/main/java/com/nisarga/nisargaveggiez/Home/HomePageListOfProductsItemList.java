@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
@@ -93,15 +96,17 @@ public class HomePageListOfProductsItemList {
     String product_option_id[], product_option_value_id[], product_price[];
     String sQuantitySpinner, option_id, option_value_id, price;
     String productPrice;
+    Object spnrqty;
 
     public HomePageListOfProductsItemList(Context context, String prod_id, String prod_image, String prod_name,
-                                          String prod_discount, String addCart) {
+                                          String prod_discount, String addCart,Object spnrqty) {
         mContext = context;
         sProductId = prod_id;
         sProductImage = prod_image;
         sProductName = prod_name;
         sProductDis = prod_discount;
         sAddCart = addCart;
+        this.spnrqty = spnrqty;
     }
 
     @Resolve
@@ -147,12 +152,32 @@ public class HomePageListOfProductsItemList {
                         product_option_value_id = new String[datumList.size()];
                         product_price = new String[datumList.size()];
                         int i = 0;
-                        for (QuantityList.Datum datum : datumList) {
-                            product_qty_list.add(datum.name);
-                            product_option_id[i] = datum.product_option_id;
-                            product_option_value_id[i] = datum.product_option_value_id;
-                            product_price[i] = datum.price;
-                            i++;
+//                        for (QuantityList.Datum datum : datumList) {
+//                            product_qty_list.add(datum.name);
+//                            product_option_id[i] = datum.product_option_id;
+//                            product_option_value_id[i] = datum.product_option_value_id;
+//                            product_price[i] = datum.price;
+//                            i++;
+//                        }
+
+
+                        if(!spnrqty.equals("null"))
+                        {
+                            JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
+                            for (int ii = 0; ii < jsonElements.size(); ii++)
+                            {
+                                Log.d("qqqqqqqqqqqqqqq", String.valueOf(jsonElements.get(ii).getAsJsonObject().get("name")));
+                                product_qty_list.add(String.valueOf(jsonElements.get(ii).getAsJsonObject().get("name")).replace("\"", ""));
+                                product_option_id[i] = String.valueOf(jsonElements.get(ii).getAsJsonObject().get("product_option_id")).replace("\"", "");
+                                product_option_value_id[i] = String.valueOf(jsonElements.get(ii).getAsJsonObject().get("product_option_value_id")).replace("\"", "");
+                                product_price[i] = String.valueOf(jsonElements.get(ii).getAsJsonObject().get("price"));
+
+                                Log.d("pricedouble", String.valueOf(jsonElements.get(ii).getAsJsonObject().get("price")));
+                            }
+                        }
+                        else
+                        {
+
                         }
                     }
                     ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
