@@ -323,9 +323,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
-
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(fcmConfig.REGISTRATION_COMPLETE));

@@ -31,7 +31,8 @@
         <LinearLayout
             android:id="@+id/llNotifications"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bnav_Notifications">
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/refresh"

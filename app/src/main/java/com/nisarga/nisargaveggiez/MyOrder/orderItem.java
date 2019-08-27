@@ -119,37 +119,26 @@ public class orderItem {
         deliveryDateOrder.setText("Delivered on" + " " + delivDate);
 
 
-        if (mstatus.equals("Canceled"))
-        {
+        if (mstatus.equals("Canceled")) {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
             canceledOrder.setText(mstatus);
-        }
-        else if (mstatus.equals("Pending"))
-        {
-
-
-
-
-
-            canceledOrder.setVisibility(android.view.View.GONE);
-            pendingOrder.setVisibility(android.view.View.VISIBLE);
-            deliveredOrder.setVisibility(android.view.View.GONE);
-            pendingOrder.setText(mstatus);
-        } else {
+        } else if (mstatus.equals("Complete")) {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setText("Delivered");
+        } else {
+            canceledOrder.setVisibility(android.view.View.GONE);
+            pendingOrder.setVisibility(android.view.View.VISIBLE);
+            deliveredOrder.setVisibility(android.view.View.GONE);
+            pendingOrder.setText("Pending");
         }
 
-        if (mcancel.equals("0"))
-        {
+        if (mcancel.equals("0")) {
             btnCancelOrder.setVisibility(android.view.View.GONE);
-        }
-        else
-        {
+        } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
 
@@ -173,11 +162,9 @@ public class orderItem {
 
             Log.d("my_date", String.valueOf(deliver_Date));
 
-            if(tddate.equals(deliver_Date))
-            {
+            if (tddate.equals(deliver_Date)) {
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if(hour>16)
-                {
+                if (hour > 16) {
                     btnCancelOrder.setEnabled(false);
                     btnCancelOrder.setBackgroundColor(Color.parseColor("#33FA5400"));
                     Log.d("my_date", "YES");
@@ -185,13 +172,10 @@ public class orderItem {
 
             }
 
-            if (new Date().after(strDate))
-            {
+            if (new Date().after(strDate)) {
                 btnCancelOrder.setEnabled(false);
                 btnCancelOrder.setBackgroundColor(Color.parseColor("#33FA5400"));
-            }
-            else
-            {
+            } else {
                 btnCancelOrder.setEnabled(true);
             }
 
@@ -235,7 +219,7 @@ public class orderItem {
             public void onClick(android.view.View v) {
                 //api-call
                 if (Utils.CheckInternetConnection(mContext)) {
-                    final CancelOrderModel get_order_list = new CancelOrderModel(morderId,session.getCustomerId());
+                    final CancelOrderModel get_order_list = new CancelOrderModel(morderId, session.getCustomerId());
                     Call<CancelOrderModel> call = apiInterface.cancelOrder(get_order_list);
                     call.enqueue(new Callback<CancelOrderModel>() {
                         @Override
@@ -300,8 +284,9 @@ public class orderItem {
             public void onClick(android.view.View v) {
                 Intent myIntent = new Intent(mContext, ReorderHolder.class);
                 myIntent.putExtra("order_id", morderId);
-                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(myIntent);
+                alertDialog.dismiss();
             }
         });
         tvClose.setOnClickListener(new android.view.View.OnClickListener() {
@@ -318,7 +303,7 @@ public class orderItem {
     public void onDetailsOrder() {
         Intent myIntent = new Intent(mContext, OrderDetailsHolder.class);
         myIntent.putExtra("order_id", morderId);
-         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mContext.startActivity(myIntent);
     }
 
@@ -326,10 +311,9 @@ public class orderItem {
     public void onPayNow() {
         Intent myIntent = new Intent(mContext, CheckoutOrder.class);
         myIntent.putExtra("order_id", morderId);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mContext.startActivity(myIntent);
     }
-
 
 
 }
