@@ -171,8 +171,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         //-----------------------------------------------------------------------------------
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         headerView = navigationView.getHeaderView(0);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -325,11 +323,9 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
-        //refreshing left drawer items
-        Log.d("-------------navigation-icon-color------------","----------navigation-icon-color-----------------");
+
         navigationView.setNavigationItemSelectedListener(this);
         setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
-
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(fcmConfig.REGISTRATION_COMPLETE));
@@ -342,6 +338,8 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         // clear the notification area when the app is opened
         NotificationUtils.clearNotifications(getApplicationContext());
     }
+
+
 
     @Override
     protected void onPause() {
