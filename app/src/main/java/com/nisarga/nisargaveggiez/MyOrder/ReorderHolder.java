@@ -26,6 +26,7 @@ import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.billing.billingAddress;
+import com.nisarga.nisargaveggiez.cart.DeliverydateAdapter;
 import com.nisarga.nisargaveggiez.cart.cart;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
@@ -33,6 +34,10 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.ReorderItemsModel;
 import com.mindorks.placeholderview.PlaceHolderView;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,6 +61,7 @@ public class ReorderHolder extends AppCompatActivity {
 
     APIInterface apiInterface;
     public static TextView textCartItemCount;
+    public String select_item;
 
 
     @Override
@@ -90,11 +96,48 @@ public class ReorderHolder extends AppCompatActivity {
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
+        select_item = "Select";
 
         final String[] Day = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         linkDeliveryDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+
+
+                final List<String> categories = new ArrayList<String>();
+                final List<String> categories_dtes = new ArrayList<String>();
+                categories.add("Select");
+                categories_dtes.add("Select");
+
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                if(hour>=21)
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    for (int i = 2; i < 5; i++) {
+                        Calendar calendars = new GregorianCalendar();
+                        calendars.add(Calendar.DAY_OF_WEEK, i);
+                        String catdays = sdf.format(calendars.getTime());
+                        String days = sdf1.format(calendars.getTime());
+                        Log.i("daysddddds", days);
+                        categories.add(catdays);
+                        categories_dtes.add(days);
+                    }
+                }
+                else
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    for (int i = 1; i < 4; i++) {
+                        Calendar calendars = new GregorianCalendar();
+                        calendars.add(Calendar.DAY_OF_WEEK, i);
+                        String catdays = sdf.format(calendars.getTime());
+                        String days = sdf1.format(calendars.getTime());
+                        Log.i("daysddddds", days);
+                        categories.add(catdays);
+                        categories_dtes.add(days);
+                    }
+                }
 
                 LayoutInflater inflater = getLayoutInflater();
                 View alertLayout = inflater.inflate(R.layout.delivery_time_popup, null);
@@ -102,43 +145,37 @@ public class ReorderHolder extends AppCompatActivity {
                 //----day spinner--------
                 final Spinner dayspinner = alertLayout.findViewById(R.id.dayspinner);
                 final Button schedule = alertLayout.findViewById(R.id.btnSchedule);
-                final SpinnerAdapterReorder adapterDay = new SpinnerAdapterReorder(ReorderHolder.this, android.R.layout.simple_list_item_1);
-                adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                adapterDay.addAll(Day);
-                adapterDay.add("Select Day");
-                dayspinner.setAdapter(adapterDay);
-                dayspinner.setSelection(adapterDay.getCount());
-                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+                dayspinner.setAdapter(new DeliverydateAdapter(getApplicationContext(), categories, categories));
+                dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (dayspinner.getSelectedItem() == "Select") {
-
-                            Toast.makeText(ReorderHolder.this, "you have selected nothing", Toast.LENGTH_LONG).show();
-                            //Do nothing.
-                        } else {
-
-                            Log.e("-----day selected-----", "----day selected---");
-                            Toast.makeText(ReorderHolder.this, dayspinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-
-                        }
+                      //  Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
+                        session.setDeliverydate(categories_dtes.get(position));
+                        session.setDeliveryweek(categories.get(position));
+                        select_item = categories.get(position);
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
+
                     }
                 });
+
+
                 final AlertDialog alertDialog = new AlertDialog.Builder(ReorderHolder.this).create();
                 schedule.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        storeDayTime = dayspinner.getSelectedItem().toString();
+                        //storeDayTime = dayspinner.getSelectedItem().toString();
+                        storeDayTime = select_item;
                         alertDialog.dismiss();
                         linkDeliveryDay.setText(storeDayTime);
                     }
                 });
                 alertDialog.setView(alertLayout);
                 alertDialog.show();
+
             }
         });
 
@@ -211,9 +248,14 @@ public class ReorderHolder extends AppCompatActivity {
         return true;
     }
 
-    public void billing(View v) {
-        Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
-        startActivity(myIntent);
+    public void billing(View v)
+    {
+        if (select_item.equals("Select")) {
+            Toast.makeText(getApplicationContext(), "Please Select Delivery Day", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent myIntent = new Intent(getBaseContext(), billingAddress.class);
+            startActivity(myIntent);
+        }
 
        /* Boolean login_st_session = sharedpreferences.getBoolean("status", false);
         if (login_st_session == true) {
@@ -238,7 +280,7 @@ public class ReorderHolder extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case android.R.id.home:
-               finish();
+                onBackPressed();
                 return true;
 
             case R.id.menu_notifi:

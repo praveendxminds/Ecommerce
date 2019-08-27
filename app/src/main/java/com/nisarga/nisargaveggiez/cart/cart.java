@@ -149,7 +149,7 @@ public class cart extends AppCompatActivity {
                 dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
                         session.setDeliverydate(categories_dtes.get(position));
                         session.setDeliveryweek(categories.get(position));
                         select_item = categories.get(position);
