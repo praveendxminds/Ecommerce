@@ -34,7 +34,7 @@ public class MyOrderList extends  java.util.Date{
         @SerializedName("lastname")
         public String slastname;
 
-        @SerializedName("date_added")
+        @SerializedName("delivery_date")
         public String sdate_added;
 
         @SerializedName("status")

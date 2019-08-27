@@ -110,7 +110,7 @@ public class orderItem {
         orderIdOrder.setText("Order Id :" + " " + morderId);
         Date localTime = null;
         try {
-            localTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(mdeliveryDate);
+            localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
@@ -171,7 +171,7 @@ public class orderItem {
                 e.printStackTrace();
             }
 
-
+            Log.d("my_date", String.valueOf(deliver_Date));
 
             if(tddate.equals(deliver_Date))
             {
