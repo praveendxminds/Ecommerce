@@ -1,3 +1,4 @@
+/*
 package com.nisarga.nisargaveggiez.Home;
 
 import android.app.ProgressDialog;
@@ -44,7 +45,6 @@ public class CategoryFilter extends AppCompatActivity {
         init();
     }
 
-    Toolbar toolbarFilter;
     TextView tvSortByText, tvSeekBarMin, tvSeekBarMax;
     LinearLayout llSortByOption;
     CheckBox cbPopularity, cbLowToHigh, cbHighToLow, cbNewestFirst;
@@ -59,12 +59,6 @@ public class CategoryFilter extends AppCompatActivity {
     int sFilterNewestFirst = 0;
 
     private void init() {
-        toolbarFilter = findViewById(R.id.toolbarFilter);
-        setSupportActionBar(toolbarFilter);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
         tvSortByText = findViewById(R.id.tvSortByText);
         tvSeekBarMin = findViewById(R.id.tvSeekBarMin);
         tvSeekBarMax = findViewById(R.id.tvSeekBarMax);
@@ -206,3 +200,4 @@ public class CategoryFilter extends AppCompatActivity {
         return true;
     }
 }
+*/
