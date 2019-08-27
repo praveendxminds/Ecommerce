@@ -234,26 +234,26 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
+                                finish();
                                 Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
-                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_categories:
+                                finish();
                                 Intent intentCateg = new Intent(HomeCategory.this, CategoriesBottomNav.class);
-                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentCateg);
                                 break;
 
                             case R.id.navigation_wishlist:
+                                finish();
                                 Intent intentWishlist = new Intent(HomeCategory.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWishlist);
                                 break;
 
                             case R.id.navigation_wallet:
+                                finish();
                                 Intent intentWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intentWallet);
                                 break;
 
@@ -478,7 +478,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         searchMagIcon.setPadding(0, 0, 0, 0);
         searchViews.setPadding(-16, 0, 0, 0);//removing extraa space and align icon to leftmost of searchview
         searchViews.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
 
 
         searchEditText = (EditText) searchViews.findViewById(android.support.v7.appcompat.R.id.search_src_text);

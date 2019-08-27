@@ -218,40 +218,38 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
-                                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentHome);
-                                break;
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        finish();
+                        Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
+                        startActivity(intentHome);
+                        break;
 
-                            case R.id.navigation_categories:
-                                Intent intentCateg = new Intent(CategoriesBottomNav.this, CategoriesBottomNav.class);
-                                intentCateg.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentCateg);
-                                break;
+                    case R.id.navigation_categories:
+                        Intent intentCateg = new Intent(CategoriesBottomNav.this, CategoriesBottomNav.class);
+                        startActivity(intentCateg);
+                        break;
 
-                            case R.id.navigation_wishlist:
-                                Intent intentWishlist = new Intent(CategoriesBottomNav.this, WishListHolder.class);
-                                intentWishlist.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentWishlist);
-                                break;
+                    case R.id.navigation_wishlist:
+                        finish();
+                        Intent intentWishlist = new Intent(CategoriesBottomNav.this, WishListHolder.class);
+                        startActivity(intentWishlist);
+                        break;
 
-                            case R.id.navigation_wallet:
-                                Intent intentWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
-                                intentWallet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intentWallet);
-                                break;
+                    case R.id.navigation_wallet:
+                        finish();
+                        Intent intentWallet = new Intent(CategoriesBottomNav.this, MyWalletActivity.class);
+                        startActivity(intentWallet);
+                        break;
+                }
+                return true;
+            }
+        });
 
-                        }
-                        return true;
-                    }
-                });
         bottomNavigationView.setItemIconSize(40);
     }
 
