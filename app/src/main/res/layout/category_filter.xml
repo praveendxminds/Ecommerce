@@ -22,20 +22,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbarFilter"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="Filter"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
-                    app:contentInsetLeft="0dp"
-                    app:contentInsetStart="0dp"
-                    app:contentInsetStartWithNavigation="0dp"
-                    app:theme="@style/AppTheme.ToolbarFilter"
-                    app:title="Filter"
-                    app:titleTextColor="@color/light_black_2" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <View
@@ -46,8 +42,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
@@ -196,8 +192,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -248,7 +244,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="250"
+                        android:text="500"
                         android:textColor="@color/light_grey"
                         android:textSize="12sp" />
 
@@ -259,7 +255,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="right"
-                        android:text="500+"
+                        android:text="1000+"
                         android:textColor="@color/light_grey"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -286,43 +282,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_view" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/green_1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnClearFilter"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/zxing_transparent"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Clear"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <Button
-                android:id="@+id/btnApplyFilter"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/zxing_transparent"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Apply"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -48,11 +49,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
+import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
@@ -118,7 +122,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     TextView tvTotalProduct;
     ImageButton ivbtnListView, ivbtnFilter;
-    PlaceHolderView phvCategoryList;
+    PlaceHolderView phvCategoryList, phvFilter;
     ProgressBar pbLoading;
     BottomNavigationView bottom_navigation;
     NavigationView navLeftMenu;
@@ -141,6 +145,20 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
     public static TextView cartItemCount;
 
+    //--------Filter----------
+    TextView tvSortByText, tvSeekBarMin, tvSeekBarMax;
+    LinearLayout llSortByOption;
+    CheckBox cbPopularity, cbLowToHigh, cbHighToLow, cbNewestFirst;
+    CrystalRangeSeekbar rangeSeekbar;
+    Button btnClearFilter, btnApplyFilter;
+    ImageView ivDropDown, ivDropUp;
+
+/*    String sPopularity, sLowToHigh, sHighToLow, sNewestFirst, minPrice, maxPrice;
+    int sFilterPopularity = 0;
+    int sFilterLowToHigh = 0;
+    int sFilterHighToLow = 0;
+    int sFilterNewestFirst = 0;*/
+
     private void init() {
         drawerHomeCategory = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
         toolbar = (Toolbar) findViewById(R.id.toolbarHomeCategory);
@@ -151,6 +169,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         ivbtnListView = findViewById(R.id.ivbtnListView);
         ivbtnFilter = findViewById(R.id.ivbtnFilter);
         phvCategoryList = findViewById(R.id.phvCategoryList);
+        phvFilter = findViewById(R.id.phvFilter);
 
         pbLoading = findViewById(R.id.pbLoading);
         pbLoading.setVisibility(View.VISIBLE);
@@ -220,8 +239,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         ivbtnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentFilter = new Intent(getBaseContext(), CategoryFilter.class);
-                startActivity(intentFilter);
+                drawerHomeCategory.openDrawer(Gravity.RIGHT);
             }
         });
 
@@ -260,6 +278,165 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     }
                 });
         bottom_navigation.setItemIconSize(40);
+
+
+        //------Filter------
+        tvSortByText = findViewById(R.id.tvSortByText);
+        tvSeekBarMin = findViewById(R.id.tvSeekBarMin);
+        tvSeekBarMax = findViewById(R.id.tvSeekBarMax);
+
+        ivDropDown = findViewById(R.id.ivDropDown);
+        ivDropUp = findViewById(R.id.ivDropUp);
+        llSortByOption = findViewById(R.id.llSortByOption);
+
+        cbPopularity = findViewById(R.id.cbPopularity);
+        cbLowToHigh = findViewById(R.id.cbLowToHigh);
+        cbHighToLow = findViewById(R.id.cbHighToLow);
+        cbNewestFirst = findViewById(R.id.cbNewestFirst);
+
+        rangeSeekbar = findViewById(R.id.rangeSeekbar);
+
+        btnClearFilter = findViewById(R.id.btnClearFilter);
+        btnApplyFilter = findViewById(R.id.btnApplyFilter);
+
+       /* rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                minPrice = String.valueOf(minValue);
+                maxPrice = String.valueOf(maxValue);
+                tvSeekBarMin.setText(minPrice);
+                tvSeekBarMax.setText(maxPrice);
+            }
+        });*/
+
+        /*ivDropDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llSortByOption.setVisibility(View.VISIBLE);
+                ivDropDown.setVisibility(View.GONE);
+                ivDropUp.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ivDropUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llSortByOption.setVisibility(View.GONE);
+                ivDropUp.setVisibility(View.GONE);
+                ivDropDown.setVisibility(View.VISIBLE);
+            }
+        });
+
+        cbPopularity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    sPopularity = cbPopularity.getText().toString();
+                    sFilterPopularity = 1;
+                    // tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                }
+            }
+        });
+
+        cbLowToHigh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    sLowToHigh = cbLowToHigh.getText().toString();
+                    sFilterLowToHigh = 1;
+                    //  tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                }
+            }
+        });
+
+        cbHighToLow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    sHighToLow = cbHighToLow.getText().toString();
+                    sFilterHighToLow = 1;
+                    //tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                }
+            }
+        });
+
+        cbNewestFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    sNewestFirst = cbNewestFirst.getText().toString();
+                    sFilterNewestFirst = 1;
+                    // tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                }
+            }
+        });
+
+        btnClearFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+*/
+       /* btnApplyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                    saveFilterData("1", "2", "2", "2",
+                            "15", "100");
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });*/
+    }
+
+    private void saveFilterData(String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
+                                String sFilterNewestFirst, String minPrice, String maxPrice) {
+
+        final FilterCategoryModel model = new FilterCategoryModel(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow,
+                sFilterNewestFirst, minPrice, maxPrice);
+
+        Call<FilterCategoryModel> callEditProfile = apiInterface.filter_products(model);
+        callEditProfile.enqueue(new Callback<FilterCategoryModel>() {
+            @Override
+            public void onResponse(Call<FilterCategoryModel> call, Response<FilterCategoryModel> response) {
+                FilterCategoryModel resourceMyProfile = response.body();
+                if (resourceMyProfile.status.equals("success")) {
+                    phvCategoryList.setVisibility(View.GONE);
+                    phvCategoryList.removeAllViews();
+                    phvFilter.setVisibility(View.VISIBLE);
+                    List<FilterCategoryModel.Datum> datumList = resourceMyProfile.resultdata;
+                    for (FilterCategoryModel.Datum imgs : datumList) {
+                        phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
+                                imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                imgs.wishlist_status));
+                    }
+                }
+
+                pbLoading.setVisibility(View.INVISIBLE);
+
+                phvCategoryList.sort(new Comparator<Object>() {
+                    @Override
+                    public int compare(Object item1, Object item2) {
+                        if (item1 instanceof HomeCategoryItem && item2 instanceof HomeCategoryItem) {
+                            HomeCategoryItemGridView view1 = (HomeCategoryItemGridView) item1;
+                            HomeCategoryItemGridView view2 = (HomeCategoryItemGridView) item2;
+                            return view1.getTitle().compareTo(view2.getTitle());
+                        }
+                        return 0;
+                    }
+                });
+
+                phvCategoryList.refresh();
+            }
+
+            @Override
+            public void onFailure(Call<FilterCategoryModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initApi() {
@@ -834,5 +1011,4 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
 }
