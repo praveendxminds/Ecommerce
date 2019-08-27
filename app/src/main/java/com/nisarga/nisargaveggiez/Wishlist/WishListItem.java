@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.Wishlist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.totalWishList;
 
 /**
  * Created by sushmita 14/06/2019
@@ -60,6 +62,7 @@ public class WishListItem {
     public CardView ord_itWishList;
 
     PlaceHolderView mPlaceHolderView;
+    TextView mwishcnt;
 
     @ParentPosition
     public int mParentPosition;
@@ -75,6 +78,8 @@ public class WishListItem {
     public int count;
     APIInterface apiInterface;
     public Integer countItems;
+
+
 
     String status;
 
@@ -108,6 +113,8 @@ public class WishListItem {
 
         qntyWishList.setText(mqty);
 
+
+
     }
 
     @Click(R.id.llWishlist)
@@ -140,7 +147,26 @@ public class WishListItem {
             }
         });
 
+
         mPlaceHolderView.removeView(this);
+
+        if (totalWishList.getText().toString().equals("1 Item"))
+        {
+            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
+            cnt = cnt - 1;
+
+            totalWishList.setText(cnt + " " + "Item");
+        }
+        else
+        {
+
+            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
+            cnt = cnt - 1;
+
+            totalWishList.setText(cnt + " " + "Items");
+        }
+
+
     }
 
 
