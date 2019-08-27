@@ -83,6 +83,7 @@ public class MyNotifications extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
 
+        getNotifications();
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

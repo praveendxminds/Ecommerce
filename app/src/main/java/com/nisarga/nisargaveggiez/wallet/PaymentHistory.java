@@ -69,6 +69,7 @@ public class PaymentHistory extends AppCompatActivity {
         recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
         tvEmptyPaymentHistory = (TextView) findViewById(R.id.tvEmptyPaymentHistory);
 
+        showListView();
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

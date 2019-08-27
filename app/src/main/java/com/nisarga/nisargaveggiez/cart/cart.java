@@ -180,6 +180,7 @@ public class cart extends AppCompatActivity {
             }
         });
 
+        showListView();
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -73,6 +73,7 @@ public class MyOrders extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
+        getOrders();
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
