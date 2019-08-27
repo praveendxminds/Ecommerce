@@ -532,7 +532,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 public void onResponse(Call<TokenFCM> calledu, Response<TokenFCM> response) {
                     final TokenFCM resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_LONG).show();
                         session.createTokenStatus();
                     }
                 }

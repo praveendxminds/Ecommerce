@@ -50,34 +50,24 @@ public class HomePageDealofDayList {
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
-        for (ProductslHomePage.DealOfDayList image : mImageList)
-        {
-            Object qtyspinner ="null";
+        for (ProductslHomePage.DealOfDayList image : mImageList) {
+            Object qtyspinner = "null";
 
-            if((image.options.equals("null")) && (!image.weight_classes.equals("null")))
-            {
+            if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
                 qtyspinner = image.weight_classes;
                 phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart,qtyspinner));
-            }
-            else if((!image.options.equals("null")) && (image.weight_classes.equals("null")))
-            {
+                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+            } else if ((!image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 qtyspinner = image.options;
                 phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart,qtyspinner));
+                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
 
-            }
-            else if((image.options.equals("null")) && (image.weight_classes.equals("null")))
-            {
+            } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart,qtyspinner));
-            }
-            else
-            {
+                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+            } else {
 
             }
-
-
         }
     }
 
