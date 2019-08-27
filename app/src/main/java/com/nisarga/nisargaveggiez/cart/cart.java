@@ -112,7 +112,7 @@ public class cart extends AppCompatActivity {
                 if(hour>=21)
                 {
                     SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                     for (int i = 2; i < 5; i++) {
                         Calendar calendars = new GregorianCalendar();
                         calendars.add(Calendar.DAY_OF_WEEK, i);
@@ -126,7 +126,7 @@ public class cart extends AppCompatActivity {
                 else
                 {
                     SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                     for (int i = 1; i < 4; i++) {
                         Calendar calendars = new GregorianCalendar();
                         calendars.add(Calendar.DAY_OF_WEEK, i);
