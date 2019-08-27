@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -52,6 +53,7 @@ public class WishListHolder extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     public static TextView totalWishList;
+    SwipeRefreshLayout pullToRefresh;
 
 
     Integer scount;
@@ -61,6 +63,7 @@ public class WishListHolder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wishlist_main);
         session = new SessionManager(getApplicationContext());
+
 
         list_items = (PlaceHolderView) findViewById(R.id.list_items);
         veggiesWishListTitle = findViewById(R.id.veggiesWishListTitle);
@@ -78,43 +81,20 @@ public class WishListHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final GetWishList wishListItems = new GetWishList(session.getCustomerId());
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<GetWishList> call = apiInterface.getWishList(wishListItems);
-            call.enqueue(new Callback<GetWishList>() {
-                @Override
-                public void onResponse(Call<GetWishList> call, Response<GetWishList> response) {
-                    GetWishList resource = response.body();
-                    scount = resource.count;
-                    if (scount == 0) {
-                        totalWishList.setText("No Items");
-                    } else if (scount == 1) {
-                        totalWishList.setText(scount + " " + "Item");
-                    } else {
-                        totalWishList.setText(scount + " " + "Items");
-                    }
-                    List<GetWishList.WishListDatum> datumList = resource.result;
-                    if ((resource.status).equals("success")) {
-                        for (GetWishList.WishListDatum imgs : datumList) {
-                            list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image,
-                                    imgs.name, imgs.price, imgs.quantity, imgs.discount_price, list_items));
-                        }
-                    } else if (resource.status.equals("failure")) {
-                        tvEmptyWishlist.setVisibility(View.VISIBLE);
-                        list_items.setVisibility(View.GONE);
-                    }
-                    list_items.refresh();
-                }
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh()
+            {
+                list_items.removeAllViews();
+                getwishlist();
+                pullToRefresh.setRefreshing(false);
 
-                @Override
-                public void onFailure(Call<GetWishList> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-        } else {
-            Toast.makeText(WishListHolder.this, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
+
+        getwishlist();
+
         //------------------------------Bottom Navigation---------------------------------------------------------------------
         bottomNavigationView.getMenu().findItem(R.id.navigation_wishlist).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
@@ -186,6 +166,49 @@ public class WishListHolder extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+
+    public void getwishlist()
+    {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            final GetWishList wishListItems = new GetWishList(session.getCustomerId());
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<GetWishList> call = apiInterface.getWishList(wishListItems);
+            call.enqueue(new Callback<GetWishList>() {
+                @Override
+                public void onResponse(Call<GetWishList> call, Response<GetWishList> response) {
+                    GetWishList resource = response.body();
+                    scount = resource.count;
+                    if (scount == 0) {
+                        totalWishList.setText("No Items");
+                    } else if (scount == 1) {
+                        totalWishList.setText(scount + " " + "Item");
+                    } else {
+                        totalWishList.setText(scount + " " + "Items");
+                    }
+                    List<GetWishList.WishListDatum> datumList = resource.result;
+                    if ((resource.status).equals("success")) {
+                        for (GetWishList.WishListDatum imgs : datumList) {
+                            list_items.addView(new WishListItem(WishListHolder.this, imgs.product_id, imgs.image,
+                                    imgs.name, imgs.price, imgs.quantity, imgs.discount_price, list_items));
+                        }
+                    } else if (resource.status.equals("failure")) {
+                        tvEmptyWishlist.setVisibility(View.VISIBLE);
+                        list_items.setVisibility(View.GONE);
+                    }
+                    list_items.refresh();
+                }
+
+                @Override
+                public void onFailure(Call<GetWishList> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(WishListHolder.this, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
 
