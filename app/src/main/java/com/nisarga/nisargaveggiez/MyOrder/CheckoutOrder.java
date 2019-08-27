@@ -27,7 +27,10 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.ReorderItemsModel;
 import com.nisarga.nisargaveggiez.retrofit.WalletBlncModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,15 +123,7 @@ public class CheckoutOrder extends AppCompatActivity {
 
             }
         });
-        deliveryDay = session.getDeliveryweek();
-        if(deliveryDay!= null && !deliveryDay.isEmpty()
-                && !deliveryDay.equals("null"))
-        {
-            tvDelivDayChkoutOrder.setText("");
-        }
-        else {
-            tvDelivDayChkoutOrder.setText(deliveryDay);
-        }
+
         showListView();
         showWalletBlnc();
     }
@@ -220,6 +215,24 @@ public class CheckoutOrder extends AppCompatActivity {
                                 tvPrice.setText("Rs." + " " + "00.00");
                             }
 
+                        }
+                        //----------delivery day--------------------------
+
+                        if((resourcesReorder.delivery_date)!= null && !(resourcesReorder.delivery_date).isEmpty()
+                                && !(resourcesReorder.delivery_date).equals("null"))
+                        {
+                            Date localTime = null;
+                            try {
+                                localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(resourcesReorder.delivery_date);
+                            } catch (java.text.ParseException e) {
+                                e.printStackTrace();
+                            }
+                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                            String delivDate = sdf.format(new Date(localTime.getTime()));
+                            tvDelivDayChkoutOrder.setText(delivDate);
+                        }
+                        else {
+                            tvDelivDayChkoutOrder.setText(deliveryDay);
                         }
                         //-------------------total amount------------------
                         if ((resourcesReorder.totalMoney) != null && !(resourcesReorder.totalMoney).isEmpty()

@@ -81,6 +81,7 @@ public class WishListHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        getwishlist();
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -93,7 +94,7 @@ public class WishListHolder extends AppCompatActivity {
             }
         });
 
-        getwishlist();
+
 
         //------------------------------Bottom Navigation---------------------------------------------------------------------
         bottomNavigationView.getMenu().findItem(R.id.navigation_wishlist).setChecked(true);
