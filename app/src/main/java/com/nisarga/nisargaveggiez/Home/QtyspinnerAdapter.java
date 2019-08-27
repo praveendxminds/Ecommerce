@@ -10,31 +10,36 @@ import android.widget.TextView;
 import com.nisarga.nisargaveggiez.R;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class QtyspinnerAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<String> product_option_value_id;
-    ArrayList<String> product_option_id;
     ArrayList<String> name;
+    ArrayList<String> product_option_id;
+    ArrayList<String> product_option_value_id;
+    ArrayList<String> cart_count;
     ArrayList<String> price;
+    ArrayList<String> discount_price;
     LayoutInflater inflter;
 
 
-    public QtyspinnerAdapter(Context applicationContext, ArrayList<String> product_option_value_id, ArrayList<String> product_option_id,ArrayList<String> name,ArrayList<String> price) {
+    public QtyspinnerAdapter(Context applicationContext, ArrayList<String> name, ArrayList<String> product_option_id,
+                             ArrayList<String> product_option_value_id, ArrayList<String> cart_count,
+                             ArrayList<String> price, ArrayList<String> discount_price) {
+
         this.context = applicationContext;
-        this.product_option_value_id = product_option_value_id;
-        this.product_option_id = product_option_id;
         this.name = name;
+        this.product_option_id = product_option_id;
+        this.product_option_value_id = product_option_value_id;
+        this.cart_count = cart_count;
         this.price = price;
+        this.discount_price = discount_price;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
     @Override
     public int getCount() {
-        return product_option_value_id.size();
+        return name.size();
     }
 
     @Override
@@ -51,9 +56,7 @@ public class QtyspinnerAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.quntityspinner, null);
         TextView names = (TextView) view.findViewById(R.id.quntity);
-       //  names.setText(name.get(i));
         names.setText(name.get(i));
-       // names.setText(product_option_value_id.get(i));
         return view;
     }
 }

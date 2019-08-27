@@ -146,6 +146,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     public static TextView cartItemCount;
 
     //--------Filter----------
+    NavigationView navFilter;
+    View header;
     TextView tvSortByText, tvSeekBarMin, tvSeekBarMax;
     LinearLayout llSortByOption;
     CheckBox cbPopularity, cbLowToHigh, cbHighToLow, cbNewestFirst;
@@ -153,11 +155,11 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     Button btnClearFilter, btnApplyFilter;
     ImageView ivDropDown, ivDropUp;
 
-/*    String sPopularity, sLowToHigh, sHighToLow, sNewestFirst, minPrice, maxPrice;
-    int sFilterPopularity = 0;
-    int sFilterLowToHigh = 0;
-    int sFilterHighToLow = 0;
-    int sFilterNewestFirst = 0;*/
+    String sPopularity, sLowToHigh, sHighToLow, sNewestFirst, minPrice, maxPrice;
+    String sFilterPopularity = "0";
+    String sFilterLowToHigh = "0";
+    String sFilterHighToLow = "0";
+    String sFilterNewestFirst = "0";
 
     private void init() {
         drawerHomeCategory = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
@@ -281,25 +283,28 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
 
         //------Filter------
-        tvSortByText = findViewById(R.id.tvSortByText);
-        tvSeekBarMin = findViewById(R.id.tvSeekBarMin);
-        tvSeekBarMax = findViewById(R.id.tvSeekBarMax);
+        navFilter = findViewById(R.id.navFilter);
+        header = navFilter.getHeaderView(0);
+        navFilter.setNavigationItemSelectedListener(this);
+        tvSortByText = header.findViewById(R.id.tvSortByText);
+        tvSeekBarMin = header.findViewById(R.id.tvSeekBarMin);
+        tvSeekBarMax = header.findViewById(R.id.tvSeekBarMax);
 
-        ivDropDown = findViewById(R.id.ivDropDown);
-        ivDropUp = findViewById(R.id.ivDropUp);
-        llSortByOption = findViewById(R.id.llSortByOption);
+        ivDropDown = header.findViewById(R.id.ivDropDown);
+        ivDropUp = header.findViewById(R.id.ivDropUp);
+        llSortByOption = header.findViewById(R.id.llSortByOption);
 
-        cbPopularity = findViewById(R.id.cbPopularity);
-        cbLowToHigh = findViewById(R.id.cbLowToHigh);
-        cbHighToLow = findViewById(R.id.cbHighToLow);
-        cbNewestFirst = findViewById(R.id.cbNewestFirst);
+        cbPopularity = header.findViewById(R.id.cbPopularity);
+        cbLowToHigh = header.findViewById(R.id.cbLowToHigh);
+        cbHighToLow = header.findViewById(R.id.cbHighToLow);
+        cbNewestFirst = header.findViewById(R.id.cbNewestFirst);
 
-        rangeSeekbar = findViewById(R.id.rangeSeekbar);
+        rangeSeekbar = header.findViewById(R.id.rangeSeekbar);
 
         btnClearFilter = findViewById(R.id.btnClearFilter);
         btnApplyFilter = findViewById(R.id.btnApplyFilter);
 
-       /* rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
                 minPrice = String.valueOf(minValue);
@@ -307,9 +312,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 tvSeekBarMin.setText(minPrice);
                 tvSeekBarMax.setText(maxPrice);
             }
-        });*/
+        });
 
-        /*ivDropDown.setOnClickListener(new View.OnClickListener() {
+        ivDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 llSortByOption.setVisibility(View.VISIBLE);
@@ -332,8 +337,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     sPopularity = cbPopularity.getText().toString();
-                    sFilterPopularity = 1;
-                    // tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                    sFilterPopularity = "1";
                 }
             }
         });
@@ -343,8 +347,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     sLowToHigh = cbLowToHigh.getText().toString();
-                    sFilterLowToHigh = 1;
-                    //  tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                    sFilterLowToHigh = "1";
                 }
             }
         });
@@ -354,8 +357,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     sHighToLow = cbHighToLow.getText().toString();
-                    sFilterHighToLow = 1;
-                    //tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                    sFilterHighToLow = "1";
                 }
             }
         });
@@ -365,8 +367,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     sNewestFirst = cbNewestFirst.getText().toString();
-                    sFilterNewestFirst = 1;
-                    // tvSortByText.setText(sPopularity + ", " + sLowToHigh + ", " + sHighToLow + ", " + sNewestFirst);
+                    sFilterNewestFirst = "1";
                 }
             }
         });
@@ -377,19 +378,19 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
             }
         });
-*/
-       /* btnApplyFilter.setOnClickListener(new View.OnClickListener() {
+
+        btnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Utils.CheckInternetConnection(getApplicationContext())) {
-                    saveFilterData("1", "2", "2", "2",
-                            "15", "100");
+                    saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
+                            minPrice, maxPrice);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection",
                             Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
+        });
     }
 
     private void saveFilterData(String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
@@ -409,9 +410,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     phvFilter.setVisibility(View.VISIBLE);
                     List<FilterCategoryModel.Datum> datumList = resourceMyProfile.resultdata;
                     for (FilterCategoryModel.Datum imgs : datumList) {
-                        phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
+                       /* phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                 imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                imgs.wishlist_status));
+                                imgs.wishlist_status));*/
                     }
                 }
 
@@ -495,9 +496,25 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
-                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                    imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                    imgs.wishlist_status));
+                            Object qtyspinner = "null";
+
+                            if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
+                                qtyspinner = imgs.weight_classes;
+                                phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
+                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                        imgs.wishlist_status, qtyspinner));
+
+                            } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                                qtyspinner = imgs.options;
+                                phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
+                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                        imgs.wishlist_status, qtyspinner));
+
+                            } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                                phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
+                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                        imgs.wishlist_status, qtyspinner));
+                            }
                         }
                     }
 
@@ -547,9 +564,25 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                         tvTotalProduct.setText(resource.total_product_count + " Products found");
                         List<ProductListModel.ProductListDatum> datumList = resource.result;
                         for (ProductListModel.ProductListDatum imgs : datumList) {
-                            phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                    imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                    imgs.wishlist_status));
+                            Object qtyspinner = "null";
+
+                            if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
+                                qtyspinner = imgs.weight_classes;
+                                phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
+                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                        imgs.wishlist_status, qtyspinner));
+
+                            } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                                qtyspinner = imgs.options;
+                                phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
+                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                        imgs.wishlist_status, qtyspinner));
+
+                            } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                                phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
+                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
+                                        imgs.wishlist_status, qtyspinner));
+                            }
                         }
                     }
 

@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
@@ -80,25 +83,24 @@ public class HomeCategoryItem {
     SessionManager session;
     APIInterface apiInterface;
 
-    String productId, image, productName, productDisPrice, sAddCart, sWhislistStatus;
+    String productId, image, productName, sWhislistStatus;
     String sPrice, sDisPrice;
 
-    String product_option_id[], product_option_value_id[], product_price[];
-    String sQuantitySpinner, option_id, option_value_id, price;
+    String sQuantitySpinner, option_id, option_value_id, scartcount, price, sDiscount;
     String productPrice;
+    Object spnrqty;
 
     int cartcount = 0;
 
-    public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName,
-                            String prdDisPrice, String addCart, String whislistStatus) {
+    public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName, String prdDisPrice,
+                            String addCart, String whislistStatus, Object spnrqty) {
 
-        mContext = context;
-        productId = prdId;
-        image = imageUrl;
-        productName = prdName;
-        productDisPrice = prdDisPrice;
-        sAddCart = addCart;
-        sWhislistStatus = whislistStatus;
+        this.mContext = context;
+        this.productId = prdId;
+        this.image = imageUrl;
+        this.productName = prdName;
+        this.sWhislistStatus = whislistStatus;
+        this.spnrqty = spnrqty;
     }
 
     public String getTitle() {
@@ -111,85 +113,90 @@ public class HomeCategoryItem {
         tvProductName.setText(productName);
         Glide.with(mContext).load(image).into(ivProductImage);
 
-        if (productDisPrice.equals("null")) {
-            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
-        } else {
-            double dbl_Discount = Double.parseDouble(productDisPrice);//need to convert string to decimal
-            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
-            tvOldPrice.setVisibility(android.view.View.VISIBLE);
-            tvOldPrice.setText("₹" + " " + str_disValue);
-        }
-
-        if (sAddCart.equals("0")) {
-            btnAddItem.setVisibility(android.view.View.VISIBLE);
-            llAccountItem.setVisibility(android.view.View.GONE);
-        } else {
-            btnAddItem.setVisibility(android.view.View.GONE);
-            llAccountItem.setVisibility(android.view.View.VISIBLE);
-            tvProductCount.setText(sAddCart);
-        }
-
         final ArrayList<String> product_qty_list = new ArrayList<>();
+        final ArrayList<String> product_option_id = new ArrayList<>();
+        final ArrayList<String> product_option_value_id = new ArrayList<>();
+        final ArrayList<String> cart_count = new ArrayList<>();
+        final ArrayList<String> product_price = new ArrayList<>();
+        final ArrayList<String> discount_price = new ArrayList<>();
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final QuantityList quantityList = new QuantityList(productId);
+        if (!spnrqty.equals("null")) {
+            JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
 
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
-            callheight.enqueue(new Callback<QuantityList>() {
-                @Override
-                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
-                    QuantityList eduresource = response.body();
-                    if (eduresource.data.equals("null")) {
-                        llQuantityPiece.setVisibility(android.view.View.VISIBLE);
-                    } else {
-                        List<QuantityList.Datum> datumList = eduresource.data;
-                        product_option_id = new String[datumList.size()];
-                        product_option_value_id = new String[datumList.size()];
-                        product_price = new String[datumList.size()];
-                        int i = 0;
-                        for (QuantityList.Datum datum : datumList) {
-                            product_qty_list.add(datum.name);
-                            product_option_id[i] = datum.product_option_id;
-                            product_option_value_id[i] = datum.product_option_value_id;
-                            product_price[i] = datum.price;
-                            i++;
-                        }
-                    }
+            for (int j = 0; j < jsonElements.size(); j++) {
+                Log.d("qqqqqqqqqqqqqqq", String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")));
+                product_qty_list.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")).replace("\"", ""));
+                product_option_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_id")).replace("\"", ""));
+                product_option_value_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_value_id")).replace("\"", ""));
+                cart_count.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+                product_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("price")));
+                discount_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("discount_price")));
 
-                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
-                            product_qty_list);
-                    spQuantity.setAdapter(itemsAdapter);
-                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                            sQuantitySpinner = product_qty_list.get(position);
-                            option_id = product_option_id[position];
-                            option_value_id = product_option_value_id[position];
-                            price = product_price[position];
+                sQuantitySpinner = product_qty_list.get(j);
 
-                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
-                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-                            tvNewPrice.setText("₹" + " " + productPrice);
-                        }
+                double dbl_Price = Double.parseDouble(String.valueOf(product_price.get(0)));//need to convert string to decimal
+                productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                tvNewPrice.setText("₹" + " " + productPrice);
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
+                if (discount_price.equals("null")) {
+                    tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                } else {
+                    double dbl_Discount = Double.parseDouble(String.valueOf(discount_price.get(0)));//need to convert string to decimal
+                    String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                    tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                    tvOldPrice.setText("₹" + " " + str_disValue);
                 }
 
-                @Override
-                public void onFailure(Call<QuantityList> callheight, Throwable t) {
-                    callheight.cancel();
+                if (cart_count.equals("0")) {
+                    btnAddItem.setVisibility(android.view.View.VISIBLE);
+                    llAccountItem.setVisibility(android.view.View.GONE);
+                } else {
+                    btnAddItem.setVisibility(android.view.View.GONE);
+                    llAccountItem.setVisibility(android.view.View.VISIBLE);
+                    tvProductCount.setText(String.valueOf(cart_count.get(0)));
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
+            }
+        } else if (spnrqty.equals("null")) {
+            spQuantity.setVisibility(android.view.View.GONE);
+            llQuantityPiece.setVisibility(android.view.View.VISIBLE);
         }
 
-        cartcount = Integer.parseInt(sAddCart);
+        spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), product_qty_list, product_option_id,
+                product_option_value_id, cart_count, product_price, discount_price));
+        spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                sQuantitySpinner = product_qty_list.get(position);
+                option_id = product_option_id.get(position);
+                option_value_id = product_option_value_id.get(position);
+                scartcount = cart_count.get(position);
+                price = product_price.get(position);
+                sDiscount = discount_price.get(position);
+
+                double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                tvNewPrice.setText("₹" + " " + productPrice);
+
+                if (sDiscount.equals("null")) {
+                    tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                } else {
+                    double dbl_Discount = Double.parseDouble(sDiscount);//need to convert string to decimal
+                    String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                    tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                    tvOldPrice.setText("₹" + " " + str_disValue);
+                }
+
+                btnAddItem.setVisibility(android.view.View.VISIBLE);
+                llAccountItem.setVisibility(android.view.View.GONE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cartcount = Integer.parseInt(String.valueOf(cart_count.size()));
     }
 
     @Click(R.id.llProductsListView)

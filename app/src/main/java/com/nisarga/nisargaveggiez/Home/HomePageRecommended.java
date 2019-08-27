@@ -45,7 +45,6 @@ public class HomePageRecommended {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.RecommendedList image : mImageList) {
-
             Object qtyspinner = "null";
 
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
@@ -60,11 +59,7 @@ public class HomePageRecommended {
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image,
                         image.name, image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
-            } else {
-
             }
-
-
         }
     }
 
