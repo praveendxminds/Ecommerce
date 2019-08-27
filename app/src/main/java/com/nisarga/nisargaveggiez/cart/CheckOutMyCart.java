@@ -138,7 +138,6 @@ public class CheckOutMyCart extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-
                 addorder();
             }
         });
