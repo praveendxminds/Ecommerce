@@ -348,8 +348,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="15dp"
                                 android:layout_weight=".8"
-                                android:visibility="visible"
-                                android:gravity="right">
+                                android:gravity="right"
+                                android:visibility="visible">
 
                                 <TextView
                                     android:layout_width="50dp"
@@ -432,7 +432,7 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/etCity"
+                            android:id="@+id/etAddress"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="15dp"
@@ -453,7 +453,7 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/etAddress"
+                            android:id="@+id/etCity"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="15dp"

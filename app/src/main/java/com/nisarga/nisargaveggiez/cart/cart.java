@@ -18,12 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.HomePage;
+import com.nisarga.nisargaveggiez.Home.UpdateToCartModel;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
@@ -49,31 +51,28 @@ import retrofit2.Response;
  * Created by sushmita on 25/06/2019
  */
 
-
 public class cart extends AppCompatActivity {
 
-    Context context;
     Toolbar toolbar;
-    private PlaceHolderView mCartView;
-    public static String MyPREFERENCES = "sessiondata";
-    SharedPreferences sharedpreferences;
-    TextView linkDeliveryDay, tvtotalAmount, tv_total;
+    PlaceHolderView mCartView;
+    TextView tvTotalVeggies, tvtotalAmount, linkDeliveryDay, tvEmptyCart;
+    LinearLayout llCheckBox;
     private String storeDayTime;
     SessionManager session;
 
     APIInterface apiInterface;
-    public static TextView textCartItemCount;
-    public String slct_itm;
+    public String select_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart);
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // add back arrow to toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -87,18 +86,22 @@ public class cart extends AppCompatActivity {
         });
 
         //-----delivery day link------------------
-        linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
+        tvTotalVeggies = (TextView) findViewById(R.id.tvTotalVeggies);
         tvtotalAmount = (TextView) findViewById(R.id.tvtotalAmount);
-        tv_total = (TextView) findViewById(R.id.tv_total);
+        linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
+        tvEmptyCart = (TextView) findViewById(R.id.tvEmptyCart);
+        llCheckBox = (LinearLayout) findViewById(R.id.llCheckBox);
+
+        mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
+
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
         linkDeliveryDay.setText(spannable);
-        slct_itm = "Select";
+        select_item = "Select";
 
         linkDeliveryDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
                 final List<String> categories = new ArrayList<String>();
                 final List<String> categories_dtes = new ArrayList<String>();
                 categories.add("Select");
@@ -129,16 +132,13 @@ public class cart extends AppCompatActivity {
                 // dayspinner.setAdapter(adapterDay);
 
                 dayspinner.setAdapter(new DeliverydateAdapter(getApplicationContext(), categories, categories));
-
-
                 dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
                         session.setDeliverydate(categories_dtes.get(position));
                         session.setDeliveryweek(categories.get(position));
-                        slct_itm = categories.get(position);
+                        select_item = categories.get(position);
                     }
 
                     @Override
@@ -153,7 +153,7 @@ public class cart extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //storeDayTime = dayspinner.getSelectedItem().toString();
-                        storeDayTime = slct_itm;
+                        storeDayTime = select_item;
                         alertDialog.dismiss();
                         linkDeliveryDay.setText(storeDayTime);
                     }
@@ -163,53 +163,55 @@ public class cart extends AppCompatActivity {
             }
         });
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
-//        for (int i = 0; i <= 10; i++) {
-//            mCartView.addView(new cartItem(getApplicationContext()));
-//        }
-        /*  mCartView.addView(new cartItem_footer());*/
         showListView();
     }
 
     public void showListView() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             Log.d("getToken", String.valueOf(session.getToken()));
-            Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken());
+
+            final CartListModel ref = new CartListModel(session.getCustomerId());
+
+            Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken(), ref);
             call.enqueue(new Callback<CartListModel>() {
                 @Override
                 public void onResponse(Call<CartListModel> call, Response<CartListModel> response) {
                     CartListModel resource = response.body();
-                    List<CartListModel.CartListDatum> datumList = resource.result;
-                    tv_total.setText(String.valueOf(datumList.size()) + " Items");
-                    for (CartListModel.CartListDatum imgs : datumList) {
-                        if (response.isSuccessful()) {
-                            mCartView.addView(new cartItem(getApplicationContext(), textCartItemCount,
-                                    session.getCustomerId(), imgs.product_id, imgs.image, imgs.name,
-                                    imgs.price, imgs.discount_price, imgs.quantity, mCartView));
-                        }
-                    }
-
-                    List<CartListModel.TotalsDatum> datumtotla = resource.totals;
-                    for (CartListModel.TotalsDatum imgs : datumtotla) {
-                        if (response.isSuccessful()) {
-                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + imgs.text);
-                        }
-                    }
-
-                    mCartView.sort(new Comparator<Object>() {
-                        @Override
-                        public int compare(Object item1, Object item2) {
-                            if (item1 instanceof cartItem && item2 instanceof cartItem) {
-                                cartItem view1 = (cartItem) item1;
-                                cartItem view2 = (cartItem) item2;
-                                return view1.getTitle().compareTo(view2.getTitle());
+                    if (resource.status.equals("success")) {
+                        List<CartListModel.CartListDatum> datumList = resource.result;
+                        tvTotalVeggies.setText(datumList.size() + " Items");
+                        for (CartListModel.CartListDatum imgs : datumList) {
+                            if (response.isSuccessful()) {
+                                mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
+                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView));
                             }
-                            return 0;
                         }
-                    });
 
+                        List<CartListModel.TotalsDatum> datumtotla = resource.totals;
+                        for (CartListModel.TotalsDatum imgs : datumtotla) {
+                            if (response.isSuccessful()) {
+                                tvtotalAmount.setText("Total" + " " + "\u20B9 " + imgs.text);
+                            }
+                        }
 
+                        mCartView.sort(new Comparator<Object>() {
+                            @Override
+                            public int compare(Object item1, Object item2) {
+                                if (item1 instanceof cartItem && item2 instanceof cartItem) {
+                                    cartItem view1 = (cartItem) item1;
+                                    cartItem view2 = (cartItem) item2;
+                                    return view1.getTitle().compareTo(view2.getTitle());
+                                }
+                                return 0;
+                            }
+                        });
+
+                    } else if (resource.status.equals("failure")) {
+                        tvTotalVeggies.setText("No Items");
+                        llCheckBox.setVisibility(View.GONE);
+                        tvEmptyCart.setVisibility(View.VISIBLE);
+                        mCartView.setVisibility(View.GONE);
+                    }
                     mCartView.refresh();
                 }
 
@@ -218,7 +220,6 @@ public class cart extends AppCompatActivity {
                     call.cancel();
                 }
             });
-
 
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
@@ -233,8 +234,8 @@ public class cart extends AppCompatActivity {
     }
 
     public void billing(View v) {
-        Log.d("storeDayTime", String.valueOf(slct_itm));
-        if (slct_itm.equals("Select")) {
+        Log.d("storeDayTime", String.valueOf(select_item));
+        if (select_item.equals("Select")) {
             Toast.makeText(getApplicationContext(), "Please Select Delivery Day", Toast.LENGTH_SHORT).show();
         } else {
             Intent myIntent = new Intent(getBaseContext(), billingAddress.class);

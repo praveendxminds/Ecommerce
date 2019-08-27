@@ -6,10 +6,21 @@ import java.util.List;
 
 public class CartListModel {
 
+    @SerializedName("customer_id")
+    public String customer_id;
+
+    @SerializedName("status")
+    public String status;
+
+    @SerializedName("message")
+    public String message;
 
     @SerializedName("products")
     public List<CartListDatum> result = null;
 
+    public CartListModel(String cust_id) {
+        this.customer_id = cust_id;
+    }
 
     public class CartListDatum {
 
@@ -31,12 +42,14 @@ public class CartListModel {
         @SerializedName("model")
         public String model;
 
-
         @SerializedName("quantity")
         public String quantity;
 
         @SerializedName("wishlist")
         public String wishlist;
+
+        @SerializedName("stock")
+        public String stock;
 
         @SerializedName("shipping")
         public String shipping;
@@ -50,40 +63,13 @@ public class CartListModel {
         @SerializedName("reward")
         public String reward;
 
-
-//        @SerializedName("option")
-//        public List<CartListOption> options = null;
-//
-//        public class CartListOption
-//        {
-//
-//            @SerializedName("product_option_id")
-//            public String product_option_id;
-//
-//            @SerializedName("product_option_value_id")
-//            public String product_option_value_id;
-//
-//            @SerializedName("name")
-//            public String name;
-//
-//            @SerializedName("value")
-//            public String value;
-//
-//            @SerializedName("type")
-//            public String type;
-//
-//        }
     }
-
-
-
 
     @SerializedName("totals")
     public List<TotalsDatum> totals = null;
 
+    public class TotalsDatum {
 
-    public class TotalsDatum
-    {
         @SerializedName("title")
         public String title;
 
@@ -92,4 +78,10 @@ public class CartListModel {
 
     }
 
+    @SerializedName("vouchers")
+    public List<VouchersDatum> vouchers = null;
+
+    public class VouchersDatum {
+
+    }
 }

@@ -10,19 +10,17 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"
         android:layout_height="?attr/actionBarSize"
-        app:theme="@style/ToolbarColoredBackArrow"
+        android:background="@color/colorPrimary"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
-        app:title="My Cart"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="?attr/homeAsUpIndicator" >
-    </android.support.v7.widget.Toolbar>
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:title="My Cart"
+        app:titleTextColor="@color/white" />
 
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#e1e1e1">
@@ -37,41 +35,48 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="21dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="start"
                 android:text="Veggies"
                 android:textColor="@color/white"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_total"
+                android:id="@+id/tvTotalVeggies"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginRight="21dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="end"
-                android:text="6 items"
+                android:text=""
                 android:textColor="@color/white"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvEmptyCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/layout_total"
+            android:gravity="center"
+            android:text="Your Cart is Empty"
+            android:visibility="gone" />
 
         <com.mindorks.placeholderview.PlaceHolderView
             android:id="@+id/recycler_cart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_placeorder"
+            android:layout_above="@+id/llCheckBox"
             android:layout_below="@+id/layout_total"
-            android:background="@color/white">
-
-        </com.mindorks.placeholderview.PlaceHolderView>
-
+            android:background="@color/white"
+            android:visibility="visible" />
 
         <LinearLayout
-            android:id="@+id/btn_placeorder"
+            android:id="@+id/llCheckBox"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
@@ -80,59 +85,56 @@
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="8dp"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/tvtotalAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Total  ₹ 300.000"
-                    android:textAlignment="center"
+                    android:gravity="left|center"
+                    android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:layout_gravity="center|bottom"
-                android:paddingBottom="8dp"
-                android:layout_marginLeft="10dp">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/tvDeliveryDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autoLink="web"
                     android:fontFamily="@font/roboto_bold"
+                    android:gravity="left|center"
+                    android:text=""
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:autoLink="web"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="right"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp">
+                android:layout_weight="1"
+                android:padding="2dp">
 
                 <Button
                     android:id="@+id/buttonChkOut"
-                    android:layout_width="81dp"
-                    android:layout_height="32dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@drawable/checkout_border"
                     android:fontFamily="@font/roboto_bold"
                     android:onClick="billing"
