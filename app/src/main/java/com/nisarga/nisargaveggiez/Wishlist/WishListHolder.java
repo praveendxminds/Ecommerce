@@ -46,10 +46,13 @@ public class WishListHolder extends AppCompatActivity {
     SessionManager session;
 
     PlaceHolderView list_items;
-    TextView veggiesWishListTitle, totalWishList, tvEmptyWishlist;
+    TextView veggiesWishListTitle,  tvEmptyWishlist;
     DrawerLayout mDrawer;
     Toolbar mToolbar;
     BottomNavigationView bottomNavigationView;
+
+    public static TextView totalWishList;
+
 
     Integer scount;
 

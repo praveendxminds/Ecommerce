@@ -2,7 +2,9 @@ package com.nisarga.nisargaveggiez.cart;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -40,6 +42,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.totalWishList;
+import static com.nisarga.nisargaveggiez.cart.cart.tvTotalVeggies;
+import static com.nisarga.nisargaveggiez.cart.cart.tvtotalAmount;
 
 /**
  * Created by Sushmita on 24/06/2019.
@@ -92,13 +97,13 @@ public class cartItem {
 
     PlaceHolderView mPlaceHolderView;
     String product_option_id[], product_option_value_id[], product_price[];
-    String sQuantitySpinner, option_id, option_value_id, price;
+    String sQuantitySpinner, option_id, option_value_id, price,mprice;
     String productPrice;
 
     int intCount = 0;
 
     public cartItem(Context context, String prdid, String url, String title, String disprice, String qty,
-                    PlaceHolderView placeHolderView) {
+                    PlaceHolderView placeHolderView,String price) {
 
         mcontext = context;
         mprdid = prdid;
@@ -107,6 +112,7 @@ public class cartItem {
         mdisprice = disprice;
         mqty = qty;
         mPlaceHolderView = placeHolderView;
+        mprice = price;
     }
 
     public String getTitle() {
@@ -118,7 +124,12 @@ public class cartItem {
     }
 
     @Resolve
-    public void onResolved() {
+    public void onResolved()
+    {
+
+        tvNewPrice.setText(mprice);
+
+        Log.d("cntcnt222", String.valueOf(mprice));
         session = new SessionManager(mcontext);
         tvProductName.setText(mtitle);
         Glide.with(mcontext).load(murl).into(ivImage);
@@ -241,8 +252,14 @@ public class cartItem {
     }
 
     @Click(R.id.lldecreasePrdCount)
-    public void onDecreaseClick() {
-        if (intCount <= 1) {
+    public void onDecreaseClick()
+    {
+
+        if (intCount <= 1)
+        {
+
+
+
             intCount = intCount - 1;
             display(intCount);
             tvProductCount.setText(String.valueOf(intCount));
@@ -257,7 +274,29 @@ public class cartItem {
                 @Override
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
+                    if (resource.status.equals("success"))
+                    {
+
+                        if (tvTotalVeggies.getText().toString().equals("1 Item"))
+                        {
+                            int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Item", ""));
+                            cnt = cnt - 1;
+
+                            tvTotalVeggies.setText(cnt + " " + "Item");
+                        }
+                        else
+                        {
+
+                            int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Items", ""));
+                            cnt = cnt - 1;
+
+                            tvTotalVeggies.setText(cnt + " " + "Items");
+                        }
+
+
+
+
+
                         Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -270,7 +309,27 @@ public class cartItem {
                 }
             });
 
+
+            if (tvTotalVeggies.getText().toString().equals("0 Item"))
+            {
+                tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
+            }
+            else
+            {
+
+
+
+                double price_total= Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
+                double price_new= Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
+                price_total = price_total - price_new;
+                tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+
+
+            }
+
+
             mPlaceHolderView.removeView(this);
+
 
         } else {
             intCount = intCount - 1;
@@ -285,7 +344,10 @@ public class cartItem {
                 @Override
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
+                    if (resource.status.equals("success"))
+                    {
+
+
                         Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -297,6 +359,20 @@ public class cartItem {
                     call.cancel();
                 }
             });
+
+
+            if (tvTotalVeggies.getText().toString().equals("0 Item"))
+            {
+                tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
+            }
+            else
+            {
+                double price_total= Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
+                double price_new= Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
+                price_total = price_total - price_new;
+                tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+            }
+
         }
     }
 
@@ -314,7 +390,10 @@ public class cartItem {
             @Override
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                 UpdateToCartModel resource = response.body();
-                if (resource.status.equals("success")) {
+                if (resource.status.equals("success"))
+                {
+
+
                     Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -326,6 +405,21 @@ public class cartItem {
                 call.cancel();
             }
         });
+
+
+        if (tvTotalVeggies.getText().toString().equals("0 Item"))
+        {
+            tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
+        }
+        else
+        {
+            double price_total= Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
+            double price_new= Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
+            price_total = price_total + price_new;
+            tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+        }
+
+
     }
 
     public void display(int number) {
