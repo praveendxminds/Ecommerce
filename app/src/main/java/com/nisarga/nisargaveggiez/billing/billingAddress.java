@@ -91,7 +91,7 @@ public class billingAddress extends AppCompatActivity {
         tvApartmentDetails = findViewById(R.id.tvAddressDetails);
         imgBtnAddAddress = findViewById(R.id.imgBtnEditAddress);
         llContinue = findViewById(R.id.llContinue);
-        tvContinue = findViewById(R.id.tvContinue);
+       // tvContinue = findViewById(R.id.tvContinue);
         //for aprtment section getting from Login response
         strFirstName = session.showFirstName();
         strLastName = session.showLastName();
