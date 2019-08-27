@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
@@ -51,6 +52,7 @@ public class MyOrders extends AppCompatActivity {
     public static BottomNavigationView navigationMyOrders;
     View view_count;
     APIInterface apiInterface;
+    TextView tvEmptyMyOrders;
    // public orderItem orderItem;
 
     @Override
@@ -61,6 +63,7 @@ public class MyOrders extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationMyOrders = findViewById(R.id.navigationMyOrders);
         mCartView = findViewById(R.id.recycler_order);
+        tvEmptyMyOrders = findViewById(R.id.tvEmptyMyOrders);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -100,10 +103,10 @@ public class MyOrders extends AppCompatActivity {
 
                     }
 
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),resource.msg,Toast.LENGTH_SHORT).show();
-                    }
+                    else if (resource.mstatus.equals("failure")) {
+                        tvEmptyMyOrders.setVisibility(View.VISIBLE);
+                        mCartView.setVisibility(View.GONE);
+                        }
                 }
 
 

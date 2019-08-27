@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +50,7 @@ public class MyNotifications extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     APIInterface apiInterface;
     SessionManager session;
+    TextView tvEmptyNotifications;
 
 
     @Override
@@ -63,6 +66,7 @@ public class MyNotifications extends AppCompatActivity {
         }
 
         mnotificationView = (PlaceHolderView) findViewById(R.id.recycler_notify);
+        tvEmptyNotifications = (TextView) findViewById(R.id.tvEmptyNotifications);
 
 
 //        mnotificationView
@@ -90,11 +94,12 @@ public class MyNotifications extends AppCompatActivity {
                         List<NotificationListModel.NotificationListModelDatum> mpmDatum = resourceMyProfile.result;
                         for (NotificationListModel.NotificationListModelDatum mpmResult : mpmDatum)
                         {
-                            mnotificationView .addView(new NotificationItem(getApplicationContext(),mpmResult.date,mpmResult.title,mpmResult.body));
+                            mnotificationView.addView(new NotificationItem(getApplicationContext(),mpmResult.date,mpmResult.title,mpmResult.body));
                         }
 
                     } else if (resourceMyProfile.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resourceMyProfile.message, Toast.LENGTH_SHORT).show();
+                        tvEmptyNotifications.setVisibility(View.VISIBLE);
+                        mnotificationView.setVisibility(View.GONE);
                     }
                 }
 
