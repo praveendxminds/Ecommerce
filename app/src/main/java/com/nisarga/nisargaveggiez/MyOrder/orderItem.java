@@ -3,6 +3,7 @@ package com.nisarga.nisargaveggiez.MyOrder;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
@@ -117,36 +118,21 @@ public class orderItem {
         String delivDate = sdf.format(new Date(localTime.getTime()));
         deliveryDateOrder.setText("Delivered on" + " " + delivDate);
 
-        if (mstatus.equals("Canceled")) {
+
+        if (mstatus.equals("Canceled"))
+        {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
             canceledOrder.setText(mstatus);
-
-            Date dlocalTime = null;
-            try {
-
-                dlocalTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(mdeliveryDate);
-                Date dateBefore = new Date(dlocalTime.getTime() - 1 * 24 * 3600 * 1000);
-                String time1 = "04:00 AM";
+        }
+        else if (mstatus.equals("Pending"))
+        {
 
 
-                SimpleDateFormat sdfs = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
-                Date endtime = sdf.parse(dateBefore + " " + time1);
 
 
-                Date date = new Date();
 
-                if (date.compareTo(endtime) < 0) {
-                    Log.d("dateblw", "dateblw: ");
-                } else {
-                    Log.d("dateabv", "dateabv: ");
-                }
-
-            } catch (java.text.ParseException e) {
-                e.printStackTrace();
-            }
-        } else if (mstatus.equals("Pending")) {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setVisibility(android.view.View.GONE);
@@ -158,11 +144,60 @@ public class orderItem {
             deliveredOrder.setText("Delivered");
         }
 
-        if (mcancel.equals("0")) {
+        if (mcancel.equals("0"))
+        {
             btnCancelOrder.setVisibility(android.view.View.GONE);
-        } else {
+        }
+        else
+        {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
+
+
+
+            /* time date comparison 4 pm starts */
+            String tddate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
+
+            SimpleDateFormat del_dt = new SimpleDateFormat("dd/MM/yyyy");
+            String deliver_Date = del_dt.format(new Date(localTime.getTime()));
+
+
+            SimpleDateFormat sdfss = new SimpleDateFormat("dd/MM/yyyy");
+            Date strDate = null;
+            try {
+                strDate = sdfss.parse(deliver_Date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
+            if(tddate.equals(deliver_Date))
+            {
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                if(hour>16)
+                {
+                    btnCancelOrder.setEnabled(false);
+                    btnCancelOrder.setBackgroundColor(Color.parseColor("#33FA5400"));
+                    Log.d("my_date", "YES");
+                }
+
+            }
+
+            if (new Date().after(strDate))
+            {
+                btnCancelOrder.setEnabled(false);
+                btnCancelOrder.setBackgroundColor(Color.parseColor("#33FA5400"));
+            }
+            else
+            {
+                btnCancelOrder.setEnabled(true);
+            }
+
+            /* time date comparison 4 pm ends */
+
+
         }
 
     }
@@ -294,6 +329,7 @@ public class orderItem {
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
+
 
 
 }
