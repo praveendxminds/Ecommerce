@@ -56,13 +56,16 @@ public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
     PlaceHolderView mCartView;
-    TextView tvTotalVeggies, tvtotalAmount, linkDeliveryDay, tvEmptyCart;
+    TextView   linkDeliveryDay, tvEmptyCart;
     LinearLayout llCheckBox;
     private String storeDayTime;
     SessionManager session;
 
     APIInterface apiInterface;
     public String select_item;
+
+    public static TextView tvTotalVeggies;
+    public static TextView tvtotalAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,11 +196,22 @@ public class cart extends AppCompatActivity {
                     CartListModel resource = response.body();
                     if (resource.status.equals("success")) {
                         List<CartListModel.CartListDatum> datumList = resource.result;
-                        tvTotalVeggies.setText(datumList.size() + " Items");
+
+                        if (datumList.size() == 0) {
+                            tvTotalVeggies.setText("No Items");
+                        } else if (datumList.size() == 1) {
+                            tvTotalVeggies.setText(datumList.size() + " " + "Item");
+                        } else {
+                            tvTotalVeggies.setText(datumList.size() + " " + "Items");
+                        }
+
+                     //   tvTotalVeggies.setText(datumList.size() + " Items");
                         for (CartListModel.CartListDatum imgs : datumList) {
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
-                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView));
+                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView,imgs.price));
+
+
                             }
                         }
 
