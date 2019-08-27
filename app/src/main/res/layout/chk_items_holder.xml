@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#5734773C">
+                    android:background="#1A34773C">
                 </com.mindorks.placeholderview.PlaceHolderView>
             </LinearLayout>
         </LinearLayout>

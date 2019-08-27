@@ -41,11 +41,12 @@ public class CheckoutOrder extends AppCompatActivity {
     SessionManager session;
     APIInterface apiInterface;
     private String order_id;
-    private TextView tvOrdId, tvNameChkoutOrder, tvPhnChkoutOrder, tvAprtNameChkoutOrder, tvAprtDetailsChkoutOrder;
+    private TextView tvOrdId, tvNameChkoutOrder, tvPhnChkoutOrder, tvAprtNameChkoutOrder, tvAprtDetailsChkoutOrder,tvDelivDayChkoutOrder;
     private TextView tvChkoutDelvInstruct, tvInvoiceNo, tvOrdNo, tvOrdItems, tvSubTotal, tvDeliveryCharges, tvPrice, tvFinalTotal;
     private TextView tvWalletAmnt;
     String strTotalAmnt, strPrice, strSubTotal, strDelvCharge;
-    private String getFirstName, getPhone, getEmail, getAmount,getOrdId;
+    private String getFirstName, getPhone, getEmail, getAmount, getOrdId;
+    private String shipAddress, shipCity, shipZone,deliveryDay;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class CheckoutOrder extends AppCompatActivity {
         tvPhnChkoutOrder = findViewById(R.id.tvPhnChkoutOrder);
         tvAprtNameChkoutOrder = findViewById(R.id.tvAprtNameChkoutOrder);
         tvAprtDetailsChkoutOrder = findViewById(R.id.tvAprtDetailsChkoutOrder);
+        tvDelivDayChkoutOrder = findViewById(R.id.tvDelivDayChkoutOrder);
         tvChkoutDelvInstruct = findViewById(R.id.tvChkoutDelvInstruct);
         tvInvoiceNo = findViewById(R.id.tvInvoiceNo);
         tvOrdNo = findViewById(R.id.tvOrdNo);
@@ -82,7 +84,6 @@ public class CheckoutOrder extends AppCompatActivity {
         }
 
 
-
         getFirstName = session.getFirstName();
         getPhone = session.getTelephone();
         getEmail = session.getEmail();
@@ -93,35 +94,41 @@ public class CheckoutOrder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getOrdId = tvOrdId.getText().toString();
-                Intent intentReorder = new Intent(CheckoutOrder.this, ReorderHolder.class);
-                intentReorder.putExtra("order_id",getOrdId);
+                Intent intentReorder = new Intent(CheckoutOrder.this, OrderCheckItems.class);
+                intentReorder.putExtra("order_id", getOrdId);
                 startActivity(intentReorder);
             }
         });
         llPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
 
-                        Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ","")));
-                        Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
-                        intent.putExtra("FIRST_NAME", getFirstName);
-                        intent.putExtra("PHONE_NUMBER", getPhone);
-                        intent.putExtra("EMAIL_ADDRESS", getEmail);
+                Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
+                Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
+                intent.putExtra("FIRST_NAME", getFirstName);
+                intent.putExtra("PHONE_NUMBER", getPhone);
+                intent.putExtra("EMAIL_ADDRESS", getEmail);
 
-                double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ",""));
+                double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                 String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
 
                 intent.putExtra("RECHARGE_AMT", strTotalAmntpay);
 
-                        startActivity(intent);
-
-
+                startActivity(intent);
 
 
             }
         });
+        deliveryDay = session.getDeliveryweek();
+        if(deliveryDay!= null && !deliveryDay.isEmpty()
+                && !deliveryDay.equals("null"))
+        {
+            tvDelivDayChkoutOrder.setText("");
+        }
+        else {
+            tvDelivDayChkoutOrder.setText(deliveryDay);
+        }
         showListView();
         showWalletBlnc();
     }
@@ -156,13 +163,12 @@ public class CheckoutOrder extends AppCompatActivity {
                     WalletBlncModel resource = response.body();
                     if ((resource.data).equals("null")) {
                         tvWalletAmnt.setText("Rs." + " " + "0");
-                    }
-                    else
-                    {
+                    } else {
                         tvWalletAmnt.setText("Rs." + " " + resource.data);
 
                     }
                 }
+
                 @Override
                 public void onFailure(Call<WalletBlncModel> call, Throwable t) {
                     call.cancel();
@@ -183,46 +189,138 @@ public class CheckoutOrder extends AppCompatActivity {
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
-                       // Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         for (ReorderItemsModel.ReorderResult reorderData : result) {
-                            tvOrdId.setText(reorderData.order_id);
-                            tvOrdItems.setText(reorderData.quantity + " " + "Items");
-                            double dbl_Price = Double.parseDouble(reorderData.price);
-                            strPrice = String.format("%.2f", dbl_Price);
-                            tvPrice.setText("Rs." + " " + strPrice);
 
+                            if ((reorderData.order_id) != null && !(reorderData.order_id).isEmpty()
+                                    && !(reorderData.order_id).equals("null")) {
+
+                                tvOrdId.setText(reorderData.order_id);
+                            } else {
+                                tvOrdId.setText("XXX");
+                            }
+                            if ((reorderData.quantity) != null && !(reorderData.quantity).isEmpty()
+                                    && !(reorderData.quantity).equals("null")) {
+
+                                tvOrdItems.setText(reorderData.quantity + " " + "Items");
+
+                            } else {
+                                tvOrdItems.setText("0" + " " + "Item");
+                            }
+
+
+                            if ((reorderData.revised_price) != null && !(reorderData.revised_price).isEmpty()
+                                    && !(reorderData.revised_price).equals("null")) {
+
+                                double dbl_Price = Double.parseDouble(reorderData.revised_price);
+                                strPrice = String.format("%.2f", dbl_Price);
+                                tvPrice.setText("Rs." + " " + strPrice);
+                            } else {
+                                tvPrice.setText("Rs." + " " + "00.00");
+                            }
 
                         }
+                        //-------------------total amount------------------
+                        if ((resourcesReorder.totalMoney) != null && !(resourcesReorder.totalMoney).isEmpty()
+                                && !(resourcesReorder.totalMoney).equals("null")) {
 
-                        double dbl_Price_1 = Double.parseDouble(resourcesReorder.totalMoney);
-                        strTotalAmnt = String.format("%.2f", dbl_Price_1);
-                        tvFinalTotal.setText("Rs." + " " + strTotalAmnt);
+                            double dbl_Price_1 = Double.parseDouble(resourcesReorder.totalMoney);
+                            strTotalAmnt = String.format("%.2f", dbl_Price_1);
+                            tvFinalTotal.setText("Rs." + " " + strTotalAmnt);
+                        } else {
+                            tvFinalTotal.setText("Rs." + " " + "00.00");
+                        }
+                        //----------------------sub-total--------------------
+                        if ((resourcesReorder.sub_total) != null && !(resourcesReorder.sub_total).isEmpty()
+                                && !(resourcesReorder.sub_total).equals("null")) {
 
-                        double dbl_subTotal = Double.parseDouble(resourcesReorder.sub_total);
-                        strSubTotal = String.format("%.2f", dbl_subTotal);
-                        tvSubTotal.setText("Rs." + " " + strSubTotal);
+                            double dbl_subTotal = Double.parseDouble(resourcesReorder.sub_total);
+                            strSubTotal = String.format("%.2f", dbl_subTotal);
+                            tvSubTotal.setText("Rs." + " " + strSubTotal);
+                        } else {
+                            tvSubTotal.setText("Rs." + " " + "00.00");
+                        }
+                        //-----------delivery charges------------
+                        if ((resourcesReorder.delivery_charges) != null && !(resourcesReorder.delivery_charges).isEmpty()
+                                && !(resourcesReorder.delivery_charges).equals("null")) {
 
-                        double dbl_delivery = Double.parseDouble(resourcesReorder.delivery_charges);
-                        strDelvCharge = String.format("%.2f", dbl_delivery);
-                        tvDeliveryCharges.setText("Rs." + " " + strDelvCharge);
-
-
+                            double dbl_delivery = Double.parseDouble(resourcesReorder.delivery_charges);
+                            strDelvCharge = String.format("%.2f", dbl_delivery);
+                            tvDeliveryCharges.setText("Rs." + " " + strDelvCharge);
+                        } else {
+                            tvDeliveryCharges.setText("Rs." + " " + "00.00");
+                        }
 
 
                         List<ReorderItemsModel.ReorderCustDetails> resultCustDetails = resourcesReorder.customer_details;
                         for (ReorderItemsModel.ReorderCustDetails custDetails : resultCustDetails) {
                             tvNameChkoutOrder.setText(custDetails.firstname + " " + custDetails.lastname);
                             tvPhnChkoutOrder.setText("+91" + " " + custDetails.telephone);
-                            tvAprtNameChkoutOrder.setText(custDetails.apartment);
-                            tvAprtDetailsChkoutOrder.setText(custDetails.shipping_address_1 + ", " + custDetails.shipping_city + ", " + custDetails.shipping_zone);
-                            if (custDetails.delivery_instruction.equals("[]")) {
-                                tvChkoutDelvInstruct.setText("No Instructions");
+
+                            if ((custDetails.apartment) != null && !(custDetails.apartment).isEmpty()
+                                    && !(custDetails.apartment).equals("null")) {
+
+                                tvAprtNameChkoutOrder.setText(custDetails.apartment);
                             } else {
-                                tvChkoutDelvInstruct.setText(custDetails.delivery_instruction);
+                                tvAprtNameChkoutOrder.setText("");
                             }
-                            tvInvoiceNo.setText(custDetails.invoice_no);
-                            tvOrdNo.setText(custDetails.order_id);
+
+                            if ((custDetails.shipping_address_1) != null && !(custDetails.shipping_address_1).isEmpty()
+                                    && !(custDetails.shipping_address_1).equals("null")) {
+                                shipAddress = custDetails.shipping_address_1 + ", ";
+                            } else {
+                                shipAddress = "";
+                            }
+                            if ((custDetails.shipping_city) != null && !(custDetails.shipping_city).isEmpty()
+                                    && !(custDetails.shipping_city).equals("null")) {
+                                shipCity = custDetails.shipping_city + ", ";
+                            } else {
+                                shipCity = "";
+                            }
+                            if ((custDetails.shipping_zone) != null && !(custDetails.shipping_zone).isEmpty()
+                                    && !(custDetails.shipping_zone).equals("null")) {
+                                shipZone = custDetails.shipping_zone;
+                            } else {
+                                shipZone = "";
+
+                            }
+                            tvAprtDetailsChkoutOrder.setText(shipAddress + shipCity + shipZone);
+
+                            if ((custDetails.delivery_instruction) != null && !(custDetails.delivery_instruction).isEmpty()
+                                    && !(custDetails.delivery_instruction).equals("null")) {
+
+                                tvChkoutDelvInstruct.setText(custDetails.delivery_instruction);
+
+                            } else if (custDetails.delivery_instruction.equals("[]")) {
+
+                                tvChkoutDelvInstruct.setText("No Instructions");
+
+                            } else {
+
+                                tvChkoutDelvInstruct.setText("No Instructions");
+
+                            }
+                            //----------------invoice number-------------
+                            if ((custDetails.invoice_prefix) != null && !(custDetails.invoice_prefix).isEmpty()
+                                    && !(custDetails.invoice_prefix).equals("null")) {
+
+                                tvInvoiceNo.setText(custDetails.invoice_prefix);
+                            }
+                            else
+                            {
+                                tvInvoiceNo.setText("");
+                            }
+                            //--------order number-----------
+                            if ((custDetails.order_id) != null && !(custDetails.order_id).isEmpty()
+                                    && !(custDetails.order_id).equals("null")) {
+
+                                tvOrdNo.setText(custDetails.order_id);
+                            }
+                            else
+                            {
+                                tvOrdNo.setText("XXX");
+                            }
 
 
                         }
