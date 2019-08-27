@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -48,6 +49,7 @@ public class PaymentHistory extends AppCompatActivity {
     APIInterface apiInterface;
     public String paymentId;
     TextView tvEmptyPaymentHistory;
+    SwipeRefreshLayout pullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,18 @@ public class PaymentHistory extends AppCompatActivity {
 
         recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
         tvEmptyPaymentHistory = (TextView) findViewById(R.id.tvEmptyPaymentHistory);
-        showListView();
+
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recycler_payHistory.removeAllViews();
+                showListView();
+                pullToRefresh.setRefreshing(false);
+
+            }
+        });
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_PayHistory);
         bottomNavigationView.getMenu().findItem(R.id.navigation_wallet).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
@@ -115,7 +128,7 @@ public class PaymentHistory extends AppCompatActivity {
                 public void onResponse(Call<TxnHistoryModel> call, Response<TxnHistoryModel> response) {
                     TxnHistoryModel resource = response.body();
                     if ((resource.status).equals("success")) {
-                    List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
+                        List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
                         for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
 
                             recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(), imgs.date, imgs.transaction_type,

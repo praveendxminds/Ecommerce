@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -51,6 +52,7 @@ public class MyNotifications extends AppCompatActivity {
     APIInterface apiInterface;
     SessionManager session;
     TextView tvEmptyNotifications;
+    SwipeRefreshLayout pullToRefresh;
 
 
     @Override
@@ -81,36 +83,18 @@ public class MyNotifications extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         session = new SessionManager(getApplicationContext());
 
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh()
+            {
+                mnotificationView.removeAllViews();
+                getNotifications();
+                pullToRefresh.setRefreshing(false);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //------------------------------------- My profile view section------------------------------------------------
-            final NotificationListModel cust_id = new NotificationListModel(session.getCustomerId());
-            Call<NotificationListModel> call = apiInterface.getnotificationlist(cust_id);
-            call.enqueue(new Callback<NotificationListModel>() {
-                @Override
-                public void onResponse(Call<NotificationListModel> call, Response<NotificationListModel> response) {
-                    NotificationListModel resourceMyProfile = response.body();
-                    if (resourceMyProfile.status.equals("success")) {
-                        List<NotificationListModel.NotificationListModelDatum> mpmDatum = resourceMyProfile.result;
-                        for (NotificationListModel.NotificationListModelDatum mpmResult : mpmDatum)
-                        {
-                            mnotificationView.addView(new NotificationItem(getApplicationContext(),mpmResult.date,mpmResult.title,mpmResult.body));
-                        }
+            }
+        });
 
-                    } else if (resourceMyProfile.status.equals("failure")) {
-                        tvEmptyNotifications.setVisibility(View.VISIBLE);
-                        mnotificationView.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<NotificationListModel> call, Throwable t) {
-
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_Notifications);
@@ -162,14 +146,13 @@ public class MyNotifications extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater miNotification = getMenuInflater();
-        miNotification.inflate(R.menu.instruction_menu,menu);
+        miNotification.inflate(R.menu.instruction_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -180,5 +163,38 @@ public class MyNotifications extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void getNotifications() {
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            final NotificationListModel cust_id = new NotificationListModel(session.getCustomerId());
+            Call<NotificationListModel> call = apiInterface.getnotificationlist(cust_id);
+            call.enqueue(new Callback<NotificationListModel>() {
+                @Override
+                public void onResponse(Call<NotificationListModel> call, Response<NotificationListModel> response) {
+                    NotificationListModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        List<NotificationListModel.NotificationListModelDatum> mpmDatum = resourceMyProfile.result;
+                        for (NotificationListModel.NotificationListModelDatum mpmResult : mpmDatum) {
+                            mnotificationView.addView(new NotificationItem(getApplicationContext(), mpmResult.date, mpmResult.title, mpmResult.body));
+                        }
+
+                    } else if (resourceMyProfile.status.equals("failure")) {
+                        tvEmptyNotifications.setVisibility(View.VISIBLE);
+                        mnotificationView.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<NotificationListModel> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

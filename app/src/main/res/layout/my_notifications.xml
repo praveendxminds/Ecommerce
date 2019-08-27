@@ -1,50 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:background="@color/white"
     android:gravity="center"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="?attr/homeAsUpIndicator"
         app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="?attr/homeAsUpIndicator"
         app:subtitleTextColor="@color/white"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
         app:title="Notification"
-        android:layout_height="?attr/actionBarSize" />
+        app:titleTextAppearance="@style/AppTheme.Toolbar.Title"
+        app:titleTextColor="@color/white" />
 
-    <RelativeLayout android:background="#e1e1e1"
-        android:layout_height="fill_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="fill_parent"
+        android:background="#e1e1e1">
 
 
-
-        <com.mindorks.placeholderview.PlaceHolderView
-            android:id="@+id/recycler_notify"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:id="@+id/llNotifications"
             android:layout_width="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:background="@color/white">
+            android:layout_height="wrap_content">
 
-        </com.mindorks.placeholderview.PlaceHolderView>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/recycler_notify"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="12dp">
+
+                </com.mindorks.placeholderview.PlaceHolderView>
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvEmptyNotifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/recycler_notify"
+            android:layout_below="@+id/llNotifications"
             android:gravity="center"
             android:text="Your Notifications is Empty."
             android:visibility="gone" />

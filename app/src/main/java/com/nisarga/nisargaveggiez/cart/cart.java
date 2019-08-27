@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -56,7 +57,7 @@ public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
     PlaceHolderView mCartView;
-    TextView   linkDeliveryDay, tvEmptyCart;
+    TextView linkDeliveryDay, tvEmptyCart;
     LinearLayout llCheckBox;
     private String storeDayTime;
     SessionManager session;
@@ -66,6 +67,8 @@ public class cart extends AppCompatActivity {
 
     public static TextView tvTotalVeggies;
     public static TextView tvtotalAmount;
+    SwipeRefreshLayout pullToRefresh;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +115,7 @@ public class cart extends AppCompatActivity {
                 categories_dtes.add("Select");
 
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if(hour>=21)
-                {
+                if (hour >= 21) {
                     SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                     for (int i = 2; i < 5; i++) {
@@ -125,9 +127,7 @@ public class cart extends AppCompatActivity {
                         categories.add(catdays);
                         categories_dtes.add(days);
                     }
-                }
-                else
-                {
+                } else {
                     SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                     for (int i = 1; i < 4; i++) {
@@ -180,7 +180,17 @@ public class cart extends AppCompatActivity {
             }
         });
 
-        showListView();
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCartView.removeAllViews();
+                showListView();
+                pullToRefresh.setRefreshing(false);
+
+            }
+        });
+
     }
 
     public void showListView() {
@@ -205,11 +215,11 @@ public class cart extends AppCompatActivity {
                             tvTotalVeggies.setText(datumList.size() + " " + "Items");
                         }
 
-                     //   tvTotalVeggies.setText(datumList.size() + " Items");
+                        //   tvTotalVeggies.setText(datumList.size() + " Items");
                         for (CartListModel.CartListDatum imgs : datumList) {
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
-                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView,imgs.price));
+                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView, imgs.price));
 
 
                             }

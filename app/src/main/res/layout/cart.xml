@@ -66,14 +66,27 @@
             android:text="Your Cart is Empty"
             android:visibility="gone" />
 
-        <com.mindorks.placeholderview.PlaceHolderView
-            android:id="@+id/recycler_cart"
+        <LinearLayout
+            android:id="@+id/llCart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/llCheckBox"
-            android:layout_below="@+id/layout_total"
-            android:background="@color/white"
-            android:visibility="visible" />
+            android:layout_height="wrap_content">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/recycler_cart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/llCheckBox"
+                    android:layout_below="@+id/layout_total"
+                    android:background="@color/white"
+                    android:visibility="visible" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llCheckBox"
