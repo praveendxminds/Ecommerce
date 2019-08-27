@@ -108,16 +108,34 @@ public class cart extends AppCompatActivity {
                 categories.add("Select");
                 categories_dtes.add("Select");
 
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-                for (int i = 1; i < 4; i++) {
-                    Calendar calendars = new GregorianCalendar();
-                    calendars.add(Calendar.DAY_OF_WEEK, i);
-                    String catdays = sdf.format(calendars.getTime());
-                    String days = sdf1.format(calendars.getTime());
-                    Log.i("daysddddds", days);
-                    categories.add(catdays);
-                    categories_dtes.add(days);
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                if(hour>=21)
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    for (int i = 2; i < 5; i++) {
+                        Calendar calendars = new GregorianCalendar();
+                        calendars.add(Calendar.DAY_OF_WEEK, i);
+                        String catdays = sdf.format(calendars.getTime());
+                        String days = sdf1.format(calendars.getTime());
+                        Log.i("daysddddds", days);
+                        categories.add(catdays);
+                        categories_dtes.add(days);
+                    }
+                }
+                else
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    for (int i = 1; i < 4; i++) {
+                        Calendar calendars = new GregorianCalendar();
+                        calendars.add(Calendar.DAY_OF_WEEK, i);
+                        String catdays = sdf.format(calendars.getTime());
+                        String days = sdf1.format(calendars.getTime());
+                        Log.i("daysddddds", days);
+                        categories.add(catdays);
+                        categories_dtes.add(days);
+                    }
                 }
 
                 LayoutInflater inflater = getLayoutInflater();
@@ -126,11 +144,6 @@ public class cart extends AppCompatActivity {
                 //----day spinner--------
                 final Spinner dayspinner = alertLayout.findViewById(R.id.dayspinner);
                 final Button schedule = alertLayout.findViewById(R.id.btnSchedule);
-                // final SpinnerAdapter adapterDay = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
-                //  adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                //adapterDay.addAll(categories);
-                // adapterDay.add("Select Day");
-                // dayspinner.setAdapter(adapterDay);
 
                 dayspinner.setAdapter(new DeliverydateAdapter(getApplicationContext(), categories, categories));
                 dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
