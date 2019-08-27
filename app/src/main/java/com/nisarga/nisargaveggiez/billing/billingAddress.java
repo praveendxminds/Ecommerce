@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.billing;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -150,7 +151,9 @@ public class billingAddress extends AppCompatActivity {
         if (Utils.CheckInternetConnection(getApplicationContext()))
         {
           //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
-
+          /*  progressdialog = new ProgressDialog(CheckOutMyCart.this);
+            progressdialog.setMessage("Please Wait....");
+*/
             Log.d("strArea", String.valueOf(strArea));
             final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName,strAddress , strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
             Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);

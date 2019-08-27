@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.cart;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class CheckOutMyCart extends AppCompatActivity {
     private String strCustFName, strCustLName, strPhoneNo, strAprtName, strAprtDetails, strInstruct, strDeliveryDay;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
     APIInterface apiInterface;
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,10 @@ public class CheckOutMyCart extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        progressdialog = new ProgressDialog(CheckOutMyCart.this);
+        progressdialog.setMessage("Please Wait....");
+
 
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -71,28 +77,27 @@ public class CheckOutMyCart extends AppCompatActivity {
         strCustLName = session.getLastName();
         strPhoneNo = session.getPhoneNumber();
         strAprtName = session.getCompany();
-        strBlock = session.getBlockNo();
-        strDoor = session.getDoorNo();
-        strFloor = session.getFloor();
-        strArea = session.getAddrSecond();
-        strAddress = session.getAddrFirst();
-        strCity = session.getCity();
+        strBlock = session.getBlockNo()+"," + " ";
+        strDoor = session.getDoorNo()+"," + " ";
+        strFloor = session.getFloor()+ "," + " ";
+        strArea = session.getAddrSecond()+ "," + " ";
+        strAddress = session.getAddrFirst()+ "," + " ";
+        strCity = session.getCity()+ "," + " ";
         strPincode = session.getPincode();
         strInstruct = session.getShipInstruct();
-        strDeliveryDay = session.getDeliverydate();
+        strDeliveryDay = session.getDeliveryweek();
 
         tvChkoutCustName.setText(strCustFName + " " + strCustLName);
         tvChkoutPhnNo.setText(strPhoneNo);
         tvChkoutAprtName.setText(strAprtName);
-        tvChkoutAprtDetails.setText(strDoor + "," + " " + strFloor + "," + " " + strBlock +
-                "," + " " + strAddress + "," + " " + strArea + "," + " " + strCity + "," + " " + strPincode);
+        tvChkoutAprtDetails.setText(strDoor + strFloor + strBlock + strAddress + strArea + strCity+ strPincode);
         tvChkoutDelvInstruct.setText(strInstruct);
         tvChkoutDeliveryDay.setText(strDeliveryDay);
 
 
-        tvTotalSaving.setText(session.getTotalSavingAmount());
-        tvCartValue.setText(session.getTotalAmount());
-        tvPayableAmount.setText(session.getTotalAmount());
+        tvTotalSaving.setText("Rs."+" "+session.getTotalSavingAmount());
+        tvCartValue.setText("Rs."+" "+session.getTotalAmount());
+        tvPayableAmount.setText("Rs."+" "+session.getTotalAmount());
 
         confirmOrder();
         moveToEditAddress();
@@ -163,7 +168,11 @@ public class CheckOutMyCart extends AppCompatActivity {
     public void addorder() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-
+            try {
+                progressdialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Log.d("getToken", String.valueOf(session.getToken()));
 
             final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
@@ -193,13 +202,8 @@ public class CheckOutMyCart extends AppCompatActivity {
                               startActivity(intentConfirmOrder);
 
                           }
-
-
-
-
                     }
-
-
+                    progressdialog.dismiss();
                 }
 
                 @Override
