@@ -37,6 +37,7 @@ public class CheckOutMyCart extends AppCompatActivity {
     SessionManager session;
     Toolbar toolbar;
     private TextView llConfirmOrder;
+    private LinearLayout cnflyt;
     private ImageButton imgBtnEditAddress;
     private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName;
     private TextView tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvCartValue, tvChkoutDeliveryDay;
@@ -57,7 +58,6 @@ public class CheckOutMyCart extends AppCompatActivity {
         progressdialog = new ProgressDialog(CheckOutMyCart.this);
         progressdialog.setMessage("Please Wait....");
 
-
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -71,6 +71,7 @@ public class CheckOutMyCart extends AppCompatActivity {
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
         tvCartValue = findViewById(R.id.tvCartValue);
         llConfirmOrder = findViewById(R.id.llConfirmOrder);
+        cnflyt = findViewById(R.id.cnflyt);
         imgBtnEditAddress = findViewById(R.id.imgBtnEditAddress);
 
         strCustFName = session.getFirstName();
@@ -134,7 +135,7 @@ public class CheckOutMyCart extends AppCompatActivity {
     }
 
     public void confirmOrder() {
-        llConfirmOrder.setOnClickListener(new View.OnClickListener() {
+        cnflyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -181,17 +182,15 @@ public class CheckOutMyCart extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<AddOrder> call, Response<AddOrder> response) {
                     AddOrder resource = response.body();
+
+                    List<AddOrder.AddOrderList> datumList = resource.data;
                     if ((resource.status).equals("success")) {
-
-                        List<AddOrder.AddOrderList> datumList = resource.data;
-
                       //  Log.d("Addorderlist", String.valueOf(datumList));
-
                           for (AddOrder.AddOrderList lsss : datumList)
                           {
                               Log.d("addressdddd", String.valueOf(lsss.address));
                               // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
-
+                              progressdialog.dismiss();
                               Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
                               intentConfirmOrder.putExtra("address",lsss.address);
                               intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
@@ -202,7 +201,7 @@ public class CheckOutMyCart extends AppCompatActivity {
 
                           }
                     }
-                    progressdialog.dismiss();
+
                 }
 
                 @Override

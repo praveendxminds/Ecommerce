@@ -28,6 +28,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -430,6 +431,7 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         searchViews.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 Intent accountIntent = new Intent(getBaseContext(), search.class);
                 startActivity(accountIntent);
                 return false;

@@ -75,7 +75,6 @@ public class RemoteData {
 
 
 
-                      //  List<String> str = new ArrayList<String>();
                         for(ProductData s : response.body().getResult())
                         {
                            // str.add(s.getName());

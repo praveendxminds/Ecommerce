@@ -12,6 +12,8 @@ import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.View;
 
+import static android.view.View.GONE;
+
 @NonReusable
 @Layout(R.layout.payment_history_items)
 public class PaymentHistoryItems {
@@ -61,28 +63,35 @@ public class PaymentHistoryItems {
     @Resolve
     public void onResolved() {
 
-        if (mType.equals("wallet")) {
-            if (mtxnType.equals("credit")) {
-                btnCredit.setVisibility(android.view.View.VISIBLE);
-                btnDebit.setVisibility(android.view.View.GONE);
-                Glide.with(mContext).load(R.drawable.addmoneyinwallate).into(iconPayHistory);
-            } else {
-                btnCredit.setVisibility(android.view.View.GONE);
-                btnDebit.setVisibility(android.view.View.VISIBLE);
-                Glide.with(mContext).load(R.drawable.moneyspentorder).into(iconPayHistory);
-            }
-        }else
+        if(mStatus.equals("failure"))
         {
-            if (mtxnType.equals("credit")) {
-                btnCredit.setVisibility(android.view.View.VISIBLE);
-                btnDebit.setVisibility(android.view.View.GONE);
-                Glide.with(mContext).load(R.drawable.reedempoints).into(iconPayHistory);
+            btnCredit.setVisibility(GONE);
+            btnDebit.setVisibility(GONE);
+        }
+        else {
+            if (mType.equals("wallet")) {
+                if (mtxnType.equals("credit")) {
+                    btnCredit.setVisibility(android.view.View.VISIBLE);
+                    btnDebit.setVisibility(GONE);
+                    Glide.with(mContext).load(R.drawable.addmoneyinwallate).into(iconPayHistory);
+                } else {
+                    btnCredit.setVisibility(GONE);
+                    btnDebit.setVisibility(android.view.View.VISIBLE);
+                    Glide.with(mContext).load(R.drawable.moneyspentorder).into(iconPayHistory);
+                }
             } else {
-                btnCredit.setVisibility(android.view.View.GONE);
-                btnDebit.setVisibility(android.view.View.VISIBLE);
-                Glide.with(mContext).load(R.drawable.loyalitypoints).into(iconPayHistory);
+                if (mtxnType.equals("credit")) {
+                    btnCredit.setVisibility(android.view.View.VISIBLE);
+                    btnDebit.setVisibility(GONE);
+                    Glide.with(mContext).load(R.drawable.reedempoints).into(iconPayHistory);
+                } else {
+                    btnCredit.setVisibility(GONE);
+                    btnDebit.setVisibility(android.view.View.VISIBLE);
+                    Glide.with(mContext).load(R.drawable.loyalitypoints).into(iconPayHistory);
+                }
             }
         }
+
         tvStatusPayHistory.setText(mStatus);
         tvTitlePayHistory.setText(mDesc);
             tvTxnId.setText(paymentId);
