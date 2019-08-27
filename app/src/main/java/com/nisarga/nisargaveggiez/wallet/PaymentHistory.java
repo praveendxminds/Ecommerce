@@ -68,6 +68,7 @@ public class PaymentHistory extends AppCompatActivity {
         tvEmptyPaymentHistory = (TextView) findViewById(R.id.tvEmptyPaymentHistory);
         showListView();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_PayHistory);
+        bottomNavigationView.getMenu().findItem(R.id.navigation_wallet).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)

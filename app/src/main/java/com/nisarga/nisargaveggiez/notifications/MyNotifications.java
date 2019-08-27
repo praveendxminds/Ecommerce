@@ -114,6 +114,7 @@ public class MyNotifications extends AppCompatActivity {
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnav_Notifications);
+        bottomNavigationView.getMenu().findItem(R.id.navigation_home).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
