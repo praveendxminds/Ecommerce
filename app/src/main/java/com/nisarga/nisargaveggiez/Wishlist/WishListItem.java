@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mindorks.placeholderview.annotations.Position;
 import com.nisarga.nisargaveggiez.Home.ProductDetailHome;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
@@ -63,6 +64,9 @@ public class WishListItem {
 
     @ParentPosition
     public int mParentPosition;
+
+    @Position
+    public int position;
 
     SessionManager session;
     Context mContext;
