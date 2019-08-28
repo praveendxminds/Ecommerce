@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -23,15 +24,15 @@
         android:id="@+id/scrollviewConfirmation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/llShareCode">
+        android:layout_above="@+id/llShareCode"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:layout_marginBottom="30dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,13 +60,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="5dp"
                         android:text="Reward your friends and yourself"
                         android:textAllCaps="false"
                         android:textColor="@color/light_black_3"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="10dp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -85,9 +86,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -108,13 +109,13 @@
                             android:textColor="@color/light_black_1"
                             android:textSize="12sp" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/ref"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="left|center"
-                            android:hint="ANKIT1224"
+                            android:hint=""
                             android:padding="5dp"
                             android:textAllCaps="false"
                             android:textColor="@color/light_black_2"
@@ -193,12 +194,13 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/llShareCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent">
 
         <TextView
             android:id="@+id/tvshare"

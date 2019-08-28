@@ -17,7 +17,7 @@
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/white"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"

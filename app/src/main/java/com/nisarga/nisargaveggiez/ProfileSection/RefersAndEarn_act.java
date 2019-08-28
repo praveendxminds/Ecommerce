@@ -35,7 +35,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
 
     Toolbar toolbar;
     APIInterface apiInterface;
-    EditText edref;
+    TextView edref;
     TextView tvshare;
     SessionManager session;
 
@@ -47,8 +47,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -57,7 +56,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
 
 
-        edref = (EditText) findViewById(R.id.ref);
+        edref = (TextView) findViewById(R.id.ref);
         tvshare = (TextView) findViewById(R.id.tvshare);
 
         final ReferalModel ref = new ReferalModel(Integer.parseInt(session.getCustomerId()));
@@ -66,21 +65,17 @@ public class RefersAndEarn_act extends AppCompatActivity {
             @Override
             public void onResponse(Call<ReferalModel> calledu, Response<ReferalModel> response) {
                 final ReferalModel resource = response.body();
-                if (resource.status.equals("success"))
-                {
+                if (resource.status.equals("success")) {
 
                     List<ReferalModel.ReferalModelDatum> datumList = resource.result;
                     for (ReferalModel.ReferalModelDatum imgs : datumList) {
-                        if (response.isSuccessful())
-                        {
+                        if (response.isSuccessful()) {
                             Log.d("refd", imgs.referal_code);
                             edref.setText(imgs.referal_code);
                         }
                     }
 
-                }
-                else if (resource.status.equals("error"))
-                {
+                } else if (resource.status.equals("error")) {
 
                 }
             }
@@ -92,15 +87,13 @@ public class RefersAndEarn_act extends AppCompatActivity {
         });
 
 
-        tvshare.setOnClickListener(new View.OnClickListener()
-        {
+        tvshare.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View voew)
-            {
+            public void onClick(View voew) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT,
-                        "https://play.google.com/store/apps/details?id=com.nisarga.nisargaveggiez&referrer="+edref.getText());
+                        "https://play.google.com/store/apps/details?id=com.nisarga.nisargaveggiez&referrer=" + edref.getText());
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
 
@@ -112,26 +105,25 @@ public class RefersAndEarn_act extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater  menuNotfiInfo = getMenuInflater();
-        menuNotfiInfo.inflate(R.menu.notifi_and_info_menu,menu);
+        MenuInflater menuNotfiInfo = getMenuInflater();
+        menuNotfiInfo.inflate(R.menu.notifi_and_info_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
             case R.id.menu_notifi:
-                Intent intentNotifi = new Intent(RefersAndEarn_act.this,MyNotifications.class);
+                Intent intentNotifi = new Intent(RefersAndEarn_act.this, MyNotifications.class);
                 startActivity(intentNotifi);
                 break;
 
             case R.id.menu_info:
-                Intent intentInfo = new Intent(RefersAndEarn_act.this,DeliveryInformation.class);
+                Intent intentInfo = new Intent(RefersAndEarn_act.this, DeliveryInformation.class);
                 startActivity(intentInfo);
                 break;
         }
@@ -139,8 +131,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp()
-    {
+    public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }

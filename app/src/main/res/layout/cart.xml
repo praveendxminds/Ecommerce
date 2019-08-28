@@ -23,7 +23,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#e1e1e1">
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/layout_total"
@@ -69,20 +69,19 @@
         <LinearLayout
             android:id="@+id/llCart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/llCheckBox"
+            android:layout_below="@+id/layout_total">
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <com.mindorks.placeholderview.PlaceHolderView
                     android:id="@+id/recycler_cart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/llCheckBox"
-                    android:layout_below="@+id/layout_total"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:visibility="visible" />
             </android.support.v4.widget.SwipeRefreshLayout>
@@ -93,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
             android:background="@color/green_1"
             android:orientation="horizontal"
             android:paddingLeft="8dp"
@@ -157,10 +157,7 @@
                     android:textColor="@color/light_black_2"
                     android:textSize="14sp" />
             </LinearLayout>
-
         </LinearLayout>
-
-
     </RelativeLayout>
 </LinearLayout>
 
