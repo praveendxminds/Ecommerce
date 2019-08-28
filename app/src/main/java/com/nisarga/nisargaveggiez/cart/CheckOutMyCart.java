@@ -1,5 +1,4 @@
 package com.nisarga.nisargaveggiez.cart;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -186,21 +185,21 @@ public class CheckOutMyCart extends AppCompatActivity {
 
                     List<AddOrder.AddOrderList> datumList = resource.data;
                     if ((resource.status).equals("success")) {
-                      //  Log.d("Addorderlist", String.valueOf(datumList));
-                          for (AddOrder.AddOrderList lsss : datumList)
-                          {
-                              Log.d("addressdddd", String.valueOf(lsss.address));
-                              // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
-                              progressdialog.dismiss();
-                              Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
-                              intentConfirmOrder.putExtra("address",lsss.address);
-                              intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
-                              intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);
-                              intentConfirmOrder.putExtra("total",String.valueOf(lsss.total));
-                              intentConfirmOrder.putExtra("order_id",String.valueOf(lsss.order_id));
-                              startActivity(intentConfirmOrder);
+                        //  Log.d("Addorderlist", String.valueOf(datumList));
+                        for (AddOrder.AddOrderList lsss : datumList)
+                        {
+                            Log.d("addressdddd", String.valueOf(lsss.address));
+                            // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
+                            progressdialog.dismiss();
+                            Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
+                            intentConfirmOrder.putExtra("address",lsss.address);
+                            intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
+                            intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);
+                            intentConfirmOrder.putExtra("total",String.valueOf(lsss.total));
+                            intentConfirmOrder.putExtra("order_id",String.valueOf(lsss.order_id));
+                            startActivity(intentConfirmOrder);
 
-                          }
+                        }
                     }
 
                 }

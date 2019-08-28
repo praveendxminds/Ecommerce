@@ -142,6 +142,7 @@ public class MyWalletActivity extends AppCompatActivity {
 
     void setFooter() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bNav_MyWallet);
+        bottomNavigationView.getMenu().findItem(R.id.navigation_wallet).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)

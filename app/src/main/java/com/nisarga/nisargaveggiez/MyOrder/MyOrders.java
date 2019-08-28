@@ -121,6 +121,7 @@ public class MyOrders extends AppCompatActivity {
         }
 
         //----------bottom navigation-----------------------------
+        navigationMyOrders.getMenu().findItem(R.id.navigation_home).setChecked(true);
         navigationMyOrders.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)

@@ -116,7 +116,7 @@ public class WishListHolder extends AppCompatActivity {
             Toast.makeText(WishListHolder.this, "No Internet. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
         //------------------------------Bottom Navigation---------------------------------------------------------------------
-
+        bottomNavigationView.getMenu().findItem(R.id.navigation_wishlist).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
