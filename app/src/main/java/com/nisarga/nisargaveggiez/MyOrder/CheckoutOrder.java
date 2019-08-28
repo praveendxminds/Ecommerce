@@ -141,7 +141,7 @@ public class CheckoutOrder extends AppCompatActivity {
                                         double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                                         String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
 
-                                        intent.putExtra("RECHARGE_AMT", strTotalAmntpay);
+                                        intent.putExtra("RECHARGE_AMT", String.valueOf(resource.total_to_be_paid));
 
                                         startActivity(intent);
 
