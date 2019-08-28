@@ -98,6 +98,10 @@ public interface APIInterface {
     @POST("index.php?route=api/order/MyorderProductList")
     Call<ReorderItemsModel> showReorderItems(@Body ReorderItemsModel id);
 
+    @POST("index.php")
+    Call<ReOrder> reorderItems(@Query("route") String route, @Query("api_token") String api_token, @Body ReOrder id);
+
+
     @POST("index.php?route=api/customer/walletadd")
     Call<AddMoneytoWalletModel> addMoney(@Body AddMoneytoWalletModel id);
 
@@ -199,6 +203,10 @@ public interface APIInterface {
     @POST("index.php")
     Call<AddOrder> AddOrder(@Query("route") String route, @Query("api_token") String api_token,
                             @Body AddOrder model);
+
+    @POST("index.php")
+    Call<ReOrder> AddOrder(@Query("route") String route, @Query("api_token") String api_token,
+                            @Body ReOrder model);
 
     @POST("index.php?route=api/orderreview/giveOrderreview")
     Call<OrderFeedback> orderfeedback(@Body OrderFeedback feed);

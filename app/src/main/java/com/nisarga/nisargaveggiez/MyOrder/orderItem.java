@@ -106,17 +106,26 @@ public class orderItem {
 
         builder = new AlertDialog.Builder(mContext);
 
-
-        orderIdOrder.setText("Order Id :" + " " + morderId);
-        Date localTime = null;
-        try {
-            localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
+        if(morderId != null && !morderId.isEmpty() && !morderId.equals("null")) {
+            orderIdOrder.setText("Order Id :" + " " + morderId);
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
-        String delivDate = sdf.format(new Date(localTime.getTime()));
-        deliveryDateOrder.setText("Delivered on" + " " + delivDate);
+        else
+        {
+            orderIdOrder.setText("Order Id :" + " " + "XXX");
+        }
+
+       
+            Date localTime = null;
+            try {
+                localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
+            String delivDate = sdf.format(new Date(localTime.getTime()));
+            deliveryDateOrder.setText("Delivered on" + " " + delivDate);
+
+
 
 
         if (mstatus.equals("Canceled")) {
@@ -141,7 +150,6 @@ public class orderItem {
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
-
 
 
             /* time date comparison 4 pm starts */
