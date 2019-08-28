@@ -31,12 +31,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -70,6 +72,7 @@ import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.retrofit.ShopByCategModel;
 import com.nisarga.nisargaveggiez.search;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
@@ -150,6 +153,8 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
     private String imagepath = null;
     String strProfilePic = "null";
 
+    String value;
+
     public void init() {
         mToolbarShopBy = (Toolbar) findViewById(R.id.toolbarShopBy);
         setSupportActionBar(mToolbarShopBy);
@@ -169,7 +174,7 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         navigationView = (NavigationView) findViewById(R.id.nav_viewShopByCateg);
         headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
+        setNavMenuItemThemeColors();
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -487,7 +492,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
         if (id == R.id.menuleft_home) {
             menuItem.setEnabled(true);
             Intent intentHome = new Intent(CategoriesBottomNav.this, HomePage.class);
@@ -502,8 +506,72 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             Intent intentMyReferEarn = new Intent(CategoriesBottomNav.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
         } else if (id == R.id.menuleft_rateus) {
-            Intent intentMyRateUs = new Intent(CategoriesBottomNav.this, RateUs_act.class);
-            startActivity(intentMyRateUs);
+            LayoutInflater li = LayoutInflater.from(CategoriesBottomNav.this);
+            android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(CategoriesBottomNav.this,
+                    R.style.AlertDialogStyle);
+            alertDialogBuilder.setView(promptsView);
+
+            // set the custom dialog components - text, image and button
+            ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
+            final ImageView ivUnlikeGray = (ImageView) promptsView.findViewById(R.id.ivUnlikeGray);
+            final ImageView ivUnlikeGreen = (ImageView) promptsView.findViewById(R.id.ivUnlikeGreen);
+            final ImageView ivLikeGray = (ImageView) promptsView.findViewById(R.id.ivLikeGray);
+            final ImageView ivLikeGreen = (ImageView) promptsView.findViewById(R.id.ivLikeGreen);
+            Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
+
+            final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+            ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    ivUnlikeGreen.setVisibility(View.VISIBLE);
+                    ivUnlikeGray.setVisibility(View.GONE);
+                    value = "0";
+                }
+            });
+
+            ivLikeGray.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    ivLikeGreen.setVisibility(View.VISIBLE);
+                    ivLikeGray.setVisibility(View.GONE);
+                    value = "1";
+                }
+            });
+
+            ivClose.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    alertDialog.cancel();
+                }
+            });
+
+            btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), value);
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(CategoriesBottomNav.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(CategoriesBottomNav.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+                    alertDialog.cancel();
+                }
+            });
         } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(CategoriesBottomNav.this, ContactUs.class);
             startActivity(intentAbtContact);
@@ -514,20 +582,23 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             Intent intentTerms = new Intent(CategoriesBottomNav.this, TermsConditions.class);
             startActivity(intentTerms);
         } else if (id == R.id.menuleft_gfeedback) {
-            Intent intentFeedback = new Intent(CategoriesBottomNav.this, GoogleFeedback_act.class);
-            startActivity(intentFeedback);
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(CategoriesBottomNav.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
         }
 
-
-        DrawerLayout drawerLayoutShopBy = (DrawerLayout) findViewById(R.id.drawerLayoutShopBy);
-        drawerLayoutShopBy.closeDrawer(GravityCompat.START);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void setNavMenuItemThemeColors(int color, int icolor) {
+    public void setNavMenuItemThemeColors() {
         //Setting default colors for menu item Text and Icon
         int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
         int navDefaultIconColor = Color.parseColor("#FFFBD249");

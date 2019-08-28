@@ -9,23 +9,23 @@
         <item
             android:id="@+id/menuleft_home"
             android:icon="@drawable/round_home_24px"
-            android:title="Home"></item>
+            android:title="Home" />
         <item
             android:id="@+id/menuleft_myorders"
             android:icon="@drawable/my_order_yellow"
-            android:title="My Orders"></item>
+            android:title="My Orders" />
         <item
             android:id="@+id/menuleft_mywallet"
             android:icon="@drawable/walletyellow"
-            android:title="My Wallet"></item>
+            android:title="My Wallet" />
         <item
             android:id="@+id/menuleft_referearn"
             android:icon="@drawable/refer_earn_yellow"
-            android:title="Refer &amp; Earn"></item>
+            android:title="Refer &amp; Earn" />
         <item
             android:id="@+id/menuleft_rateus"
             android:icon="@drawable/rateus_yellow"
-            android:title="Rate Us"></item>
+            android:title="Rate Us" />
     </group>
 
     <group
@@ -34,22 +34,22 @@
         <item
             android:id="@+id/menuleft_aboutcontact"
             android:icon="@drawable/abt_contact_yellow"
-            android:title="About &amp; Contact Us"></item>
+            android:title="About &amp; Contact Us" />
         <item
             android:id="@+id/menuleft_faqs"
             android:icon="@drawable/faqs_yellow"
-            android:title="FAQs"></item>
+            android:title="FAQs" />
         <item
             android:id="@+id/menuleft_terms"
             android:icon="@drawable/terms_yellow"
-            android:title="Terms &amp; Conditions"></item>
+            android:title="Terms &amp; Conditions" />
         <item
             android:id="@+id/menuleft_gfeedback"
             android:icon="@drawable/google_feedback_yellow"
-            android:title="Google Feedback"></item>
+            android:title="Google Feedback" />
         <item
             android:id="@+id/menuleft_policy"
             android:icon="@drawable/privacy_policy_yellow"
-            android:title="Policy"></item>
+            android:title="Policy" />
     </group>
 </menu>

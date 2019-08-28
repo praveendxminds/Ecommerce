@@ -36,11 +36,14 @@ public class CartListModel {
         @SerializedName("name")
         public String name;
 
+        @SerializedName("option_name")
+        public String option_name;
+
         @SerializedName("discount_price")
         public String discount_price;
 
-        @SerializedName("model")
-        public String model;
+        @SerializedName("price")
+        public String price;
 
         @SerializedName("quantity")
         public String quantity;
@@ -53,9 +56,6 @@ public class CartListModel {
 
         @SerializedName("shipping")
         public String shipping;
-
-        @SerializedName("price")
-        public String price;
 
         @SerializedName("total")
         public String total;

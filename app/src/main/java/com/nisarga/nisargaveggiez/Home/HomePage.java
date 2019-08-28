@@ -165,6 +165,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     private String imagepath = null;
     String strProfilePic = "null";
+    String value;
 
     private void init() {
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
@@ -185,7 +186,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.getHeaderView(0);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
+        setNavMenuItemThemeColors();
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -580,7 +581,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
         if (id == R.id.menuleft_home) {
-            menuItem.setEnabled(true);
             Intent intentHome = new Intent(HomePage.this, HomePage.class);
             startActivity(intentHome);
         } else if (id == R.id.menuleft_myorders) {
@@ -601,59 +601,30 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
             // set the custom dialog components - text, image and button
             ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
-            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
-            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            final ImageView ivUnlikeGray = (ImageView) promptsView.findViewById(R.id.ivUnlikeGray);
+            final ImageView ivUnlikeGreen = (ImageView) promptsView.findViewById(R.id.ivUnlikeGreen);
+            final ImageView ivLikeGray = (ImageView) promptsView.findViewById(R.id.ivLikeGray);
+            final ImageView ivLikeGreen = (ImageView) promptsView.findViewById(R.id.ivLikeGreen);
             Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
 
-            final AlertDialog alertDialog = alertDialogBuilder.create();
+            final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+
+            ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), "1");
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
+                    ivUnlikeGreen.setVisibility(View.VISIBLE);
+                    ivUnlikeGray.setVisibility(View.GONE);
+                    value = "0";
                 }
             });
 
-            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+            ivLikeGray.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), "0");
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
-
-
+                    ivLikeGreen.setVisibility(View.VISIBLE);
+                    ivLikeGray.setVisibility(View.GONE);
+                    value = "1";
                 }
             });
 
@@ -663,9 +634,28 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     alertDialog.cancel();
                 }
             });
+
             btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View v) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), value);
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(HomePage.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
                     alertDialog.cancel();
                 }
             });
@@ -696,7 +686,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     }
 
 
-    public void setNavMenuItemThemeColors(int color, int icolor) {
+    public void setNavMenuItemThemeColors() {
         //Setting default colors for menu item Text and Icon
         int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
         int navDefaultIconColor = Color.parseColor("#FFFBD249");

@@ -49,10 +49,16 @@ public class SimilarProductsModel {
         @SerializedName("quantity")
         public String quantity;
 
+        @SerializedName("discount_price")
+        public String discount_price;
+
         @SerializedName("name")
         public String name;
 
-        @SerializedName("discount_price")
-        public String discount_price;
+        @SerializedName("weight_classes")
+        public Object weight_classes;
+
+        @SerializedName("options")
+        public Object options;
     }
 }

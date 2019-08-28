@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -67,8 +66,6 @@ public class cart extends AppCompatActivity {
 
     public static TextView tvTotalVeggies;
     public static TextView tvtotalAmount;
-    SwipeRefreshLayout pullToRefresh;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,17 +178,6 @@ public class cart extends AppCompatActivity {
         });
 
         showListView();
-        pullToRefresh = findViewById(R.id.refresh);
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mCartView.removeAllViews();
-                showListView();
-                pullToRefresh.setRefreshing(false);
-
-            }
-        });
-
     }
 
     public void showListView() {
@@ -199,7 +185,6 @@ public class cart extends AppCompatActivity {
             Log.d("getToken", String.valueOf(session.getToken()));
 
             final CartListModel ref = new CartListModel(session.getCustomerId());
-
             Call<CartListModel> call = apiInterface.getCartList("api/cart/products", session.getToken(), ref);
             call.enqueue(new Callback<CartListModel>() {
                 @Override
@@ -216,12 +201,11 @@ public class cart extends AppCompatActivity {
                             tvTotalVeggies.setText(datumList.size() + " " + "Items");
                         }
 
-                        //   tvTotalVeggies.setText(datumList.size() + " Items");
                         for (CartListModel.CartListDatum imgs : datumList) {
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
-                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView, imgs.price));
-
+                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView, imgs.price,
+                                        imgs.option_name));
 
                             }
                         }

@@ -71,7 +71,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -103,9 +104,9 @@
                         android:gravity="left"
                         android:padding="8dp"
                         android:text="1 Piece"
-                        android:visibility="gone"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

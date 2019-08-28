@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
@@ -57,6 +60,9 @@ public class SimilarProductsListItem {
     @View(R.id.spQuantity)
     public Spinner spQuantity;
 
+    @View(R.id.llQuantityList)
+    public LinearLayout llQuantityList;
+
     @View(R.id.btnAddCart)
     public Button btnAddCart;
 
@@ -78,24 +84,21 @@ public class SimilarProductsListItem {
 
     String mrelated_id, mPrd_id, mPrdImgUrl, mHeading, mPrice, mQty, mdiscount, wishlist, sCart;
 
-    int minteger = 0;
-
-    String product_option_id[], product_option_value_id[], product_price[];
-    String sQuantitySpinner, option_id, option_value_id, price;
+    String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
+    Object spnrqty;
+    ArrayList<String> cntvariable = new ArrayList<>();
+    ArrayList<String> putcntlst = new ArrayList<>();
+    ArrayList<String> getlists = new ArrayList<>();
+    TinyDB tinydb;
 
     public SimilarProductsListItem(Context context, String related_id, String prd_id, String url, String heading,
-                                   String price, String qty, String discount, String wishlist_status,
-                                   String addCart) {
-        mContext = context;
-        mrelated_id = related_id;
-        mPrd_id = prd_id;
-        mPrdImgUrl = url;
-        mHeading = heading;
-        mPrice = price;
-        mQty = qty;
-        mdiscount = discount;
-        wishlist = wishlist_status;
-        sCart = addCart;
+                                   Object spnrqty) {
+        this.mContext = context;
+        this.mrelated_id = related_id;
+        this.mPrd_id = prd_id;
+        this.mPrdImgUrl = url;
+        this.mHeading = heading;
+        this.spnrqty = spnrqty;
     }
 
     @Resolve
@@ -104,81 +107,112 @@ public class SimilarProductsListItem {
         tvItemName.setText(mHeading);
         Glide.with(mContext).load(mPrdImgUrl).into(ivItemImage);
 
-        if (mdiscount.equals("null")) {
-            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
-        } else {
-            double dbl_Discount = Double.parseDouble(mdiscount);//need to convert string to decimal
-            String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
-            tvOldPrice.setVisibility(android.view.View.VISIBLE);
-            tvOldPrice.setText("₹" + " " + str_disValue);
+        final ArrayList<String> cart_count = new ArrayList<>();
+        final ArrayList<String> product_option_id = new ArrayList<>();
+        final ArrayList<String> product_option_value_id = new ArrayList<>();
+        final ArrayList<String> name = new ArrayList<>();
+        final ArrayList<String> product_price = new ArrayList<>();
+        final ArrayList<String> discount_price = new ArrayList<>();
+        tinydb = new TinyDB(getApplicationContext());
+
+        if (!spnrqty.equals("null")) {
+            JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
+
+            for (int j = 0; j < jsonElements.size(); j++) {
+                cart_count.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+                product_option_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_id")).replace("\"", ""));
+                product_option_value_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_value_id")).replace("\"", ""));
+                name.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")).replace("\"", ""));
+                product_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("price")));
+                discount_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("discount_price")));
+
+                putcntlst.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+
+                quantity_name = name.get(j);
+
+                double dbl_Price = Double.parseDouble(String.valueOf(product_price.get(0)));//need to convert string to decimal
+                String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                tvNewPrice.setText("₹" + " " + productPrice);
+
+                if (discount_price.equals("0")) {
+                    tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                } else {
+                    double dbl_Discount = Double.parseDouble(String.valueOf(discount_price.get(0)));//need to convert string to decimal
+                    String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                    tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                    tvOldPrice.setText("₹" + " " + str_disValue);
+                }
+            }
+        } else if (spnrqty.equals("null")) {
+            spQuantity.setVisibility(android.view.View.GONE);
+            llQuantityList.setVisibility(android.view.View.VISIBLE);
+        }
+        tinydb.putListString(mrelated_id, putcntlst);
+
+
+        getlists = tinydb.getListString(mrelated_id);
+        //Log.d("tinydb", String.valueOf(getlists.get(0)));
+
+        if (putcntlst.size() > 0) {
+            tvTotalCount.setText(String.valueOf(putcntlst.get(0)));
         }
 
-        if (sCart.equals("0")) {
+        Log.d("tvNoOfCount", tvTotalCount.getText().toString());
+        if (tvTotalCount.getText().toString().equals("0")) {
+
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llCountProduct.setVisibility(android.view.View.GONE);
         } else {
             btnAddCart.setVisibility(android.view.View.GONE);
             llCountProduct.setVisibility(android.view.View.VISIBLE);
-            tvTotalCount.setText(sCart);
+            if (putcntlst.size() > 0) {
+                tvTotalCount.setText(String.valueOf(putcntlst.get(0)));
+            }
         }
 
-        final ArrayList<String> product_qty_list = new ArrayList<>();
+        spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), name, product_option_id,
+                product_option_value_id, cart_count, product_price, discount_price));
+        spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                scartcount = cart_count.get(position);
+                option_id = product_option_id.get(position);
+                option_value_id = product_option_value_id.get(position);
+                quantity_name = name.get(position);
+                price = product_price.get(position);
+                sDiscount = discount_price.get(position);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final QuantityList quantityList = new QuantityList(mPrd_id);
+                tvTotalCount.setText(String.valueOf(putcntlst.get(position)));
 
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
-            callheight.enqueue(new Callback<QuantityList>() {
-                @Override
-                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
-                    QuantityList eduresource = response.body();
-                    List<QuantityList.Datum> datumList = eduresource.data;
-                    product_option_id = new String[datumList.size()];
-                    product_option_value_id = new String[datumList.size()];
-                    product_price = new String[datumList.size()];
-                    int i = 0;
-                    for (QuantityList.Datum datum : datumList) {
-                        product_qty_list.add(datum.name);
-                        product_option_id[i] = datum.product_option_id;
-                        product_option_value_id[i] = datum.product_option_value_id;
-                        product_price[i] = datum.price;
-                        i++;
-                    }
+                double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                tvNewPrice.setText("₹" + " " + productPrice);
 
-                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(mContext, R.layout.spinner_item,
-                            product_qty_list);
-                    spQuantity.setAdapter(itemsAdapter);
-                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                            sQuantitySpinner = product_qty_list.get(position);
-                            option_id = product_option_id[position];
-                            option_value_id = product_option_value_id[position];
-                            price = product_price[position];
-
-                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
-                            String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-                            tvNewPrice.setText("₹" + " " + productPrice);
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
+                if (sDiscount.equals("0")) {
+                    tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                } else {
+                    double dbl_Discount = Double.parseDouble(sDiscount);//need to convert string to decimal
+                    String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                    tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                    tvOldPrice.setText("₹" + " " + str_disValue);
                 }
 
-                @Override
-                public void onFailure(Call<QuantityList> callheight, Throwable t) {
-                    callheight.cancel();
+                if (tvTotalCount.getText().toString().equals("0")) {
+                    btnAddCart.setVisibility(android.view.View.VISIBLE);
+                    llCountProduct.setVisibility(android.view.View.GONE);
+                } else {
+                    btnAddCart.setVisibility(android.view.View.GONE);
+                    llCountProduct.setVisibility(android.view.View.VISIBLE);
+                    tvTotalCount.setText(String.valueOf(putcntlst.get(position)));
                 }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
 
-        minteger = Integer.parseInt(sCart);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Click(R.id.llSimilarProduct)
@@ -196,13 +230,16 @@ public class SimilarProductsListItem {
         session.cartcount(total_crtcnt);
         cartcount.setText(String.valueOf(total_crtcnt));
 
-        minteger = minteger + 1;//display number in place of add to cart
-        display(minteger);
-        tvTotalCount.setText(String.valueOf(minteger));
+        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+        i = i + 1;
+        tvTotalCount.setText(String.valueOf(i));
+        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+        tinydb.putListString(mrelated_id, putcntlst);
         btnAddCart.setVisibility(android.view.View.GONE);
         llCountProduct.setVisibility(android.view.View.VISIBLE);
 
-        final AddToCartModel ref = new AddToCartModel(mPrd_id, String.valueOf(minteger), option_id, option_value_id);
+        final AddToCartModel ref = new AddToCartModel(mrelated_id, String.valueOf(tvTotalCount.getText()), option_id,
+                option_value_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
@@ -226,19 +263,23 @@ public class SimilarProductsListItem {
 
     @Click(R.id.llDecreaseCount)
     public void onDecreaseClick() {
-        if (minteger <= 1) {
+        if (Integer.parseInt(tvTotalCount.getText().toString()) <= 1) {
+
             Integer total_crtcnt = session.getCartCount();
             total_crtcnt = total_crtcnt - 1;
             session.cartcount(total_crtcnt);
             cartcount.setText(String.valueOf(total_crtcnt));
 
-            minteger = minteger - 1;
-            display(minteger);
-            tvTotalCount.setText(minteger);
+            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+            i = i - 1;
+            tvTotalCount.setText(String.valueOf(i));
+            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+            tinydb.putListString(mrelated_id, putcntlst);
+
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llCountProduct.setVisibility(android.view.View.GONE);
 
-            final UpdateToCartModel ref = new UpdateToCartModel(mPrd_id, String.valueOf(minteger));
+            final UpdateToCartModel ref = new UpdateToCartModel(mrelated_id, String.valueOf(tvTotalCount.getText()));
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
             callAdd.enqueue(new Callback<UpdateToCartModel>() {
@@ -259,11 +300,14 @@ public class SimilarProductsListItem {
             });
 
         } else {
-            minteger = minteger - 1;
-            display(minteger);
-            tvTotalCount.setText(minteger);
 
-            final UpdateToCartModel ref = new UpdateToCartModel(mPrd_id, String.valueOf(minteger));
+            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+            i = i - 1;
+            tvTotalCount.setText(String.valueOf(i));
+            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+            tinydb.putListString(mrelated_id, putcntlst);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(mrelated_id, String.valueOf(tvTotalCount.getText()));
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
             callAdd.enqueue(new Callback<UpdateToCartModel>() {
@@ -287,11 +331,13 @@ public class SimilarProductsListItem {
 
     @Click(R.id.llIncreaseCount)
     public void onIncreaseClick() {
-        minteger = minteger + 1;//display number in place of add to cart
-        display(minteger);
-        tvTotalCount.setText(minteger);
+        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+        i = i + 1;
+        tvTotalCount.setText(String.valueOf(i));
+        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+        tinydb.putListString(mrelated_id, putcntlst);
 
-        final UpdateToCartModel ref = new UpdateToCartModel(mPrd_id, String.valueOf(minteger));
+        final UpdateToCartModel ref = new UpdateToCartModel(mrelated_id, String.valueOf(tvTotalCount.getText()));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
@@ -311,9 +357,5 @@ public class SimilarProductsListItem {
                 call.cancel();
             }
         });
-    }
-
-    public void display(int number) {
-        tvTotalCount.setText("" + number);
     }
 }

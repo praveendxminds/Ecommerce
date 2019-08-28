@@ -93,19 +93,18 @@ public class HomeCategoryItemGridView {
     Context mContext;
 
     String prdId, image, prdName, prdWhishStatus;
-    String sPrice, sDisPrice;
 
-    int cartcount = 0;
-
-    String sQuantitySpinner, option_id, option_value_id, scartcount, price, sDiscount;
-    String productPrice;
+    String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
     Object spnrqty;
+    ArrayList<String> cntvariable = new ArrayList<>();
+    ArrayList<String> putcntlst = new ArrayList<>();
+    ArrayList<String> getlists = new ArrayList<>();
+    TinyDB tinydb;
 
     public boolean state = false;
 
     public HomeCategoryItemGridView(Context context, String productId, String image_url, String productName,
-                                    String productDisPrice, String addCart, String whishlistStatus,
-                                    Object spnrqty) {
+                                    String whishlistStatus, Object spnrqty) {
         this.mContext = context;
         this.prdId = productId;
         this.image = image_url;
@@ -130,32 +129,34 @@ public class HomeCategoryItemGridView {
             ivbtnAddWishlist.setBackgroundResource(R.drawable.wishlist_red);
         }
 
-        final ArrayList<String> product_qty_list = new ArrayList<>();
+        final ArrayList<String> cart_count = new ArrayList<>();
         final ArrayList<String> product_option_id = new ArrayList<>();
         final ArrayList<String> product_option_value_id = new ArrayList<>();
-        final ArrayList<String> cart_count = new ArrayList<>();
+        final ArrayList<String> name = new ArrayList<>();
         final ArrayList<String> product_price = new ArrayList<>();
         final ArrayList<String> discount_price = new ArrayList<>();
+        tinydb = new TinyDB(getApplicationContext());
 
         if (!spnrqty.equals("null")) {
             JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
 
             for (int j = 0; j < jsonElements.size(); j++) {
-                Log.d("qqqqqqqqqqqqqqq", String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")));
-                product_qty_list.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")).replace("\"", ""));
+                cart_count.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
                 product_option_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_id")).replace("\"", ""));
                 product_option_value_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_value_id")).replace("\"", ""));
-                cart_count.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+                name.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")).replace("\"", ""));
                 product_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("price")));
                 discount_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("discount_price")));
 
-                sQuantitySpinner = product_qty_list.get(j);
+                putcntlst.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+
+                quantity_name = name.get(j);
 
                 double dbl_Price = Double.parseDouble(String.valueOf(product_price.get(0)));//need to convert string to decimal
-                productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
                 tvProdPrice.setText("₹" + " " + productPrice);
 
-                if (discount_price.equals("null")) {
+                if (discount_price.equals("0")) {
                     tvProdOldPrice.setVisibility(android.view.View.INVISIBLE);
                 } else {
                     double dbl_Discount = Double.parseDouble(String.valueOf(discount_price.get(0)));//need to convert string to decimal
@@ -163,38 +164,54 @@ public class HomeCategoryItemGridView {
                     tvProdOldPrice.setVisibility(android.view.View.VISIBLE);
                     tvProdOldPrice.setText("₹" + " " + str_disValue);
                 }
-
-                if (cart_count.equals("0")) {
-                    btnAddCart.setVisibility(android.view.View.VISIBLE);
-                    llProductCount.setVisibility(android.view.View.GONE);
-                } else {
-                    btnAddCart.setVisibility(android.view.View.GONE);
-                    llProductCount.setVisibility(android.view.View.VISIBLE);
-                    tvProductCount.setText(String.valueOf(cart_count.get(0)));
-                }
             }
         } else if (spnrqty.equals("null")) {
             spQuantity.setVisibility(android.view.View.GONE);
             llQuantityList.setVisibility(android.view.View.VISIBLE);
         }
+        tinydb.putListString(prdId, putcntlst);
 
-        spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), product_qty_list, product_option_id,
+
+        getlists = tinydb.getListString(prdId);
+        //  Log.d("tinydb", String.valueOf(getlists.get(0)));
+
+        if (putcntlst.size() > 0) {
+            tvProductCount.setText(String.valueOf(putcntlst.get(0)));
+        }
+
+        Log.d("tvNoOfCount", tvProductCount.getText().toString());
+        if (tvProductCount.getText().toString().equals("0")) {
+
+            btnAddCart.setVisibility(android.view.View.VISIBLE);
+            llProductCount.setVisibility(android.view.View.GONE);
+        } else {
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llProductCount.setVisibility(android.view.View.VISIBLE);
+            if (putcntlst.size() > 0) {
+                tvProductCount.setText(String.valueOf(putcntlst.get(0)));
+            }
+        }
+
+
+        spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), name, product_option_id,
                 product_option_value_id, cart_count, product_price, discount_price));
         spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                sQuantitySpinner = product_qty_list.get(position);
+                scartcount = cart_count.get(position);
                 option_id = product_option_id.get(position);
                 option_value_id = product_option_value_id.get(position);
-                scartcount = cart_count.get(position);
+                quantity_name = name.get(position);
                 price = product_price.get(position);
                 sDiscount = discount_price.get(position);
 
+                tvProductCount.setText(String.valueOf(putcntlst.get(position)));
+
                 double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
-                productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
                 tvProdPrice.setText("₹" + " " + productPrice);
 
-                if (sDiscount.equals("null")) {
+                if (sDiscount.equals("0")) {
                     tvProdOldPrice.setVisibility(android.view.View.INVISIBLE);
                 } else {
                     double dbl_Discount = Double.parseDouble(sDiscount);//need to convert string to decimal
@@ -203,8 +220,15 @@ public class HomeCategoryItemGridView {
                     tvProdOldPrice.setText("₹" + " " + str_disValue);
                 }
 
-                btnAddCart.setVisibility(android.view.View.VISIBLE);
-                llProductCount.setVisibility(android.view.View.GONE);
+                if (tvProductCount.getText().toString().equals("0")) {
+                    btnAddCart.setVisibility(android.view.View.VISIBLE);
+                    llProductCount.setVisibility(android.view.View.GONE);
+                } else {
+                    btnAddCart.setVisibility(android.view.View.GONE);
+                    llProductCount.setVisibility(android.view.View.VISIBLE);
+                    tvProductCount.setText(String.valueOf(putcntlst.get(position)));
+                }
+
             }
 
             @Override
@@ -212,8 +236,6 @@ public class HomeCategoryItemGridView {
 
             }
         });
-
-        cartcount = Integer.parseInt(String.valueOf(cart_count.size()));
     }
 
     @Click(R.id.llProductGridView)
@@ -231,13 +253,15 @@ public class HomeCategoryItemGridView {
         session.cartcount(total_crtcnt);
         cartItemCount.setText(String.valueOf(total_crtcnt));
 
-        cartcount = cartcount + 1;//display number in place of add to cart
-        display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+        i = i + 1;
+        tvProductCount.setText(String.valueOf(i));
+        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+        tinydb.putListString(prdId, putcntlst);
         btnAddCart.setVisibility(android.view.View.GONE);
         llProductCount.setVisibility(android.view.View.VISIBLE);
 
-        final AddToCartModel ref = new AddToCartModel(prdId, String.valueOf(cartcount), option_id, option_value_id);
+        final AddToCartModel ref = new AddToCartModel(prdId, String.valueOf(tvProductCount.getText()), option_id, option_value_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
@@ -261,19 +285,22 @@ public class HomeCategoryItemGridView {
 
     @Click(R.id.llProductDecrese)
     public void removeCount() {
-        if (cartcount <= 1) {
+        if (Integer.parseInt(tvProductCount.getText().toString()) <= 1) {
             Integer total_crtcnt = session.getCartCount();
             total_crtcnt = total_crtcnt - 1;
             session.cartcount(total_crtcnt);
             cartItemCount.setText(String.valueOf(total_crtcnt));
 
-            cartcount = cartcount - 1;
-            display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+            i = i - 1;
+            tvProductCount.setText(String.valueOf(i));
+            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+            tinydb.putListString(prdId, putcntlst);
+
             btnAddCart.setVisibility(android.view.View.VISIBLE);
             llProductCount.setVisibility(android.view.View.GONE);
 
-            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(cartcount));
+            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(tvProductCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
@@ -296,11 +323,13 @@ public class HomeCategoryItemGridView {
 
         } else {
 
-            cartcount = cartcount - 1;
-            display(cartcount);
-            tvProductCount.setText(String.valueOf(cartcount));
+            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+            i = i - 1;
+            tvProductCount.setText(String.valueOf(i));
+            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+            tinydb.putListString(prdId, putcntlst);
 
-            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(cartcount));
+            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(tvProductCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
@@ -325,11 +354,13 @@ public class HomeCategoryItemGridView {
 
     @Click(R.id.llProductIncrease)
     public void addCount() {
-        cartcount = cartcount + 1;//display number in place of add to cart
-        display(cartcount);
-        tvProductCount.setText(String.valueOf(cartcount));
+        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+        i = i + 1;
+        tvProductCount.setText(String.valueOf(i));
+        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+        tinydb.putListString(prdId, putcntlst);
 
-        final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(cartcount));
+        final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(tvProductCount.getText()));
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);

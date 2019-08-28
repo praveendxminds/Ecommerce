@@ -46,25 +46,25 @@ public class ProductslHomePage {
     public class RecommendedList {
 
         @SerializedName("product_id")
-        public String product_id;
+        public String prd_id;
 
         @SerializedName("name")
         public String name;
 
-        @SerializedName("quantity")
-        public String quantity;
-
         @SerializedName("image")
         public String image;
 
-        @SerializedName("price")
-        public String price;
+        @SerializedName("discount_price")
+        public String discount_price;
 
         @SerializedName("Add_product_quantity_in_cart")
         public String add_product_quantity_in_cart;
 
-        @SerializedName("discount_price")
-        public String discount_price;
+        @SerializedName("option_name")
+        public String option_name;
+
+        @SerializedName("price")
+        public String price;
 
         @SerializedName("weight_classes")
         public Object weight_classes;
@@ -82,20 +82,20 @@ public class ProductslHomePage {
         @SerializedName("name")
         public String name;
 
-        @SerializedName("quantity")
-        public String qty;
-
         @SerializedName("image")
         public String image;
 
-        @SerializedName("price")
-        public String price;
+        @SerializedName("discount_price")
+        public String discount_price;
 
         @SerializedName("Add_product_quantity_in_cart")
         public String add_product_quantity_in_cart;
 
-        @SerializedName("discount_price")
-        public String discount_price;
+        @SerializedName("option_name")
+        public String option_name;
+
+        @SerializedName("price")
+        public String price;
 
         @SerializedName("weight_classes")
         public Object weight_classes;
@@ -108,32 +108,31 @@ public class ProductslHomePage {
     public class Products {
 
         @SerializedName("product_id")
-        public String product_id;
+        public String prd_id;
 
         @SerializedName("name")
         public String name;
 
-        @SerializedName("quantity")
-        public String quantity;
-
         @SerializedName("image")
         public String image;
 
-        @SerializedName("price")
-        public String price;
+        @SerializedName("discount_price")
+        public String discount_price;
 
         @SerializedName("Add_product_quantity_in_cart")
         public String add_product_quantity_in_cart;
 
-        @SerializedName("discount_price")
-        public String discount_price;
+        @SerializedName("option_name")
+        public String option_name;
+
+        @SerializedName("price")
+        public String price;
 
         @SerializedName("weight_classes")
         public Object weight_classes;
 
         @SerializedName("options")
         public Object options;
-
     }
 }
 

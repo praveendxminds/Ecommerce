@@ -106,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="left|center"
-                    android:text="1 Pieces"
+                    android:text="1 Piece"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/light_black_1"
                     android:textSize="12sp" />
