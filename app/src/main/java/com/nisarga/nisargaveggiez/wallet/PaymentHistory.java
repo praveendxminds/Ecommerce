@@ -128,8 +128,9 @@ public class PaymentHistory extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<TxnHistoryModel> call, Response<TxnHistoryModel> response) {
                     TxnHistoryModel resource = response.body();
+
+                    List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
                     if ((resource.status).equals("success")) {
-                        List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
                         for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
 
                             recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(), imgs.date, imgs.transaction_type,
@@ -137,6 +138,7 @@ public class PaymentHistory extends AppCompatActivity {
 
                         }
                     } else if ((resource.status).equals("failure")) {
+                        Toast.makeText(PaymentHistory.this, resource.message, Toast.LENGTH_SHORT).show();
                         tvEmptyPaymentHistory.setVisibility(View.VISIBLE);
                         recycler_payHistory.setVisibility(View.GONE);
                     }
