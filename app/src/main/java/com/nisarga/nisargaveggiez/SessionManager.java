@@ -55,6 +55,7 @@ public class SessionManager {
 
     public static final String DELIVERY_DAY = "delivery_day";
     public static final String DELIVERY_WEEK = "delivery_week";
+    public static final String TXN_ID = "txnid";
 
 
     public static final String KEY_TOKEN_ID = "fcm_id";
@@ -85,6 +86,8 @@ public class SessionManager {
     public static final String KEY_ORDER_SAVINGS = "order_svings";
     public static final String KEY_DELIVERY_CHARGES = "delivery_charges";
     public static final String KEY_ORDER_TOTAL = "total";
+
+    public static final String KEY_JSON_COUNT = "json";
 
 
     public static final String KEY_CART_ID = "cart_id";
@@ -129,6 +132,19 @@ public class SessionManager {
 
     public String getCancelId() {
         return pref.getString(KEY_Cancel, null);
+    }
+
+    public void setTxnId(String txnId)
+    {
+        editor.putString(TXN_ID, txnId);
+        editor.commit();
+    }
+    public String getTxnId() {
+        return pref.getString(TXN_ID, null);
+    }
+    public void clearTxnId() {
+        editor.clear();
+        editor.commit();
     }
 
     public void storeStatusOrder(String status) {

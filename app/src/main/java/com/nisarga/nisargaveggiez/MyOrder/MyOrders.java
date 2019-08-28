@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -53,7 +54,8 @@ public class MyOrders extends AppCompatActivity {
     View view_count;
     APIInterface apiInterface;
     TextView tvEmptyMyOrders;
-   // public orderItem orderItem;
+    // public orderItem orderItem;
+    SwipeRefreshLayout pullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,59 +68,23 @@ public class MyOrders extends AppCompatActivity {
         tvEmptyMyOrders = findViewById(R.id.tvEmptyMyOrders);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-//-------------------------------------image slider view----------------------------------------------------------------------
-            final MyOrderList get_order_list = new MyOrderList(session.getCustomerId());
-            Call<MyOrderList> call = apiInterface.getMyOrdersList(get_order_list);
-            call.enqueue(new Callback<MyOrderList>() {
-                @Override
-                public void onResponse(Call<MyOrderList> call, Response<MyOrderList> response) {
+        getOrders();
 
-                    MyOrderList resource = response.body();
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCartView.removeAllViews();
+                getOrders();
+                pullToRefresh.setRefreshing(false);
 
-                    List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
-                    if((resource.mstatus).equals("success"))
-                    {
-                        if(datumList1.size()>0) {
-                            for (MyOrderList.MyOrderListDatum orderList : datumList1) {
-
-                                session.storeStatusOrder(orderList.sstatus);
-                                session.storeCancelId(orderList.scancel);
-                                mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
-                                        orderList.sstatus, orderList.scancel));
-
-                                Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
-
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "No Orders", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                    else if (resource.mstatus.equals("failure")) {
-                        tvEmptyMyOrders.setVisibility(View.VISIBLE);
-                        mCartView.setVisibility(View.GONE);
-                        }
-                }
-
-
-                @Override
-                public void onFailure(Call<MyOrderList> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
 
         //----------bottom navigation-----------------------------
         navigationMyOrders.getMenu().findItem(R.id.navigation_home).setChecked(true);
@@ -175,23 +141,21 @@ public class MyOrders extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater miMyOrders = getMenuInflater();
-        miMyOrders.inflate(R.menu.notifi_and_info_menu,menu);
+        miMyOrders.inflate(R.menu.notifi_and_info_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
 
             case R.id.menu_notifi:
-                Intent intentNotifi = new Intent(getBaseContext(),MyNotifications.class);
+                Intent intentNotifi = new Intent(getBaseContext(), MyNotifications.class);
                 startActivity(intentNotifi);
                 break;
             case R.id.menu_info:
@@ -201,5 +165,52 @@ public class MyOrders extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void getOrders() {
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+//-------------------------------------image slider view----------------------------------------------------------------------
+            final MyOrderList get_order_list = new MyOrderList(session.getCustomerId());
+            Call<MyOrderList> call = apiInterface.getMyOrdersList(get_order_list);
+            call.enqueue(new Callback<MyOrderList>() {
+                @Override
+                public void onResponse(Call<MyOrderList> call, Response<MyOrderList> response) {
+
+                    MyOrderList resource = response.body();
+
+                    List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
+                    if ((resource.mstatus).equals("success")) {
+                        if (datumList1.size() > 0) {
+                            for (MyOrderList.MyOrderListDatum orderList : datumList1) {
+
+                                session.storeStatusOrder(orderList.sstatus);
+                                session.storeCancelId(orderList.scancel);
+                                mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
+                                        orderList.sstatus, orderList.scancel));
+
+                                Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
+
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No Orders", Toast.LENGTH_LONG).show();
+                        }
+
+                    } else if (resource.mstatus.equals("failure")) {
+                        tvEmptyMyOrders.setVisibility(View.VISIBLE);
+                        mCartView.setVisibility(View.GONE);
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<MyOrderList> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

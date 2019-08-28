@@ -16,6 +16,8 @@ import com.nisarga.nisargaveggiez.ProfileSection.VerifyOTP;
 import com.nisarga.nisargaveggiez.billing.AddOrder;
 import com.nisarga.nisargaveggiez.fcm.TokenFCM;
 import com.nisarga.nisargaveggiez.notifications.NotificationListModel;
+import com.nisarga.nisargaveggiez.wallet.Usewallet;
+import com.nisarga.nisargaveggiez.wallet.Walletpayment;
 
 import java.util.List;
 
@@ -207,5 +209,13 @@ public interface APIInterface {
 
     @POST("index.php?route=api/forgetpassword/savechangedpassword")
     Call<ResetPasswordModel> reset_password(@Body ResetPasswordModel resetPasswordModel);
+
+    @POST("index.php?route=api/payment/useWallet")
+    Call<Usewallet> esewallet(@Body Usewallet usewallet);
+
+
+    @POST("index.php?route=api/payment/onlinePayment")
+    Call<Walletpayment> onlinepayment(@Body Walletpayment usewallet);
+
 
 }

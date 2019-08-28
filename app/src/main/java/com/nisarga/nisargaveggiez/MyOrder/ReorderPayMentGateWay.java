@@ -1,4 +1,4 @@
-package com.nisarga.nisargaveggiez.payment;
+package com.nisarga.nisargaveggiez.MyOrder;
 
 
 import android.annotation.SuppressLint;
@@ -6,8 +6,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
@@ -15,7 +15,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import org.json.JSONObject;
+import com.nisarga.nisargaveggiez.SessionManager;
+import com.nisarga.nisargaveggiez.Utils;
+import com.nisarga.nisargaveggiez.retrofit.APIClient;
+import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddMoneytoWalletModel;
+import com.nisarga.nisargaveggiez.wallet.AddtoMoneyFailureAck;
+import com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck;
+import com.nisarga.nisargaveggiez.wallet.PaymentHistory;
+import com.nisarga.nisargaveggiez.wallet.Walletpayment;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,17 +32,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import android.os.Handler;
-
-import com.nisarga.nisargaveggiez.SessionManager;
-import com.nisarga.nisargaveggiez.Utils;
-import com.nisarga.nisargaveggiez.retrofit.APIClient;
-import com.nisarga.nisargaveggiez.retrofit.APIInterface;
-import com.nisarga.nisargaveggiez.retrofit.AddMoneytoWalletModel;
-import com.nisarga.nisargaveggiez.wallet.AddMoneyToWallet;
-import com.nisarga.nisargaveggiez.wallet.AddtoMoneyFailureAck;
-import com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck;
-import com.nisarga.nisargaveggiez.wallet.PaymentHistory;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +40,7 @@ import retrofit2.Response;
 /**
  * Created by varun Kumar on 23/1/16.
  */
-public class PayMentGateWay extends Activity {
+public class ReorderPayMentGateWay extends Activity {
 
     private ArrayList<String> post_val = new ArrayList<String>();
     private String post_Data="";
@@ -77,7 +74,7 @@ public class PayMentGateWay extends Activity {
     Handler mHandler = new Handler();
 
 
-    static String getFirstName, getNumber, getEmailAddress, getRechargeAmt;
+    static String getFirstName, getNumber, getEmailAddress, getRechargeAmt,order_id;
 
 
     ProgressDialog pDialog ;
@@ -103,6 +100,7 @@ public class PayMentGateWay extends Activity {
         getNumber       = oIntent.getExtras().getString("PHONE_NUMBER");
         getEmailAddress = oIntent.getExtras().getString("EMAIL_ADDRESS");
         getRechargeAmt  = oIntent.getExtras().getString("RECHARGE_AMT");
+        order_id  = oIntent.getExtras().getString("ORDER_ID");
 
 
 
@@ -260,35 +258,35 @@ public class PayMentGateWay extends Activity {
         webView.addJavascriptInterface(new PayUJavaScriptInterface(), "PayUMoney");
         Map<String, String> mapParams = new HashMap<String, String>();
         mapParams.put("key",merchant_key);
-        mapParams.put("hash",PayMentGateWay.this.hash);
-        mapParams.put("txnid",(empty(PayMentGateWay.this.params.get("txnid"))) ? "" : PayMentGateWay.this.params.get("txnid"));
-        Log.d(tag, "txnid: "+PayMentGateWay.this.params.get("txnid"));
+        mapParams.put("hash", ReorderPayMentGateWay.this.hash);
+        mapParams.put("txnid",(empty(ReorderPayMentGateWay.this.params.get("txnid"))) ? "" : ReorderPayMentGateWay.this.params.get("txnid"));
+        Log.d(tag, "txnid: "+ ReorderPayMentGateWay.this.params.get("txnid"));
         mapParams.put("service_provider","payu_paisa");
 
-        mapParams.put("amount",(empty(PayMentGateWay.this.params.get("amount"))) ? "" : PayMentGateWay.this.params.get("amount"));
-        mapParams.put("firstname",(empty(PayMentGateWay.this.params.get("firstname"))) ? "" : PayMentGateWay.this.params.get("firstname"));
-        mapParams.put("email",(empty(PayMentGateWay.this.params.get("email"))) ? "" : PayMentGateWay.this.params.get("email"));
-        mapParams.put("phone",(empty(PayMentGateWay.this.params.get("phone"))) ? "" : PayMentGateWay.this.params.get("phone"));
+        mapParams.put("amount",(empty(ReorderPayMentGateWay.this.params.get("amount"))) ? "" : ReorderPayMentGateWay.this.params.get("amount"));
+        mapParams.put("firstname",(empty(ReorderPayMentGateWay.this.params.get("firstname"))) ? "" : ReorderPayMentGateWay.this.params.get("firstname"));
+        mapParams.put("email",(empty(ReorderPayMentGateWay.this.params.get("email"))) ? "" : ReorderPayMentGateWay.this.params.get("email"));
+        mapParams.put("phone",(empty(ReorderPayMentGateWay.this.params.get("phone"))) ? "" : ReorderPayMentGateWay.this.params.get("phone"));
 
-        mapParams.put("productinfo",(empty(PayMentGateWay.this.params.get("productinfo"))) ? "" : PayMentGateWay.this.params.get("productinfo"));
-        mapParams.put("surl",(empty(PayMentGateWay.this.params.get("surl"))) ? "" : PayMentGateWay.this.params.get("surl"));
-        mapParams.put("furl",(empty(PayMentGateWay.this.params.get("furl"))) ? "" : PayMentGateWay.this.params.get("furl"));
-        mapParams.put("lastname",(empty(PayMentGateWay.this.params.get("lastname"))) ? "" : PayMentGateWay.this.params.get("lastname"));
+        mapParams.put("productinfo",(empty(ReorderPayMentGateWay.this.params.get("productinfo"))) ? "" : ReorderPayMentGateWay.this.params.get("productinfo"));
+        mapParams.put("surl",(empty(ReorderPayMentGateWay.this.params.get("surl"))) ? "" : ReorderPayMentGateWay.this.params.get("surl"));
+        mapParams.put("furl",(empty(ReorderPayMentGateWay.this.params.get("furl"))) ? "" : ReorderPayMentGateWay.this.params.get("furl"));
+        mapParams.put("lastname",(empty(ReorderPayMentGateWay.this.params.get("lastname"))) ? "" : ReorderPayMentGateWay.this.params.get("lastname"));
 
-        mapParams.put("address1",(empty(PayMentGateWay.this.params.get("address1"))) ? "" : PayMentGateWay.this.params.get("address1"));
-        mapParams.put("address2",(empty(PayMentGateWay.this.params.get("address2"))) ? "" : PayMentGateWay.this.params.get("address2"));
-        mapParams.put("city",(empty(PayMentGateWay.this.params.get("city"))) ? "" : PayMentGateWay.this.params.get("city"));
-        mapParams.put("state",(empty(PayMentGateWay.this.params.get("state"))) ? "" : PayMentGateWay.this.params.get("state"));
+        mapParams.put("address1",(empty(ReorderPayMentGateWay.this.params.get("address1"))) ? "" : ReorderPayMentGateWay.this.params.get("address1"));
+        mapParams.put("address2",(empty(ReorderPayMentGateWay.this.params.get("address2"))) ? "" : ReorderPayMentGateWay.this.params.get("address2"));
+        mapParams.put("city",(empty(ReorderPayMentGateWay.this.params.get("city"))) ? "" : ReorderPayMentGateWay.this.params.get("city"));
+        mapParams.put("state",(empty(ReorderPayMentGateWay.this.params.get("state"))) ? "" : ReorderPayMentGateWay.this.params.get("state"));
 
-        mapParams.put("country",(empty(PayMentGateWay.this.params.get("country"))) ? "" : PayMentGateWay.this.params.get("country"));
-        mapParams.put("zipcode",(empty(PayMentGateWay.this.params.get("zipcode"))) ? "" : PayMentGateWay.this.params.get("zipcode"));
-        mapParams.put("udf1",(empty(PayMentGateWay.this.params.get("udf1"))) ? "" : PayMentGateWay.this.params.get("udf1"));
-        mapParams.put("udf2",(empty(PayMentGateWay.this.params.get("udf2"))) ? "" : PayMentGateWay.this.params.get("udf2"));
+        mapParams.put("country",(empty(ReorderPayMentGateWay.this.params.get("country"))) ? "" : ReorderPayMentGateWay.this.params.get("country"));
+        mapParams.put("zipcode",(empty(ReorderPayMentGateWay.this.params.get("zipcode"))) ? "" : ReorderPayMentGateWay.this.params.get("zipcode"));
+        mapParams.put("udf1",(empty(ReorderPayMentGateWay.this.params.get("udf1"))) ? "" : ReorderPayMentGateWay.this.params.get("udf1"));
+        mapParams.put("udf2",(empty(ReorderPayMentGateWay.this.params.get("udf2"))) ? "" : ReorderPayMentGateWay.this.params.get("udf2"));
 
-        mapParams.put("udf3",(empty(PayMentGateWay.this.params.get("udf3"))) ? "" : PayMentGateWay.this.params.get("udf3"));
-        mapParams.put("udf4",(empty(PayMentGateWay.this.params.get("udf4"))) ? "" : PayMentGateWay.this.params.get("udf4"));
-        mapParams.put("udf5",(empty(PayMentGateWay.this.params.get("udf5"))) ? "" : PayMentGateWay.this.params.get("udf5"));
-        mapParams.put("pg",(empty(PayMentGateWay.this.params.get("pg"))) ? "" : PayMentGateWay.this.params.get("pg"));
+        mapParams.put("udf3",(empty(ReorderPayMentGateWay.this.params.get("udf3"))) ? "" : ReorderPayMentGateWay.this.params.get("udf3"));
+        mapParams.put("udf4",(empty(ReorderPayMentGateWay.this.params.get("udf4"))) ? "" : ReorderPayMentGateWay.this.params.get("udf4"));
+        mapParams.put("udf5",(empty(ReorderPayMentGateWay.this.params.get("udf5"))) ? "" : ReorderPayMentGateWay.this.params.get("udf5"));
+        mapParams.put("pg",(empty(ReorderPayMentGateWay.this.params.get("pg"))) ? "" : ReorderPayMentGateWay.this.params.get("pg"));
         webview_ClientPost(webView, action1, mapParams.entrySet());
 
     }
@@ -334,7 +332,7 @@ public class PayMentGateWay extends Activity {
                    // new PostRechargeData().execute();
 
                     //intent.putExtra("txnid", paymentId);
-                    testStatus(paymentId,getRechargeAmt,"success","Money Added to Wallet");
+                    testStatus(paymentId,getRechargeAmt,"success","Payment Successful");
                     session.setTxnId(paymentId);
                     Toast.makeText(getApplicationContext(),"Money added to wallet" ,Toast.LENGTH_LONG).show();
 
@@ -349,7 +347,7 @@ public class PayMentGateWay extends Activity {
                 @Override
                 public void run() {
                     //cancelPayment();
-                    testStatus("",getRechargeAmt,"failure","Transaction Canceled");
+                    testStatus("",getRechargeAmt,"failure","Payment Canceled");
                     Toast.makeText(getApplicationContext(),"Cancel payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -370,7 +368,7 @@ public class PayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
-                    testStatus("",getRechargeAmt,"failure","Transaction Failed");
+                    testStatus("",getRechargeAmt,"failure","Payment Failed");
                     Toast.makeText(getApplicationContext(),"Failed payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -549,20 +547,25 @@ public class PayMentGateWay extends Activity {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final AddMoneytoWalletModel get_order_list = new AddMoneytoWalletModel(session.getCustomerId(),Txnid,Amnt,status,desc);
-            Call<AddMoneytoWalletModel> call = apiInterface.addMoney(get_order_list);
-            call.enqueue(new Callback<AddMoneytoWalletModel>() {
+            final Walletpayment get_wallet_list = new Walletpayment("success",session.getCustomerId(),order_id);
+            Call<Walletpayment> call = apiInterface.onlinepayment(get_wallet_list);
+            call.enqueue(new Callback<Walletpayment>() {
                 @Override
-                public void onResponse(Call<AddMoneytoWalletModel> call, Response<AddMoneytoWalletModel> response)
+                public void onResponse(Call<Walletpayment> call, Response<Walletpayment> response)
                 {
 
-                    AddMoneytoWalletModel resource = response.body();
+                    Walletpayment resource = response.body();
+                    if (resource.restatus.equals("success"))
+                    {
+                        Log.d("ReorderPayMentGateWay", "ReorderPayMentGateWay: ");
+
+                    }
 
                 }
 
 
                 @Override
-                public void onFailure(Call<AddMoneytoWalletModel> call, Throwable t) {
+                public void onFailure(Call<Walletpayment> call, Throwable t) {
                     call.cancel();
                 }
             });
@@ -578,7 +581,7 @@ public class PayMentGateWay extends Activity {
         if(strStatus.equals("failure"))
         {
             addMoneyToWallet(txnId,amount,strStatus,strDesc);
-            Intent intent=new Intent(PayMentGateWay.this, AddtoMoneyFailureAck.class);
+            Intent intent=new Intent(ReorderPayMentGateWay.this, OrderPaymentFailure.class);
             intent.putExtra("test",getFirstName);
             startActivity(intent);
 
@@ -586,9 +589,11 @@ public class PayMentGateWay extends Activity {
         else
         {
             addMoneyToWallet(txnId,amount,strStatus,strDesc);
-            Intent intent=new Intent(PayMentGateWay.this, AddtoMoneySuccessAck.class);
+
+            Intent intent=new Intent(ReorderPayMentGateWay.this, OrderPaymentSuccess.class);
             intent.putExtra("test",getFirstName);
             startActivity(intent);
+
         }
     }
 

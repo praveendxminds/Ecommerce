@@ -25,6 +25,9 @@ public class ReorderItemsModel {
     @SerializedName("message")
     public String message;
 
+    @SerializedName("delivery_date")
+    public String delivery_date;
+
     @SerializedName("result")
     public List<ReorderResult> result = null;
 
