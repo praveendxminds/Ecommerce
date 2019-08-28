@@ -93,10 +93,10 @@ public class billingAddress extends AppCompatActivity {
         llContinue = findViewById(R.id.llContinue);
        // tvContinue = findViewById(R.id.tvContinue);
         //for aprtment section getting from Login response
-        strFirstName = session.showFirstName();
-        strLastName = session.showLastName();
-        strEmail = session.showEmailId();
-        strMobile = session.showPhoneNumber();
+        strFirstName = session.getFirstName();
+        strLastName = session.getLastName();
+        strEmail = session.getEmail();
+        strMobile = session.getTelephone();
         strApartmentName = session.getApartment();
         strBlock = session.getBlockNo();
         strDoor = session.getDoorNo();

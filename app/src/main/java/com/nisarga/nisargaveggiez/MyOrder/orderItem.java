@@ -114,7 +114,7 @@ public class orderItem {
             orderIdOrder.setText("Order Id :" + " " + "XXX");
         }
 
-       
+
             Date localTime = null;
             try {
                 localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
