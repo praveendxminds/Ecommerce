@@ -109,7 +109,7 @@ public class PaymentHistoryItems {
         {
             tvTitlePayHistory.setText("Payment Description");
         }
-            tvTxnId.setText("");
+            tvTxnId.setVisibility(android.view.View.INVISIBLE);
 
         if (mAmnt != null && !mAmnt.isEmpty() && !mAmnt.equals("null")) {
             tvAmountPayHistory.setText("\u20B9" + " " + mAmnt);
