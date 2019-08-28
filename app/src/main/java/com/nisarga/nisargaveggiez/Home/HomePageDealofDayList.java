@@ -55,16 +55,13 @@ public class HomePageDealofDayList {
 
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
                 qtyspinner = image.weight_classes;
-                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner));
             } else if ((!image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 qtyspinner = image.options;
-                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner));
 
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
-                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner));
             }
         }
     }
@@ -72,6 +69,7 @@ public class HomePageDealofDayList {
     @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
+        intent.putExtra("ViewAll", "2");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

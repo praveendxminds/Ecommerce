@@ -47,16 +47,17 @@ public class HomePageListofProducts {
 
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
                 qtyspinner = image.weight_classes;
-                phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.product_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.prd_id, image.image, image.name,
+                        qtyspinner));
+
             } else if ((!image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 qtyspinner = image.options;
-                phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.product_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.prd_id, image.image, image.name,
+                        qtyspinner));
 
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
-                phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.product_id, image.image, image.name,
-                        image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.prd_id, image.image, image.name,
+                        qtyspinner));
             }
         }
     }
@@ -64,6 +65,7 @@ public class HomePageListofProducts {
     @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
+        intent.putExtra("ViewAll", "1");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

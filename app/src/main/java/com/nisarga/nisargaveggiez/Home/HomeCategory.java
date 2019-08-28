@@ -57,6 +57,7 @@ import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
 import com.nisarga.nisargaveggiez.PrivacyPolicy;
 import com.nisarga.nisargaveggiez.ProfileSection.EditProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
+import com.nisarga.nisargaveggiez.ProfileSection.Login_act;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
@@ -143,6 +144,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     private String imagepath = null;
     String strProfilePic = "null";
 
+    String value;
+    String viewAll;
+
     public static TextView cartItemCount;
 
     //--------Filter----------
@@ -162,6 +166,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     String sFilterNewestFirst = "0";
 
     private void init() {
+        viewAll = getIntent().getExtras().getString("ViewAll", "defaultKey");
+
         drawerHomeCategory = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
         toolbar = (Toolbar) findViewById(R.id.toolbarHomeCategory);
         setSupportActionBar(toolbar);
@@ -184,7 +190,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         navLeftMenu = findViewById(R.id.navLeftMenu);
         headerView = navLeftMenu.getHeaderView(0);
         navLeftMenu.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
+        setNavMenuItemThemeColors();
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -205,6 +211,16 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Intent intentEditProfile = new Intent(getBaseContext(), EditProfile_act.class);
                 startActivity(intentEditProfile);
+            }
+        });
+
+        llLeftMenuLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                session.logoutUser();
+                finish();
+                Intent intent = new Intent(getBaseContext(), Login_act.class);
+                startActivity(intent);
             }
         });
 
@@ -247,38 +263,38 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         bottom_navigation.getMenu().findItem(R.id.navigation_home).setChecked(true);
         bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                finish();
-                                Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
-                                startActivity(intentHome);
-                                break;
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        finish();
+                        Intent intentHome = new Intent(HomeCategory.this, HomePage.class);
+                        startActivity(intentHome);
+                        break;
 
-                            case R.id.navigation_categories:
-                                finish();
-                                Intent intentCateg = new Intent(HomeCategory.this, CategoriesBottomNav.class);
-                                startActivity(intentCateg);
-                                break;
+                    case R.id.navigation_categories:
+                        finish();
+                        Intent intentCateg = new Intent(HomeCategory.this, CategoriesBottomNav.class);
+                        startActivity(intentCateg);
+                        break;
 
-                            case R.id.navigation_wishlist:
-                                finish();
-                                Intent intentWishlist = new Intent(HomeCategory.this, WishListHolder.class);
-                                startActivity(intentWishlist);
-                                break;
+                    case R.id.navigation_wishlist:
+                        finish();
+                        Intent intentWishlist = new Intent(HomeCategory.this, WishListHolder.class);
+                        startActivity(intentWishlist);
+                        break;
 
-                            case R.id.navigation_wallet:
-                                finish();
-                                Intent intentWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
-                                startActivity(intentWallet);
-                                break;
+                    case R.id.navigation_wallet:
+                        finish();
+                        Intent intentWallet = new Intent(HomeCategory.this, MyWalletActivity.class);
+                        startActivity(intentWallet);
+                        break;
 
-                        }
-                        return true;
-                    }
-                });
+                }
+                return true;
+            }
+        });
         bottom_navigation.setItemIconSize(40);
 
 
@@ -382,13 +398,14 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         btnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.CheckInternetConnection(getApplicationContext())) {
+                showGridView();
+               /* if (Utils.CheckInternetConnection(getApplicationContext())) {
                     saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
                             minPrice, maxPrice);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection",
                             Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
     }
@@ -403,17 +420,15 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         callEditProfile.enqueue(new Callback<FilterCategoryModel>() {
             @Override
             public void onResponse(Call<FilterCategoryModel> call, Response<FilterCategoryModel> response) {
-                FilterCategoryModel resourceMyProfile = response.body();
-                if (resourceMyProfile.status.equals("success")) {
-                    phvCategoryList.setVisibility(View.GONE);
-                    phvCategoryList.removeAllViews();
-                    phvFilter.setVisibility(View.VISIBLE);
-                    List<FilterCategoryModel.Datum> datumList = resourceMyProfile.resultdata;
+                FilterCategoryModel model = response.body();
+                if (model.status.equals("success")) {
+                    showGridView();
+                  /*  List<FilterCategoryModel.Datum> datumList = resourceMyProfile.resultdata;
                     for (FilterCategoryModel.Datum imgs : datumList) {
-                       /* phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
+                        phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                 imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                imgs.wishlist_status));*/
-                    }
+                                imgs.wishlist_status));
+                    }*/
                 }
 
                 pbLoading.setVisibility(View.INVISIBLE);
@@ -486,7 +501,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ProductListModel prdListModel = new ProductListModel(session.getCustomerId());
+            final ProductListModel prdListModel = new ProductListModel(session.getCustomerId(), viewAll);
             Call<ProductListModel> call = apiInterface.getProductsList(prdListModel);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
@@ -501,19 +516,16 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.weight_classes;
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                        imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                        imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                        imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
                             }
                         }
                     }
@@ -554,7 +566,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final ProductListModel prdListModel1 = new ProductListModel(session.getCustomerId());
+            final ProductListModel prdListModel1 = new ProductListModel(session.getCustomerId(), viewAll);
             Call<ProductListModel> call = apiInterface.getProductsList(prdListModel1);
             call.enqueue(new Callback<ProductListModel>() {
                 @Override
@@ -569,19 +581,16 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.weight_classes;
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                        imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                        imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                        imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
                             }
                         }
                     }
@@ -778,7 +787,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         super.onBackPressed();
     }
 
-    public void setNavMenuItemThemeColors(int color, int icolor) {
+    public void setNavMenuItemThemeColors() {
         int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
         int navDefaultIconColor = Color.parseColor("#FFFBD249");
         int navActiveIconColor = Color.parseColor("#FF34773C");
@@ -838,57 +847,30 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
             // set the custom dialog components - text, image and button
             ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
-            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
-            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            final ImageView ivUnlikeGray = (ImageView) promptsView.findViewById(R.id.ivUnlikeGray);
+            final ImageView ivUnlikeGreen = (ImageView) promptsView.findViewById(R.id.ivUnlikeGreen);
+            final ImageView ivLikeGray = (ImageView) promptsView.findViewById(R.id.ivLikeGray);
+            final ImageView ivLikeGreen = (ImageView) promptsView.findViewById(R.id.ivLikeGreen);
             Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
 
             final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+
+            ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), "1");
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
+                    ivUnlikeGreen.setVisibility(View.VISIBLE);
+                    ivUnlikeGray.setVisibility(View.GONE);
+                    value = "0";
                 }
             });
 
-            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+            ivLikeGray.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), "0");
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
+                    ivLikeGreen.setVisibility(View.VISIBLE);
+                    ivLikeGray.setVisibility(View.GONE);
+                    value = "1";
                 }
             });
 
@@ -898,9 +880,28 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     alertDialog.cancel();
                 }
             });
+
             btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View v) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), value);
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
                     alertDialog.cancel();
                 }
             });

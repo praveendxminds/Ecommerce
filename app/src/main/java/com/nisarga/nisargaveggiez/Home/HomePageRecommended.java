@@ -49,16 +49,17 @@ public class HomePageRecommended {
 
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
                 qtyspinner = image.weight_classes;
-                phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image,
-                        image.name, image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.prd_id, image.image,
+                        image.name, qtyspinner));
+
             } else if ((!image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 qtyspinner = image.options;
-                phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image,
-                        image.name, image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.prd_id, image.image,
+                        image.name, qtyspinner));
 
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
-                phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.product_id, image.image,
-                        image.name, image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
+                phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.prd_id, image.image,
+                        image.name, qtyspinner));
             }
         }
     }
@@ -66,6 +67,7 @@ public class HomePageRecommended {
     @Click(R.id.tvViewAll)
     public void onClick() {
         Intent intent = new Intent(mContext, HomeCategory.class);
+        intent.putExtra("ViewAll", "3");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

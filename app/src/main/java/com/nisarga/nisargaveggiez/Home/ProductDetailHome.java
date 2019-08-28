@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -76,6 +77,8 @@ public class ProductDetailHome extends AppCompatActivity {
 
     public static TextView cartcount;
 
+    ArrayList<String> putcntlst = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +122,7 @@ public class ProductDetailHome extends AppCompatActivity {
         btnAddWishlist = findViewById(R.id.btnAddWishlist);
         btnAddCart = findViewById(R.id.btnAddCart);
         btnAddCart.setEnabled(false);
+
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
@@ -234,7 +238,8 @@ public class ProductDetailHome extends AppCompatActivity {
                             } else {
                                 llAddQuantity.setVisibility(View.GONE);
                                 llProductCount.setVisibility(View.VISIBLE);
-                                tvProductCount.setText(sAddQtyStatus);
+
+                                //tvProductCount.setText(sAddQtyStatus);
                                 btnAddCart.setText("Already In Cart");
                                 btnAddCart.setEnabled(false);
                             }
@@ -281,10 +286,22 @@ public class ProductDetailHome extends AppCompatActivity {
                         llSimilarProduct.setVisibility(View.VISIBLE);
                         List<SimilarProductsModel.SimilarPrdDatum> datumList = resource.result;
                         for (SimilarProductsModel.SimilarPrdDatum imgs : datumList) {
-                            phvSimilarProduct.addView(new SimilarProductsListItem(getApplicationContext(),
-                                    imgs.related_id, imgs.product_id, imgs.image, imgs.name, imgs.price,
-                                    imgs.quantity, imgs.discount_price, imgs.wishlist_status,
-                                    imgs.add_product_quantity_in_cart));
+                            Object qtyspinner = "null";
+
+                            if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
+                                qtyspinner = imgs.weight_classes;
+                                phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
+                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner));
+
+                            } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                                qtyspinner = imgs.options;
+                                phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
+                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner));
+
+                            } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                                phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
+                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner));
+                            }
                         }
                     } else {
                         llSimilarProduct.setVisibility(View.GONE);

@@ -98,6 +98,8 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private String imagepath = null;
     String strProfilePic = "null";
 
+    String value;
+
     BottomNavigationView bottomNavigationView;
 
     LinearLayout llProfileIcon, llProfileDesc, llEditProfile;
@@ -160,7 +162,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(mToolbarHomePage);
         getSupportActionBar().setTitle(null);
 
-        llProfileIcon =  findViewById(R.id.llProfileIcon);
+        llProfileIcon = findViewById(R.id.llProfileIcon);
         ivToolbarPic = findViewById(R.id.ivToolbarPic);
         ivbtnNotification = findViewById(R.id.ivbtnNotification);
         ivbtnCart = findViewById(R.id.ivbtnCart);
@@ -172,7 +174,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
+        setNavMenuItemThemeColors();
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -359,23 +361,18 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         int id = menuItem.getItemId();
         if (id == R.id.menuleft_home) {
             menuItem.setEnabled(true);
-            Intent intentHome = new Intent(ProductSearch.this, ProductSearch.class);
+            Intent intentHome = new Intent(ProductSearch.this, HomePage.class);
             startActivity(intentHome);
-
         } else if (id == R.id.menuleft_myorders) {
             Intent intentMyOrder = new Intent(ProductSearch.this, MyOrders.class);
             startActivity(intentMyOrder);
-
         } else if (id == R.id.menuleft_mywallet) {
             Intent intentMyWallet = new Intent(ProductSearch.this, MyWalletActivity.class);
             startActivity(intentMyWallet);
-
         } else if (id == R.id.menuleft_referearn) {
             Intent intentMyReferEarn = new Intent(ProductSearch.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
-
         } else if (id == R.id.menuleft_rateus) {
-
             LayoutInflater li = LayoutInflater.from(ProductSearch.this);
             android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
             android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(ProductSearch.this,
@@ -384,58 +381,30 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
             // set the custom dialog components - text, image and button
             ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
-            ImageView ivUnlike = (ImageView) promptsView.findViewById(R.id.ivUnlike);
-            ImageView ivLike = (ImageView) promptsView.findViewById(R.id.ivLike);
+            final ImageView ivUnlikeGray = (ImageView) promptsView.findViewById(R.id.ivUnlikeGray);
+            final ImageView ivUnlikeGreen = (ImageView) promptsView.findViewById(R.id.ivUnlikeGreen);
+            final ImageView ivLikeGray = (ImageView) promptsView.findViewById(R.id.ivLikeGray);
+            final ImageView ivLikeGreen = (ImageView) promptsView.findViewById(R.id.ivLikeGreen);
             Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
 
-            final AlertDialog alertDialog = alertDialogBuilder.create();
+            final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
 
-            ivLike.setOnClickListener(new android.view.View.OnClickListener() {
+            ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), "1");
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Log.d("ivsuccess", "onResponse: ");
-                            } else if (resource.status.equals("error")) {
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
+                    ivUnlikeGreen.setVisibility(View.VISIBLE);
+                    ivUnlikeGray.setVisibility(View.GONE);
+                    value = "0";
                 }
             });
 
-            ivUnlike.setOnClickListener(new android.view.View.OnClickListener() {
+            ivLikeGray.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), "0");
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Log.d("ivfail", "onResponse: ");
-                            } else if (resource.status.equals("error")) {
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
+                    ivLikeGreen.setVisibility(View.VISIBLE);
+                    ivLikeGray.setVisibility(View.GONE);
+                    value = "1";
                 }
             });
 
@@ -445,13 +414,31 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                     alertDialog.cancel();
                 }
             });
+
             btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View v) {
+                    final RateModel ref = new RateModel(session.getCustomerId(), value);
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(ProductSearch.this, resource.message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ProductSearch.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
                     alertDialog.cancel();
                 }
             });
-
         } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(ProductSearch.this, ContactUs.class);
             startActivity(intentAbtContact);
@@ -468,7 +455,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
             } catch (android.content.ActivityNotFoundException anfe) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
             }
-
         } else if (id == R.id.menuleft_policy) {
             Intent intentPolicy = new Intent(ProductSearch.this, PrivacyPolicy.class);
             startActivity(intentPolicy);
@@ -479,7 +465,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    public void setNavMenuItemThemeColors(int color, int icolor) {
+    public void setNavMenuItemThemeColors() {
         //Setting default colors for menu item Text and Icon
         int navDefaultTextColor = Color.parseColor("#AB4A4A4A");
         int navDefaultIconColor = Color.parseColor("#FFFBD249");

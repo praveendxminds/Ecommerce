@@ -100,7 +100,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="left"
                         android:padding="2dp"
-                        android:text="1 Pieces"
+                        android:text="1 Piece"
                         android:textAllCaps="false"
                         android:textColor="@color/light_black_3"
                         android:textSize="14sp" />

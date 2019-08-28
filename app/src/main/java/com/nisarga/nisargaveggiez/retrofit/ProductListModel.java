@@ -6,14 +6,17 @@ import java.util.List;
 
 public class ProductListModel {
 
-    @SerializedName("status")
-    public String status;
-
     @SerializedName("customer_id")
     public String customer_id;
 
+    @SerializedName("data_id")
+    public String data_id;
+
     @SerializedName("profile_pic")
     public String profile_pic;
+
+    @SerializedName("status")
+    public String status;
 
     @SerializedName("total_product_count")
     public String total_product_count;
@@ -21,8 +24,9 @@ public class ProductListModel {
     @SerializedName("result")
     public List<ProductListDatum> result = null;
 
-    public ProductListModel(String custid) {
+    public ProductListModel(String custid, String viewAll) {
         this.customer_id = custid;
+        this.data_id = viewAll;
     }
 
     public class ProductListDatum {

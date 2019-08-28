@@ -127,7 +127,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:padding="6dp"
-                    android:text="1 Packet"
+                    android:text="1 Piece"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/light_black_1"
                     android:textSize="10sp" />
