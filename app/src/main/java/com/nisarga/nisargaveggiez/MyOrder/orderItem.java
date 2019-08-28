@@ -106,17 +106,29 @@ public class orderItem {
 
         builder = new AlertDialog.Builder(mContext);
 
-
-        orderIdOrder.setText("Order Id :" + " " + morderId);
-        Date localTime = null;
-        try {
-            localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
+        if(morderId != null && !morderId.isEmpty() && !morderId.equals("null")) {
+            orderIdOrder.setText("Order Id :" + " " + morderId);
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
-        String delivDate = sdf.format(new Date(localTime.getTime()));
-        deliveryDateOrder.setText("Delivered on" + " " + delivDate);
+        else
+        {
+            orderIdOrder.setText("Order Id :" + " " + "XXX");
+        }
+
+        if(mdeliveryDate != null && !mdeliveryDate.isEmpty() && !mdeliveryDate.equals("null")){
+            Date localTime = null;
+            try {
+                localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
+            String delivDate = sdf.format(new Date(localTime.getTime()));
+            deliveryDateOrder.setText("Delivered on" + " " + delivDate);
+        }
+        else
+        {
+            deliveryDateOrder.setVisibility(android.view.View.INVISIBLE);
+        }
 
 
         if (mstatus.equals("Canceled")) {
@@ -143,13 +155,13 @@ public class orderItem {
             btnCancelOrder.setText("Cancel");
 
 
-
+            Date localTime1 = null;
             /* time date comparison 4 pm starts */
             String tddate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
 
             SimpleDateFormat del_dt = new SimpleDateFormat("dd/MM/yyyy");
-            String deliver_Date = del_dt.format(new Date(localTime.getTime()));
+            String deliver_Date = del_dt.format(new Date(localTime1.getTime()));
 
 
             SimpleDateFormat sdfss = new SimpleDateFormat("dd/MM/yyyy");

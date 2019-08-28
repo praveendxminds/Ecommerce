@@ -74,10 +74,22 @@ public class OrderDetailsItems {
     public void onResolved() {
 
         //image------
-        Glide.with(mContext).load(murl).into(ivitemIconOrdDetails);
+        if (murl != null && !murl.isEmpty() && !murl.equals("null")) {
+            Glide.with(mContext).load(murl).into(ivitemIconOrdDetails);
+        }
+        else
+        {
+            Glide.with(mContext).load(R.drawable.englishitem).into(ivitemIconOrdDetails);
+        }
 
         //---title--------
-        tvPrdTitleOrdDetails.setText(mtitle);
+        if (mtitle != null && !mtitle.isEmpty() && !mtitle.equals("null")) {
+            tvPrdTitleOrdDetails.setText(mtitle);
+        }
+        else
+        {
+            tvPrdTitleOrdDetails.setText("Product");
+        }
 
         //Actual price------
         if (mnewPrice != null && !mnewPrice.isEmpty() && !mnewPrice.equals("null")) {

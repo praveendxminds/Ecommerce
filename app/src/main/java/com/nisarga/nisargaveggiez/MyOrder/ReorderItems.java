@@ -79,9 +79,22 @@ public class ReorderItems {
     public void onResolved() {
 
         //-image-----
-        Glide.with(mContext).load(murl).into(ivitemIconReorder);
+        if (murl != null && !murl.isEmpty() && !murl.equals("null")) {
+            Glide.with(mContext).load(murl).into(ivitemIconReorder);
+        }
+        else
+        {
+            Glide.with(mContext).load(R.drawable.englishitem).into(ivitemIconReorder);
+        }
         //---title--------
-        tvPrdTitleReorder.setText(mtitle);
+        if (mtitle != null && !mtitle.isEmpty() && !mtitle.equals("null")) {
+            tvPrdTitleReorder.setText(mtitle);
+        }
+        else
+        {
+            tvPrdTitleReorder.setText("Product");
+        }
+
         //Actual price---------
         if (mnewPrice != null && !mnewPrice.isEmpty() && !mnewPrice.equals("null")) {
             double dbl_Price_1 = Double.parseDouble(mnewPrice);//need to convert string to decimal

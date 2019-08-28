@@ -95,9 +95,28 @@ public class PaymentHistoryItems {
             }
         }
 
-        tvStatusPayHistory.setText(mStatus);
-        tvTitlePayHistory.setText(mDesc);
+        if (mStatus != null && !mStatus.isEmpty() && !mStatus.equals("null")) {
+            tvStatusPayHistory.setText(mStatus);
+        }
+        else {
+            tvStatusPayHistory.setVisibility(android.view.View.INVISIBLE);
+        }
+
+        if (mDesc != null && !mDesc.isEmpty() && !mDesc.equals("null")) {
+            tvTitlePayHistory.setText(mDesc);
+        }
+        else
+        {
+            tvTitlePayHistory.setText("Payment Description");
+        }
             tvTxnId.setText("");
-        tvAmountPayHistory.setText("\u20B9" + " " +mAmnt);
+
+        if (mAmnt != null && !mAmnt.isEmpty() && !mAmnt.equals("null")) {
+            tvAmountPayHistory.setText("\u20B9" + " " + mAmnt);
+        }
+        else
+        {
+            tvAmountPayHistory.setText("\u20B9" + " " + "00.00");
+        }
     }
 }

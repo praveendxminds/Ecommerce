@@ -35,7 +35,13 @@ public class AddMoneyItems {
 
     @Resolve
     public void onResolved() {
-        tvAddtoAmount.setText(tvAmount);
+        if (tvAmount != null && !tvAmount.isEmpty() && !tvAmount.equals("null")) {
+            tvAddtoAmount.setText(tvAmount);
+        }
+        else
+        {
+            tvAddtoAmount.setText("0");
+        }
     }
 
     @Click(R.id.llAddtoMoneyItem)
