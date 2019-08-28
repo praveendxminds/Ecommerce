@@ -86,6 +86,8 @@ public class SessionManager {
     public static final String KEY_DELIVERY_CHARGES = "delivery_charges";
     public static final String KEY_ORDER_TOTAL = "total";
 
+    public static final String KEY_JSON_COUNT = "json";
+
 
     public static final String KEY_CART_ID = "cart_id";
 
