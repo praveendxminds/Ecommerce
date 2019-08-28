@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Walletpayment {
 
-    @SerializedName("status")
+    @SerializedName("status1")
     public String status;
 
     @SerializedName("status")

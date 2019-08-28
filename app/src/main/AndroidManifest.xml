@@ -222,6 +222,38 @@
 
 
         <activity
+            android:name="com.nisarga.nisargaveggiez.MyOrder.ReorderPayMentGateWay"
+            android:screenOrientation="portrait"
+            android:label="Edit Profile"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.nisarga.nisargaveggiez.MyOrder.OrderPaymentSuccess"
+            android:screenOrientation="portrait"
+            android:label="Edit Profile"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.nisarga.nisargaveggiez.MyOrder.OrderPaymentFailure"
+            android:screenOrientation="portrait"
+            android:label="Edit Profile"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="com.nisarga.nisargaveggiez.ChangePassword"
             android:screenOrientation="portrait"
             android:label="Change Password"
