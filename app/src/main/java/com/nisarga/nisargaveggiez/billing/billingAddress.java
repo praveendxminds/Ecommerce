@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.billing;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -57,17 +58,22 @@ public class billingAddress extends AppCompatActivity {
     private EditText etFirstName, etLastName, etMobileNo, etInstructions, etDelivery;
     private TextView tvApartmentName, tvApartmentDetails;
     private ImageButton imgBtnAddAddress;
-    private Button btnContinue;
+    private TextView tvContinue;
     private String strFirstName, strLastName, strEmail, strMobile, strInstruct, strDeliveryDay, strApartmentName, strApartmentDetails;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode, strCountryId, strZoneId;
     private String strTotal, strTotalSaving;
     APIInterface apiInterface;
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipping_details_mycart);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        progressdialog = new ProgressDialog(billingAddress.this);
+        progressdialog.setMessage("Please Wait....");
+
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -85,7 +91,7 @@ public class billingAddress extends AppCompatActivity {
         tvApartmentDetails = findViewById(R.id.tvAddressDetails);
         imgBtnAddAddress = findViewById(R.id.imgBtnEditAddress);
         llContinue = findViewById(R.id.llContinue);
-        btnContinue = findViewById(R.id.btnContinue);
+       // tvContinue = findViewById(R.id.tvContinue);
         //for aprtment section getting from Login response
         strFirstName = session.showFirstName();
         strLastName = session.showLastName();
@@ -121,7 +127,7 @@ public class billingAddress extends AppCompatActivity {
             }
         });
 
-        btnContinue.setOnClickListener(new View.OnClickListener() {
+        llContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 moveToChkOut();
@@ -147,12 +153,16 @@ public class billingAddress extends AppCompatActivity {
         strApartmentDetails = tvApartmentDetails.getText().toString();
         strApartmentName = tvApartmentName.getText().toString();
         //api call-----
-        if (Utils.CheckInternetConnection(getApplicationContext()))
-        {
-          //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
+            try {
+                progressdialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             Log.d("strArea", String.valueOf(strArea));
-            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName,strAddress , strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
+            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
             Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);
             call.enqueue(new Callback<ShippingAddrModel>() {
                 @Override
@@ -171,14 +181,13 @@ public class billingAddress extends AppCompatActivity {
                         session.saveTotal(resource.total, resource.total_savings);
 
 
-
-
                         Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
                         intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intentChkout);
                     } else {
                         Toast.makeText(billingAddress.this, resource.message, Toast.LENGTH_SHORT).show();
                     }
+                    progressdialog.dismiss();
                 }
 
                 @Override

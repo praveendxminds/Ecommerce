@@ -174,7 +174,8 @@ public class MyOrders extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater miMyOrders = getMenuInflater();
         miMyOrders.inflate(R.menu.notifi_and_info_menu,menu);
         return true;

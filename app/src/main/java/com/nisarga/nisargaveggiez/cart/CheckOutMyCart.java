@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.cart;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,15 +34,18 @@ import retrofit2.Response;
 
 public class CheckOutMyCart extends AppCompatActivity {
 
+
     SessionManager session;
     Toolbar toolbar;
     private TextView llConfirmOrder;
+    private LinearLayout cnflyt;
     private ImageButton imgBtnEditAddress;
     private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName;
     private TextView tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvCartValue, tvChkoutDeliveryDay;
     private String strCustFName, strCustLName, strPhoneNo, strAprtName, strAprtDetails, strInstruct, strDeliveryDay;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
     APIInterface apiInterface;
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +55,9 @@ public class CheckOutMyCart extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        progressdialog = new ProgressDialog(CheckOutMyCart.this);
+        progressdialog.setMessage("Please Wait....");
 
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -65,34 +72,34 @@ public class CheckOutMyCart extends AppCompatActivity {
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
         tvCartValue = findViewById(R.id.tvCartValue);
         llConfirmOrder = findViewById(R.id.llConfirmOrder);
+        cnflyt = findViewById(R.id.cnflyt);
         imgBtnEditAddress = findViewById(R.id.imgBtnEditAddress);
 
         strCustFName = session.getFirstName();
         strCustLName = session.getLastName();
         strPhoneNo = session.getPhoneNumber();
         strAprtName = session.getCompany();
-        strBlock = session.getBlockNo();
-        strDoor = session.getDoorNo();
-        strFloor = session.getFloor();
-        strArea = session.getAddrSecond();
-        strAddress = session.getAddrFirst();
-        strCity = session.getCity();
+        strBlock = session.getBlockNo()+"," + " ";
+        strDoor = session.getDoorNo()+"," + " ";
+        strFloor = session.getFloor()+ "," + " ";
+        strArea = session.getAddrSecond()+ "," + " ";
+        strAddress = session.getAddrFirst()+ "," + " ";
+        strCity = session.getCity()+ "," + " ";
         strPincode = session.getPincode();
         strInstruct = session.getShipInstruct();
-        strDeliveryDay = session.getDeliverydate();
+        strDeliveryDay = session.getDeliveryweek();
 
         tvChkoutCustName.setText(strCustFName + " " + strCustLName);
         tvChkoutPhnNo.setText(strPhoneNo);
         tvChkoutAprtName.setText(strAprtName);
-        tvChkoutAprtDetails.setText(strDoor + "," + " " + strFloor + "," + " " + strBlock +
-                "," + " " + strAddress + "," + " " + strArea + "," + " " + strCity + "," + " " + strPincode);
+        tvChkoutAprtDetails.setText(strDoor + strFloor + strBlock + strAddress + strArea + strCity+ strPincode);
         tvChkoutDelvInstruct.setText(strInstruct);
         tvChkoutDeliveryDay.setText(strDeliveryDay);
 
 
-        tvTotalSaving.setText(session.getTotalSavingAmount());
-        tvCartValue.setText(session.getTotalAmount());
-        tvPayableAmount.setText(session.getTotalAmount());
+        tvTotalSaving.setText("Rs."+" "+session.getTotalSavingAmount());
+        tvCartValue.setText("Rs."+" "+session.getTotalAmount());
+        tvPayableAmount.setText("Rs."+" "+session.getTotalAmount());
 
         confirmOrder();
         moveToEditAddress();
@@ -129,11 +136,10 @@ public class CheckOutMyCart extends AppCompatActivity {
     }
 
     public void confirmOrder() {
-        llConfirmOrder.setOnClickListener(new View.OnClickListener() {
+        cnflyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-
                 addorder();
             }
         });
@@ -163,7 +169,11 @@ public class CheckOutMyCart extends AppCompatActivity {
     public void addorder() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //final CartListModel cartListModel = new CartListModel("api/cart/products","ea37ddb9108acd601b295e26fa");
-
+            try {
+                progressdialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Log.d("getToken", String.valueOf(session.getToken()));
 
             final AddOrder ordadddetails = new AddOrder(session.getDeliverydate());
@@ -173,17 +183,15 @@ public class CheckOutMyCart extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<AddOrder> call, Response<AddOrder> response) {
                     AddOrder resource = response.body();
+
+                    List<AddOrder.AddOrderList> datumList = resource.data;
                     if ((resource.status).equals("success")) {
-
-                        List<AddOrder.AddOrderList> datumList = resource.data;
-
                       //  Log.d("Addorderlist", String.valueOf(datumList));
-
                           for (AddOrder.AddOrderList lsss : datumList)
                           {
                               Log.d("addressdddd", String.valueOf(lsss.address));
                               // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
-
+                              progressdialog.dismiss();
                               Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
                               intentConfirmOrder.putExtra("address",lsss.address);
                               intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
@@ -193,12 +201,7 @@ public class CheckOutMyCart extends AppCompatActivity {
                               startActivity(intentConfirmOrder);
 
                           }
-
-
-
-
                     }
-
 
                 }
 

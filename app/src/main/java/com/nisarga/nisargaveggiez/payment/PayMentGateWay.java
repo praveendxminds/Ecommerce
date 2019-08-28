@@ -348,7 +348,7 @@ public class PayMentGateWay extends Activity {
                 @Override
                 public void run() {
                     //cancelPayment();
-                    testStatus("",getRechargeAmt,"failure",error);
+                    testStatus("",getRechargeAmt,"failure","Transaction Canceled");
                     Toast.makeText(getApplicationContext(),"Cancel payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -369,7 +369,7 @@ public class PayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
-                    testStatus("",getRechargeAmt,"failure",params);
+                    testStatus("",getRechargeAmt,"failure","Transaction Failed");
                     Toast.makeText(getApplicationContext(),"Failed payment" ,Toast.LENGTH_LONG).show();
                 }
             });

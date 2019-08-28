@@ -56,13 +56,16 @@ public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
     PlaceHolderView mCartView;
-    TextView tvTotalVeggies, tvtotalAmount, linkDeliveryDay, tvEmptyCart;
+    TextView   linkDeliveryDay, tvEmptyCart;
     LinearLayout llCheckBox;
     private String storeDayTime;
     SessionManager session;
 
     APIInterface apiInterface;
     public String select_item;
+
+    public static TextView tvTotalVeggies;
+    public static TextView tvtotalAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +111,34 @@ public class cart extends AppCompatActivity {
                 categories.add("Select");
                 categories_dtes.add("Select");
 
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-                for (int i = 1; i < 4; i++) {
-                    Calendar calendars = new GregorianCalendar();
-                    calendars.add(Calendar.DAY_OF_WEEK, i);
-                    String catdays = sdf.format(calendars.getTime());
-                    String days = sdf1.format(calendars.getTime());
-                    Log.i("daysddddds", days);
-                    categories.add(catdays);
-                    categories_dtes.add(days);
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                if(hour>=21)
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+                    for (int i = 2; i < 5; i++) {
+                        Calendar calendars = new GregorianCalendar();
+                        calendars.add(Calendar.DAY_OF_WEEK, i);
+                        String catdays = sdf.format(calendars.getTime());
+                        String days = sdf1.format(calendars.getTime());
+                        Log.i("daysddddds", days);
+                        categories.add(catdays);
+                        categories_dtes.add(days);
+                    }
+                }
+                else
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+                    for (int i = 1; i < 4; i++) {
+                        Calendar calendars = new GregorianCalendar();
+                        calendars.add(Calendar.DAY_OF_WEEK, i);
+                        String catdays = sdf.format(calendars.getTime());
+                        String days = sdf1.format(calendars.getTime());
+                        Log.i("daysddddds", days);
+                        categories.add(catdays);
+                        categories_dtes.add(days);
+                    }
                 }
 
                 LayoutInflater inflater = getLayoutInflater();
@@ -126,17 +147,12 @@ public class cart extends AppCompatActivity {
                 //----day spinner--------
                 final Spinner dayspinner = alertLayout.findViewById(R.id.dayspinner);
                 final Button schedule = alertLayout.findViewById(R.id.btnSchedule);
-                // final SpinnerAdapter adapterDay = new SpinnerAdapter(cart.this, android.R.layout.simple_list_item_1);
-                //  adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                //adapterDay.addAll(categories);
-                // adapterDay.add("Select Day");
-                // dayspinner.setAdapter(adapterDay);
 
                 dayspinner.setAdapter(new DeliverydateAdapter(getApplicationContext(), categories, categories));
                 dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
                         session.setDeliverydate(categories_dtes.get(position));
                         session.setDeliveryweek(categories.get(position));
                         select_item = categories.get(position);
@@ -180,11 +196,22 @@ public class cart extends AppCompatActivity {
                     CartListModel resource = response.body();
                     if (resource.status.equals("success")) {
                         List<CartListModel.CartListDatum> datumList = resource.result;
-                        tvTotalVeggies.setText(datumList.size() + " Items");
+
+                        if (datumList.size() == 0) {
+                            tvTotalVeggies.setText("No Items");
+                        } else if (datumList.size() == 1) {
+                            tvTotalVeggies.setText(datumList.size() + " " + "Item");
+                        } else {
+                            tvTotalVeggies.setText(datumList.size() + " " + "Items");
+                        }
+
+                     //   tvTotalVeggies.setText(datumList.size() + " Items");
                         for (CartListModel.CartListDatum imgs : datumList) {
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
-                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView));
+                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView,imgs.price));
+
+
                             }
                         }
 

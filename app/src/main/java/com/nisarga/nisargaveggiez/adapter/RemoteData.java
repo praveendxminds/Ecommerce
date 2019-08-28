@@ -30,6 +30,7 @@ public class RemoteData {
     private Context context;
     Inflater mInflater;
 
+
     public static final String BASE_URL = "http://3.213.33.73/Ecommerce/upload/";
     private static Retrofit retrofit = null;
 
@@ -75,7 +76,6 @@ public class RemoteData {
 
 
 
-                      //  List<String> str = new ArrayList<String>();
                         for(ProductData s : response.body().getResult())
                         {
                            // str.add(s.getName());

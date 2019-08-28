@@ -78,10 +78,12 @@ public class ConfirmOrder extends AppCompatActivity {
         String total = intent.getStringExtra("total");
         order_id = intent.getStringExtra("total");
 
-        tvDelivCharge.setText(delivery_charges);
+        tvMsg.setText("Dear Member, Your Order is confirmed, will be delivered on "+session.getDeliveryweek()+"  morning.");
+        tvDelivCharge.setText("Rs."+" "+delivery_charges);
+        tvApartmentName.setText(session.getApartment());
         tvAddressDetails.setText(address);
-        tvOrdAmount.setText(total);
-        tvTotalSaving.setText(savings);
+        tvOrdAmount.setText("Rs."+" "+total);
+        tvTotalSaving.setText("Rs."+" "+savings);
 
 
         submitFeedback();
