@@ -196,6 +196,10 @@ public interface APIInterface {
                                        @Body AddToCartModel model);
 
     @POST("index.php")
+    Call<AddCartNullSpinner> callNullSpinner(@Query("route") String route, @Query("api_token") String api_token,
+                                             @Body AddCartNullSpinner model);
+
+    @POST("index.php")
     Call<UpdateToCartModel> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
                                             @Body UpdateToCartModel model);
 
@@ -206,7 +210,7 @@ public interface APIInterface {
 
     @POST("index.php")
     Call<ReOrder> AddOrder(@Query("route") String route, @Query("api_token") String api_token,
-                            @Body ReOrder model);
+                           @Body ReOrder model);
 
     @POST("index.php?route=api/orderreview/giveOrderreview")
     Call<OrderFeedback> orderfeedback(@Body OrderFeedback feed);
