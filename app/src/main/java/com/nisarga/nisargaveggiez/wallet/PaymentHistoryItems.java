@@ -11,6 +11,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.View;
+import com.nisarga.nisargaveggiez.SessionManager;
 
 import static android.view.View.GONE;
 
@@ -39,6 +40,7 @@ public class PaymentHistoryItems {
     @View(R.id.btnCredit)
     public Button btnCredit;
 
+    SessionManager sessionManager;
 
     Context mContext;
     public String mDate, mtxnType, mDesc, mAmnt, mBlnc, mType, mStatus, paymentId;
@@ -48,7 +50,7 @@ public class PaymentHistoryItems {
     }
 
     public PaymentHistoryItems(Context contxt, String date, String txn_Type, String desc,
-                               String amnt, String blnc, String type,String status,String txnId) {
+                               String amnt, String blnc, String type,String status) {
         this.mContext = contxt;
         this.mDate = date;
         this.mtxnType = txn_Type;
@@ -57,11 +59,12 @@ public class PaymentHistoryItems {
         this.mBlnc = blnc;
         this.mType = type;
         this.mStatus = status;
-        this.paymentId = txnId;
     }
 
     @Resolve
     public void onResolved() {
+
+        sessionManager = new SessionManager(mContext);
 
         if(mStatus.equals("failure"))
         {
@@ -94,7 +97,7 @@ public class PaymentHistoryItems {
 
         tvStatusPayHistory.setText(mStatus);
         tvTitlePayHistory.setText(mDesc);
-            tvTxnId.setText(paymentId);
+            tvTxnId.setText("");
         tvAmountPayHistory.setText("\u20B9" + " " +mAmnt);
     }
 }

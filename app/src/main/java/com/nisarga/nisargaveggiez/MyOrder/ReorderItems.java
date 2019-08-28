@@ -111,9 +111,15 @@ public class ReorderItems {
             tv_qntyReorder.setVisibility(android.view.View.INVISIBLE);
         }
         //------------revised price-------
-        double dbl_Price_3 = Double.parseDouble(mRevisedPrice);//need to convert string to decimal
-        str_priceValue3 = String.format("%.2f", dbl_Price_3);//display only 2 decimal places of price
-        tvRevisedPriceReorder.setText("\u20B9" + " " + str_priceValue3);
+        if (mRevisedPrice != null && !mRevisedPrice.isEmpty() && !mRevisedPrice.equals("null")) {
+            double dbl_Price_3 = Double.parseDouble(mRevisedPrice);//need to convert string to decimal
+            str_priceValue3 = String.format("%.2f", dbl_Price_3);//display only 2 decimal places of price
+            tvRevisedPriceReorder.setText("\u20B9" + " " + str_priceValue3);
+        }
+        else
+        {
+            tvRevisedPriceReorder.setText("00.00");
+        }
 
     }
 }

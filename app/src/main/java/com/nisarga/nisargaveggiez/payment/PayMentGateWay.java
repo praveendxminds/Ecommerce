@@ -335,6 +335,7 @@ public class PayMentGateWay extends Activity {
 
                     //intent.putExtra("txnid", paymentId);
                     testStatus(paymentId,getRechargeAmt,"success","Money Added to Wallet");
+                    session.setTxnId(paymentId);
                     Toast.makeText(getApplicationContext(),"Money added to wallet" ,Toast.LENGTH_LONG).show();
 
 

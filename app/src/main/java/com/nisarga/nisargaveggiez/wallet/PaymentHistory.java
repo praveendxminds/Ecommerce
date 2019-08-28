@@ -133,13 +133,14 @@ public class PaymentHistory extends AppCompatActivity {
                         for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
 
                             recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(), imgs.date, imgs.transaction_type,
-                                    imgs.description, imgs.amount, imgs.balance, imgs.type, imgs.status, paymentId));
+                                    imgs.description, imgs.amount, imgs.balance, imgs.type, imgs.status));
 
                         }
                     } else if ((resource.status).equals("failure")) {
                         tvEmptyPaymentHistory.setVisibility(View.VISIBLE);
                         recycler_payHistory.setVisibility(View.GONE);
                     }
+
                 }
 
 
@@ -172,6 +173,7 @@ public class PaymentHistory extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 onBackPressed();
                 return true;
