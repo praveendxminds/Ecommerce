@@ -80,13 +80,7 @@ public class ReorderHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pIntent = new Intent(getBaseContext(), MyOrders.class);
-                startActivity(pIntent);
-            }
-        });
+
         tv_total = findViewById(R.id.tv_total);
         tvtotalAmount = findViewById(R.id.tvtotalAmount);
         buttonChkOut = findViewById(R.id.buttonChkOut);
@@ -281,7 +275,7 @@ public class ReorderHolder extends AppCompatActivity {
 
             case android.R.id.home:
                 onBackPressed();
-                return true;
+                break;
 
             case R.id.menu_notifi:
                 Intent notificationIntent = new Intent(getBaseContext(), MyNotifications.class);

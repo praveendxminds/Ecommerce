@@ -171,8 +171,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         //-----------------------------------------------------------------------------------
         navigationView = (NavigationView) findViewById(R.id.nav_viewHomePage);
         headerView = navigationView.getHeaderView(0);
-        navigationView.setNavigationItemSelectedListener(this);
-        setNavMenuItemThemeColors(R.color.light_black_2, R.color.green);
         tvName = headerView.findViewById(R.id.tvName);
         tvEmail = headerView.findViewById(R.id.tvEmail);
         tvMobileNo = headerView.findViewById(R.id.tvMobileNo);
@@ -338,6 +336,8 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         NotificationUtils.clearNotifications(getApplicationContext());
     }
 
+
+
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
@@ -476,6 +476,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

@@ -55,6 +55,7 @@ public class SessionManager {
 
     public static final String DELIVERY_DAY = "delivery_day";
     public static final String DELIVERY_WEEK = "delivery_week";
+    public static final String TXN_ID = "txnid";
 
 
     public static final String KEY_TOKEN_ID = "fcm_id";
@@ -131,6 +132,19 @@ public class SessionManager {
 
     public String getCancelId() {
         return pref.getString(KEY_Cancel, null);
+    }
+
+    public void setTxnId(String txnId)
+    {
+        editor.putString(TXN_ID, txnId);
+        editor.commit();
+    }
+    public String getTxnId() {
+        return pref.getString(TXN_ID, null);
+    }
+    public void clearTxnId() {
+        editor.clear();
+        editor.commit();
     }
 
     public void storeStatusOrder(String status) {

@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:background="@color/white"
     android:gravity="center"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"
         android:layout_height="?attr/actionBarSize"
-        app:theme="@style/ToolbarColoredBackArrow"
+        android:background="@color/colorPrimary"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="?attr/homeAsUpIndicator" >
-    </android.support.v7.widget.Toolbar>
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
 
-    <RelativeLayout android:background="#e1e1e1"
-        android:layout_height="fill_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="fill_parent"
+        android:background="#e1e1e1">
 
         <LinearLayout
             android:id="@+id/llOrders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/navigationMyOrders">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
 
-        <com.mindorks.placeholderview.PlaceHolderView
-            android:id="@+id/recycler_order"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_above="@id/navigationMyOrders"
-            android:paddingRight="12dp"
-            android:paddingLeft="12dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/recycler_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/navigationMyOrders"
+                    android:background="@color/white"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="8dp">
 
-        </com.mindorks.placeholderview.PlaceHolderView>
-        </android.support.v4.widget.SwipeRefreshLayout>
+                </com.mindorks.placeholderview.PlaceHolderView>
+            </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
+
         <TextView
             android:id="@+id/tvEmptyMyOrders"
             android:layout_width="match_parent"
@@ -68,7 +69,7 @@
             android:background="@android:color/white"
             app:itemTextColor="@color/light_black_2"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_navigation_menu"  />
+            app:menu="@menu/bottom_navigation_menu" />
     </RelativeLayout>
 </LinearLayout>
 
