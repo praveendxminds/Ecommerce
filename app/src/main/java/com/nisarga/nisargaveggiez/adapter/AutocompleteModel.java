@@ -1,14 +1,21 @@
 package com.nisarga.nisargaveggiez.adapter;
 
+import java.util.ArrayList;
+
 public class AutocompleteModel {
     private String title = "";
     private String imgurl = "";
     private int product_id = 0;
+    private String metatitle = "";
+    Object keywords;
 
-    public AutocompleteModel(String title, String imgurl, int product_id) {
+    public AutocompleteModel(String title, String imgurl, int product_id,String metatitle,Object keywords) {
         this.title = title;
         this.imgurl = imgurl;
         this.product_id = product_id;
+        this.metatitle = metatitle;
+        this.product_id = product_id;
+        this.keywords = keywords;
 
     }
 
@@ -21,7 +28,27 @@ public class AutocompleteModel {
         this.title = title;
     }
 
-     public String getImgUrl() {
+
+    public String getMetatitle()
+    {
+        return metatitle;
+    }
+
+    public void setMetatitle(String metatitle) {
+        this.metatitle = metatitle;
+    }
+
+    public Object getkeywords()
+    {
+        return keywords;
+    }
+
+    public void setkeywords(Object keywords) {
+        this.keywords = keywords;
+    }
+
+
+    public String getImgUrl() {
         return imgurl;
     }
 

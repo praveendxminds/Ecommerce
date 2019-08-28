@@ -102,13 +102,22 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
         }
 
         @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
+
+
             if (constraint != null) {
                 suggestions.clear();
                 for (AutocompleteModel people : tempCustomer) {
-                    if (people.getTitle().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                    if (people.getTitle().toLowerCase().startsWith(constraint.toString().toLowerCase()))
+                    {
                         suggestions.add(people);
                     }
+                    else if(people.getMetatitle().toLowerCase().startsWith(constraint.toString().toLowerCase()))
+                    {
+                        suggestions.add(people);
+                    }
+
                 }
 
                 FilterResults filterResults = new FilterResults();
