@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +25,11 @@ import com.nisarga.nisargaveggiez.payment.PayMentGateWay;
 import com.nisarga.nisargaveggiez.payment.PaymentDetails;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.ProductslHomePage;
 import com.nisarga.nisargaveggiez.retrofit.ReorderItemsModel;
 import com.nisarga.nisargaveggiez.retrofit.WalletBlncModel;
+import com.nisarga.nisargaveggiez.wallet.Usewallet;
+import com.nisarga.nisargaveggiez.wallet.Walletpayment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,6 +54,7 @@ public class CheckoutOrder extends AppCompatActivity {
     String strTotalAmnt, strPrice, strSubTotal, strDelvCharge;
     private String getFirstName, getPhone, getEmail, getAmount, getOrdId;
     private String shipAddress, shipCity, shipZone,deliveryDay;
+    CheckBox checkbox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +80,7 @@ public class CheckoutOrder extends AppCompatActivity {
         tvPrice = findViewById(R.id.tvPrice);
         tvFinalTotal = findViewById(R.id.tvFinalTotal);
         tvWalletAmnt = findViewById(R.id.tvWalletAmnt);
+        checkbox = findViewById(R.id.checkbox);
 
         btnItems = findViewById(R.id.btnItems);
         llPayNow = findViewById(R.id.llPayNow);
@@ -107,18 +113,82 @@ public class CheckoutOrder extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
-                Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
-                intent.putExtra("FIRST_NAME", getFirstName);
-                intent.putExtra("PHONE_NUMBER", getPhone);
-                intent.putExtra("EMAIL_ADDRESS", getEmail);
+                if(checkbox.isChecked())
+                {
 
-                double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
-                String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+                    if (Utils.CheckInternetConnection(getApplicationContext())) {
+//-------------------------------------image slider view----------------------------------------------------------------------
+                        final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),tvWalletAmnt.getText().toString());
+                        Call<Usewallet> call = apiInterface.esewallet(wallet);
+                        call.enqueue(new Callback<Usewallet>() {
+                            @Override
+                            public void onResponse(Call<Usewallet> call, Response<Usewallet> response) {
+                                Usewallet resource = response.body();
+                                if (resource.status.equals("success"))
+                                {
+                                    if(resource.total_to_be_paid>0)
+                                    {
 
-                intent.putExtra("RECHARGE_AMT", strTotalAmntpay);
+                                        Toast.makeText(getApplicationContext(), "Pay full amount using online payment method", Toast.LENGTH_SHORT).show();
 
-                startActivity(intent);
+                                        Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
+                                        Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
+                                        intent.putExtra("FIRST_NAME", getFirstName);
+                                        intent.putExtra("PHONE_NUMBER", getPhone);
+                                        intent.putExtra("PHONE_NUMBER", getPhone);
+                                        intent.putExtra("EMAIL_ADDRESS", getEmail);
+                                        intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                                        double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
+                                        String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+
+                                        intent.putExtra("RECHARGE_AMT", strTotalAmntpay);
+
+                                        startActivity(intent);
+
+
+                                    }
+                                    else
+                                    {
+
+                                        Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
+                                        startActivity(intent);
+
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Usewallet> call, Throwable t) {
+                                call.cancel();
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Log.d("finaltotol","dsdssd");
+
+                }
+                else
+                {
+
+
+                    Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
+                    Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
+                    intent.putExtra("FIRST_NAME", getFirstName);
+                    intent.putExtra("PHONE_NUMBER", getPhone);
+                    intent.putExtra("EMAIL_ADDRESS", getEmail);
+                    intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                    double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
+                    String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+
+                    intent.putExtra("RECHARGE_AMT", strTotalAmntpay);
+
+                    startActivity(intent);
+
+                }
 
 
             }
@@ -382,5 +452,7 @@ public class CheckoutOrder extends AppCompatActivity {
         }
         return true;
     }
+
+
 
 }
