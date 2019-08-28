@@ -31,6 +31,7 @@ import com.nisarga.nisargaveggiez.cart.cart;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.ReOrder;
 import com.nisarga.nisargaveggiez.retrofit.ReorderItemsModel;
 import com.mindorks.placeholderview.PlaceHolderView;
 
@@ -54,7 +55,7 @@ public class ReorderHolder extends AppCompatActivity {
     private TextView linkDeliveryDay;
     private Button buttonChkOut;
     private String storeDayTime;
-    String str_custid,str_TotalAmnt;
+    String str_custid, str_TotalAmnt;
     SessionManager session;
     private TextView tv_total, tvtotalAmount;
     private String order_id;
@@ -104,8 +105,7 @@ public class ReorderHolder extends AppCompatActivity {
                 categories_dtes.add("Select");
 
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if(hour>=21)
-                {
+                if (hour >= 21) {
                     SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                     for (int i = 2; i < 5; i++) {
@@ -117,9 +117,7 @@ public class ReorderHolder extends AppCompatActivity {
                         categories.add(catdays);
                         categories_dtes.add(days);
                     }
-                }
-                else
-                {
+                } else {
                     SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                     for (int i = 1; i < 4; i++) {
@@ -144,7 +142,7 @@ public class ReorderHolder extends AppCompatActivity {
                 dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                      //  Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
+                        //  Toast.makeText(getApplicationContext(), categories.get(position), Toast.LENGTH_LONG).show();
                         session.setDeliverydate(categories_dtes.get(position));
                         session.setDeliveryweek(categories.get(position));
                         select_item = categories.get(position);
@@ -176,7 +174,38 @@ public class ReorderHolder extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         /*  mCartView.addView(new cartItem_footer());*/
+        buttonChkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reorderItem();
+            }
+        });
         showListView();
+    }
+
+    public void reorderItem() {
+        ReOrder reorderItems = new ReOrder(order_id);
+        Call<ReOrder> callReorderItems = apiInterface.reorderItems("api/cart/reorderItems", session.getToken(), reorderItems);
+        callReorderItems.enqueue(new Callback<ReOrder>() {
+            @Override
+            public void onResponse(Call<ReOrder> call, Response<ReOrder> response) {
+                ReOrder resourcesReorder = response.body();
+                if (resourcesReorder.status.equals("success")) {
+                    Intent intentShippingAddrress = new Intent(ReorderHolder.this, billingAddress.class);
+                    startActivity(intentShippingAddrress);
+
+                } else if (resourcesReorder.status.equals("failure")) {
+                    Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReOrder> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
+
     }
 
     public void showListView() {
@@ -189,7 +218,7 @@ public class ReorderHolder extends AppCompatActivity {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
-                        if(result.size()>0) {
+                        if (result.size() > 0) {
 
                             for (ReorderItemsModel.ReorderResult reorderData : result) {
 
@@ -199,12 +228,9 @@ public class ReorderHolder extends AppCompatActivity {
                                         reorderData.weight_classes, reorderData.revised_price));
                             }
 
-                            if((resourcesReorder.TotalProduct).equals("1"))
-                            {
+                            if ((resourcesReorder.TotalProduct).equals("1")) {
                                 tv_total.setText(resourcesReorder.TotalProduct + " " + "Item");
-                            }
-                            else
-                            {
+                            } else {
                                 tv_total.setText(resourcesReorder.TotalProduct + " " + "Items");
 
                             }
@@ -212,8 +238,7 @@ public class ReorderHolder extends AppCompatActivity {
                             double dbl_Price_2 = Double.parseDouble(resourcesReorder.totalMoney);
                             str_TotalAmnt = String.format("%.2f", dbl_Price_2);
                             tvtotalAmount.setText("Total" + " " + "\u20B9 " + str_TotalAmnt);
-                        }
-                        else {
+                        } else {
 
                             Toast.makeText(getApplicationContext(), "No items", Toast.LENGTH_LONG).show();
                         }
@@ -242,8 +267,7 @@ public class ReorderHolder extends AppCompatActivity {
         return true;
     }
 
-    public void billing(View v)
-    {
+    public void billing(View v) {
         if (select_item.equals("Select")) {
             Toast.makeText(getApplicationContext(), "Please Select Delivery Day", Toast.LENGTH_SHORT).show();
         } else {
