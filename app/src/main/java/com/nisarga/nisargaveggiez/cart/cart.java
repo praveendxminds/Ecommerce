@@ -204,7 +204,7 @@ public class cart extends AppCompatActivity {
                         for (CartListModel.CartListDatum imgs : datumList) {
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
-                                        imgs.name, imgs.discount_price, imgs.quantity, mCartView, imgs.price,
+                                        imgs.name, imgs.total, imgs.quantity, mCartView, imgs.discount_price,
                                         imgs.option_name));
 
                             }

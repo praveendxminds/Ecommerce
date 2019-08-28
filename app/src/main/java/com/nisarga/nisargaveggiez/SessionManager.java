@@ -134,14 +134,15 @@ public class SessionManager {
         return pref.getString(KEY_Cancel, null);
     }
 
-    public void setTxnId(String txnId)
-    {
+    public void setTxnId(String txnId) {
         editor.putString(TXN_ID, txnId);
         editor.commit();
     }
+
     public String getTxnId() {
         return pref.getString(TXN_ID, null);
     }
+
     public void clearTxnId() {
         editor.clear();
         editor.commit();
@@ -462,18 +463,8 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void addCartId(String cart_id) {
-        editor.putString(KEY_CART_ID, cart_id);
-        editor.commit();
-    }
 
-    public String getCartId()
-    {
-        return pref.getString(KEY_CART_ID, null);
-    }
-
-    public void addorder(String ord_addr,String ord_savings,String ord_charges,String ord_total)
-    {
+    public void addorder(String ord_addr, String ord_savings, String ord_charges, String ord_total) {
         editor.putString(KEY_ORDER_ADDRESS, ord_addr);
         editor.putString(KEY_ORDER_SAVINGS, ord_savings);
         editor.putString(KEY_DELIVERY_CHARGES, ord_charges);
@@ -481,23 +472,19 @@ public class SessionManager {
         editor.commit();
     }
 
-    public String addorder_address()
-    {
+    public String addorder_address() {
         return pref.getString(KEY_ORDER_ADDRESS, null);
     }
 
-    public String addorder_savings()
-    {
+    public String addorder_savings() {
         return pref.getString(KEY_ORDER_SAVINGS, null);
     }
 
-    public String addorder_delvery_charges()
-    {
+    public String addorder_delvery_charges() {
         return pref.getString(KEY_DELIVERY_CHARGES, null);
     }
 
-    public String addorder_total()
-    {
+    public String addorder_total() {
         return pref.getString(KEY_ORDER_TOTAL, null);
     }
 

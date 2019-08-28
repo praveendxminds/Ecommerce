@@ -391,7 +391,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         btnClearFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showGridView();
+                drawerHomeCategory.closeDrawer(Gravity.RIGHT);
             }
         });
 
@@ -399,6 +400,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 showGridView();
+                drawerHomeCategory.closeDrawer(Gravity.RIGHT);
                /* if (Utils.CheckInternetConnection(getApplicationContext())) {
                     saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
                             minPrice, maxPrice);

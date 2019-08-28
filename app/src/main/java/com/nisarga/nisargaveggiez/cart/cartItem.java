@@ -121,7 +121,7 @@ public class cartItem {
         session = new SessionManager(mcontext);
         Glide.with(mcontext).load(murl).into(ivImage);
         tvProductName.setText(mtitle);
-        tvNewPrice.setText(mprice);
+        tvNewPrice.setText("₹" + " " + mprice);
         tvQuantity.setText(mOption);
         tvProductCount.setText(mqty);
 
@@ -174,7 +174,7 @@ public class cartItem {
                             tvTotalVeggies.setText(cnt + " " + "Items");
                         }
 
-                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -210,7 +210,7 @@ public class cartItem {
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
-                        Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                        //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                     }
@@ -248,7 +248,7 @@ public class cartItem {
             public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                 UpdateToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                    //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
