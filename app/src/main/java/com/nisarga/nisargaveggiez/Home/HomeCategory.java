@@ -245,8 +245,8 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        bottom_navigation.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottom_navigation.getMenu().findItem(R.id.navigation_home).setChecked(true);
+        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

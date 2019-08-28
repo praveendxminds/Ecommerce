@@ -234,6 +234,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+        bottomNavigationView.getMenu().findItem(R.id.navigation_home).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)

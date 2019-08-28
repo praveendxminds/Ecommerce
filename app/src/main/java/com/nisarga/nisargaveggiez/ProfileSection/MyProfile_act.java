@@ -88,6 +88,7 @@ public class MyProfile_act extends AppCompatActivity {
             }
         });
 
+        bottom_navigation.getMenu().findItem(R.id.navigation_home).setChecked(true);
         bottom_navigation.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)

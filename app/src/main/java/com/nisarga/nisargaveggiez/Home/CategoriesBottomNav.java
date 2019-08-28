@@ -219,6 +219,7 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
 
+        bottomNavigationView.getMenu().findItem(R.id.navigation_categories).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
