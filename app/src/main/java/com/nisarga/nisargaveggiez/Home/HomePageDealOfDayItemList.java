@@ -33,6 +33,7 @@ import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
+import com.nisarga.nisargaveggiez.retrofit.AddCartNullSpinner;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 
 import org.json.JSONArray;
@@ -254,27 +255,51 @@ public class HomePageDealOfDayItemList {
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
-        final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()), option_id,
-                option_value_id);
+        if (spnrqty.equals("null")) {
+            final AddCartNullSpinner nullValue = new AddCartNullSpinner(sProductId, String.valueOf(tvNoOfCount.getText()));
 
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-        callAdd.enqueue(new Callback<AddToCartModel>() {
-            @Override
-            public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                AddToCartModel resource = response.body();
-                if (resource.status.equals("success")) {
-                    //  Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<AddCartNullSpinner> callAdd = apiInterface.callNullSpinner("api/cart/add", session.getToken(),
+                    nullValue);
+            callAdd.enqueue(new Callback<AddCartNullSpinner>() {
+                @Override
+                public void onResponse(Call<AddCartNullSpinner> call, Response<AddCartNullSpinner> response) {
+                    AddCartNullSpinner resource = response.body();
+                    if (resource.status.equals("success")) {
+                        //  Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<AddToCartModel> call, Throwable t) {
-                call.cancel();
-            }
-        });
+                @Override
+                public void onFailure(Call<AddCartNullSpinner> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+            final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()), option_id,
+                    option_value_id);
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+            callAdd.enqueue(new Callback<AddToCartModel>() {
+                @Override
+                public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                    AddToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        //  Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        }
     }
 
     @Click(R.id.lldecreasePrdCount)
