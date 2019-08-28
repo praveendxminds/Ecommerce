@@ -50,5 +50,11 @@ public class ProductListModel {
 
         @SerializedName("discount_price")
         public String discount_price;
+
+        @SerializedName("weight_classes")
+        public Object weight_classes;
+
+        @SerializedName("options")
+        public Object options;
     }
 }

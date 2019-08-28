@@ -43,7 +43,6 @@ public class HomePageListofProducts {
                 .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         for (ProductslHomePage.Products image : mImageList) {
-
             Object qtyspinner = "null";
 
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
@@ -58,10 +57,7 @@ public class HomePageListofProducts {
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 phvProductList.addView(new HomePageListOfProductsItemList(mContext, image.product_id, image.image, image.name,
                         image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
-            } else {
-
             }
-
         }
     }
 

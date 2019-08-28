@@ -196,7 +196,7 @@ public class ProductDetailHome extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
                     ProductDetailsModel productResponse = response.body();
-                    List<String> imageArr = new ArrayList<String>();
+                    List<String> imageArr = new ArrayList<>();
                     List<ProductDetailsModel.Datum> datumList = productResponse.result;
                     for (ProductDetailsModel.Datum imgs : datumList) {
                         if (response.isSuccessful()) {

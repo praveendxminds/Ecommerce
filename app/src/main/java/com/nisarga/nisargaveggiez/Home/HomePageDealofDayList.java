@@ -65,8 +65,6 @@ public class HomePageDealofDayList {
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name,
                         image.discount_price, image.add_product_quantity_in_cart, qtyspinner));
-            } else {
-
             }
         }
     }

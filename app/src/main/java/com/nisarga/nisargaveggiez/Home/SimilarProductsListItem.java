@@ -184,7 +184,7 @@ public class SimilarProductsListItem {
     @Click(R.id.llSimilarProduct)
     public void onLongClick() {
         Intent intent = new Intent(mContext, ProductDetailHome.class);
-        intent.putExtra("product_id", mPrd_id);
+        intent.putExtra("product_id", mrelated_id);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
@@ -212,7 +212,7 @@ public class SimilarProductsListItem {
                 AddToCartModel resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
-                } else  {
+                } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
             }
