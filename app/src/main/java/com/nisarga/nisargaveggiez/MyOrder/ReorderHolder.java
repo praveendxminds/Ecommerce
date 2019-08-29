@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.MyOrder;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +65,8 @@ public class ReorderHolder extends AppCompatActivity {
     APIInterface apiInterface;
     public static TextView textCartItemCount;
     public String select_item;
+    ProgressBar progressBar;
+    ProgressDialog progressdialog;
 
 
     @Override
@@ -85,6 +89,12 @@ public class ReorderHolder extends AppCompatActivity {
         tv_total = findViewById(R.id.tv_total);
         tvtotalAmount = findViewById(R.id.tvtotalAmount);
         buttonChkOut = findViewById(R.id.buttonChkOut);
+        progressBar = findViewById(R.id.pbLoading);
+        progressBar.setVisibility(View.VISIBLE);
+
+        progressdialog = new ProgressDialog(ReorderHolder.this);
+        progressdialog.setMessage("Please Wait....");
+
 
         //-----delivery day link------------------
         linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
@@ -191,6 +201,8 @@ public class ReorderHolder extends AppCompatActivity {
             public void onResponse(Call<ReOrder> call, Response<ReOrder> response) {
                 ReOrder resourcesReorder = response.body();
                 if (resourcesReorder.status.equals("success")) {
+
+                    progressdialog.dismiss();
                     Intent intentShippingAddrress = new Intent(ReorderHolder.this, billingAddress.class);
                     startActivity(intentShippingAddrress);
 
@@ -217,6 +229,8 @@ public class ReorderHolder extends AppCompatActivity {
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
+
+                        progressBar.setVisibility(View.VISIBLE);
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         if (result.size() > 0) {
 

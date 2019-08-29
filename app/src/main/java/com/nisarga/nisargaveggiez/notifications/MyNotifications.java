@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class MyNotifications extends AppCompatActivity {
     SessionManager session;
     TextView tvEmptyNotifications;
     SwipeRefreshLayout pullToRefresh;
+    ProgressBar progressDialog;
 
 
     @Override
@@ -66,6 +68,8 @@ public class MyNotifications extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        progressDialog = findViewById(R.id.pbLoading);
+        progressDialog.setVisibility(View.VISIBLE);
 
         mnotificationView = (PlaceHolderView) findViewById(R.id.recycler_notify);
         tvEmptyNotifications = (TextView) findViewById(R.id.tvEmptyNotifications);
@@ -177,6 +181,7 @@ public class MyNotifications extends AppCompatActivity {
                 public void onResponse(Call<NotificationListModel> call, Response<NotificationListModel> response) {
                     NotificationListModel resourceMyProfile = response.body();
                     if (resourceMyProfile.status.equals("success")) {
+                        progressDialog.setVisibility(View.INVISIBLE);
                         List<NotificationListModel.NotificationListModelDatum> mpmDatum = resourceMyProfile.result;
                         for (NotificationListModel.NotificationListModelDatum mpmResult : mpmDatum) {
                             mnotificationView.addView(new NotificationItem(getApplicationContext(), mpmResult.date, mpmResult.title, mpmResult.body));

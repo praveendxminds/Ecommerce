@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.MyOrder;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -16,9 +17,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidnetworking.model.Progress;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.CategoriesBottomNav;
 import com.nisarga.nisargaveggiez.Home.HomePage;
@@ -56,6 +59,7 @@ public class MyOrders extends AppCompatActivity {
     TextView tvEmptyMyOrders;
     // public orderItem orderItem;
     SwipeRefreshLayout pullToRefresh;
+    ProgressBar progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,8 @@ public class MyOrders extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
+        progressDialog = findViewById(R.id.pbLoading);
+        progressDialog.setVisibility(View.VISIBLE);
 
         getOrders();
 
@@ -181,6 +187,7 @@ public class MyOrders extends AppCompatActivity {
                     List<MyOrderList.MyOrderListDatum> datumList1 = resource.result;
                     if ((resource.mstatus).equals("success")) {
                         if (datumList1.size() > 0) {
+                            progressDialog.setVisibility(View.INVISIBLE);
                             for (MyOrderList.MyOrderListDatum orderList : datumList1) {
 
                                 session.storeStatusOrder(orderList.sstatus);

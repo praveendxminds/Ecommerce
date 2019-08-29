@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class CheckoutOrder extends AppCompatActivity {
     private String shipAddress, shipCity, shipZone,deliveryDay;
     CheckBox checkbox;
     ProgressDialog progressdialog;
+    ProgressBar progressBar;
 
 
     @Override
@@ -70,6 +72,10 @@ public class CheckoutOrder extends AppCompatActivity {
 
         progressdialog = new ProgressDialog(CheckoutOrder.this);
         progressdialog.setMessage("Please wait...");
+
+        progressBar = findViewById(R.id.pbLoading);
+        progressBar.setVisibility(View.VISIBLE);
+
 
         tvOrdId = findViewById(R.id.tvOrdId);
         tvNameChkoutOrder = findViewById(R.id.tvNameChkoutOrder);
@@ -267,6 +273,8 @@ public class CheckoutOrder extends AppCompatActivity {
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
+
+                        progressBar.setVisibility(View.INVISIBLE);
                         // Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         for (ReorderItemsModel.ReorderResult reorderData : result) {

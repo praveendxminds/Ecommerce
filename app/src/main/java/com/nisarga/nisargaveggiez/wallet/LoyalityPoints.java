@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.wallet;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ public class LoyalityPoints extends AppCompatActivity {
     private EditText etReedem;
     String strRedeemPoint;
     SessionManager sessionManager;
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,10 @@ public class LoyalityPoints extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         sessionManager = new SessionManager(LoyalityPoints.this);
+
+        progressdialog = new ProgressDialog(LoyalityPoints.this);
+        progressdialog.setMessage("Please Wait....");
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +78,12 @@ public class LoyalityPoints extends AppCompatActivity {
         strRedeemPoint = strRedeemPoint.trim();
         final int intReedemPoint = !strRedeemPoint.equals("") ? Integer.parseInt(strRedeemPoint) : 0; //checking blank space replace with zero
         if (intReedemPoint >= 10 && intReedemPoint <= pointBlnc) {
+
+            try {
+                progressdialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             final ReedemLoyalityPoints get_loyltyPoints = new ReedemLoyalityPoints(sessionManager.getCustomerId(), strRedeemPoint);
             Call<ReedemLoyalityPoints> call = apiInterface.redeemPoints(get_loyltyPoints);
             call.enqueue(new Callback<ReedemLoyalityPoints>() {
@@ -79,6 +91,7 @@ public class LoyalityPoints extends AppCompatActivity {
                 public void onResponse(Call<ReedemLoyalityPoints> call, Response<ReedemLoyalityPoints> response) {
 
                     ReedemLoyalityPoints resource = response.body();
+                    progressdialog.dismiss();
                     Toast.makeText(LoyalityPoints.this, resource.message, Toast.LENGTH_SHORT).show();
                     Intent intentRedeemptionSuccess = new Intent(LoyalityPoints.this, LoyalityPointSuccessAck.class);
                     startActivity(intentRedeemptionSuccess);

@@ -62,8 +62,17 @@ public class NotificationItem {
     @Resolve
     public void onResolved() {
 
-        orderTitleNotifi.setText(morderTitle);
-        orderDateNotifi.setText(mordercontent);
+        if (morderTitle != null && !morderTitle.isEmpty() && !morderTitle.equals("null")) {
+
+            orderTitleNotifi.setText(morderTitle);
+        } else {
+            orderTitleNotifi.setText("Notification");
+        }
+        if (mordercontent != null && !mordercontent.isEmpty() && !mordercontent.equals("null")) {
+            orderDateNotifi.setText(mordercontent);
+        } else {
+            orderDateNotifi.setText("");
+        }
         Date localTime = null;
         try {
             localTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(mdate);
