@@ -79,7 +79,7 @@ public class RemoteData {
                         for(ProductData s : response.body().getResult())
                         {
                            // str.add(s.getName());
-                            autocompletelst.add(new AutocompleteModel(s.getName(), s.getImage(), new Integer(s.getPrdId())));
+                            autocompletelst.add(new AutocompleteModel(s.getName(), s.getImage(), new Integer(s.getPrdId()),s.getmeta_title(),s.getKeyword()));
 
                         }
 

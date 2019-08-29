@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -57,15 +58,17 @@ public class cart extends AppCompatActivity {
     Toolbar toolbar;
     PlaceHolderView mCartView;
     TextView linkDeliveryDay, tvEmptyCart;
-    LinearLayout llCheckBox;
     private String storeDayTime;
     SessionManager session;
 
     APIInterface apiInterface;
     public String select_item;
+    SwipeRefreshLayout pullToRefresh;
 
     public static TextView tvTotalVeggies;
     public static TextView tvtotalAmount;
+    public static LinearLayout llCheckBox;
+    public static LinearLayout layout_total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +98,20 @@ public class cart extends AppCompatActivity {
         linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
         tvEmptyCart = (TextView) findViewById(R.id.tvEmptyCart);
         llCheckBox = (LinearLayout) findViewById(R.id.llCheckBox);
+        layout_total = (LinearLayout) findViewById(R.id.layout_total);
 
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
+
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCartView.removeAllViews();
+                showListView();
+                pullToRefresh.setRefreshing(false);
+
+            }
+        });
 
         SpannableString spannable = new SpannableString("Delivery Day");
         spannable.setSpan(new UnderlineSpan(), 0, spannable.length(), 0);
@@ -234,6 +249,7 @@ public class cart extends AppCompatActivity {
                         llCheckBox.setVisibility(View.GONE);
                         tvEmptyCart.setVisibility(View.VISIBLE);
                         mCartView.setVisibility(View.GONE);
+                        layout_total.setVisibility(View.GONE);
                     }
                     mCartView.refresh();
                 }

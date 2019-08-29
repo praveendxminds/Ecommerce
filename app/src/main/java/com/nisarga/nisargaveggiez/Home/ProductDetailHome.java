@@ -71,9 +71,8 @@ public class ProductDetailHome extends AppCompatActivity {
 
     int countVal = 0;
 
-    String product_option_id[], product_option_value_id[], product_price[];
-    String sQuantitySpinner, option_id, option_value_id, price;
-    String productPrice;
+    String product_option_id[], product_option_value_id[], product_price[], product_price_dis[];
+    String sQuantitySpinner, option_id, option_value_id, price, disPrice;
 
     public static TextView cartcount;
 
@@ -123,7 +122,6 @@ public class ProductDetailHome extends AppCompatActivity {
         btnAddCart = findViewById(R.id.btnAddCart);
         btnAddCart.setEnabled(false);
 
-
         final ArrayList<String> product_qty_list = new ArrayList<>();
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -143,12 +141,14 @@ public class ProductDetailHome extends AppCompatActivity {
                         product_option_id = new String[datumList.size()];
                         product_option_value_id = new String[datumList.size()];
                         product_price = new String[datumList.size()];
+                        product_price_dis = new String[datumList.size()];
                         int i = 0;
                         for (QuantityList.Datum datum : datumList) {
                             product_qty_list.add(datum.name);
                             product_option_id[i] = datum.product_option_id;
                             product_option_value_id[i] = datum.product_option_value_id;
                             product_price[i] = datum.price;
+                            product_price_dis[i] = datum.discount_price;
                             i++;
                         }
                     }
@@ -163,10 +163,21 @@ public class ProductDetailHome extends AppCompatActivity {
                             option_id = product_option_id[position];
                             option_value_id = product_option_value_id[position];
                             price = product_price[position];
+                            disPrice = product_price_dis[position];
 
                             double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
-                            productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                            String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
                             tvNewPrice.setText("₹" + " " + productPrice);
+
+                            if (disPrice.equals("0")) {
+                                tvOldPrice.setVisibility(View.INVISIBLE);
+                            } else {
+                                double dbl_Price1 = Double.parseDouble(disPrice);//need to convert string to decimal
+                                String str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
+                                tvOldPrice.setVisibility(View.VISIBLE);
+                                tvOldPrice.setText("₹" + " " + str_priceValue_1);
+                            }
+
                         }
 
                         @Override
@@ -238,21 +249,12 @@ public class ProductDetailHome extends AppCompatActivity {
                             } else {
                                 llAddQuantity.setVisibility(View.GONE);
                                 llProductCount.setVisibility(View.VISIBLE);
-
-                                //tvProductCount.setText(sAddQtyStatus);
+                                tvProductCount.setText(sAddQtyStatus);
                                 btnAddCart.setText("Already In Cart");
                                 btnAddCart.setEnabled(false);
                             }
                             countVal = Integer.parseInt(sAddQtyStatus);
 
-                            if (sDisPrice.equals("null")) {
-                                tvOldPrice.setVisibility(View.INVISIBLE);
-                            } else {
-                                double dbl_Price1 = Double.parseDouble(sDisPrice);//need to convert string to decimal
-                                String str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
-                                tvOldPrice.setVisibility(View.VISIBLE);
-                                tvOldPrice.setText("₹" + " " + str_priceValue_1);
-                            }
                             if (sDesc.equals("null")) {
                                 webViewDesc.setVisibility(View.GONE);
                             } else {
@@ -340,7 +342,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                         AddToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
-                            Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                           // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                             btnAddCart.setText("Added in Cart");
                             btnAddCart.setEnabled(false);
                         } else {
@@ -379,7 +381,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                             UpdateToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
-                                Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                              //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
@@ -405,7 +407,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                             UpdateToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
-                                Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
@@ -435,7 +437,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
-                            Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                        //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                         }

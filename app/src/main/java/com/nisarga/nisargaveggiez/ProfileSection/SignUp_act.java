@@ -1,6 +1,7 @@
 package com.nisarga.nisargaveggiez.ProfileSection;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,8 +13,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -372,9 +375,20 @@ public class SignUp_act extends AppCompatActivity {
             public void onResponse(Call<UserSignUp> calledu, Response<UserSignUp> response) {
                 final UserSignUp resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(SignUp_act.this, resource.message, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(SignUp_act.this, Login_act.class);
-                    startActivity(intent);
+
+                    new AlertDialog.Builder(SignUp_act.this)
+                            .setMessage("Thank you for registering with Nisarga Veggiez")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(SignUp_act.this, Login_act.class);
+                                    startActivity(intent);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                    return;
+
                 } else if (resource.status.equals("error")) {
                     Toast.makeText(SignUp_act.this, resource.message, Toast.LENGTH_LONG).show();
                 }

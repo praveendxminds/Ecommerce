@@ -106,37 +106,35 @@ public class orderItem {
 
         builder = new AlertDialog.Builder(mContext);
 
-        if(morderId != null && !morderId.isEmpty() && !morderId.equals("null")) {
+        if (morderId != null && !morderId.isEmpty() && !morderId.equals("null")) {
             orderIdOrder.setText("Order Id :" + " " + morderId);
-        }
-        else
-        {
+        } else {
             orderIdOrder.setText("Order Id :" + " " + "XXX");
         }
 
 
-            Date localTime = null;
-            try {
-                localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
-            } catch (java.text.ParseException e) {
-                e.printStackTrace();
-            }
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
-            String delivDate = sdf.format(new Date(localTime.getTime()));
-            deliveryDateOrder.setText("Delivered on" + " " + delivDate);
-
-
+        Date localTime = null;
+        try {
+            localTime = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(mdeliveryDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
+        String delivDate = sdf.format(new Date(localTime.getTime()));
+        deliveryDateOrder.setText("Delivered on" + " " + delivDate);
 
 
         if (mstatus.equals("Canceled")) {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
+            btnPayNow.setVisibility(android.view.View.GONE);
             canceledOrder.setText(mstatus);
         } else if (mstatus.equals("Complete")) {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
+            btnPayNow.setVisibility(android.view.View.GONE);
             deliveredOrder.setText("Delivered");
         } else {
             canceledOrder.setVisibility(android.view.View.GONE);

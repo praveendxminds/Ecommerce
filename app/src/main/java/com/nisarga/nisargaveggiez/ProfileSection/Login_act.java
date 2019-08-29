@@ -140,7 +140,7 @@ public class Login_act extends AppCompatActivity {
             public void onResponse(Call<UserLogin> calledu, Response<UserLogin> response) {
                 final UserLogin resource = response.body();
                 if (resource.status.equals("success")) {
-                    Toast.makeText(Login_act.this, resource.message, Toast.LENGTH_LONG).show();
+                    // Toast.makeText(Login_act.this, resource.message, Toast.LENGTH_LONG).show();
                     List<UserLogin.Datum> datumList = resource.resultdata;
                     for (UserLogin.Datum datum : datumList) {
                         sessionManager.createLoginSession(datum.customer_id, datum.customer_group_id,
