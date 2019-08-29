@@ -123,7 +123,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     TextView tvTotalProduct;
     ImageButton ivbtnListView, ivbtnFilter;
-    PlaceHolderView phvCategoryList, phvFilter;
+    PlaceHolderView phvCategoryList;
     ProgressBar pbLoading;
     BottomNavigationView bottom_navigation;
     NavigationView navLeftMenu;
@@ -177,7 +177,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         ivbtnListView = findViewById(R.id.ivbtnListView);
         ivbtnFilter = findViewById(R.id.ivbtnFilter);
         phvCategoryList = findViewById(R.id.phvCategoryList);
-        phvFilter = findViewById(R.id.phvFilter);
 
         pbLoading = findViewById(R.id.pbLoading);
         pbLoading.setVisibility(View.VISIBLE);
@@ -401,13 +400,19 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 showGridView();
                 drawerHomeCategory.closeDrawer(Gravity.RIGHT);
-               /* if (Utils.CheckInternetConnection(getApplicationContext())) {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
+
+                    phvCategoryList.getBuilder()
+                            .setHasFixedSize(false)
+                            .setItemViewCacheSize(10)
+                            .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
                     saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
                             minPrice, maxPrice);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection",
                             Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
     }
@@ -415,7 +420,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     private void saveFilterData(String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
                                 String sFilterNewestFirst, String minPrice, String maxPrice) {
 
-        final FilterCategoryModel model = new FilterCategoryModel(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow,
+        final FilterCategoryModel model = new FilterCategoryModel(session.getCustomerId(),sFilterPopularity, sFilterLowToHigh, sFilterHighToLow,
                 sFilterNewestFirst, minPrice, maxPrice);
 
         Call<FilterCategoryModel> callEditProfile = apiInterface.filter_products(model);
@@ -424,13 +429,13 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<FilterCategoryModel> call, Response<FilterCategoryModel> response) {
                 FilterCategoryModel model = response.body();
                 if (model.status.equals("success")) {
-                    showGridView();
-                  /*  List<FilterCategoryModel.Datum> datumList = resourceMyProfile.resultdata;
+                    phvCategoryList.removeAllViews();
+                    List<FilterCategoryModel.Datum> datumList = model.resultdata;
                     for (FilterCategoryModel.Datum imgs : datumList) {
-                        phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
+                        phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                 imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
                                 imgs.wishlist_status));
-                    }*/
+                    }
                 }
 
                 pbLoading.setVisibility(View.INVISIBLE);
