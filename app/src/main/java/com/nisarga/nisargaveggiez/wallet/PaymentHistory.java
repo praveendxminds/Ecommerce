@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class PaymentHistory extends AppCompatActivity {
     public String paymentId;
     TextView tvEmptyPaymentHistory;
     SwipeRefreshLayout pullToRefresh;
+    ProgressBar progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,9 @@ public class PaymentHistory extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        progressDialog = findViewById(R.id.pbLoading);
+        progressDialog.setVisibility(View.VISIBLE);
 
         recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
         tvEmptyPaymentHistory = (TextView) findViewById(R.id.tvEmptyPaymentHistory);
@@ -131,6 +136,7 @@ public class PaymentHistory extends AppCompatActivity {
 
                     List<TxnHistoryModel.TxnHistoryDatum> datumList = resource.data;
                     if ((resource.status).equals("success")) {
+                        progressDialog.setVisibility(View.INVISIBLE);
                         for (TxnHistoryModel.TxnHistoryDatum imgs : datumList) {
 
                             recycler_payHistory.addView(new PaymentHistoryItems(getApplicationContext(), imgs.date, imgs.transaction_type,

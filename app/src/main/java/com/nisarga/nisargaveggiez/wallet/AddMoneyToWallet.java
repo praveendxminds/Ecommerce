@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.wallet;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,7 +42,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
     private String strAmount;
     private String getFirstName, getPhone, getEmail, getAmount;
     private TextView tvWalletBlnc;
-
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +58,9 @@ public class AddMoneyToWallet extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        progressdialog = new ProgressDialog(AddMoneyToWallet.this);
+        progressdialog.setMessage("Please Wait....");
+
 
         etAmount = findViewById(R.id.etAmount);
         phvAddtoMoney = findViewById(R.id.phvAddtoMoney);
@@ -78,6 +82,11 @@ public class AddMoneyToWallet extends AppCompatActivity {
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    progressdialog.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 strAmount = etAmount.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
                 intent.putExtra("FIRST_NAME", getFirstName);
@@ -91,6 +100,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
                     intent.putExtra("RECHARGE_AMT", strAmount);
                     startActivity(intent);
                 }
+                progressdialog.dismiss();
 
             }
         });
@@ -100,7 +110,7 @@ public class AddMoneyToWallet extends AppCompatActivity {
 
     public void getWalletAmount() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
-//-------------------------------------image slider view----------------------------------------------------------------------
+//-------------------------------------Add money to wallet----------------------------------------------------------------------
             final WalletBlncModel get_wallet_amnt = new WalletBlncModel(session.getCustomerId());
             Call<WalletBlncModel> call = apiInterface.getWalletBlnc(get_wallet_amnt);
             call.enqueue(new Callback<WalletBlncModel>() {
