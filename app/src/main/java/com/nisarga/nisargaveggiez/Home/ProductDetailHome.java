@@ -23,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
@@ -30,6 +32,7 @@ import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.AddCartNullSpinner;
 import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
 import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
 import com.nisarga.nisargaveggiez.retrofit.ProductDetailsModel;
@@ -45,6 +48,7 @@ import com.nisarga.nisargaveggiez.cart.cart;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.nisarga.nisargaveggiez.Home.ProductDetailsImageSlider.btn_addtoWishlistPrdDetail;
 
 /**
@@ -60,10 +64,12 @@ public class ProductDetailHome extends AppCompatActivity {
     PlaceHolderView phvSingleProductImage, phvSimilarProduct;
     TextView tvTitle, tvPrdName, tvNewPrice, tvOldPrice, tvProductCount, tvQuantityList;
     Spinner spQuantity;
-    LinearLayout llAddQuantity, llProductCount, llSimilarProduct, lldecreasePrdCount, llincreasePrdCount;
+    LinearLayout llAddQuantity, llProductCount, llSimilarProduct, lldecreasePrdCount, llincreasePrdCount, llspinnerlayout;
     ImageButton ivbtnAddItem;
     WebView webViewDesc;
     Button btnAddCart;
+
+    String sadd_product_quantity_in_cart;
 
     public static Button btnAddWishlist;
 
@@ -71,12 +77,15 @@ public class ProductDetailHome extends AppCompatActivity {
 
     int countVal = 0;
 
-    String product_option_id[], product_option_value_id[], product_price[], product_price_dis[];
-    String sQuantitySpinner, option_id, option_value_id, price, disPrice;
+    //String product_option_id[], product_option_value_id[], product_price[], product_price_dis[],disqty_ar[];
+    //  String sQuantitySpinner, option_id, option_value_id, price, disPrice,disqty;
+
+    String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
 
     public static TextView cartcount;
 
     ArrayList<String> putcntlst = new ArrayList<>();
+    TinyDB tinydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +121,7 @@ public class ProductDetailHome extends AppCompatActivity {
         lldecreasePrdCount = findViewById(R.id.lldecreasePrdCount);
         tvProductCount = findViewById(R.id.tvProductCount);
         llincreasePrdCount = findViewById(R.id.llincreasePrdCount);
+        llspinnerlayout = findViewById(R.id.llspinnerlayout);
 
         llSimilarProduct = findViewById(R.id.llSimilarProduct);
         phvSimilarProduct = findViewById(R.id.phvSimilarProduct);
@@ -123,78 +133,15 @@ public class ProductDetailHome extends AppCompatActivity {
         btnAddCart.setEnabled(false);
 
         final ArrayList<String> product_qty_list = new ArrayList<>();
+        final ArrayList<String> disqty_arrr = new ArrayList<>();
 
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            final QuantityList quantityList = new QuantityList(sPrd_id);
+        final ArrayList<String> cart_count = new ArrayList<>();
+        final ArrayList<String> product_option_id = new ArrayList<>();
+        final ArrayList<String> product_option_value_id = new ArrayList<>();
+        final ArrayList<String> name = new ArrayList<>();
+        final ArrayList<String> product_price = new ArrayList<>();
+        final ArrayList<String> discount_price = new ArrayList<>();
 
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<QuantityList> callheight = apiInterface.quantity_list(quantityList);
-            callheight.enqueue(new Callback<QuantityList>() {
-                @Override
-                public void onResponse(Call<QuantityList> callheight, Response<QuantityList> response) {
-                    QuantityList eduresource = response.body();
-                    if (eduresource.data.equals("null")) {
-                        tvQuantityList.setVisibility(View.VISIBLE);
-                    } else {
-
-                        List<QuantityList.Datum> datumList = eduresource.data;
-                        product_option_id = new String[datumList.size()];
-                        product_option_value_id = new String[datumList.size()];
-                        product_price = new String[datumList.size()];
-                        product_price_dis = new String[datumList.size()];
-                        int i = 0;
-                        for (QuantityList.Datum datum : datumList) {
-                            product_qty_list.add(datum.name);
-                            product_option_id[i] = datum.product_option_id;
-                            product_option_value_id[i] = datum.product_option_value_id;
-                            product_price[i] = datum.price;
-                            product_price_dis[i] = datum.discount_price;
-                            i++;
-                        }
-                    }
-
-                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(ProductDetailHome.this, R.layout.spinner_item,
-                            product_qty_list);
-                    spQuantity.setAdapter(itemsAdapter);
-                    spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                            sQuantitySpinner = product_qty_list.get(position);
-                            option_id = product_option_id[position];
-                            option_value_id = product_option_value_id[position];
-                            price = product_price[position];
-                            disPrice = product_price_dis[position];
-
-                            double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
-                            String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
-                            tvNewPrice.setText("₹" + " " + productPrice);
-
-                            if (disPrice.equals("0")) {
-                                tvOldPrice.setVisibility(View.INVISIBLE);
-                            } else {
-                                double dbl_Price1 = Double.parseDouble(disPrice);//need to convert string to decimal
-                                String str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
-                                tvOldPrice.setVisibility(View.VISIBLE);
-                                tvOldPrice.setText("₹" + " " + str_priceValue_1);
-                            }
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailure(Call<QuantityList> callheight, Throwable t) {
-                    callheight.cancel();
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
 
         phvSimilarProduct.getBuilder()
                 .setHasFixedSize(false)
@@ -233,6 +180,143 @@ public class ProductDetailHome extends AppCompatActivity {
 
                             tvTitle.setText(sname);
                             tvPrdName.setText(sname);
+
+                            Log.d("weight_classes", String.valueOf(imgs.weight_classes));
+                            Log.d("weight_classes", String.valueOf(imgs.weight_classes));
+
+                            final ArrayList<String> cart_count = new ArrayList<>();
+                            final ArrayList<String> product_option_id = new ArrayList<>();
+                            final ArrayList<String> product_option_value_id = new ArrayList<>();
+                            final ArrayList<String> name = new ArrayList<>();
+                            final ArrayList<String> product_price = new ArrayList<>();
+                            final ArrayList<String> discount_price = new ArrayList<>();
+                            tinydb = new TinyDB(getApplicationContext());
+
+                            if ((imgs.weight_classes.equals("null")) && (imgs.options.equals("null"))) {
+                                llspinnerlayout.setVisibility(View.GONE);
+                                tvQuantityList.setVisibility(View.VISIBLE);
+                                tvNewPrice.setText("₹" + " " + imgs.price);
+                                tvOldPrice.setText("₹" + " " + imgs.discount_price);
+                                tvProductCount.setText(imgs.add_prd_cart);
+                                sadd_product_quantity_in_cart = imgs.add_prd_cart;
+
+                            } else if ((!imgs.weight_classes.equals("null")) && (imgs.options.equals("null"))) {
+
+                                JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(imgs.weight_classes);
+
+                                for (int j = 0; j < jsonElements.size(); j++) {
+                                    cart_count.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+                                    product_option_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_id")).replace("\"", ""));
+                                    product_option_value_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_value_id")).replace("\"", ""));
+                                    name.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")).replace("\"", ""));
+                                    product_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("price")));
+                                    discount_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("discount_price")));
+
+                                    putcntlst.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+
+
+                                    double dbl_Price = Double.parseDouble(String.valueOf(product_price.get(0)));//need to convert string to decimal
+                                    String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                                    tvNewPrice.setText("₹" + " " + productPrice);
+
+                                    tvProductCount.setText(String.valueOf(jsonElements.get(0).getAsJsonObject().get("cart_count")).replace("\"", ""));
+
+                                    if (discount_price.equals("0")) {
+                                        tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                                    } else {
+                                        double dbl_Discount = Double.parseDouble(String.valueOf(discount_price.get(0)));//need to convert string to decimal
+                                        String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                                        tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                                        tvOldPrice.setText("₹" + " " + str_disValue);
+                                    }
+                                }
+
+
+                            } else if ((imgs.weight_classes.equals("null")) && (!imgs.options.equals("null"))) {
+
+
+                                JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(imgs.options);
+
+                                for (int j = 0; j < jsonElements.size(); j++) {
+                                    cart_count.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+                                    product_option_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_id")).replace("\"", ""));
+                                    product_option_value_id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("product_option_value_id")).replace("\"", ""));
+                                    name.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("name")).replace("\"", ""));
+                                    product_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("price")));
+                                    discount_price.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("discount_price")));
+
+                                    putcntlst.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("cart_count")).replace("\"", ""));
+
+
+                                    double dbl_Price = Double.parseDouble(String.valueOf(product_price.get(0)));//need to convert string to decimal
+                                    String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                                    tvNewPrice.setText("₹" + " " + productPrice);
+
+                                    tvProductCount.setText(String.valueOf(jsonElements.get(0).getAsJsonObject().get("cart_count")).replace("\"", ""));
+
+
+                                    if (discount_price.equals("0")) {
+                                        tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                                    } else {
+                                        double dbl_Discount = Double.parseDouble(String.valueOf(discount_price.get(0)));//need to convert string to decimal
+                                        String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                                        tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                                        tvOldPrice.setText("₹" + " " + str_disValue);
+                                    }
+
+
+                                }
+
+
+                            } else {
+
+                            }
+
+
+                            spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), name, product_option_id,
+                                    product_option_value_id, cart_count, product_price, discount_price));
+                            spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                                    scartcount = cart_count.get(position);
+                                    option_id = product_option_id.get(position);
+                                    option_value_id = product_option_value_id.get(position);
+                                    quantity_name = name.get(position);
+                                    price = product_price.get(position);
+                                    sDiscount = discount_price.get(position);
+
+                                    tvProductCount.setText(String.valueOf(putcntlst.get(position)));
+
+                                    double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
+                                    String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                                    tvNewPrice.setText("₹" + " " + productPrice);
+
+                                    if (sDiscount.equals("0")) {
+                                        tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                                    } else {
+                                        double dbl_Discount = Double.parseDouble(sDiscount);//need to convert string to decimal
+                                        String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                                        tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                                        tvOldPrice.setText("₹" + " " + str_disValue);
+                                    }
+
+                                    if (tvProductCount.getText().toString().equals("0")) {
+                                        llAddQuantity.setVisibility(View.VISIBLE);
+                                        llProductCount.setVisibility(View.GONE);
+                                    } else {
+                                        llAddQuantity.setVisibility(View.GONE);
+                                        llProductCount.setVisibility(View.VISIBLE);
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
 
                             if (sWishlistStatus.equals("0")) {
                                 btnAddWishlist.setText("Add WishList");
@@ -330,127 +414,297 @@ public class ProductDetailHome extends AppCompatActivity {
                 session.cartcount(total_crtcnt);
                 cartcount.setText(String.valueOf(total_crtcnt));
 
-                countVal = countVal + 1;//display number in place of add to cart
-                display(countVal);
-                tvProductCount.setText(String.valueOf(countVal));
-                llAddQuantity.setVisibility(View.GONE);
-                llProductCount.setVisibility(View.VISIBLE);
 
-                final AddToCartModel ref = new AddToCartModel(sPrd_id, String.valueOf(countVal), option_id, option_value_id);
+                Log.d("sgdsgdf", String.valueOf(putcntlst.size()));
 
-                apiInterface = APIClient.getClient().create(APIInterface.class);
-                Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-                callAdd.enqueue(new Callback<AddToCartModel>() {
-                    @Override
-                    public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                        AddToCartModel resource = response.body();
-                        if (resource.status.equals("success")) {
-                            // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
-                            btnAddCart.setText("Added in Cart");
-                            btnAddCart.setEnabled(false);
-                        } else {
-                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                if (putcntlst.size() > 0) {
+
+                    int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+                    i = i + 1;
+                    tvProductCount.setText(String.valueOf(i));
+                    putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+                    tinydb.putListString(sPrd_id, putcntlst);
+
+
+                    llAddQuantity.setVisibility(View.GONE);
+                    llProductCount.setVisibility(View.VISIBLE);
+
+
+                    final AddToCartModel ref = new AddToCartModel(sPrd_id, tvProductCount.getText().toString(), option_id, option_value_id);
+
+                    apiInterface = APIClient.getClient().create(APIInterface.class);
+                    Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+                    callAdd.enqueue(new Callback<AddToCartModel>() {
+                        @Override
+                        public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                            AddToCartModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                                btnAddCart.setText("Added in Cart");
+                                btnAddCart.setEnabled(false);
+                            } else {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<AddToCartModel> call, Throwable t) {
-                        call.cancel();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+
+
+                } else {
+
+
+                    int i = Integer.parseInt(sadd_product_quantity_in_cart);
+                    i = i + 1;
+                    sadd_product_quantity_in_cart = String.valueOf(i);
+                    tvProductCount.setText(sadd_product_quantity_in_cart);
+
+                    llAddQuantity.setVisibility(View.GONE);
+                    llProductCount.setVisibility(View.VISIBLE);
+
+
+                    final AddCartNullSpinner nullValue = new AddCartNullSpinner(sPrd_id, tvProductCount.getText().toString());
+
+                    apiInterface = APIClient.getClient().create(APIInterface.class);
+                    Call<AddCartNullSpinner> callAdd = apiInterface.callNullSpinner("api/cart/add", session.getToken(),
+                            nullValue);
+                    callAdd.enqueue(new Callback<AddCartNullSpinner>() {
+                        @Override
+                        public void onResponse(Call<AddCartNullSpinner> call, Response<AddCartNullSpinner> response) {
+                            AddCartNullSpinner resource = response.body();
+                            if (resource.status.equals("success")) {
+                                //  Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddCartNullSpinner> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+
+
+                    Log.d("dddd", "onClick: ddddddd");
+                }
+
             }
         });
 
         lldecreasePrdCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (countVal <= 1) {
-                    Integer total_crtcnt = session.getCartCount();
-                    total_crtcnt = total_crtcnt - 1;
-                    session.cartcount(total_crtcnt);
-                    cartcount.setText(String.valueOf(total_crtcnt));
 
-                    countVal = countVal - 1;
-                    display(countVal);
-                    tvProductCount.setText(String.valueOf(countVal));
-                    llAddQuantity.setVisibility(View.VISIBLE);
-                    llProductCount.setVisibility(View.GONE);
+                if (putcntlst.size() > 0) {
 
-                    final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, String.valueOf(countVal));
-                    apiInterface = APIClient.getClient().create(APIInterface.class);
-                    Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                    callAdd.enqueue(new Callback<UpdateToCartModel>() {
-                        @Override
-                        public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                            UpdateToCartModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    if (Integer.parseInt(tvProductCount.getText().toString()) <= 1) {
+                        Integer total_crtcnt = session.getCartCount();
+                        total_crtcnt = total_crtcnt - 1;
+                        session.cartcount(total_crtcnt);
+                        cartcount.setText(String.valueOf(total_crtcnt));
+
+                        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+                        i = i - 1;
+                        tvProductCount.setText(String.valueOf(i));
+                        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+                        tinydb.putListString(sPrd_id, putcntlst);
+
+                        llAddQuantity.setVisibility(View.VISIBLE);
+                        llProductCount.setVisibility(View.GONE);
+
+                        final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, tvProductCount.getText().toString());
+                        apiInterface = APIClient.getClient().create(APIInterface.class);
+                        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                            @Override
+                            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                                UpdateToCartModel resource = response.body();
+                                if (resource.status.equals("success")) {
+                                    //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
-                            call.cancel();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                                call.cancel();
+                            }
+                        });
+
+                    } else {
+
+                        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+                        i = i - 1;
+                        tvProductCount.setText(String.valueOf(i));
+                        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+                        tinydb.putListString(sPrd_id, putcntlst);
+
+                        final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, tvProductCount.getText().toString());
+                        apiInterface = APIClient.getClient().create(APIInterface.class);
+                        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                            @Override
+                            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                                UpdateToCartModel resource = response.body();
+                                if (resource.status.equals("success")) {
+                                    //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                                call.cancel();
+                            }
+                        });
+
+
+                    }
+
 
                 } else {
 
-                    countVal = countVal - 1;
-                    display(countVal);
-                    tvProductCount.setText(String.valueOf(countVal));
+                    if (Integer.parseInt(tvProductCount.getText().toString()) <= 1) {
+                        Integer total_crtcnt = session.getCartCount();
+                        total_crtcnt = total_crtcnt - 1;
+                        session.cartcount(total_crtcnt);
+                        cartcount.setText(String.valueOf(total_crtcnt));
 
-                    final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, String.valueOf(countVal));
-                    apiInterface = APIClient.getClient().create(APIInterface.class);
-                    Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                    callAdd.enqueue(new Callback<UpdateToCartModel>() {
-                        @Override
-                        public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                            UpdateToCartModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                // Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        int i = Integer.parseInt(sadd_product_quantity_in_cart);
+                        i = i - 1;
+                        sadd_product_quantity_in_cart = String.valueOf(i);
+                        tvProductCount.setText(sadd_product_quantity_in_cart);
+
+                        llAddQuantity.setVisibility(View.VISIBLE);
+                        llProductCount.setVisibility(View.GONE);
+
+                        final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, tvProductCount.getText().toString());
+                        apiInterface = APIClient.getClient().create(APIInterface.class);
+                        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                            @Override
+                            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                                UpdateToCartModel resource = response.body();
+                                if (resource.status.equals("success")) {
+                                    //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
-                            call.cancel();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                                call.cancel();
+                            }
+                        });
+
+                    } else {
+
+                        int i = Integer.parseInt(sadd_product_quantity_in_cart);
+                        i = i - 1;
+                        sadd_product_quantity_in_cart = String.valueOf(i);
+                        tvProductCount.setText(sadd_product_quantity_in_cart);
+
+                        final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, tvProductCount.getText().toString());
+                        apiInterface = APIClient.getClient().create(APIInterface.class);
+                        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                        callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                            @Override
+                            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                                UpdateToCartModel resource = response.body();
+                                if (resource.status.equals("success")) {
+                                    //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                                call.cancel();
+                            }
+                        });
+
+
+                    }
+
+
                 }
+
             }
         });
 
         llincreasePrdCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countVal = countVal + 1;//display number in place of add to cart
-                display(countVal);
-                tvProductCount.setText(String.valueOf(countVal));
 
-                final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, String.valueOf(countVal));
-                apiInterface = APIClient.getClient().create(APIInterface.class);
-                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                callAdd.enqueue(new Callback<UpdateToCartModel>() {
-                    @Override
-                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                        UpdateToCartModel resource = response.body();
-                        if (resource.status.equals("success")) {
-                            //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                if (putcntlst.size() > 0) {
+
+                    int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+                    i = i + 1;
+                    tvProductCount.setText(String.valueOf(i));
+                    putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+                    tinydb.putListString(sPrd_id, putcntlst);
+
+
+                    final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id,tvProductCount.getText().toString());
+                    apiInterface = APIClient.getClient().create(APIInterface.class);
+                    Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                    callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                        @Override
+                        public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                            UpdateToCartModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
-                        call.cancel();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+
+
+                } else {
+
+                    int i = Integer.parseInt(sadd_product_quantity_in_cart);
+                    i = i + 1;
+                    sadd_product_quantity_in_cart = String.valueOf(i);
+                    tvProductCount.setText(sadd_product_quantity_in_cart);
+
+                    final UpdateToCartModel ref = new UpdateToCartModel(sPrd_id, tvProductCount.getText().toString());
+                    apiInterface = APIClient.getClient().create(APIInterface.class);
+                    Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                    callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                        @Override
+                        public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                            UpdateToCartModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+
+
+                }
+
+
             }
         });
 
