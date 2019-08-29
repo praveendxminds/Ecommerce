@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.MyOrder;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +56,8 @@ public class CheckoutOrder extends AppCompatActivity {
     private String getFirstName, getPhone, getEmail, getAmount, getOrdId;
     private String shipAddress, shipCity, shipZone,deliveryDay;
     CheckBox checkbox;
+    ProgressDialog progressdialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +67,9 @@ public class CheckoutOrder extends AppCompatActivity {
         order_id = getIntent().getExtras().getString("order_id", null);
         session = new SessionManager(getApplicationContext());
         str_custid = session.getCustomerId();
+
+        progressdialog = new ProgressDialog(CheckoutOrder.this);
+        progressdialog.setMessage("Please wait...");
 
         tvOrdId = findViewById(R.id.tvOrdId);
         tvNameChkoutOrder = findViewById(R.id.tvNameChkoutOrder);
@@ -117,7 +123,13 @@ public class CheckoutOrder extends AppCompatActivity {
                 {
 
                     if (Utils.CheckInternetConnection(getApplicationContext())) {
-//-------------------------------------image slider view----------------------------------------------------------------------
+
+                        try {
+                            progressdialog.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+//-------------------------------------Pay now procedure----------------------------------------------------------------------
                         final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),tvWalletAmnt.getText().toString());
                         Call<Usewallet> call = apiInterface.esewallet(wallet);
                         call.enqueue(new Callback<Usewallet>() {
@@ -126,6 +138,7 @@ public class CheckoutOrder extends AppCompatActivity {
                                 Usewallet resource = response.body();
                                 if (resource.status.equals("success"))
                                 {
+                                    progressdialog.dismiss();
                                     if(resource.total_to_be_paid>0)
                                     {
 

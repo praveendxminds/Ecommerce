@@ -321,7 +321,7 @@
                         android:stepSize="1"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:theme="@style/AppTheme"/>
+                        android:theme="@style/RatingBar"/>
                 </LinearLayout>
 
                 <LinearLayout

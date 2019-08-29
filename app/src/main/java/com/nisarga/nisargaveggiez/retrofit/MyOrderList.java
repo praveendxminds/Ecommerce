@@ -52,6 +52,9 @@ public class MyOrderList extends  java.util.Date{
         @SerializedName("cancel")
         public String scancel;
 
+        @SerializedName("payment_status")
+        public String payment_status;
+
 
     }
 }

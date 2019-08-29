@@ -186,7 +186,7 @@ public class MyOrders extends AppCompatActivity {
                                 session.storeStatusOrder(orderList.sstatus);
                                 session.storeCancelId(orderList.scancel);
                                 mCartView.addView(new orderItem(MyOrders.this, orderList.sorder_id, orderList.sdate_added,
-                                        orderList.sstatus, orderList.scancel));
+                                        orderList.sstatus, orderList.scancel,orderList.payment_status));
 
                                 Log.e("-----OrdersList--", orderList.sfirstname + " " + orderList.scancel);
 

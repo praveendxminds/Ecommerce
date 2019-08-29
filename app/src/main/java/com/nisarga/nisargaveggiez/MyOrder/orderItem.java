@@ -80,7 +80,7 @@ public class orderItem {
     APIInterface apiInterface;
     SessionManager session;
     public Context mContext;
-    String chkCancel, chkStatus, mstatus, morderId, mdeliveryDate, mcancel;
+    String chkCancel, chkStatus, mstatus, morderId, mdeliveryDate, mcancel,mPayStatus;
 
     /*public orderItem(Context context) {
         mContext = context;
@@ -90,12 +90,13 @@ public class orderItem {
     AlertDialog.Builder builder;
 
 
-    public orderItem(Context context, String orderId, String deliveryDate, String status, String cancel) {
+    public orderItem(Context context, String orderId, String deliveryDate, String status, String cancel,String pay_status) {
         this.mContext = context;
         this.mstatus = status;
         this.morderId = orderId;
         this.mdeliveryDate = deliveryDate;
         this.mcancel = cancel;
+        this.mPayStatus = pay_status;
     }
 
     @Resolve
@@ -119,8 +120,14 @@ public class orderItem {
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'th'''yy");
+        SimpleDateFormat localDay = new SimpleDateFormat("dd");
+        String dayFormat = localDay.format(new Date(localTime.getTime()));
+        int getDay = Integer.parseInt(dayFormat);
+        String dayNumberSuffix = getDayNumberSuffix(getDay);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'"+dayNumberSuffix+"'''yy");
+
         String delivDate = sdf.format(new Date(localTime.getTime()));
+        Log.e("-----date-------------",delivDate);
         deliveryDateOrder.setText("Delivered on" + " " + delivDate);
 
 
@@ -184,7 +191,20 @@ public class orderItem {
             } else {
                 btnCancelOrder.setEnabled(true);
             }
-
+            if (mPayStatus != null && !mPayStatus.isEmpty() && !mPayStatus.equals("null")) {
+                if(mPayStatus.equals("0"))
+                {
+                    btnPayNow.setVisibility(android.view.View.VISIBLE);
+                }
+                else
+                {
+                    btnPayNow.setVisibility(android.view.View.INVISIBLE);
+                }
+            }
+            else
+            {
+                btnPayNow.setVisibility(android.view.View.VISIBLE);
+            }
             /* time date comparison 4 pm ends */
 
 
@@ -321,6 +341,21 @@ public class orderItem {
         mContext.startActivity(myIntent);
     }
 
+    private String getDayNumberSuffix(int day) {//day format
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
 
 }
 
