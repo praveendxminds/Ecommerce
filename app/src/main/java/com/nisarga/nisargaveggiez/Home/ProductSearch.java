@@ -94,6 +94,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     private Toolbar mToolbarHomePage;
 
     public static TextView noproducts;
+    public static ImageView iv_noprodimg;
 
     private String imagepath = null;
     String strProfilePic = "null";
@@ -123,6 +124,7 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         instance = this;
 
         noproducts = (TextView) findViewById(R.id.noproducts);
+        iv_noprodimg = (ImageView) findViewById(R.id.ivnoprd);
 
         progressdialog = new ProgressDialog(ProductSearch.this);
         progressdialog.setMessage("Please Wait....");

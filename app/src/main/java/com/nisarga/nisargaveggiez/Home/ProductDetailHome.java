@@ -169,7 +169,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
                             tvNewPrice.setText("₹" + " " + productPrice);
 
-                            if (sDisPrice.equals("null")) {
+                            if (disPrice.equals("0")) {
                                 tvOldPrice.setVisibility(View.INVISIBLE);
                             } else {
                                 double dbl_Price1 = Double.parseDouble(disPrice);//need to convert string to decimal
@@ -177,6 +177,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                 tvOldPrice.setVisibility(View.VISIBLE);
                                 tvOldPrice.setText("₹" + " " + str_priceValue_1);
                             }
+
                         }
 
                         @Override
@@ -341,7 +342,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                         AddToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
-                            Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                           // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                             btnAddCart.setText("Added in Cart");
                             btnAddCart.setEnabled(false);
                         } else {
@@ -380,7 +381,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                             UpdateToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
-                                Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                              //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
@@ -406,7 +407,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                             UpdateToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
-                                Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
@@ -436,7 +437,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
-                            Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                        //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                         }

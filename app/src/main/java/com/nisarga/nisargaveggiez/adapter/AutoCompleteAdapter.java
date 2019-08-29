@@ -3,6 +3,8 @@ package com.nisarga.nisargaveggiez.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +21,13 @@ import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.Home.ProductDetailHome;
 import com.nisarga.nisargaveggiez.R;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.nisarga.nisargaveggiez.Home.ProductSearch.iv_noprodimg;
 import static com.nisarga.nisargaveggiez.Home.ProductSearch.noproducts;
 
 
@@ -108,15 +114,33 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
 
             if (constraint != null) {
                 suggestions.clear();
+
                 for (AutocompleteModel people : tempCustomer) {
-                    if (people.getTitle().toLowerCase().startsWith(constraint.toString().toLowerCase()))
-                    {
+
+                    String keys = String.valueOf(people.getkeywords());
+                    List<String> items = Arrays.asList(keys.split("\\s*,\\s*"));
+                    Log.d("keylist", items.get(0));
+
+                    if (people.getTitle().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                        suggestions.add(people);
+                    } else if (people.getMetatitle().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                         suggestions.add(people);
                     }
-                    else if(people.getMetatitle().toLowerCase().startsWith(constraint.toString().toLowerCase()))
+                    else if (items.size() > 0)
                     {
-                        suggestions.add(people);
-                    }
+                            for (int k = 0; k < items.size(); k++) {
+                                if (items.get(k).toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                                    suggestions.add(people);
+                                }
+
+                            }
+
+                   }
+
+
+
+
+
 
                 }
 
@@ -134,21 +158,56 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompleteModel> {
             ArrayList<AutocompleteModel> c = (ArrayList<AutocompleteModel>) results.values;
             if (results != null && results.count > 0)
             {
-                noproducts.setText(" ");
+                iv_noprodimg.setVisibility(View.INVISIBLE);
+                noproducts.setVisibility(View.INVISIBLE);
                 clear();
-                for (AutocompleteModel cust : c) {
+                for (AutocompleteModel cust : c)
+                {
+
+
+
                     add(cust);
                     notifyDataSetChanged();
                 }
             }
             else
             {
-                AutoCompleteTextView storeTV =
+                final AutoCompleteTextView storeTV =
                         (AutoCompleteTextView)((Activity)getContext()).findViewById(R.id.store);
 
-                if(storeTV.getText().length()>0)
-                noproducts.setText("No Products Found");
-                Log.d("pddddd", "pddddd: ");
+                if(storeTV.getText().length() > 0)
+                {
+                    iv_noprodimg.setVisibility(View.VISIBLE);
+                    noproducts.setVisibility(View.VISIBLE);
+
+                }
+
+                storeTV.addTextChangedListener(new TextWatcher() {
+
+
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count)
+                    {
+
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s)
+                    {
+                        if(storeTV.getText().length() == 0)
+                        {
+                            iv_noprodimg.setVisibility(View.INVISIBLE);
+                            noproducts.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+
 
             }
         }

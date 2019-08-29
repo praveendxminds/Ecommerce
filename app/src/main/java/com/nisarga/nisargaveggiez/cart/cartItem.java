@@ -43,6 +43,8 @@ import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.totalWishList;
+import static com.nisarga.nisargaveggiez.cart.cart.layout_total;
+import static com.nisarga.nisargaveggiez.cart.cart.llCheckBox;
 import static com.nisarga.nisargaveggiez.cart.cart.tvTotalVeggies;
 import static com.nisarga.nisargaveggiez.cart.cart.tvtotalAmount;
 
@@ -188,6 +190,9 @@ public class cartItem {
 
             if (tvTotalVeggies.getText().toString().equals("0 Item")) {
                 tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
+                llCheckBox.setVisibility(android.view.View.GONE);
+                layout_total.setVisibility(android.view.View.GONE);
+
             } else {
                 double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                 double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
@@ -224,6 +229,8 @@ public class cartItem {
 
             if (tvTotalVeggies.getText().toString().equals("0 Item")) {
                 tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
+                llCheckBox.setVisibility(android.view.View.GONE);
+                layout_total.setVisibility(android.view.View.GONE);
 
             } else {
                 double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
