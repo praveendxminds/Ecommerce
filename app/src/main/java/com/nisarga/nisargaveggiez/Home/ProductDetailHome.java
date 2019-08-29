@@ -169,6 +169,15 @@ public class ProductDetailHome extends AppCompatActivity {
                             String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
                             tvNewPrice.setText("₹" + " " + productPrice);
 
+                            if (disPrice.equals("0")) {
+                                tvOldPrice.setVisibility(View.INVISIBLE);
+                            } else {
+                                double dbl_Price1 = Double.parseDouble(disPrice);//need to convert string to decimal
+                                String str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
+                                tvOldPrice.setVisibility(View.VISIBLE);
+                                tvOldPrice.setText("₹" + " " + str_priceValue_1);
+                            }
+
                         }
 
                         @Override
@@ -224,15 +233,6 @@ public class ProductDetailHome extends AppCompatActivity {
 
                             tvTitle.setText(sname);
                             tvPrdName.setText(sname);
-
-                            if (sDisPrice.equals("null")) {
-                                tvOldPrice.setVisibility(View.INVISIBLE);
-                            } else {
-                                double dbl_Price1 = Double.parseDouble(disPrice);//need to convert string to decimal
-                                String str_priceValue_1 = String.format("%.2f", dbl_Price1);//display only 2 decimal places of price
-                                tvOldPrice.setVisibility(View.VISIBLE);
-                                tvOldPrice.setText("₹" + " " + str_priceValue_1);
-                            }
 
                             if (sWishlistStatus.equals("0")) {
                                 btnAddWishlist.setText("Add WishList");
