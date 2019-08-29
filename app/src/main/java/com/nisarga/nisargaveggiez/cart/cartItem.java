@@ -2,29 +2,17 @@ package com.nisarga.nisargaveggiez.cart;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nisarga.nisargaveggiez.Home.ProductDetailHome;
 import com.nisarga.nisargaveggiez.Home.UpdateToCartModel;
-import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.SessionManager;
-import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
-import com.nisarga.nisargaveggiez.retrofit.AddToCartModel;
-import com.nisarga.nisargaveggiez.retrofit.InsertWishListItems;
-import com.nisarga.nisargaveggiez.retrofit.RemoveWishListItem;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -34,17 +22,14 @@ import com.mindorks.placeholderview.annotations.View;
 
 import com.nisarga.nisargaveggiez.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.totalWishList;
-import static com.nisarga.nisargaveggiez.cart.cart.layout_total;
-import static com.nisarga.nisargaveggiez.cart.cart.llCheckBox;
+import static com.nisarga.nisargaveggiez.cart.cart.llEmptyCart;
+import static com.nisarga.nisargaveggiez.cart.cart.llShowCart;
 import static com.nisarga.nisargaveggiez.cart.cart.tvTotalVeggies;
 import static com.nisarga.nisargaveggiez.cart.cart.tvtotalAmount;
 
@@ -190,8 +175,8 @@ public class cartItem {
 
             if (tvTotalVeggies.getText().toString().equals("0 Item")) {
                 tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
-                llCheckBox.setVisibility(android.view.View.GONE);
-                layout_total.setVisibility(android.view.View.GONE);
+                llEmptyCart.setVisibility(android.view.View.VISIBLE);
+                llShowCart.setVisibility(android.view.View.GONE);
 
             } else {
                 double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
@@ -229,8 +214,8 @@ public class cartItem {
 
             if (tvTotalVeggies.getText().toString().equals("0 Item")) {
                 tvtotalAmount.setText("Total" + " " + "\u20B9 " + "0");
-                llCheckBox.setVisibility(android.view.View.GONE);
-                layout_total.setVisibility(android.view.View.GONE);
+                llEmptyCart.setVisibility(android.view.View.VISIBLE);
+                llShowCart.setVisibility(android.view.View.GONE);
 
             } else {
                 double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));

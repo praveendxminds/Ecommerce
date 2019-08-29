@@ -1,14 +1,10 @@
 package com.nisarga.nisargaveggiez.cart;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -21,13 +17,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.HomePage;
-import com.nisarga.nisargaveggiez.Home.UpdateToCartModel;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
@@ -57,18 +53,19 @@ public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
     PlaceHolderView mCartView;
-    TextView linkDeliveryDay, tvEmptyCart;
+    TextView linkDeliveryDay;
     private String storeDayTime;
     SessionManager session;
 
     APIInterface apiInterface;
     public String select_item;
     SwipeRefreshLayout pullToRefresh;
+    Button btnShopNow;
 
     public static TextView tvTotalVeggies;
     public static TextView tvtotalAmount;
-    public static LinearLayout llCheckBox;
-    public static LinearLayout layout_total;
+    public static LinearLayout llEmptyCart;
+    public static RelativeLayout llShowCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +93,19 @@ public class cart extends AppCompatActivity {
         tvTotalVeggies = (TextView) findViewById(R.id.tvTotalVeggies);
         tvtotalAmount = (TextView) findViewById(R.id.tvtotalAmount);
         linkDeliveryDay = (TextView) findViewById(R.id.tvDeliveryDay);
-        tvEmptyCart = (TextView) findViewById(R.id.tvEmptyCart);
-        llCheckBox = (LinearLayout) findViewById(R.id.llCheckBox);
-        layout_total = (LinearLayout) findViewById(R.id.layout_total);
+        llEmptyCart = (LinearLayout) findViewById(R.id.llEmptyCart);
+        llShowCart = (RelativeLayout) findViewById(R.id.llShowCart);
 
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
+        btnShopNow = (Button) findViewById(R.id.btnShopNow);
+
+        btnShopNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(cart.this, HomePage.class);
+                startActivity(intent);
+            }
+        });
 
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -246,10 +251,8 @@ public class cart extends AppCompatActivity {
 
                     } else if (resource.status.equals("failure")) {
                         tvTotalVeggies.setText("No Items");
-                        llCheckBox.setVisibility(View.GONE);
-                        tvEmptyCart.setVisibility(View.VISIBLE);
-                        mCartView.setVisibility(View.GONE);
-                        layout_total.setVisibility(View.GONE);
+                        llEmptyCart.setVisibility(View.VISIBLE);
+                        llShowCart.setVisibility(View.GONE);
                     }
                     mCartView.refresh();
                 }

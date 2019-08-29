@@ -55,13 +55,16 @@ public class HomePageDealofDayList {
 
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
                 qtyspinner = image.weight_classes;
-                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner));
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner,
+                        image.add_product_quantity_in_cart));
             } else if ((!image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 qtyspinner = image.options;
-                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner));
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner,
+                        image.add_product_quantity_in_cart));
 
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
-                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner));
+                phvDealOfDay.addView(new HomePageDealOfDayItemList(mContext, image.prd_id, image.image, image.name, qtyspinner,
+                        image.add_product_quantity_in_cart));
             }
         }
     }
