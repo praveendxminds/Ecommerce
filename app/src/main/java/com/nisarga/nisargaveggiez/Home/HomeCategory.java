@@ -518,16 +518,19 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.weight_classes;
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
                             }
                         }
                     }
@@ -583,16 +586,19 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.weight_classes;
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
-                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner));
+                                        imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
                             }
                         }
                     }

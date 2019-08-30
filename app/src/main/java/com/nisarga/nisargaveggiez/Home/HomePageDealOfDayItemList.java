@@ -97,7 +97,7 @@ public class HomePageDealOfDayItemList {
     Context mContext;
     PlaceHolderView mPlaceHolderView;
 
-    String sProductId, sProductImage, sProductName;
+    String sProductId, sProductImage, sProductName, sadd_product_quantity_in_cart;
 
     String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
     Object spnrqty;
@@ -107,12 +107,13 @@ public class HomePageDealOfDayItemList {
     TinyDB tinydb;
 
     public HomePageDealOfDayItemList(Context context, String product_id, String image_url, String prod_name,
-                                     Object spnrqty) {
+                                     Object spnrqty, String add_product_quantity_in_cart) {
         this.mContext = context;
         this.sProductId = product_id;
         this.sProductImage = image_url;
         this.sProductName = prod_name;
         this.spnrqty = spnrqty;
+        this.sadd_product_quantity_in_cart = add_product_quantity_in_cart;
     }
 
     @Resolve
@@ -158,14 +159,13 @@ public class HomePageDealOfDayItemList {
                 }
             }
         } else if (spnrqty.equals("null")) {
+            tvNoOfCount.setText(sadd_product_quantity_in_cart);
             spQuantity.setVisibility(android.view.View.GONE);
             llQuantityList.setVisibility(android.view.View.VISIBLE);
         }
         tinydb.putListString(sProductId, putcntlst);
 
-
         getlists = tinydb.getListString(sProductId);
-        // Log.d("tinydb", String.valueOf(getlists.get(0)));
 
         if (putcntlst.size() > 0) {
             tvNoOfCount.setText(String.valueOf(putcntlst.get(0)));
@@ -184,7 +184,6 @@ public class HomePageDealOfDayItemList {
             }
         }
 
-
         spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), name, product_option_id,
                 product_option_value_id, cart_count, product_price, discount_price));
         spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -197,9 +196,7 @@ public class HomePageDealOfDayItemList {
                 price = product_price.get(position);
                 sDiscount = discount_price.get(position);
 
-
                 tvNoOfCount.setText(String.valueOf(putcntlst.get(position)));
-
 
                 double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
                 String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
@@ -222,7 +219,6 @@ public class HomePageDealOfDayItemList {
                     llAddCart.setVisibility(android.view.View.VISIBLE);
                     tvNoOfCount.setText(String.valueOf(putcntlst.get(position)));
                 }
-
             }
 
             @Override
@@ -247,15 +243,47 @@ public class HomePageDealOfDayItemList {
         session.cartcount(total_crtcnt);
         hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
 
-        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
-        i = i + 1;
-        tvNoOfCount.setText(String.valueOf(i));
-        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
-        tinydb.putListString(sProductId, putcntlst);
-        btnAddCart.setVisibility(android.view.View.GONE);
-        llAddCart.setVisibility(android.view.View.VISIBLE);
+        if (!spnrqty.equals("null")) {
+            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+            i = i + 1;
+            tvNoOfCount.setText(String.valueOf(i));
+            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+            tinydb.putListString(sProductId, putcntlst);
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llAddCart.setVisibility(android.view.View.VISIBLE);
 
-        if (putcntlst.size() == 0) {
+            final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()), option_id,
+                    option_value_id);
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
+            callAdd.enqueue(new Callback<AddToCartModel>() {
+                @Override
+                public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
+                    AddToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        //  Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AddToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
+        } else {
+
+            int i = Integer.parseInt(sadd_product_quantity_in_cart);
+            i = i + 1;
+            sadd_product_quantity_in_cart = String.valueOf(i);
+            tvNoOfCount.setText(sadd_product_quantity_in_cart);
+
+            btnAddCart.setVisibility(android.view.View.GONE);
+            llAddCart.setVisibility(android.view.View.VISIBLE);
+
+
             final AddCartNullSpinner nullValue = new AddCartNullSpinner(sProductId, String.valueOf(tvNoOfCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -277,16 +305,187 @@ public class HomePageDealOfDayItemList {
                     call.cancel();
                 }
             });
+        }
+    }
+
+    @Click(R.id.lldecreasePrdCount)
+    public void onDecreaseClick() {
+        if (!spnrqty.equals("null")) {
+            if (Integer.parseInt(tvNoOfCount.getText().toString()) <= 1) {
+                Integer total_crtcnt = session.getCartCount();
+                total_crtcnt = total_crtcnt - 1;
+                session.cartcount(total_crtcnt);
+                hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+                int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+                i = i - 1;
+                tvNoOfCount.setText(String.valueOf(i));
+                putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+                tinydb.putListString(sProductId, putcntlst);
+
+                btnAddCart.setVisibility(android.view.View.VISIBLE);
+                llAddCart.setVisibility(android.view.View.GONE);
+
+                final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+                apiInterface = APIClient.getClient().create(APIInterface.class);
+                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                    @Override
+                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                        UpdateToCartModel resource = response.body();
+                        if (resource.status.equals("success")) {
+                            //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+
+            } else {
+
+                int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+                i = i - 1;
+                tvNoOfCount.setText(String.valueOf(i));
+                putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+                tinydb.putListString(sProductId, putcntlst);
+
+                final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+                apiInterface = APIClient.getClient().create(APIInterface.class);
+                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                    @Override
+                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                        UpdateToCartModel resource = response.body();
+                        if (resource.status.equals("success")) {
+                            //     Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+            }
+        } else {
+            if (Integer.parseInt(tvNoOfCount.getText().toString()) <= 1) {
+                Integer total_crtcnt = session.getCartCount();
+                total_crtcnt = total_crtcnt - 1;
+                session.cartcount(total_crtcnt);
+                hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
+
+                int i = Integer.parseInt(sadd_product_quantity_in_cart);
+                i = i - 1;
+                sadd_product_quantity_in_cart = String.valueOf(i);
+                tvNoOfCount.setText(sadd_product_quantity_in_cart);
+
+                btnAddCart.setVisibility(android.view.View.VISIBLE);
+                llAddCart.setVisibility(android.view.View.GONE);
+
+                final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+
+                apiInterface = APIClient.getClient().create(APIInterface.class);
+                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                    @Override
+                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                        UpdateToCartModel resource = response.body();
+                        if (resource.status.equals("success")) {
+                            // Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+
+            } else {
+
+                int i = Integer.parseInt(sadd_product_quantity_in_cart);
+                i = i - 1;
+                sadd_product_quantity_in_cart = String.valueOf(i);
+                tvNoOfCount.setText(sadd_product_quantity_in_cart);
+
+                final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+
+                apiInterface = APIClient.getClient().create(APIInterface.class);
+                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                    @Override
+                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                        UpdateToCartModel resource = response.body();
+                        if (resource.status.equals("success")) {
+                            //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+            }
+        }
+    }
+
+    @Click(R.id.llincreasePrdCount)
+    public void onIncreaseClick() {
+        if (!spnrqty.equals("null")) {
+            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
+            i = i + 1;
+            tvNoOfCount.setText(String.valueOf(i));
+            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
+            tinydb.putListString(sProductId, putcntlst);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+
+            apiInterface = APIClient.getClient().create(APIInterface.class);
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                @Override
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
+                    if (resource.status.equals("success")) {
+                        //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
 
         } else {
-            final AddToCartModel ref = new AddToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()), option_id,
-                    option_value_id);
+
+            int i = Integer.parseInt(sadd_product_quantity_in_cart);
+            i = i + 1;
+            sadd_product_quantity_in_cart = String.valueOf(i);
+            tvNoOfCount.setText(sadd_product_quantity_in_cart);
+
+            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<AddToCartModel> callAdd = apiInterface.callAddToCart("api/cart/add", session.getToken(), ref);
-            callAdd.enqueue(new Callback<AddToCartModel>() {
+            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartModel>() {
                 @Override
-                public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
-                    AddToCartModel resource = response.body();
+                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
+                    UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
                         //  Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
@@ -295,108 +494,10 @@ public class HomePageDealOfDayItemList {
                 }
 
                 @Override
-                public void onFailure(Call<AddToCartModel> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-        }
-    }
-
-    @Click(R.id.lldecreasePrdCount)
-    public void onDecreaseClick() {
-        if (Integer.parseInt(tvNoOfCount.getText().toString()) <= 1) {
-
-            Integer total_crtcnt = session.getCartCount();
-            total_crtcnt = total_crtcnt - 1;
-            session.cartcount(total_crtcnt);
-            hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
-
-            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
-            i = i - 1;
-            tvNoOfCount.setText(String.valueOf(i));
-            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
-            tinydb.putListString(sProductId, putcntlst);
-
-            btnAddCart.setVisibility(android.view.View.VISIBLE);
-            llAddCart.setVisibility(android.view.View.GONE);
-
-            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-            callAdd.enqueue(new Callback<UpdateToCartModel>() {
-                @Override
-                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                    UpdateToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
-                        //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-
-        } else {
-
-            int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
-            i = i - 1;
-            tvNoOfCount.setText(String.valueOf(i));
-            putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
-            tinydb.putListString(sProductId, putcntlst);
-
-            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-            callAdd.enqueue(new Callback<UpdateToCartModel>() {
-                @Override
-                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                    UpdateToCartModel resource = response.body();
-                    if (resource.status.equals("success")) {
-                        //     Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
                 public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
                     call.cancel();
                 }
             });
         }
-    }
-
-    @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick() {
-        int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
-        i = i + 1;
-        tvNoOfCount.setText(String.valueOf(i));
-        putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
-        tinydb.putListString(sProductId, putcntlst);
-
-        final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
-
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-        callAdd.enqueue(new Callback<UpdateToCartModel>() {
-            @Override
-            public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                UpdateToCartModel resource = response.body();
-                if (resource.status.equals("success")) {
-                    //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
-                call.cancel();
-            }
-        });
     }
 }

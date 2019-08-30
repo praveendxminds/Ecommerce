@@ -293,16 +293,19 @@ public class ProductDetailHome extends AppCompatActivity {
                             if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.weight_classes;
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
-                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner));
+                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
-                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner));
+                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
-                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner));
+                                        imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
+                                        imgs.add_product_quantity_in_cart));
                             }
                         }
                     } else {
@@ -342,7 +345,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     public void onResponse(Call<AddToCartModel> call, Response<AddToCartModel> response) {
                         AddToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
-                           // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                            // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                             btnAddCart.setText("Added in Cart");
                             btnAddCart.setEnabled(false);
                         } else {
@@ -381,7 +384,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                             UpdateToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
-                              //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                                //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
@@ -407,7 +410,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                             UpdateToCartModel resource = response.body();
                             if (resource.status.equals("success")) {
-                               // Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
+                                // Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                             }
@@ -437,7 +440,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
-                        //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
+                            //    Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                         }

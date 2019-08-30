@@ -91,7 +91,7 @@ public class HomePageListOfProductsItemList {
     Context mContext;
     PlaceHolderView mPlaceHolderView;
 
-    String sProductId, sProductImage, sProductName,sadd_product_quantity_in_cart;
+    String sProductId, sProductImage, sProductName, sadd_product_quantity_in_cart;
 
     String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
     Object spnrqty;
@@ -101,13 +101,13 @@ public class HomePageListOfProductsItemList {
     TinyDB tinydb;
 
     public HomePageListOfProductsItemList(Context context, String prod_id, String prod_image, String prod_name,
-                                          Object spnrqty,String add_product_quantity_in_cart) {
+                                          Object spnrqty, String add_product_quantity_in_cart) {
         mContext = context;
         sProductId = prod_id;
         sProductImage = prod_image;
         sProductName = prod_name;
         this.spnrqty = spnrqty;
-        sadd_product_quantity_in_cart = add_product_quantity_in_cart;
+        this.sadd_product_quantity_in_cart = add_product_quantity_in_cart;
     }
 
     @Resolve
@@ -152,20 +152,16 @@ public class HomePageListOfProductsItemList {
                     tvOldPrice.setText("₹" + " " + str_disValue);
                 }
             }
-        } else if (spnrqty.equals("null"))
-        {
+        } else if (spnrqty.equals("null")) {
             tvNoOfCount.setText(sadd_product_quantity_in_cart);
             spQuantity.setVisibility(android.view.View.GONE);
             llQuantityList.setVisibility(android.view.View.VISIBLE);
         }
         tinydb.putListString(sProductId, putcntlst);
 
-
         getlists = tinydb.getListString(sProductId);
-        // Log.d("tinydb", String.valueOf(getlists.get(0)));
 
-        if (putcntlst.size() > 0)
-        {
+        if (putcntlst.size() > 0) {
             tvNoOfCount.setText(String.valueOf(putcntlst.get(0)));
         }
 
@@ -183,7 +179,6 @@ public class HomePageListOfProductsItemList {
             }
         }
 
-
         spQuantity.setAdapter(new QtyspinnerAdapter(getApplicationContext(), name, product_option_id,
                 product_option_value_id, cart_count, product_price, discount_price));
         spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -196,9 +191,7 @@ public class HomePageListOfProductsItemList {
                 price = product_price.get(position);
                 sDiscount = discount_price.get(position);
 
-
                 tvNoOfCount.setText(String.valueOf(putcntlst.get(position)));
-
 
                 double dbl_Price = Double.parseDouble(price);//need to convert string to decimal
                 String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
@@ -221,7 +214,6 @@ public class HomePageListOfProductsItemList {
                     llAddCart.setVisibility(android.view.View.VISIBLE);
                     tvNoOfCount.setText(String.valueOf(putcntlst.get(position)));
                 }
-
             }
 
             @Override
@@ -247,8 +239,6 @@ public class HomePageListOfProductsItemList {
         hometotalCartItemCount.setText(String.valueOf(total_crtcnt));
 
         if (!spnrqty.equals("null")) {
-            Log.d("spnrqtyspnrqty", String.valueOf(spnrqty));
-
             int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
             i = i + 1;
             tvNoOfCount.setText(String.valueOf(i));
@@ -283,11 +273,8 @@ public class HomePageListOfProductsItemList {
             int i = Integer.parseInt(sadd_product_quantity_in_cart);
             i = i + 1;
             sadd_product_quantity_in_cart = String.valueOf(i);
-
             tvNoOfCount.setText(sadd_product_quantity_in_cart);
 
-          //  putcntlst.add(String.valueOf(i));
-          //  tinydb.putListString(sProductId, putcntlst);
             btnAddCart.setVisibility(android.view.View.GONE);
             llAddCart.setVisibility(android.view.View.VISIBLE);
 
@@ -317,9 +304,7 @@ public class HomePageListOfProductsItemList {
 
     @Click(R.id.lldecreasePrdCount)
     public void onDecreaseClick() {
-
         if (!spnrqty.equals("null")) {
-
             if (Integer.parseInt(tvNoOfCount.getText().toString()) <= 1) {
                 Integer total_crtcnt = session.getCartCount();
                 total_crtcnt = total_crtcnt - 1;
@@ -385,10 +370,7 @@ public class HomePageListOfProductsItemList {
                     }
                 });
             }
-        }
-        else
-        {
-
+        } else {
             if (Integer.parseInt(tvNoOfCount.getText().toString()) <= 1) {
                 Integer total_crtcnt = session.getCartCount();
                 total_crtcnt = total_crtcnt - 1;
@@ -452,16 +434,12 @@ public class HomePageListOfProductsItemList {
                     }
                 });
             }
-
         }
     }
 
     @Click(R.id.llincreasePrdCount)
-    public void onIncreaseClick()
-    {
-
+    public void onIncreaseClick() {
         if (!spnrqty.equals("null")) {
-
             int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
             i = i + 1;
             tvNoOfCount.setText(String.valueOf(i));
@@ -489,15 +467,12 @@ public class HomePageListOfProductsItemList {
                 }
             });
 
-        }
-        else
-        {
+        } else {
 
             int i = Integer.parseInt(sadd_product_quantity_in_cart);
             i = i + 1;
             sadd_product_quantity_in_cart = String.valueOf(i);
             tvNoOfCount.setText(sadd_product_quantity_in_cart);
-
 
             final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
 
@@ -519,8 +494,6 @@ public class HomePageListOfProductsItemList {
                     call.cancel();
                 }
             });
-
-
         }
     }
 }
