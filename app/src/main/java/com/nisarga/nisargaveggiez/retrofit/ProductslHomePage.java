@@ -27,6 +27,8 @@ public class ProductslHomePage {
     @SerializedName("products")
     public List<Products> products = null;
 
+
+
     public ProductslHomePage(String cust_id) {
         this.customer_id = cust_id;
     }

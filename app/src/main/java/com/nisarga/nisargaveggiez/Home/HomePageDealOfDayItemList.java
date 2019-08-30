@@ -255,7 +255,7 @@ public class HomePageDealOfDayItemList {
         btnAddCart.setVisibility(android.view.View.GONE);
         llAddCart.setVisibility(android.view.View.VISIBLE);
 
-        if (spnrqty.equals("null")) {
+        if (putcntlst.size() == 0) {
             final AddCartNullSpinner nullValue = new AddCartNullSpinner(sProductId, String.valueOf(tvNoOfCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
