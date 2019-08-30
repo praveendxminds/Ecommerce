@@ -6,6 +6,8 @@ package com.nisarga.nisargaveggiez.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -64,7 +66,7 @@ public class RemoteData {
                                            Response<ProductDataWrapper> response)
                     {
 
-                        AutoCompleteTextView storeTV =
+                        final AutoCompleteTextView storeTV =
                                 (AutoCompleteTextView)((Activity)context).findViewById(R.id.store);
                         AutoCompleteAdapter adapter = null;
                         ArrayList<AutocompleteModel> autocompletelst = null;
@@ -76,8 +78,12 @@ public class RemoteData {
 
 
 
+
+
+
                         for(ProductData s : response.body().getResult())
                         {
+
                            // str.add(s.getName());
                             autocompletelst.add(new AutocompleteModel(s.getName(), s.getImage(), new Integer(s.getPrdId()),s.getmeta_title(),s.getKeyword()));
 

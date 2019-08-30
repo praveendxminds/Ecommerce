@@ -153,6 +153,11 @@
         <item name="android:colorControlActivated">#FF34773C</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/green_1</item>
+        <item name="colorControlActivated">@color/lightGrey</item>
+    </style>
+
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
