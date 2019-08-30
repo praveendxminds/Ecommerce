@@ -58,16 +58,31 @@
                 android:textSize="16sp"></TextView>
         </LinearLayout>
 
-        <com.mindorks.placeholderview.PlaceHolderView
-            android:id="@+id/recycler_order"
+        <FrameLayout
+            android:id="@+id/flOrders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_placeorder"
-            android:layout_below="@+id/layout_total"
-            android:background="@color/white"
-            android:layout_marginBottom="56dp">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
 
-        </com.mindorks.placeholderview.PlaceHolderView>
+            <com.mindorks.placeholderview.PlaceHolderView
+                android:id="@+id/recycler_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_placeorder"
+                android:layout_below="@+id/layout_total"
+                android:layout_marginBottom="56dp"
+                android:background="@color/white">
+
+            </com.mindorks.placeholderview.PlaceHolderView>
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/btn_placereorder"
@@ -84,9 +99,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
                 android:layout_gravity="center"
-                android:layout_marginLeft="8dp">
+                android:layout_marginLeft="8dp"
+                android:layout_weight="4">
 
                 <TextView
                     android:id="@+id/tvtotalAmount"
@@ -103,28 +118,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:layout_gravity="center|bottom"
-                android:paddingBottom="8dp"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_weight="5"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/tvDeliveryDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoLink="web"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:autoLink="web"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="right"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp">
+                android:layout_weight="5"
+                android:gravity="right">
 
                 <Button
                     android:id="@+id/buttonChkOut"

@@ -109,7 +109,13 @@ public class cartItem {
         Glide.with(mcontext).load(murl).into(ivImage);
         tvProductName.setText(mtitle);
         tvNewPrice.setText("₹" + " " + mprice);
-        tvQuantity.setText(mOption);
+
+        if (mOption.equals("null")) {
+            tvQuantity.setText("1 Piece");
+        } else {
+            tvQuantity.setText(mOption);
+        }
+
         tvProductCount.setText(mqty);
 
         if (mdisprice.equals("null")) {

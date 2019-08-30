@@ -61,6 +61,12 @@ public class ProductDetailsModel {
         @SerializedName("description")
         public String desc;
 
+        @SerializedName("options")
+        public Object options;
+
+        @SerializedName("weight_classes")
+        public Object weight_classes;
+
         public class ImageArr {
 
             @SerializedName("image")

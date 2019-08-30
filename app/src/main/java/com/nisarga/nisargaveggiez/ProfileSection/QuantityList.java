@@ -36,6 +36,9 @@ public class QuantityList {
         @SerializedName("price")
         public String price;
 
+        @SerializedName("cart_count")
+        public String cart_count;
+
         @SerializedName("discount_price")
         public String discount_price;
     }

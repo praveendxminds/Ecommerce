@@ -27,37 +27,52 @@
         android:layout_height="fill_parent"
         android:background="#e1e1e1">
 
-
-        <LinearLayout
-            android:id="@+id/llNotifications"
+        <FrameLayout
+            android:id="@+id/flOrders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bnav_Notifications">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/llNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/bnav_Notifications">
 
-                <com.mindorks.placeholderview.PlaceHolderView
-                    android:id="@+id/recycler_notify"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="12dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="12dp">
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                </com.mindorks.placeholderview.PlaceHolderView>
-            </android.support.v4.widget.SwipeRefreshLayout>
-        </LinearLayout>
+                    <com.mindorks.placeholderview.PlaceHolderView
+                        android:id="@+id/recycler_notify"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="12dp">
+
+                    </com.mindorks.placeholderview.PlaceHolderView>
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/tvEmptyNotifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/llNotifications"
+            android:layout_below="@+id/pbLoading"
             android:gravity="center"
             android:text="Your Notifications is Empty."
             android:visibility="gone" />

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,8 @@ public class OrderDetailsHolder extends AppCompatActivity {
 
     APIInterface apiInterface;
     public static TextView textCartItemCount;
+    ProgressBar progressDialog;
+
 
 
     @Override
@@ -67,6 +70,9 @@ public class OrderDetailsHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        progressDialog = findViewById(R.id.pbLoading);
+        progressDialog.setVisibility(View.VISIBLE);
+
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_order);
         tv_total = findViewById(R.id.tv_total);
@@ -85,6 +91,8 @@ public class OrderDetailsHolder extends AppCompatActivity {
                 public void onResponse(Call<ReorderItemsModel> call, Response<ReorderItemsModel> response) {
                     ReorderItemsModel resourcesReorder = response.body();
                     if(resourcesReorder.status.equals("success")) {
+
+                        progressDialog.setVisibility(View.INVISIBLE);
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         if(result.size()>0) {
                             for (ReorderItemsModel.ReorderResult reorderData : result) {

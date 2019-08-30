@@ -123,7 +123,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     TextView tvTotalProduct;
     ImageButton ivbtnListView, ivbtnFilter;
-    PlaceHolderView phvCategoryList, phvFilter;
+    PlaceHolderView phvCategoryList;
     ProgressBar pbLoading;
     BottomNavigationView bottom_navigation;
     NavigationView navLeftMenu;
@@ -177,7 +177,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         ivbtnListView = findViewById(R.id.ivbtnListView);
         ivbtnFilter = findViewById(R.id.ivbtnFilter);
         phvCategoryList = findViewById(R.id.phvCategoryList);
-        phvFilter = findViewById(R.id.phvFilter);
 
         pbLoading = findViewById(R.id.pbLoading);
         pbLoading.setVisibility(View.VISIBLE);
@@ -401,6 +400,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 showGridView();
                 drawerHomeCategory.closeDrawer(Gravity.RIGHT);
+
                /* if (Utils.CheckInternetConnection(getApplicationContext())) {
                     saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
                             minPrice, maxPrice);
@@ -424,13 +424,13 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<FilterCategoryModel> call, Response<FilterCategoryModel> response) {
                 FilterCategoryModel model = response.body();
                 if (model.status.equals("success")) {
-                    showGridView();
-                  /*  List<FilterCategoryModel.Datum> datumList = resourceMyProfile.resultdata;
+                    phvCategoryList.removeAllViews();
+                    List<FilterCategoryModel.Datum> datumList = model.resultdata;
                     for (FilterCategoryModel.Datum imgs : datumList) {
-                        phvFilter.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
+                        phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                 imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
                                 imgs.wishlist_status));
-                    }*/
+                    }
                 }
 
                 pbLoading.setVisibility(View.INVISIBLE);
