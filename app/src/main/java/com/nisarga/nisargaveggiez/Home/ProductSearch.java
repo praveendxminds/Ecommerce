@@ -139,9 +139,6 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         AndroidNetworking.initialize(getApplicationContext());
         init();
 
-
-
-
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -550,9 +547,20 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-            ivProfilePic.setImageBitmap(bitmap);
-            imagePath(imagepath);
+            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
+            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarPic);
+//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
+//          ivProfile.setImageBitmap(bitmap);
+
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        imagePath(imagepath);
+                        Log.e("----imagepath---", "" + imagepath);
+
+                    }
+                }).start();
+            }
         }
     }
 

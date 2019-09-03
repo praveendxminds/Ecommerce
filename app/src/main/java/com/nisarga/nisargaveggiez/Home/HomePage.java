@@ -28,6 +28,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -167,6 +168,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     String strProfilePic = "null";
     String value;
 
+    SwipeRefreshLayout pullToRefresh;
+
     private void init() {
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
         setSupportActionBar(mToolbarHomePage);
@@ -270,6 +273,16 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     }
                 });
         bottomNavigationView.setItemIconSize(40);
+
+        pullToRefresh = findViewById(R.id.refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                list_items_homePage.removeAllViews();
+                initApiCall();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
     }
 
     private void initApiCall() {
@@ -753,6 +766,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
             Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
+            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarProfile);
 //          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
 //          ivProfile.setImageBitmap(bitmap);
 
