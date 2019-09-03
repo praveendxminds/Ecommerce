@@ -3,6 +3,7 @@ package com.nisarga.nisargaveggiez.cart;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -68,14 +69,14 @@ public class cartItem {
     @View(R.id.llcountItemMyCart)
     public LinearLayout llcountItemMyCart;
 
-    @View(R.id.lldecreasePrdCount)
-    public LinearLayout lldecreasePrdCount;
+    @View(R.id.ivbtndecreasePrdCount)
+    public ImageButton ivbtndecreasePrdCount;
 
     @View(R.id.tvProductCount)
     public TextView tvProductCount;
 
-    @View(R.id.llincreasePrdCount)
-    public LinearLayout llincreasePrdCount;
+    @View(R.id.ivbtnincreasePrdCount)
+    public ImageButton ivbtnincreasePrdCount;
 
     Context mcontext;
     APIInterface apiInterface;
@@ -90,7 +91,8 @@ public class cartItem {
     int intCount = 0;
 
     public cartItem(Context context, String prdid, String url, String title, String disprice, String qty,
-                    PlaceHolderView placeHolderView, String price, String option_name,String realprice,String realdiscount,int pos,Object option_val) {
+                    PlaceHolderView placeHolderView, String price, String option_name, String realprice,
+                    String realdiscount, int pos, Object option_val) {
 
         mcontext = context;
         mprdid = prdid;
@@ -102,7 +104,7 @@ public class cartItem {
         mprice = price;
         mOption = option_name;
         mRealprice = realprice;
-        mRealdiscount=realdiscount;
+        mRealdiscount = realdiscount;
         mPos = pos;
         mOption_val = option_val;
     }
@@ -121,8 +123,6 @@ public class cartItem {
         Glide.with(mcontext).load(murl).into(ivImage);
         tvProductName.setText(mtitle);
         tvNewPrice.setText("₹" + " " + mprice);
-
-
 
 
         if (mOption.equals("null")) {
@@ -154,23 +154,15 @@ public class cartItem {
 
     }
 
-    @Click(R.id.lldecreasePrdCount)
+    @Click(R.id.ivbtndecreasePrdCount)
     public void onDecreaseClick() {
-        if (intCount <= 1)
-        {
-
-
-
-
+        if (intCount <= 1) {
             intCount = intCount - 1;
-            if(intCount>=0) {
+            if (intCount >= 0) {
                 tvProductCount.setText(String.valueOf(intCount));
             }
 
-
-
-
-            if(mOption_val.equals("null")) {
+            if (mOption_val.equals("null")) {
 
                 final UpdateToCartModel ref = new UpdateToCartModel(mprdid, String.valueOf(tvProductCount.getText()));
 
@@ -182,7 +174,6 @@ public class cartItem {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
 
-
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
@@ -191,28 +182,21 @@ public class cartItem {
                             price_total = price_total - price_new_single;
                             tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
-
                             tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
 
-
-                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0)
-                            {
+                            Log.d("0 Item", "onResponse: ");
+                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
                                 mCartView.removeView(mPos);
                             }
-
-
-
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {
                                 int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Item", ""));
                                 cnt = cnt - 1;
                                 tvTotalVeggies.setText(cnt + " " + "Item");
-
-
 
                             } else {
                                 int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Items", ""));
@@ -221,18 +205,13 @@ public class cartItem {
                                 tvTotalVeggies.setText(cnt + " " + "Items");
                             }
 
-
                             Log.d("tvTotalVeggies1", tvTotalVeggies.getText().toString());
 
-                            if(tvTotalVeggies.getText().toString().equals("0 Item"))
-                            {
-                                tvTotalVeggies.setText("No Items");
+                            if ((tvTotalVeggies.getText().toString().equals("0 Item")) || (tvTotalVeggies.getText().toString().equals("0 Items"))) {
+                                tvTotalVeggies.setText("0 Item");
                                 llEmptyCart.setVisibility(android.view.View.VISIBLE);
                                 llShowCart.setVisibility(android.view.View.GONE);
-
                             }
-
-
 
                             //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -246,17 +225,14 @@ public class cartItem {
                     }
                 });
 
-            }
-            else
-            {
+            } else {
 
                 jsonElements = (JsonArray) new Gson().toJsonTree(mOption_val);
 
                 String product_option_id = String.valueOf(jsonElements.get(0).getAsJsonObject().get("product_option_id")).replace("\"", "");
                 String product_option_value_id = String.valueOf(jsonElements.get(0).getAsJsonObject().get("product_option_value_id")).replace("\"", "");
 
-
-                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(mprdid,product_option_id,product_option_value_id, String.valueOf(tvProductCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(mprdid, product_option_id, product_option_value_id, String.valueOf(tvProductCount.getText()));
 
                 apiInterface = APIClient.getClient().create(APIInterface.class);
                 Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
@@ -266,7 +242,6 @@ public class cartItem {
                         UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
 
-
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
@@ -275,22 +250,15 @@ public class cartItem {
                             price_total = price_total - price_new_single;
                             tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
-
                             tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
 
-
-                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0)
-                            {
+                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
                                 mCartView.removeView(mPos);
                             }
-
-
-
-
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {
                                 int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Item", ""));
@@ -306,16 +274,12 @@ public class cartItem {
 
                             Log.d("tvTotalVeggies1", tvTotalVeggies.getText().toString());
 
-                            if(tvTotalVeggies.getText().toString().equals("0 Item"))
-                            {
-                                tvTotalVeggies.setText("No Items");
+                            if ((tvTotalVeggies.getText().toString().equals("0 Item")) || (tvTotalVeggies.getText().toString().equals("0 Items"))) {
+                                tvTotalVeggies.setText("0 Item");
                                 llEmptyCart.setVisibility(android.view.View.VISIBLE);
                                 llShowCart.setVisibility(android.view.View.GONE);
 
                             }
-
-
-
 
                             //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -328,24 +292,17 @@ public class cartItem {
                         call.cancel();
                     }
                 });
-
             }
-
-
-
-
-
-
-
-
 
         } else {
 
+            intCount = intCount - 1;
 
+            if (intCount >= 0) {
+                tvProductCount.setText(String.valueOf(intCount));
+            }
 
-
-            if(mOption_val.equals("null"))
-            {
+            if (mOption_val.equals("null")) {
 
                 final UpdateToCartModel ref = new UpdateToCartModel(mprdid, String.valueOf(tvProductCount.getText()));
 
@@ -355,8 +312,7 @@ public class cartItem {
                     @Override
                     public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                         UpdateToCartModel resource = response.body();
-                        if (resource.status.equals("success"))
-                        {
+                        if (resource.status.equals("success")) {
 
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
@@ -367,19 +323,13 @@ public class cartItem {
                             tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
 
-                            intCount = intCount - 1;
-                            tvProductCount.setText(String.valueOf(intCount));
-
-
                             Log.d("price_new_real", String.valueOf(mRealprice));
 
-                            tvNewPrice.setText("₹" + " " + String.valueOf(price_new-price_new_single));
+                            tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
-                            if (!mdisprice.equals("null"))
-                            {
-                                tvOldPrice.setText("₹" + " " + String.valueOf(price_old-price_old_single));
+                            if (!mdisprice.equals("null")) {
+                                tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
-
 
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -393,18 +343,14 @@ public class cartItem {
                     }
                 });
 
-
-            }
-            else
-            {
+            } else {
 
                 jsonElements = (JsonArray) new Gson().toJsonTree(mOption_val);
 
                 String product_option_id = String.valueOf(jsonElements.get(0).getAsJsonObject().get("product_option_id")).replace("\"", "");
                 String product_option_value_id = String.valueOf(jsonElements.get(0).getAsJsonObject().get("product_option_value_id")).replace("\"", "");
 
-
-                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(mprdid,product_option_id,product_option_value_id, String.valueOf(tvProductCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(mprdid, product_option_id, product_option_value_id, String.valueOf(tvProductCount.getText()));
 
                 apiInterface = APIClient.getClient().create(APIInterface.class);
                 Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
@@ -412,8 +358,7 @@ public class cartItem {
                     @Override
                     public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
                         UpdateToCartOptionsModel resource = response.body();
-                        if (resource.status.equals("success"))
-                        {
+                        if (resource.status.equals("success")) {
 
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
@@ -424,19 +369,13 @@ public class cartItem {
                             tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
 
-                            intCount = intCount - 1;
-                            tvProductCount.setText(String.valueOf(intCount));
-
-
                             Log.d("price_new_real", String.valueOf(mRealprice));
 
-                            tvNewPrice.setText("₹" + " " + String.valueOf(price_new-price_new_single));
+                            tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
-                            if (!mdisprice.equals("null"))
-                            {
-                                tvOldPrice.setText("₹" + " " + String.valueOf(price_old-price_old_single));
+                            if (!mdisprice.equals("null")) {
+                                tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
-
 
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -449,24 +388,16 @@ public class cartItem {
                         call.cancel();
                     }
                 });
-
-
             }
-
-
-
         }
     }
 
-    @Click(R.id.llincreasePrdCount)
+    @Click(R.id.ivbtnincreasePrdCount)
     public void onIncreaseClick() {
         intCount = intCount + 1;//display number in place of add to cart
         tvProductCount.setText(String.valueOf(intCount));
 
-
-
-        if(mOption_val.equals("null"))
-        {
+        if (mOption_val.equals("null")) {
 
             final UpdateToCartModel ref = new UpdateToCartModel(mprdid, String.valueOf(intCount));
 
@@ -486,7 +417,6 @@ public class cartItem {
                         price_total = price_total + price_new_single;
                         tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
-
                         Log.d("price_new_real", String.valueOf(mRealprice));
 
                         tvNewPrice.setText("₹" + " " + String.valueOf(price_new + price_new_single));
@@ -494,7 +424,6 @@ public class cartItem {
                         if (!mdisprice.equals("null")) {
                             tvOldPrice.setText("₹" + " " + String.valueOf(price_old + price_old_single));
                         }
-
 
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
@@ -508,18 +437,14 @@ public class cartItem {
                 }
             });
 
-
-
-        }
-        else {
+        } else {
 
             jsonElements = (JsonArray) new Gson().toJsonTree(mOption_val);
 
             String product_option_id = String.valueOf(jsonElements.get(0).getAsJsonObject().get("product_option_id")).replace("\"", "");
             String product_option_value_id = String.valueOf(jsonElements.get(0).getAsJsonObject().get("product_option_value_id")).replace("\"", "");
 
-
-            final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(mprdid,product_option_id,product_option_value_id, String.valueOf(intCount));
+            final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(mprdid, product_option_id, product_option_value_id, String.valueOf(intCount));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
@@ -537,7 +462,6 @@ public class cartItem {
                         price_total = price_total + price_new_single;
                         tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
-
                         Log.d("price_new_real", String.valueOf(mRealprice));
 
                         tvNewPrice.setText("₹" + " " + String.valueOf(price_new + price_new_single));
@@ -545,7 +469,6 @@ public class cartItem {
                         if (!mdisprice.equals("null")) {
                             tvOldPrice.setText("₹" + " " + String.valueOf(price_old + price_old_single));
                         }
-
 
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
@@ -558,11 +481,6 @@ public class cartItem {
                     call.cancel();
                 }
             });
-
-
-
         }
-
-
     }
 }
