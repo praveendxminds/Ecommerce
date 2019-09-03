@@ -82,6 +82,14 @@ public class NotificationItem {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE hh:mm aa");
         String delivDate = sdf.format(new Date(localTime.getTime()));
         timeNotifi.setText(delivDate);
+        if(morderTitle.equals("Order Cancelled"))
+        {
+            iv_warning.setVisibility(android.view.View.VISIBLE);
+        }
+        else
+        {
+            iv_warning.setVisibility(android.view.View.INVISIBLE);
+        }
 
 
 

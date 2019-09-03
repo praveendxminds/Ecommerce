@@ -91,141 +91,143 @@ public class billingAddress extends AppCompatActivity {
         tvApartmentDetails = findViewById(R.id.tvAddressDetails);
         imgBtnAddAddress = findViewById(R.id.imgBtnEditAddress);
         llContinue = findViewById(R.id.llContinue);
-       // tvContinue = findViewById(R.id.tvContinue);
+        // tvContinue = findViewById(R.id.tvContinue);
         //for aprtment section getting from Login response
         strFirstName = session.getFirstName();
         strLastName = session.getLastName();
         strEmail = session.getEmail();
         strMobile = session.getTelephone();
         strApartmentName = session.getApartment();
-        strBlock = session.getBlockNo();
-        strDoor = session.getDoorNo();
-        strFloor = session.getFloor();
-        strArea = session.getAddrSecond();
-        strAddress = session.getAddrFirst();
-        strCity = session.getCity();
-        strPincode = session.getPincode();
-        strDeliveryDay = session.getDeliveryweek();
-        strCountryId = session.getCountryId();
-        strZoneId = session.getZoneId();
 
-        //------------------------------------------------
-        etFirstName.setText(strFirstName);
-        etLastName.setText(strLastName);
-        etMobileNo.setText(strMobile);
-        tvApartmentName.setText(strApartmentName);
-        tvApartmentDetails.setText(strDoor + "," + " " + strFloor + "," + " " + strBlock +
-                "," + " " + strAddress + "," + " " + strArea + "," + " " + strCity + "," + " " + strPincode);
-        etDelivery.setText(strDeliveryDay);
+            strBlock = session.getBlockNo();
+            strDoor = session.getDoorNo();
+            strFloor = session.getFloor();
+            strArea = session.getAddrSecond();
+            strAddress = session.getAddrFirst();
+            strCity = session.getCity();
 
-        imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentNewAddress = new Intent(billingAddress.this, ShippingNewAddress.class);
-                startActivity(intentNewAddress);
+            strPincode = session.getPincode();
+            strDeliveryDay = session.getDeliveryweek();
+            strCountryId = session.getCountryId();
+            strZoneId = session.getZoneId();
 
-            }
-        });
+            //------------------------------------------------
+            etFirstName.setText(strFirstName);
+            etLastName.setText(strLastName);
+            etMobileNo.setText(strMobile);
+            tvApartmentName.setText(strApartmentName);
+            tvApartmentDetails.setText(strDoor + ","+" "+ strFloor + ","+" "+ strBlock + ","+" "+
+                    strAddress + ","+" "+ strArea + ","+" "+ strCity + ","+" "+ strPincode);
+            etDelivery.setText(strDeliveryDay);
 
-        llContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToChkOut();
-            }
-        });
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    public void moveToChkOut() {
-        Log.d("moveToChkOut", session.getDeliverydate());
-
-
-        strFirstName = etFirstName.getText().toString();
-        strLastName = etLastName.getText().toString();
-        strMobile = etMobileNo.getText().toString();
-        strInstruct = etInstructions.getText().toString();
-        strDeliveryDay = etDelivery.getText().toString();
-        strApartmentDetails = tvApartmentDetails.getText().toString();
-        strApartmentName = tvApartmentName.getText().toString();
-        //api call-----
-        if (Utils.CheckInternetConnection(getApplicationContext())) {
-            //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
-            try {
-                progressdialog.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Log.d("strArea", String.valueOf(strArea));
-            final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
-            Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);
-            call.enqueue(new Callback<ShippingAddrModel>() {
+            imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onResponse(Call<ShippingAddrModel> call, Response<ShippingAddrModel> response) {
+                public void onClick(View v) {
+                    Intent intentNewAddress = new Intent(billingAddress.this, ShippingNewAddress.class);
+                    startActivity(intentNewAddress);
 
-                    ShippingAddrModel resource = response.body();
-
-                    List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
-                    if ((resource.status).equals("success")) {
-
-                        for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
-
-                            session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
-
-                        }
-                        session.saveTotal(resource.total, resource.total_savings);
-
-
-                        Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
-                        intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intentChkout);
-                    } else {
-                        Toast.makeText(billingAddress.this, resource.message, Toast.LENGTH_SHORT).show();
-                    }
-                    progressdialog.dismiss();
-                }
-
-                @Override
-                public void onFailure(Call<ShippingAddrModel> call, Throwable t) {
-                    call.cancel();
                 }
             });
 
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+            llContinue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    moveToChkOut();
+                }
+            });
+        }
+
+        @Override
+        public boolean onSupportNavigateUp () {
+            onBackPressed();
+            return true;
+        }
+
+        public void moveToChkOut () {
+            Log.d("moveToChkOut", session.getDeliverydate());
+
+
+            strFirstName = etFirstName.getText().toString();
+            strLastName = etLastName.getText().toString();
+            strMobile = etMobileNo.getText().toString();
+            strInstruct = etInstructions.getText().toString();
+            strDeliveryDay = etDelivery.getText().toString();
+            strApartmentDetails = tvApartmentDetails.getText().toString();
+            strApartmentName = tvApartmentName.getText().toString();
+            //api call-----
+            if (Utils.CheckInternetConnection(getApplicationContext())) {
+                //  final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName,  strPincode,strInstruct);
+                try {
+                    progressdialog.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("strArea", String.valueOf(strArea));
+                final ShippingAddrModel getAddress = new ShippingAddrModel(strFirstName, strLastName, strAddress, strCity, strCountryId, strZoneId, strApartmentName, strArea, strPincode, strInstruct);
+                Call<ShippingAddrModel> call = apiInterface.addShippingAddress("api/shipping/address_android", session.getToken(), getAddress);
+                call.enqueue(new Callback<ShippingAddrModel>() {
+                    @Override
+                    public void onResponse(Call<ShippingAddrModel> call, Response<ShippingAddrModel> response) {
+
+                        ShippingAddrModel resource = response.body();
+
+                        List<ShippingAddrModel.ShippingDatum> datumList1 = resource.data;
+                        if ((resource.status).equals("success")) {
+
+                            for (ShippingAddrModel.ShippingDatum dataList : datumList1) {
+
+                                session.saveShippingDetails(dataList.firstname, dataList.lastname, dataList.address_1, dataList.city, dataList.country_id, dataList.zone_id, dataList.company, dataList.address_2, dataList.postcode, dataList.custom_field);
+
+                            }
+                            session.saveTotal(resource.total, resource.total_savings, resource.delivery_charge, resource.total_payable);
+
+
+                            Intent intentChkout = new Intent(billingAddress.this, CheckOutMyCart.class);
+                            intentChkout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentChkout);
+                        } else {
+                            Toast.makeText(billingAddress.this, resource.message, Toast.LENGTH_SHORT).show();
+                        }
+                        progressdialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ShippingAddrModel> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+
+            } else {
+                Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.instruction_menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            switch (item.getItemId()) {
+
+                case android.R.id.home:
+                    onBackPressed();
+                    return true;
+
+
+                case R.id.help_menu_item:
+                    Intent intentHelp = new Intent(billingAddress.this, DeliveryInformation.class);
+                    startActivity(intentHelp);
+                    break;
+            }
+            return true;
         }
 
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.instruction_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-
-            case R.id.help_menu_item:
-                Intent intentHelp = new Intent(billingAddress.this, DeliveryInformation.class);
-                startActivity(intentHelp);
-                break;
-        }
-        return true;
-    }
-
-
-}
