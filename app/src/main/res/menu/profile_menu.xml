@@ -6,9 +6,8 @@
     <item
         android:id="@+id/edit"
         android:icon="@drawable/edit_pen"
-        app:showAsAction="always"
-        android:title="Delivery" />
-
+        android:title="Delivery"
+        app:showAsAction="always" />
 
 
 </menu>

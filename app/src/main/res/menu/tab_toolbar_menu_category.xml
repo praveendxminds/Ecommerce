@@ -7,8 +7,8 @@
     <item
         android:id="@+id/Delivery"
         android:icon="@drawable/truck"
-        app:showAsAction="always"
-        android:title="Delivery" />
+        android:title="Delivery"
+        app:showAsAction="always" />
 
 
 </menu>
