@@ -27,8 +27,6 @@ public class ProductslHomePage {
     @SerializedName("products")
     public List<Products> products = null;
 
-
-
     public ProductslHomePage(String cust_id) {
         this.customer_id = cust_id;
     }
@@ -62,9 +60,6 @@ public class ProductslHomePage {
         @SerializedName("Add_product_quantity_in_cart")
         public String add_product_quantity_in_cart;
 
-        @SerializedName("option_name")
-        public String option_name;
-
         @SerializedName("price")
         public String price;
 
@@ -93,9 +88,6 @@ public class ProductslHomePage {
         @SerializedName("Add_product_quantity_in_cart")
         public String add_product_quantity_in_cart;
 
-        @SerializedName("option_name")
-        public String option_name;
-
         @SerializedName("price")
         public String price;
 
@@ -123,9 +115,6 @@ public class ProductslHomePage {
 
         @SerializedName("Add_product_quantity_in_cart")
         public String add_product_quantity_in_cart;
-
-        @SerializedName("option_name")
-        public String option_name;
 
         @SerializedName("price")
         public String price;

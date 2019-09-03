@@ -52,7 +52,7 @@ import retrofit2.Response;
 public class cart extends AppCompatActivity {
 
     Toolbar toolbar;
-    PlaceHolderView mCartView;
+    public static PlaceHolderView mCartView;
     TextView linkDeliveryDay;
     private String storeDayTime;
     SessionManager session;
@@ -220,14 +220,18 @@ public class cart extends AppCompatActivity {
                         } else {
                             tvTotalVeggies.setText(datumList.size() + " " + "Items");
                         }
+                         int pos = 0;
 
-                        for (CartListModel.CartListDatum imgs : datumList) {
+                        for (CartListModel.CartListDatum imgs : datumList)
+                        {
+
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
                                         imgs.name, imgs.total, imgs.quantity, mCartView, imgs.discount_price,
-                                        imgs.option_name));
+                                        imgs.option_name,imgs.price,imgs.discount_price_single,pos,imgs.option));
 
                             }
+                            pos = pos + 1;
                         }
 
                         List<CartListModel.TotalsDatum> datumtotla = resource.totals;
@@ -237,17 +241,17 @@ public class cart extends AppCompatActivity {
                             }
                         }
 
-                        mCartView.sort(new Comparator<Object>() {
-                            @Override
-                            public int compare(Object item1, Object item2) {
-                                if (item1 instanceof cartItem && item2 instanceof cartItem) {
-                                    cartItem view1 = (cartItem) item1;
-                                    cartItem view2 = (cartItem) item2;
-                                    return view1.getTitle().compareTo(view2.getTitle());
-                                }
-                                return 0;
-                            }
-                        });
+//                        mCartView.sort(new Comparator<Object>() {
+//                            @Override
+//                            public int compare(Object item1, Object item2) {
+//                                if (item1 instanceof cartItem && item2 instanceof cartItem) {
+//                                    cartItem view1 = (cartItem) item1;
+//                                    cartItem view2 = (cartItem) item2;
+//                                    return view1.getTitle().compareTo(view2.getTitle());
+//                                }
+//                                return 0;
+//                            }
+//                        });
 
                     } else if (resource.status.equals("failure")) {
                         tvTotalVeggies.setText("No Items");

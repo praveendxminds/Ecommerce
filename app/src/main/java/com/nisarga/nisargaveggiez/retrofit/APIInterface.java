@@ -2,6 +2,7 @@ package com.nisarga.nisargaveggiez.retrofit;
 
 import com.nisarga.nisargaveggiez.Home.CartCount;
 import com.nisarga.nisargaveggiez.Home.UpdateToCartModel;
+import com.nisarga.nisargaveggiez.Home.UpdateToCartOptionsModel;
 import com.nisarga.nisargaveggiez.ProfileSection.ApartmentList;
 import com.nisarga.nisargaveggiez.ProfileSection.FilterCategoryModel;
 import com.nisarga.nisargaveggiez.ProfileSection.ForgetPasswordModel;
@@ -202,6 +203,10 @@ public interface APIInterface {
     @POST("index.php")
     Call<UpdateToCartModel> updateAddToCart(@Query("route") String route, @Query("api_token") String api_token,
                                             @Body UpdateToCartModel model);
+
+    @POST("index.php")
+    Call<UpdateToCartOptionsModel> updateAddToCartwithoptions(@Query("route") String route, @Query("api_token") String api_token,
+                                                   @Body UpdateToCartOptionsModel model);
 
 
     @POST("index.php")

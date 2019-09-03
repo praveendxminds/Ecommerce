@@ -39,11 +39,17 @@ public class CartListModel {
         @SerializedName("option_name")
         public String option_name;
 
+        @SerializedName("option")
+        public Object option;
+
         @SerializedName("discount_price")
         public String discount_price;
 
         @SerializedName("price")
         public String price;
+
+        @SerializedName("discount_price_single")
+        public String discount_price_single;
 
         @SerializedName("quantity")
         public String quantity;
