@@ -164,8 +164,8 @@ public interface APIInterface {
     @POST("index.php?route=api/uploadprofile/editNavImage")
     Call<NavEditImage> nav_edit_image(@Body NavEditImage image);
 
-    @POST("index.php?route=api/uploadprofile/FilterProduct")
-    Call<FilterCategoryModel> filter_products(@Body FilterCategoryModel image);
+    @POST("index.php?route=api/myprofile/FilterProduct")
+    Call<FilterCategoryModel> filter_products(@Body FilterCategoryModel filter);
 
     @POST("index.php?route=api/customer/fatchRefaralCode")
     Call<ReferalModel> getReferal(@Body ReferalModel id);

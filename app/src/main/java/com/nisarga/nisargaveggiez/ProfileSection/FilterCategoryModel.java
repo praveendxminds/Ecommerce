@@ -6,8 +6,6 @@ import java.util.List;
 
 public class FilterCategoryModel {
 
-    @SerializedName("customer_id")
-    public String customer_id;
 
     @SerializedName("status")
     public String status;
@@ -36,10 +34,9 @@ public class FilterCategoryModel {
     @SerializedName("result")
     public List<Datum> resultdata = null;
 
-    public FilterCategoryModel(String cusId,String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
+    public FilterCategoryModel(String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
                                String sFilterNewestFirst, String minPrice, String maxPrice) {
 
-        this.customer_id = cusId;
         this.filter_popularity = sFilterPopularity;
         this.filter_low_to_high = sFilterLowToHigh;
         this.filter_high_to_low = sFilterHighToLow;

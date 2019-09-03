@@ -400,19 +400,14 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 showGridView();
                 drawerHomeCategory.closeDrawer(Gravity.RIGHT);
-                if (Utils.CheckInternetConnection(getApplicationContext())) {
 
-                    phvCategoryList.getBuilder()
-                            .setHasFixedSize(false)
-                            .setItemViewCacheSize(10)
-                            .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-
+               /* if (Utils.CheckInternetConnection(getApplicationContext())) {
                     saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
                             minPrice, maxPrice);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection",
                             Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
     }
@@ -420,7 +415,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     private void saveFilterData(String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
                                 String sFilterNewestFirst, String minPrice, String maxPrice) {
 
-        final FilterCategoryModel model = new FilterCategoryModel(session.getCustomerId(),sFilterPopularity, sFilterLowToHigh, sFilterHighToLow,
+        final FilterCategoryModel model = new FilterCategoryModel(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow,
                 sFilterNewestFirst, minPrice, maxPrice);
 
         Call<FilterCategoryModel> callEditProfile = apiInterface.filter_products(model);

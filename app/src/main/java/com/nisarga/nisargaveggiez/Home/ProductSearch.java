@@ -67,6 +67,7 @@ import com.nisarga.nisargaveggiez.fcm.fcmConfig;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
+import com.nisarga.nisargaveggiez.retrofit.ProductFilterModel;
 import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -137,6 +138,9 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
         AndroidNetworking.initialize(getApplicationContext());
         init();
+
+
+
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
