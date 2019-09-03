@@ -27,19 +27,12 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical">
 
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/refresh"
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/list_items_homePage"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.mindorks.placeholderview.PlaceHolderView
-                        android:id="@+id/list_items_homePage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:scrollbars="vertical" />
-
-                </android.support.v4.widget.SwipeRefreshLayout>
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:scrollbars="vertical" />
 
                 <ProgressBar
                     android:id="@+id/pbLoading"
