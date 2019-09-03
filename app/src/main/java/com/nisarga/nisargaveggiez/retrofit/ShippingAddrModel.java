@@ -64,6 +64,12 @@ public class ShippingAddrModel {
     @SerializedName("total_savings")
     public String total_savings;
 
+    @SerializedName("delivery_charge")
+    public String delivery_charge;
+
+    @SerializedName("total_payable")
+    public String total_payable;
+
     @SerializedName("data")
     public List<ShippingDatum> data=null;
 

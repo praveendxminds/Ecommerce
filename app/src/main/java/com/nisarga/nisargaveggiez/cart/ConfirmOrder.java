@@ -35,7 +35,7 @@ public class ConfirmOrder extends AppCompatActivity {
     private LinearLayout llSubmitFeedback;
     APIInterface apiInterface;
     SessionManager session;
-    private TextView tvPaymentStatus, tvSubTotal, tvDelivCharge, tvOrdAmount, tvTotalSaving;
+    private TextView tvPaymentStatus, tvSubTotal, tvDelivCharge, tvOrdAmount, tvTotalSaving,tvTotalAmount;
     private TextView tvApartmentName, tvAddressDetails, tvMsg;
     private RatingBar ratingBar;
     private EditText etFeedback;
@@ -62,6 +62,7 @@ public class ConfirmOrder extends AppCompatActivity {
         tvAddressDetails = findViewById(R.id.tvAddressDetails);
         tvApartmentName = findViewById(R.id.tvApartmentName);
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
+        tvTotalAmount = findViewById(R.id.tvTotalAmount);
         tvOrdAmount = findViewById(R.id.tvOrdAmount);
         tvDelivCharge = findViewById(R.id.tvDelivCharge);
         tvPaymentStatus = findViewById(R.id.tvPaymentStatus);
@@ -73,18 +74,19 @@ public class ConfirmOrder extends AppCompatActivity {
 
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
+        String total = intent.getStringExtra("total");
         String savings = intent.getStringExtra("savings");
         String delivery_charges = intent.getStringExtra("delivery_charges");
-        String total = intent.getStringExtra("total");
-        order_id = intent.getStringExtra("total");
+        String payable_amount = intent.getStringExtra("total_pay");
+        order_id = intent.getStringExtra("order_id");
 
         tvMsg.setText("Dear Member, Your Order is confirmed, will be delivered on "+session.getDeliveryweek()+" morning.");
-        tvDelivCharge.setText("Rs."+" "+delivery_charges);
         tvApartmentName.setText(session.getApartment());
         tvAddressDetails.setText(address);
         tvOrdAmount.setText("Rs."+" "+total);
         tvTotalSaving.setText("Rs."+" "+savings);
-
+        tvDelivCharge.setText("Rs."+" "+delivery_charges);
+        tvTotalAmount.setText("Rs."+" "+payable_amount);
 
         submitFeedback();
 
