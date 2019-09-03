@@ -230,7 +230,7 @@ public class ReorderHolder extends AppCompatActivity {
                     ReorderItemsModel resourcesReorder = response.body();
                     if (resourcesReorder.status.equals("success")) {
 
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         List<ReorderItemsModel.ReorderResult> result = resourcesReorder.result;
                         if (result.size() > 0) {
 
