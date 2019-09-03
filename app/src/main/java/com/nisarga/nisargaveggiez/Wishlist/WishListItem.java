@@ -182,22 +182,6 @@ public class WishListItem {
                 if (resource.status.equals("success"))
                 {
 
-                    if (totalWishList.getText().toString().equals("1 Item"))
-                    {
-                        int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
-                        cnt = cnt - 1;
-
-                        totalWishList.setText(cnt + " " + "Item");
-                    }
-                    else
-                    {
-
-                        int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
-                        cnt = cnt - 1;
-
-                        totalWishList.setText(cnt + " " + "Items");
-                    }
-
                     Toast.makeText(getApplicationContext(), "Move to Cart", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
@@ -212,7 +196,21 @@ public class WishListItem {
 
         mPlaceHolderView.removeView(this);
 
+        if (totalWishList.getText().toString().equals("1 Item"))
+        {
+            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
+            cnt = cnt - 1;
 
+            totalWishList.setText(cnt + " " + "Item");
+        }
+        else
+        {
+
+            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
+            cnt = cnt - 1;
+
+            totalWishList.setText(cnt + " " + "Items");
+        }
 
     }
 }

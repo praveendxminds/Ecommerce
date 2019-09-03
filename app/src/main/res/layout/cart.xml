@@ -116,20 +116,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/llCheckBox"
-            android:layout_below="@+id/layout_total">
+            android:layout_below="@+id/layout_total"
+            android:orientation="vertical">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
 
-                <com.mindorks.placeholderview.PlaceHolderView
-                    android:id="@+id/recycler_cart"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.mindorks.placeholderview.PlaceHolderView
+                        android:id="@+id/recycler_cart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:visibility="visible" />
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+                <ProgressBar
+                    android:id="@+id/pbLoading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:visibility="visible" />
-            </android.support.v4.widget.SwipeRefreshLayout>
+                    android:layout_gravity="center"
+                    android:indeterminate="true" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout

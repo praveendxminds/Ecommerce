@@ -665,6 +665,7 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
             Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
+            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarProfile);
 //          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
 //          ivProfile.setImageBitmap(bitmap);
 

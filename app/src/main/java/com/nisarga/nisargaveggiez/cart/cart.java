@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ public class cart extends AppCompatActivity {
     public String select_item;
     SwipeRefreshLayout pullToRefresh;
     Button btnShopNow;
+    ProgressBar pbLoading;
 
     public static TextView tvTotalVeggies;
     public static TextView tvtotalAmount;
@@ -98,6 +100,8 @@ public class cart extends AppCompatActivity {
 
         mCartView = (PlaceHolderView) findViewById(R.id.recycler_cart);
         btnShopNow = (Button) findViewById(R.id.btnShopNow);
+        pbLoading = (ProgressBar) findViewById(R.id.pbLoading);
+        pbLoading.setVisibility(View.VISIBLE);
 
         btnShopNow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,6 +263,7 @@ public class cart extends AppCompatActivity {
                         llShowCart.setVisibility(View.GONE);
                     }
                     mCartView.refresh();
+                    pbLoading.setVisibility(View.INVISIBLE);
                 }
 
                 @Override

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class FilterCategoryModel {
 
-
     @SerializedName("status")
     public String status;
 
@@ -71,22 +70,10 @@ public class FilterCategoryModel {
         @SerializedName("name")
         public String name;
 
-        @SerializedName("date_available")
-        public String date_available;
+        @SerializedName("weight_classes")
+        public Object weight_classes;
 
-        @SerializedName("updated_price")
-        public String updated_price;
-
-        @SerializedName("weight")
-        public String weight;
-
-        @SerializedName("length")
-        public String length;
-
-        @SerializedName("width")
-        public String width;
-
-        @SerializedName("height")
-        public String height;
+        @SerializedName("options")
+        public Object options;
     }
 }

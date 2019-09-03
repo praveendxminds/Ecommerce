@@ -296,7 +296,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         });
         bottom_navigation.setItemIconSize(40);
 
-
         //------Filter------
         navFilter = findViewById(R.id.navFilter);
         header = navFilter.getHeaderView(0);
@@ -390,6 +389,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         btnClearFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                phvCategoryList.removeAllViews();
                 showGridView();
                 drawerHomeCategory.closeDrawer(Gravity.RIGHT);
             }
@@ -398,16 +398,14 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         btnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showGridView();
                 drawerHomeCategory.closeDrawer(Gravity.RIGHT);
-
-               /* if (Utils.CheckInternetConnection(getApplicationContext())) {
+                if (Utils.CheckInternetConnection(getApplicationContext())) {
                     saveFilterData(sFilterPopularity, sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst,
                             minPrice, maxPrice);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection",
                             Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
     }
@@ -427,9 +425,26 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     phvCategoryList.removeAllViews();
                     List<FilterCategoryModel.Datum> datumList = model.resultdata;
                     for (FilterCategoryModel.Datum imgs : datumList) {
-                        phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
-                                imgs.image, imgs.name, imgs.discount_price, imgs.add_product_quantity_in_cart,
-                                imgs.wishlist_status));
+                        Object qtyspinner = "null";
+
+                        if ((imgs.options.equals("null")) && (!imgs.weight_classes.equals("null"))) {
+                            qtyspinner = imgs.weight_classes;
+                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.product_id,
+                                    imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                    imgs.add_product_quantity_in_cart));
+
+                        } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                            qtyspinner = imgs.options;
+                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.product_id,
+                                    imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                    imgs.add_product_quantity_in_cart));
+
+                        } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
+                            phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.product_id,
+                                    imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
+                                    imgs.add_product_quantity_in_cart));
+                        }
+
                     }
                 }
 
@@ -452,7 +467,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<FilterCategoryModel> call, Throwable t) {
-
+                call.cancel();
             }
         });
     }
@@ -971,6 +986,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
             Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
+            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarProfile);
 //          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
 //          ivProfile.setImageBitmap(bitmap);
 
