@@ -54,7 +54,7 @@ public class CheckoutOrder extends AppCompatActivity {
     private TextView tvChkoutDelvInstruct, tvInvoiceNo, tvOrdNo, tvOrdItems, tvSubTotal, tvDeliveryCharges, tvPrice, tvFinalTotal;
     private TextView tvWalletAmnt;
     String strTotalAmnt, strPrice, strSubTotal, strDelvCharge;
-    private String getFirstName, getPhone, getEmail, getAmount, getOrdId;
+    private String getFirstName, getPhone, getEmail, getAmount, getOrdId,strWallet="0";
     private String shipAddress, shipCity, shipZone,deliveryDay;
     CheckBox checkbox;
     ProgressDialog progressdialog;
@@ -109,6 +109,14 @@ public class CheckoutOrder extends AppCompatActivity {
         getPhone = session.getTelephone();
         getEmail = session.getEmail();
 
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    strWallet = "1";
+                }
+            }
+        });
 
         //addPaymentOption(4);
         btnItems.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +144,7 @@ public class CheckoutOrder extends AppCompatActivity {
                             e.printStackTrace();
                         }
 //-------------------------------------Pay now procedure----------------------------------------------------------------------
-                        final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),tvWalletAmnt.getText().toString());
+                        final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),strWallet);
                         Call<Usewallet> call = apiInterface.esewallet(wallet);
                         call.enqueue(new Callback<Usewallet>() {
                             @Override
@@ -144,30 +152,35 @@ public class CheckoutOrder extends AppCompatActivity {
                                 Usewallet resource = response.body();
                                 if (resource.status.equals("success"))
                                 {
+                                    int walletBlnc = Integer.parseInt(getAmount);
+
                                     progressdialog.dismiss();
                                     if(resource.total_to_be_paid>0)
                                     {
+                                            Toast.makeText(getApplicationContext(), "Pay full amount using online payment method", Toast.LENGTH_SHORT).show();
 
-                                        Toast.makeText(getApplicationContext(), "Pay full amount using online payment method", Toast.LENGTH_SHORT).show();
+                                            Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
+                                            Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
+                                            intent.putExtra("FIRST_NAME", getFirstName);
+                                            intent.putExtra("PHONE_NUMBER", getPhone);
+                                            intent.putExtra("PHONE_NUMBER", getPhone);
+                                            intent.putExtra("EMAIL_ADDRESS", getEmail);
+                                            intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                                            double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
+                                            String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
 
-                                        Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
-                                        Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
-                                        intent.putExtra("FIRST_NAME", getFirstName);
-                                        intent.putExtra("PHONE_NUMBER", getPhone);
-                                        intent.putExtra("PHONE_NUMBER", getPhone);
-                                        intent.putExtra("EMAIL_ADDRESS", getEmail);
-                                        intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
-                                        double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
-                                        String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+                                            intent.putExtra("RECHARGE_AMT", String.valueOf(resource.total_to_be_paid));
 
-                                        intent.putExtra("RECHARGE_AMT", String.valueOf(resource.total_to_be_paid));
-
-                                        startActivity(intent);
-
+                                            startActivity(intent);
 
                                     }
-                                    else
+                                    else if(resource.total_to_be_paid == 0)
                                     {
+                                        Intent intentSuccess = new Intent(getApplicationContext(), OrderPaymentSuccess.class);
+                                        startActivity(intentSuccess);
+                                    }
+                                    else
+                                        {
 
                                         Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
                                         startActivity(intent);
@@ -249,7 +262,7 @@ public class CheckoutOrder extends AppCompatActivity {
                         tvWalletAmnt.setText("Rs." + " " + "0");
                     } else {
                         tvWalletAmnt.setText("Rs." + " " + resource.data);
-
+                        getAmount = resource.data;
                     }
                 }
 
