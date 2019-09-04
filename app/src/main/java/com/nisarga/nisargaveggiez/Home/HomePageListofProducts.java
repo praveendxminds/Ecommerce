@@ -69,4 +69,6 @@ public class HomePageListofProducts {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
+
+
 }
