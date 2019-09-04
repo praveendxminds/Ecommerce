@@ -364,8 +364,11 @@ public class ProductDetailHome extends AppCompatActivity {
                                 } else {
                                     res = Html.fromHtml(sDesc).toString();
                                 }
-                                webViewDesc.loadDataWithBaseURL(null, res, "text/html",
-                                        "utf-8", null);
+                              //  webViewDesc.loadDataWithBaseURL(null, res, "text/html",
+                                    //    "utf-8", null);
+
+                                webViewDesc.loadData(sDesc, "text/html", null);
+
                             }
                         }
                     }
