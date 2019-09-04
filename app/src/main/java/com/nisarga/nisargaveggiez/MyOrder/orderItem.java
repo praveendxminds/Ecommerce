@@ -80,7 +80,7 @@ public class orderItem {
     APIInterface apiInterface;
     SessionManager session;
     public Context mContext;
-    String chkCancel, chkStatus, mstatus, morderId, mdeliveryDate, mcancel,mPayStatus;
+    String chkCancel, chkStatus, mstatus, morderId, mdeliveryDate, mcancel, mPayStatus;
 
     /*public orderItem(Context context) {
         mContext = context;
@@ -90,7 +90,7 @@ public class orderItem {
     AlertDialog.Builder builder;
 
 
-    public orderItem(Context context, String orderId, String deliveryDate, String status, String cancel,String pay_status) {
+    public orderItem(Context context, String orderId, String deliveryDate, String status, String cancel, String pay_status) {
         this.mContext = context;
         this.mstatus = status;
         this.morderId = orderId;
@@ -124,10 +124,10 @@ public class orderItem {
         String dayFormat = localDay.format(new Date(localTime.getTime()));
         int getDay = Integer.parseInt(dayFormat);
         String dayNumberSuffix = getDayNumberSuffix(getDay);
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'"+dayNumberSuffix+"'''yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMMM d'" + dayNumberSuffix + "'''yy");
 
         String delivDate = sdf.format(new Date(localTime.getTime()));
-        Log.e("-----date-------------",delivDate);
+        Log.e("-----date-------------", delivDate);
         deliveryDateOrder.setText("Delivered on" + " " + delivDate);
 
 
@@ -192,29 +192,17 @@ public class orderItem {
                 btnCancelOrder.setEnabled(true);
             }
             if (mPayStatus != null && !mPayStatus.isEmpty() && !mPayStatus.equals("null")) {
-                if(mPayStatus.equals("0"))
-                {
+                if (mPayStatus.equals("0")) {
                     btnPayNow.setVisibility(android.view.View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     btnPayNow.setVisibility(android.view.View.INVISIBLE);
                 }
-            }
-            else
-            {
+            } else {
                 btnPayNow.setVisibility(android.view.View.VISIBLE);
             }
             /* time date comparison 4 pm ends */
-
-
         }
-
     }
-
-   /* public orderItem(Activity activity) {
-        this.mActivity = activity;
-    }*/
 
     @Click(R.id.btnCancelOrder)
     public void onCancelClick() {
@@ -250,13 +238,13 @@ public class orderItem {
                     call.enqueue(new Callback<CancelOrderModel>() {
                         @Override
                         public void onResponse(Call<CancelOrderModel> call, Response<CancelOrderModel> response) {
-
                             CancelOrderModel resource = response.body();
                             Toast.makeText(mContext, "Your order has been cancelled", Toast.LENGTH_SHORT).show();
                             btnCancelOrder.setVisibility(android.view.View.GONE);
                             canceledOrder.setVisibility(android.view.View.VISIBLE);
                             pendingOrder.setVisibility(android.view.View.GONE);
                             deliveredOrder.setVisibility(android.view.View.GONE);
+                            btnPayNow.setVisibility(android.view.View.GONE);
                             canceledOrder.setText("Canceled");
                             alertDialog.dismiss();
 
