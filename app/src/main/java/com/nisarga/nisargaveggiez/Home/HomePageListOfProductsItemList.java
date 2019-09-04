@@ -125,6 +125,11 @@ public class HomePageListOfProductsItemList {
         tinydb = new TinyDB(getApplicationContext());
 
         if (!spnrqty.equals("null")) {
+
+            spQuantity.setVisibility(android.view.View.VISIBLE);
+            llQuantityList.setVisibility(android.view.View.GONE);
+
+
             JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
 
             for (int j = 0; j < jsonElements.size(); j++) {
@@ -152,7 +157,8 @@ public class HomePageListOfProductsItemList {
                     tvOldPrice.setText("₹" + " " + str_disValue);
                 }
             }
-        } else if (spnrqty.equals("null")) {
+        } else if (spnrqty.equals("null"))
+        {
             tvNoOfCount.setText(sadd_product_quantity_in_cart);
             spQuantity.setVisibility(android.view.View.GONE);
             llQuantityList.setVisibility(android.view.View.VISIBLE);
