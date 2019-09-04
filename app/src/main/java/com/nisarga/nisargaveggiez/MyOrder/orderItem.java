@@ -252,7 +252,7 @@ public class orderItem {
                         public void onResponse(Call<CancelOrderModel> call, Response<CancelOrderModel> response) {
 
                             CancelOrderModel resource = response.body();
-                            Toast.makeText(mContext, resource.message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Your order has been cancelled", Toast.LENGTH_SHORT).show();
                             btnCancelOrder.setVisibility(android.view.View.GONE);
                             canceledOrder.setVisibility(android.view.View.VISIBLE);
                             pendingOrder.setVisibility(android.view.View.GONE);

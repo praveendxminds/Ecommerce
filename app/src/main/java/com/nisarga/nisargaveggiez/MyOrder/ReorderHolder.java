@@ -257,7 +257,7 @@ public class ReorderHolder extends AppCompatActivity {
 
                             }
 
-                            double dbl_Price_2 = Double.parseDouble(resourcesReorder.totalMoney);
+                            double dbl_Price_2 = Double.parseDouble(resourcesReorder.sub_total);
                             str_TotalAmnt = String.format("%.2f", dbl_Price_2);
                             tvtotalAmount.setText("Total" + " " + "\u20B9 " + str_TotalAmnt);
                         } else {
