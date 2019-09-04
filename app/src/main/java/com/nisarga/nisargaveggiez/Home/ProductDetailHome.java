@@ -196,10 +196,25 @@ public class ProductDetailHome extends AppCompatActivity {
                             if ((imgs.weight_classes.equals("null")) && (imgs.options.equals("null"))) {
                                 llspinnerlayout.setVisibility(View.GONE);
                                 tvQuantityList.setVisibility(View.VISIBLE);
-                                tvNewPrice.setText("₹" + " " + imgs.price);
-                                tvOldPrice.setText("₹" + " " + imgs.discount_price);
+
+                                double dbl_Price = Double.parseDouble(imgs.price);//need to convert string to decimal
+                                String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+                                tvNewPrice.setText("₹" + " " + productPrice);
+
+                                if (imgs.discount_price.equals("0")) {
+                                    tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+                                } else {
+                                    double dbl_Discount = Double.parseDouble(imgs.discount_price);//need to convert string to decimal
+                                    String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                                    tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                                    tvOldPrice.setText("₹" + " " + str_disValue);
+                                }
+
                                 tvProductCount.setText(imgs.add_prd_cart);
                                 sadd_product_quantity_in_cart = imgs.add_prd_cart;
+
+                                // tvNewPrice.setText("₹" + " " + imgs.price);
+                                //tvOldPrice.setText("₹" + " " + imgs.discount_price);
 
                             } else if ((!imgs.weight_classes.equals("null")) && (imgs.options.equals("null"))) {
 
@@ -379,18 +394,18 @@ public class ProductDetailHome extends AppCompatActivity {
                                 qtyspinner = imgs.weight_classes;
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
                                         imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
                                         imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
                                         imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
                             }
                         }
                     } else {
@@ -517,7 +532,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         llAddQuantity.setVisibility(View.VISIBLE);
                         llProductCount.setVisibility(View.GONE);
 
-                        final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sPrd_id,option_id,option_value_id, tvProductCount.getText().toString());
+                        final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sPrd_id, option_id, option_value_id, tvProductCount.getText().toString());
                         apiInterface = APIClient.getClient().create(APIInterface.class);
                         Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
                         callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
@@ -545,7 +560,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
                         tinydb.putListString(sPrd_id, putcntlst);
 
-                        final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sPrd_id,option_id,option_value_id, tvProductCount.getText().toString());
+                        final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sPrd_id, option_id, option_value_id, tvProductCount.getText().toString());
                         apiInterface = APIClient.getClient().create(APIInterface.class);
                         Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
                         callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
@@ -654,7 +669,7 @@ public class ProductDetailHome extends AppCompatActivity {
                     tinydb.putListString(sPrd_id, putcntlst);
 
 
-                    final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sPrd_id,option_id,option_value_id,tvProductCount.getText().toString());
+                    final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sPrd_id, option_id, option_value_id, tvProductCount.getText().toString());
                     apiInterface = APIClient.getClient().create(APIInterface.class);
                     Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
                     callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
