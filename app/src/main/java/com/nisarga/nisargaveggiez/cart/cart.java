@@ -69,6 +69,8 @@ public class cart extends AppCompatActivity {
     public static LinearLayout llEmptyCart;
     public static RelativeLayout llShowCart;
 
+    int pos = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,15 +226,13 @@ public class cart extends AppCompatActivity {
                         } else {
                             tvTotalVeggies.setText(datumList.size() + " " + "Items");
                         }
-                         int pos = 0;
 
-                        for (CartListModel.CartListDatum imgs : datumList)
-                        {
+                        for (CartListModel.CartListDatum imgs : datumList) {
 
                             if (response.isSuccessful()) {
                                 mCartView.addView(new cartItem(getApplicationContext(), imgs.product_id, imgs.image,
                                         imgs.name, imgs.total, imgs.quantity, mCartView, imgs.discount_price,
-                                        imgs.option_name,imgs.price,imgs.discount_price_single,pos,imgs.option));
+                                        imgs.option_name, imgs.price, imgs.discount_price_single, pos, imgs.option));
 
                             }
                             pos = pos + 1;
