@@ -549,6 +549,19 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onResume() {
         super.onResume();
+
+       // setNavMenuItemThemeColors();
+
+        Menu menu = navigationView.getMenu();
+        MenuItem item = menu.getItem(0);
+        item.setChecked(true);
+        Log.d("item", String.valueOf(item));
+
+
+
+
+
+        Log.d("resumed", "resumed: ");
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(fcmConfig.REGISTRATION_COMPLETE));
