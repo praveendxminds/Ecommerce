@@ -368,7 +368,7 @@ public class ReorderPayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
-                    testStatus("",getRechargeAmt,"failure","Payment Failed");
+                   testStatus("",getRechargeAmt,"failure","Payment Failed");
                     Toast.makeText(getApplicationContext(),"Failed payment" ,Toast.LENGTH_LONG).show();
                 }
             });
