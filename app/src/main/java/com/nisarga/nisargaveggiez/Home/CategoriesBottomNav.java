@@ -592,7 +592,7 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             startActivity(intentPolicy);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayoutShopBy);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

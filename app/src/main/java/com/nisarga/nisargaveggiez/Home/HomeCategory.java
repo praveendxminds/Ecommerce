@@ -1057,7 +1057,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             startActivity(intentPolicy);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drwLayout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerHomeCategory);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
