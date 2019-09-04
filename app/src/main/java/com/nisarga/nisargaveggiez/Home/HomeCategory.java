@@ -425,7 +425,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 cbNewestFirst.setChecked(false);
                 tvSeekBarMin.setText("1");
                 tvSeekBarMax.setText("500");
-                drawerHomeCategory.closeDrawer(Gravity.RIGHT);
+                rangeSeekbar.setMinValue(1).apply();
+                rangeSeekbar.setMaxValue(500).apply();
+              drawerHomeCategory.closeDrawer(Gravity.RIGHT);
             }
         });
 
