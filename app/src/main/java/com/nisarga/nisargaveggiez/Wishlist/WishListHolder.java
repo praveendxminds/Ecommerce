@@ -46,15 +46,15 @@ public class WishListHolder extends AppCompatActivity {
     APIInterface apiInterface;
     SessionManager session;
 
-    PlaceHolderView list_items;
-    TextView veggiesWishListTitle,  tvEmptyWishlist;
+    TextView veggiesWishListTitle;
     DrawerLayout mDrawer;
     Toolbar mToolbar;
     BottomNavigationView bottomNavigationView;
 
     public static TextView totalWishList;
+    public static TextView tvEmptyWishlist;
+    public static PlaceHolderView list_items;
     SwipeRefreshLayout pullToRefresh;
-
 
     Integer scount;
 
@@ -63,7 +63,6 @@ public class WishListHolder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wishlist_main);
         session = new SessionManager(getApplicationContext());
-
 
         list_items = (PlaceHolderView) findViewById(R.id.list_items);
         veggiesWishListTitle = findViewById(R.id.veggiesWishListTitle);
@@ -80,21 +79,24 @@ public class WishListHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         getwishlist();
         pullToRefresh = findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh()
-            {
+            public void onRefresh() {
                 list_items.removeAllViews();
                 getwishlist();
                 pullToRefresh.setRefreshing(false);
 
             }
         });
-
-
 
         //------------------------------Bottom Navigation---------------------------------------------------------------------
         bottomNavigationView.getMenu().findItem(R.id.navigation_wishlist).setChecked(true);
@@ -137,9 +139,10 @@ public class WishListHolder extends AppCompatActivity {
 
     //----------------------------------------------------------------------for go back to previous page-----------------
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(WishListHolder.this, HomePage.class);
+        startActivity(intent);
     }
 
     @Override
@@ -152,10 +155,6 @@ public class WishListHolder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
             case R.id.menu_notifi:
                 Intent intentNotifications = new Intent(getBaseContext(), MyNotifications.class);
                 startActivity(intentNotifications);
@@ -169,9 +168,7 @@ public class WishListHolder extends AppCompatActivity {
         return true;
     }
 
-
-    public void getwishlist()
-    {
+    public void getwishlist() {
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             final GetWishList wishListItems = new GetWishList(session.getCustomerId());
             apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -182,7 +179,7 @@ public class WishListHolder extends AppCompatActivity {
                     GetWishList resource = response.body();
                     scount = resource.count;
                     if (scount == 0) {
-                        totalWishList.setText("No Items");
+                        totalWishList.setText("0 Items");
                     } else if (scount == 1) {
                         totalWishList.setText(scount + " " + "Item");
                     } else {

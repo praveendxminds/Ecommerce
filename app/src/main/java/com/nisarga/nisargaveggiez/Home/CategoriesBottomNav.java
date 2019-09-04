@@ -747,4 +747,11 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(CategoriesBottomNav.this, HomePage.class);
+        startActivity(intent);
+    }
 }

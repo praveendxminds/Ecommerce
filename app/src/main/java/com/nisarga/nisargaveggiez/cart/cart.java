@@ -85,11 +85,11 @@ public class cart extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pIntent = new Intent(getBaseContext(), HomePage.class);
-                startActivity(pIntent);
+                onBackPressed();
             }
         });
 
@@ -277,13 +277,6 @@ public class cart extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
     public void billing(View v) {
         Log.d("storeDayTime", String.valueOf(select_item));
         if (select_item.equals("Select")) {
@@ -329,4 +322,8 @@ public class cart extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

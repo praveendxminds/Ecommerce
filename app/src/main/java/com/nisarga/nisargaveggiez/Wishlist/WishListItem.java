@@ -30,7 +30,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.list_items;
 import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.totalWishList;
+import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.tvEmptyWishlist;
+import static com.nisarga.nisargaveggiez.cart.cart.llEmptyCart;
+import static com.nisarga.nisargaveggiez.cart.cart.llShowCart;
+import static com.nisarga.nisargaveggiez.cart.cart.tvTotalVeggies;
 
 /**
  * Created by sushmita 14/06/2019
@@ -39,6 +44,9 @@ import static com.nisarga.nisargaveggiez.Wishlist.WishListHolder.totalWishList;
 @NonReusable
 @Layout(R.layout.wishlist_items)
 public class WishListItem {
+
+    @View(R.id.llRemoveView)
+    public LinearLayout llRemoveView;
 
     @View(R.id.llWishlist)
     public LinearLayout llWishlist;
@@ -80,7 +88,6 @@ public class WishListItem {
     public Integer countItems;
 
 
-
     String status;
 
     public WishListItem(Context context, String product_id, String url, String title, String price,
@@ -113,8 +120,6 @@ public class WishListItem {
 
         qntyWishList.setText(mqty);
 
-
-
     }
 
     @Click(R.id.llWishlist)
@@ -136,6 +141,26 @@ public class WishListItem {
                 RemoveWishListItem resource = response.body();
                 if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), "Remove from Wishlist", Toast.LENGTH_LONG).show();
+
+                    if (totalWishList.getText().toString().equals("1 Item")) {
+                        int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
+                        cnt = cnt - 1;
+
+                        totalWishList.setText(cnt + " " + "Item");
+                    } else {
+
+                        int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
+                        cnt = cnt - 1;
+
+                        totalWishList.setText(cnt + " " + "Items");
+                    }
+
+                    if ((totalWishList.getText().toString().equals("0 Item") || totalWishList.getText().toString().equals("0 Items"))) {
+                        totalWishList.setText("0 Item");
+                        tvEmptyWishlist.setVisibility(android.view.View.VISIBLE);
+                        list_items.setVisibility(android.view.View.GONE);
+                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
@@ -147,28 +172,8 @@ public class WishListItem {
             }
         });
 
-
         mPlaceHolderView.removeView(this);
-
-        if (totalWishList.getText().toString().equals("1 Item"))
-        {
-            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
-            cnt = cnt - 1;
-
-            totalWishList.setText(cnt + " " + "Item");
-        }
-        else
-        {
-
-            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
-            cnt = cnt - 1;
-
-            totalWishList.setText(cnt + " " + "Items");
-        }
-
-
     }
-
 
     @Click(R.id.btn_moveToCart)
     public void moveToCartClick() {
@@ -179,10 +184,28 @@ public class WishListItem {
             @Override
             public void onResponse(Call<MoveToCartModel> call, Response<MoveToCartModel> response) {
                 MoveToCartModel resource = response.body();
-                if (resource.status.equals("success"))
-                {
-
+                if (resource.status.equals("success")) {
                     Toast.makeText(getApplicationContext(), "Move to Cart", Toast.LENGTH_LONG).show();
+
+                    if (totalWishList.getText().toString().equals("1 Item")) {
+                        int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
+                        cnt = cnt - 1;
+
+                        totalWishList.setText(cnt + " " + "Item");
+                    } else {
+
+                        int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
+                        cnt = cnt - 1;
+
+                        totalWishList.setText(cnt + " " + "Items");
+                    }
+
+                    if ((totalWishList.getText().toString().equals("0 Item") || totalWishList.getText().toString().equals("0 Items"))) {
+                        totalWishList.setText("0 Item");
+                        tvEmptyWishlist.setVisibility(android.view.View.VISIBLE);
+                        list_items.setVisibility(android.view.View.GONE);
+                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_LONG).show();
                 }
@@ -195,22 +218,5 @@ public class WishListItem {
         });
 
         mPlaceHolderView.removeView(this);
-
-        if (totalWishList.getText().toString().equals("1 Item"))
-        {
-            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Item", ""));
-            cnt = cnt - 1;
-
-            totalWishList.setText(cnt + " " + "Item");
-        }
-        else
-        {
-
-            int cnt = Integer.parseInt(totalWishList.getText().toString().replace(" Items", ""));
-            cnt = cnt - 1;
-
-            totalWishList.setText(cnt + " " + "Items");
-        }
-
     }
 }
