@@ -64,6 +64,7 @@ import com.nisarga.nisargaveggiez.ProfileSection.MyProfileModel;
 import com.nisarga.nisargaveggiez.ProfileSection.MyProfile_act;
 import com.nisarga.nisargaveggiez.ProfileSection.NavEditImage;
 import com.nisarga.nisargaveggiez.ProfileSection.RefersAndEarn_act;
+import com.nisarga.nisargaveggiez.ProfileSection.SessionRemember;
 import com.nisarga.nisargaveggiez.ProfileSection.SignUpImageResponse;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
@@ -219,6 +220,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 finish();
                 Intent intent = new Intent(HomePage.this, Login_act.class);
                 startActivity(intent);
+
             }
         });
 
@@ -549,6 +551,19 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onResume() {
         super.onResume();
+
+       // setNavMenuItemThemeColors();
+
+        Menu menu = navigationView.getMenu();
+        MenuItem item = menu.getItem(0);
+        item.setChecked(true);
+        Log.d("item", String.valueOf(item));
+
+
+
+
+
+        Log.d("resumed", "resumed: ");
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(fcmConfig.REGISTRATION_COMPLETE));

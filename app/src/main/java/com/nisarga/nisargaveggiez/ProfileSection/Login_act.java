@@ -42,6 +42,7 @@ public class Login_act extends AppCompatActivity {
     ProgressDialog progressdialog;
     APIInterface apiInterface;
     SessionManager sessionManager;
+    SessionRemember sessionRemember;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class Login_act extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         sessionManager = new SessionManager(Login_act.this);
+        sessionRemember = new SessionRemember(Login_act.this);
 
         init();
     }
@@ -62,6 +64,8 @@ public class Login_act extends AppCompatActivity {
     TextView tvForgetPassword;
     ImageView ivSubmit;
     Button btnSignUp;
+
+    String sRemember = "0";
 
     String sEmail, sPassword;
 
@@ -111,6 +115,22 @@ public class Login_act extends AppCompatActivity {
             }
         });
 
+        cbRememberMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    sRemember = "1";
+                }
+            }
+        });
+
+        if (sessionRemember.getRemember() != null) {
+            if (sessionRemember.getRemember().equals("1")) {
+                etEmail.setText(sessionRemember.getEmail());
+                etPassword.setFocusable(true);
+            }
+        }
+
         ivSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +168,8 @@ public class Login_act extends AppCompatActivity {
                                 datum.date_added, datum.image, datum.telephone, datum.company, datum.address_1,
                                 datum.address_2, datum.city, datum.country_id, datum.zone_id, datum.postcode, datum.floor,
                                 datum.door, datum.block, datum.apartment_name, datum.api_token);
+
+                        sessionRemember.createRemember(etEmail.getText().toString(), sRemember);
 
                         addcustomerseession(datum.api_token, datum.customer_id, datum.firstname, datum.lastname,
                                 datum.address_1, datum.city, datum.country_id, datum.zone_id, datum.company,
