@@ -32,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_above="@+id/bnav_PayHistory">
 
         <LinearLayout
             android:id="@+id/llPaymentHistory"

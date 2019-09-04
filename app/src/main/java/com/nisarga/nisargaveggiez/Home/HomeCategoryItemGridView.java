@@ -334,14 +334,14 @@ public class HomeCategoryItemGridView {
                 btnAddCart.setVisibility(android.view.View.VISIBLE);
                 llProductCount.setVisibility(android.view.View.GONE);
 
-                final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(tvProductCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(prdId,option_id,option_value_id, String.valueOf(tvProductCount.getText()));
 
                 apiInterface = APIClient.getClient().create(APIInterface.class);
-                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
                     @Override
-                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                        UpdateToCartModel resource = response.body();
+                    public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
+                        UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -350,7 +350,7 @@ public class HomeCategoryItemGridView {
                     }
 
                     @Override
-                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    public void onFailure(Call<UpdateToCartOptionsModel> call, Throwable t) {
                         call.cancel();
                     }
                 });
@@ -363,14 +363,14 @@ public class HomeCategoryItemGridView {
                 putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
                 tinydb.putListString(prdId, putcntlst);
 
-                final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(tvProductCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(prdId,option_id,option_value_id, String.valueOf(tvProductCount.getText()));
 
                 apiInterface = APIClient.getClient().create(APIInterface.class);
-                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
                     @Override
-                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                        UpdateToCartModel resource = response.body();
+                    public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
+                        UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
                             //   Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -379,7 +379,7 @@ public class HomeCategoryItemGridView {
                     }
 
                     @Override
-                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    public void onFailure(Call<UpdateToCartOptionsModel> call, Throwable t) {
                         call.cancel();
                     }
                 });
@@ -460,14 +460,14 @@ public class HomeCategoryItemGridView {
             putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
             tinydb.putListString(prdId, putcntlst);
 
-            final UpdateToCartModel ref = new UpdateToCartModel(prdId, String.valueOf(tvProductCount.getText()));
+            final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(prdId,option_id,option_value_id, String.valueOf(tvProductCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+            Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
                 @Override
-                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                    UpdateToCartModel resource = response.body();
+                public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
+                    UpdateToCartOptionsModel resource = response.body();
                     if (resource.status.equals("success")) {
                         // Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
@@ -476,7 +476,7 @@ public class HomeCategoryItemGridView {
                 }
 
                 @Override
-                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                public void onFailure(Call<UpdateToCartOptionsModel> call, Throwable t) {
                     call.cancel();
                 }
             });

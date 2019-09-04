@@ -85,6 +85,8 @@ public class SessionManager {
     public static final String KEY_ORDER_ADDRESS = "order_address";
     public static final String KEY_ORDER_SAVINGS = "order_svings";
     public static final String KEY_DELIVERY_CHARGES = "delivery_charges";
+    public static final String KEY_DELIV_CHARGE = "delivery_charge";
+    public static final String KEY_PAYABLE_AMOUNT = "total_payable";
     public static final String KEY_ORDER_TOTAL = "total";
 
     public static final String KEY_JSON_COUNT = "json";
@@ -327,9 +329,11 @@ public class SessionManager {
         return pref.getString(KEY_EMAIL_ADDRESS, null);
     }
 
-    public void saveTotal(String total, String totalSaving) {
+    public void saveTotal(String total, String totalSaving,String deliveryCharge,String payableAmount) {
         editor.putString(KEY_TOTAL, total);
         editor.putString(KEY_TOTAL_SAVING, totalSaving);
+        editor.putString(KEY_DELIV_CHARGE, deliveryCharge);
+        editor.putString(KEY_PAYABLE_AMOUNT, payableAmount);
         editor.commit();
     }
 
@@ -339,6 +343,14 @@ public class SessionManager {
 
     public String getTotalSavingAmount() {
         return pref.getString(KEY_TOTAL_SAVING, null);
+    }
+
+    public String getDeliveryCharge() {
+        return pref.getString(KEY_DELIV_CHARGE, null);
+    }
+
+    public String getPayableAmount() {
+        return pref.getString(KEY_PAYABLE_AMOUNT, null);
     }
 
 

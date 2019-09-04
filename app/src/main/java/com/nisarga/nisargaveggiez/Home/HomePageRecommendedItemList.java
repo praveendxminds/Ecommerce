@@ -312,13 +312,13 @@ public class HomePageRecommendedItemList {
                 btnAddCart.setVisibility(android.view.View.VISIBLE);
                 llAddCart.setVisibility(android.view.View.GONE);
 
-                final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sProductId,option_id,option_value_id, String.valueOf(tvNoOfCount.getText()));
                 apiInterface = APIClient.getClient().create(APIInterface.class);
-                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
                     @Override
-                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                        UpdateToCartModel resource = response.body();
+                    public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
+                        UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -327,7 +327,7 @@ public class HomePageRecommendedItemList {
                     }
 
                     @Override
-                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    public void onFailure(Call<UpdateToCartOptionsModel> call, Throwable t) {
                         call.cancel();
                     }
                 });
@@ -340,13 +340,13 @@ public class HomePageRecommendedItemList {
                 putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
                 tinydb.putListString(sProductId, putcntlst);
 
-                final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sProductId,option_id,option_value_id, String.valueOf(tvNoOfCount.getText()));
                 apiInterface = APIClient.getClient().create(APIInterface.class);
-                Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-                callAdd.enqueue(new Callback<UpdateToCartModel>() {
+                Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
+                callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
                     @Override
-                    public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                        UpdateToCartModel resource = response.body();
+                    public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
+                        UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -355,7 +355,7 @@ public class HomePageRecommendedItemList {
                     }
 
                     @Override
-                    public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                    public void onFailure(Call<UpdateToCartOptionsModel> call, Throwable t) {
                         call.cancel();
                     }
                 });
@@ -436,14 +436,14 @@ public class HomePageRecommendedItemList {
             putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
             tinydb.putListString(sProductId, putcntlst);
 
-            final UpdateToCartModel ref = new UpdateToCartModel(sProductId, String.valueOf(tvNoOfCount.getText()));
+            final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(sProductId,option_id,option_value_id, String.valueOf(tvNoOfCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
-            Call<UpdateToCartModel> callAdd = apiInterface.updateAddToCart("api/cart/edit_new", session.getToken(), ref);
-            callAdd.enqueue(new Callback<UpdateToCartModel>() {
+            Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
+            callAdd.enqueue(new Callback<UpdateToCartOptionsModel>() {
                 @Override
-                public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
-                    UpdateToCartModel resource = response.body();
+                public void onResponse(Call<UpdateToCartOptionsModel> call, Response<UpdateToCartOptionsModel> response) {
+                    UpdateToCartOptionsModel resource = response.body();
                     if (resource.status.equals("success")) {
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
@@ -452,7 +452,7 @@ public class HomePageRecommendedItemList {
                 }
 
                 @Override
-                public void onFailure(Call<UpdateToCartModel> call, Throwable t) {
+                public void onFailure(Call<UpdateToCartOptionsModel> call, Throwable t) {
                     call.cancel();
                 }
             });

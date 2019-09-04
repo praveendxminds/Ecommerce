@@ -28,17 +28,17 @@
         android:background="#e1e1e1">
 
         <FrameLayout
-            android:id="@+id/flOrders"
+            android:id="@+id/flNotifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_above="@+id/bnav_Notifications">
 
             <LinearLayout
                 android:id="@+id/llNotifications"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/bnav_Notifications">
+                android:layout_height="wrap_content">
 
                 <android.support.v4.widget.SwipeRefreshLayout
                     android:id="@+id/refresh"
@@ -48,7 +48,7 @@
                     <com.mindorks.placeholderview.PlaceHolderView
                         android:id="@+id/recycler_notify"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:paddingLeft="16dp"
                         android:paddingTop="12dp"
@@ -72,7 +72,7 @@
             android:id="@+id/tvEmptyNotifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/pbLoading"
+            android:layout_below="@+id/flNotifications"
             android:gravity="center"
             android:text="Your Notifications is Empty."
             android:visibility="gone" />

@@ -1,4 +1,5 @@
 package com.nisarga.nisargaveggiez.cart;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +40,7 @@ public class CheckOutMyCart extends AppCompatActivity {
     private TextView llConfirmOrder;
     private LinearLayout cnflyt;
     private ImageButton imgBtnEditAddress;
-    private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName;
+    private TextView tvChkoutDelvInstruct, tvChkoutAprtDetails, tvChkoutAprtName, tvDeliveryCharges;
     private TextView tvChkoutPhnNo, tvChkoutCustName, tvPayableAmount, tvTotalSaving, tvCartValue, tvChkoutDeliveryDay;
     private String strCustFName, strCustLName, strPhoneNo, strAprtName, strAprtDetails, strInstruct, strDeliveryDay;
     private String strBlock, strDoor, strFloor, strArea, strAddress, strCity, strPincode;
@@ -68,6 +69,7 @@ public class CheckOutMyCart extends AppCompatActivity {
         tvChkoutPhnNo = findViewById(R.id.tvChkoutPhnNo);
         tvChkoutCustName = findViewById(R.id.tvChkoutCustName);
         tvPayableAmount = findViewById(R.id.tvPayableAmount);
+        tvDeliveryCharges = findViewById(R.id.tvDeliveryCharges);
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
         tvCartValue = findViewById(R.id.tvCartValue);
         llConfirmOrder = findViewById(R.id.llConfirmOrder);
@@ -78,38 +80,43 @@ public class CheckOutMyCart extends AppCompatActivity {
         strCustLName = session.getLastName();
         strPhoneNo = session.getPhoneNumber();
         strAprtName = session.getCompany();
-        strBlock = session.getBlockNo()+"," + " ";
-        strDoor = session.getDoorNo()+"," + " ";
-        strFloor = session.getFloor()+ "," + " ";
-        strArea = session.getAddrSecond()+ "," + " ";
-        strAddress = session.getAddrFirst()+ "," + " ";
-        strCity = session.getCity()+ "," + " ";
+
+        strBlock = session.getBlockNo();
+        strDoor = session.getDoorNo();
+        strFloor = session.getFloor();
+        strArea = session.getAddrSecond();
+        strAddress = session.getAddrFirst();
+        strCity = session.getCity();
+
         strPincode = session.getPincode();
         strInstruct = session.getShipInstruct();
         strDeliveryDay = session.getDeliveryweek();
 
         tvChkoutCustName.setText(strCustFName + " " + strCustLName);
         tvChkoutPhnNo.setText(strPhoneNo);
-        tvChkoutAprtName.setText(strAprtName);
-        tvChkoutAprtDetails.setText(strDoor + strFloor + strBlock + strAddress + strArea + strCity+ strPincode);
+        tvChkoutAprtName.setText(" " + strAprtName);
+        tvChkoutAprtDetails.setText(strDoor + ","+" "+strFloor + ","+" "+ strBlock
+                + ","+" "+ strAddress + ","+" "+ strArea + ","+" "+ strCity + ","+" "+ strPincode);
         tvChkoutDelvInstruct.setText(strInstruct);
         tvChkoutDeliveryDay.setText(strDeliveryDay);
 
-
-        tvTotalSaving.setText("Rs."+" "+session.getTotalSavingAmount());
-        tvCartValue.setText("Rs."+" "+session.getTotalAmount());
-        tvPayableAmount.setText("Rs."+" "+session.getTotalAmount());
+        tvCartValue.setText("Rs." + " " + session.getTotalAmount());
+        tvTotalSaving.setText("-Rs." + " " + session.getTotalSavingAmount());
+        tvDeliveryCharges.setText("+Rs." + " " + session.getDeliveryCharge());
+        tvPayableAmount.setText("Rs." + " " + session.getPayableAmount());
 
         confirmOrder();
         moveToEditAddress();
 
         Log.d("ord address", session.addorder_total());
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -137,8 +144,7 @@ public class CheckOutMyCart extends AppCompatActivity {
     public void confirmOrder() {
         cnflyt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 addorder();
             }
         });
@@ -186,17 +192,18 @@ public class CheckOutMyCart extends AppCompatActivity {
                     List<AddOrder.AddOrderList> datumList = resource.data;
                     if ((resource.status).equals("success")) {
                         //  Log.d("Addorderlist", String.valueOf(datumList));
-                        for (AddOrder.AddOrderList lsss : datumList)
-                        {
+                        for (AddOrder.AddOrderList lsss : datumList) {
                             Log.d("addressdddd", String.valueOf(lsss.address));
                             // session.addorder(lsss.address,String.valueOf(lsss.savings),lsss.delivery_charges,String.valueOf(lsss.total));
                             progressdialog.dismiss();
                             Intent intentConfirmOrder = new Intent(CheckOutMyCart.this, ConfirmOrder.class);
-                            intentConfirmOrder.putExtra("address",lsss.address);
-                            intentConfirmOrder.putExtra("savings",String.valueOf(lsss.savings));
-                            intentConfirmOrder.putExtra("delivery_charges",lsss.delivery_charges);
-                            intentConfirmOrder.putExtra("total",String.valueOf(lsss.total));
-                            intentConfirmOrder.putExtra("order_id",String.valueOf(lsss.order_id));
+                            intentConfirmOrder.putExtra("address", lsss.address);
+                            intentConfirmOrder.putExtra("total", String.valueOf(lsss.cart_total));
+                            intentConfirmOrder.putExtra("savings", String.valueOf(lsss.savings));
+                            intentConfirmOrder.putExtra("delivery_charges", lsss.delivery_charges);
+                            intentConfirmOrder.putExtra("total_pay", String.valueOf(lsss.total));
+
+                            intentConfirmOrder.putExtra("order_id", String.valueOf(lsss.order_id));
                             startActivity(intentConfirmOrder);
 
                         }

@@ -34,6 +34,9 @@ import java.util.List;
             @SerializedName("address")
             public  String address;
 
+            @SerializedName("cart_total")
+            public  int cart_total;
+
             @SerializedName("savings")
             public  int savings;
 

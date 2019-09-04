@@ -365,7 +365,7 @@ public class CheckoutOrder extends AppCompatActivity {
                             if ((custDetails.apartment) != null && !(custDetails.apartment).isEmpty()
                                     && !(custDetails.apartment).equals("null")) {
 
-                                tvAprtNameChkoutOrder.setText(custDetails.apartment);
+                                tvAprtNameChkoutOrder.setText(" "+custDetails.apartment);
                             } else {
                                 tvAprtNameChkoutOrder.setText("");
                             }
