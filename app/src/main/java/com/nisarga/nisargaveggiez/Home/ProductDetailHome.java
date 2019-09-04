@@ -379,18 +379,18 @@ public class ProductDetailHome extends AppCompatActivity {
                                 qtyspinner = imgs.weight_classes;
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
                                         imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
-                                        imgs.add_product_quantity_in_cart));
+                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
                                         imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
-                                        imgs.add_product_quantity_in_cart));
+                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvSimilarProduct.addView(new SimilarProductsListItem(ProductDetailHome.this,
                                         imgs.related_id, imgs.product_id, imgs.image, imgs.name, qtyspinner,
-                                        imgs.add_product_quantity_in_cart));
+                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
                             }
                         }
                     } else {

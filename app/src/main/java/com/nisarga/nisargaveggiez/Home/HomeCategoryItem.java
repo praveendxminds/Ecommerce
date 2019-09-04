@@ -85,7 +85,7 @@ public class HomeCategoryItem {
     SessionManager session;
     APIInterface apiInterface;
 
-    String productId, image, productName, sWhislistStatus, sadd_product_quantity_in_cart;
+    String productId, image, productName, sWhislistStatus, sadd_product_quantity_in_cart,dsc_price,cut_price;
 
     String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
     Object spnrqty;
@@ -95,7 +95,7 @@ public class HomeCategoryItem {
     TinyDB tinydb;
 
     public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName, String whislistStatus,
-                            Object spnrqty, String add_product_quantity_in_cart) {
+                            Object spnrqty, String add_product_quantity_in_cart,String dsc_price,String cut_price) {
 
         this.mContext = context;
         this.productId = prdId;
@@ -104,6 +104,9 @@ public class HomeCategoryItem {
         this.sWhislistStatus = whislistStatus;
         this.spnrqty = spnrqty;
         this.sadd_product_quantity_in_cart = add_product_quantity_in_cart;
+        this.dsc_price = dsc_price;
+        this.cut_price = cut_price;
+
     }
 
     public String getTitle() {
@@ -125,6 +128,11 @@ public class HomeCategoryItem {
         tinydb = new TinyDB(getApplicationContext());
 
         if (!spnrqty.equals("null")) {
+
+            spQuantity.setVisibility(android.view.View.VISIBLE);
+            llQuantityPiece.setVisibility(android.view.View.GONE);
+
+
             JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
 
             for (int j = 0; j < jsonElements.size(); j++) {
@@ -152,7 +160,22 @@ public class HomeCategoryItem {
                     tvOldPrice.setText("₹" + " " + str_disValue);
                 }
             }
-        } else if (spnrqty.equals("null")) {
+        } else if (spnrqty.equals("null"))
+        {
+            double dbl_Price = Double.parseDouble(cut_price);//need to convert string to decimal
+            String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+            tvNewPrice.setText("₹" + " " + productPrice);
+
+            if (dsc_price.equals("0")) {
+                tvOldPrice.setVisibility(android.view.View.INVISIBLE);
+            } else {
+                double dbl_Discount = Double.parseDouble(dsc_price);//need to convert string to decimal
+                String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                tvOldPrice.setVisibility(android.view.View.VISIBLE);
+                tvOldPrice.setText("₹" + " " + str_disValue);
+            }
+
+
             tvProductCount.setText(sadd_product_quantity_in_cart);
             spQuantity.setVisibility(android.view.View.GONE);
             llQuantityPiece.setVisibility(android.view.View.VISIBLE);
