@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.cart;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -155,12 +156,22 @@ public class cartItem {
     }
 
     @Click(R.id.ivbtndecreasePrdCount)
-    public void onDecreaseClick() {
+    public void onDecreaseClick()
+    {
+        final ProgressDialog progress = new ProgressDialog(mcontext);
+        progress.setMessage("Please Wait...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+       // progress.setCancelable(false);
+
+
+
         if (intCount <= 1) {
             intCount = intCount - 1;
             if (intCount >= 0) {
                 tvProductCount.setText(String.valueOf(intCount));
             }
+
 
             if (mOption_val.equals("null")) {
 
@@ -173,6 +184,8 @@ public class cartItem {
                     public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
+
+                            progress.dismiss();
 
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
@@ -188,10 +201,14 @@ public class cartItem {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
 
+
                             Log.d("0 Item", "onResponse: ");
-                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
+                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0)
+                            {
                                 mCartView.removeView(mPos);
                             }
+
+
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {
                                 int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Item", ""));
@@ -212,6 +229,8 @@ public class cartItem {
                                 llEmptyCart.setVisibility(android.view.View.VISIBLE);
                                 llShowCart.setVisibility(android.view.View.GONE);
                             }
+
+
 
                             //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -242,6 +261,8 @@ public class cartItem {
                         UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
 
+                            progress.dismiss();
+
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
@@ -256,9 +277,14 @@ public class cartItem {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
 
-                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
+
+                            Log.d("mPosmPosmPos", String.valueOf(mPos));
+                            if (Integer.parseInt(tvProductCount.getText().toString()) <= 0)
+                            {
                                 mCartView.removeView(mPos);
                             }
+
+
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {
                                 int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Item", ""));
@@ -280,6 +306,8 @@ public class cartItem {
                                 llShowCart.setVisibility(android.view.View.GONE);
 
                             }
+
+
 
                             //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -302,6 +330,7 @@ public class cartItem {
                 tvProductCount.setText(String.valueOf(intCount));
             }
 
+
             if (mOption_val.equals("null")) {
 
                 final UpdateToCartModel ref = new UpdateToCartModel(mprdid, String.valueOf(tvProductCount.getText()));
@@ -313,6 +342,9 @@ public class cartItem {
                     public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
+
+
+                            progress.dismiss();
 
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
@@ -330,6 +362,7 @@ public class cartItem {
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
+
 
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -360,6 +393,8 @@ public class cartItem {
                         UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
 
+                            progress.dismiss();
+
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
@@ -376,6 +411,8 @@ public class cartItem {
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
                             }
+
+
 
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -394,8 +431,17 @@ public class cartItem {
 
     @Click(R.id.ivbtnincreasePrdCount)
     public void onIncreaseClick() {
+
+        final ProgressDialog progress = new ProgressDialog(mcontext);
+        progress.setMessage("Please Wait...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+
+
+
         intCount = intCount + 1;//display number in place of add to cart
         tvProductCount.setText(String.valueOf(intCount));
+
 
         if (mOption_val.equals("null")) {
 
@@ -408,6 +454,9 @@ public class cartItem {
                 public void onResponse(Call<UpdateToCartModel> call, Response<UpdateToCartModel> response) {
                     UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
+
+                        progress.dismiss();
+
 
                         double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                         double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
@@ -424,6 +473,7 @@ public class cartItem {
                         if (!mdisprice.equals("null")) {
                             tvOldPrice.setText("₹" + " " + String.valueOf(price_old + price_old_single));
                         }
+
 
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
@@ -454,6 +504,9 @@ public class cartItem {
                     UpdateToCartOptionsModel resource = response.body();
                     if (resource.status.equals("success")) {
 
+                        progress.dismiss();
+
+
                         double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                         double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                         double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
@@ -469,6 +522,8 @@ public class cartItem {
                         if (!mdisprice.equals("null")) {
                             tvOldPrice.setText("₹" + " " + String.valueOf(price_old + price_old_single));
                         }
+
+
 
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
                     } else {
