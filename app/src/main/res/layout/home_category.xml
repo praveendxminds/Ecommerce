@@ -50,6 +50,22 @@
                     android:layout_height="18dp"
                     android:background="@drawable/listview"
                     android:duplicateParentState="true" />
+
+                <ImageButton
+                    android:id="@+id/ivbtnFilterListView"
+                    android:layout_width="20dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/listview"
+                    android:duplicateParentState="true"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/ivbtnFilterGridView"
+                    android:layout_width="20dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/gridview"
+                    android:duplicateParentState="true"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout

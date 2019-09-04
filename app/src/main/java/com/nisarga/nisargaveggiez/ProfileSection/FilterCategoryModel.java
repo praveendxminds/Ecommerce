@@ -12,6 +12,12 @@ public class FilterCategoryModel {
     @SerializedName("message")
     public String message;
 
+    @SerializedName("customer_id")
+    public String customer_id;
+
+    @SerializedName("count")
+    public String count;
+
     @SerializedName("filter_popularity")
     public String filter_popularity;
 
@@ -33,9 +39,10 @@ public class FilterCategoryModel {
     @SerializedName("result")
     public List<Datum> resultdata = null;
 
-    public FilterCategoryModel(String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
+    public FilterCategoryModel(String cust_id, String sFilterPopularity, String sFilterLowToHigh, String sFilterHighToLow,
                                String sFilterNewestFirst, String minPrice, String maxPrice) {
 
+        this.customer_id = cust_id;
         this.filter_popularity = sFilterPopularity;
         this.filter_low_to_high = sFilterLowToHigh;
         this.filter_high_to_low = sFilterHighToLow;

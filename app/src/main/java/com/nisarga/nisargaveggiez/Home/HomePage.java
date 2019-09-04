@@ -168,8 +168,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     String strProfilePic = "null";
     String value;
 
-    SwipeRefreshLayout pullToRefresh;
-
     private void init() {
         mToolbarHomePage = (Toolbar) findViewById(R.id.toolbarHomePage);
         setSupportActionBar(mToolbarHomePage);
@@ -273,16 +271,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     }
                 });
         bottomNavigationView.setItemIconSize(40);
-
-        pullToRefresh = findViewById(R.id.refresh);
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                list_items_homePage.removeAllViews();
-                initApiCall();
-                pullToRefresh.setRefreshing(false);
-            }
-        });
     }
 
     private void initApiCall() {
