@@ -75,4 +75,14 @@ public class AddtoMoneySuccessAck extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intentSubmitBack = new Intent(AddtoMoneySuccessAck.this, MyWalletActivity.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
+        super.onBackPressed();
+    }
 }

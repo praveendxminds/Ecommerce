@@ -75,4 +75,14 @@ public class OrderPaymentFailure extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intentSubmitBack = new Intent(OrderPaymentFailure.this, MyOrders.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
+        super.onBackPressed();
+    }
 }
