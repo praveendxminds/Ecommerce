@@ -166,4 +166,15 @@ public class ConfirmOrder extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intentSubmitBack = new Intent(ConfirmOrder.this, HomePage.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
+        super.onBackPressed();
+    }
+
 }
