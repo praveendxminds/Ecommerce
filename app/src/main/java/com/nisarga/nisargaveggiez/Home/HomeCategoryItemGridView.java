@@ -93,7 +93,7 @@ public class HomeCategoryItemGridView {
     APIInterface apiInterface;
     Context mContext;
 
-    String prdId, image, prdName, prdWhishStatus, sadd_product_quantity_in_cart;
+    String prdId, image, prdName, prdWhishStatus, sadd_product_quantity_in_cart,dsc_price,cut_price;
 
     String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
     Object spnrqty;
@@ -105,7 +105,7 @@ public class HomeCategoryItemGridView {
     public boolean state = false;
 
     public HomeCategoryItemGridView(Context context, String productId, String image_url, String productName,
-                                    String whishlistStatus, Object spnrqty, String add_product_quantity_in_cart) {
+                                    String whishlistStatus, Object spnrqty, String add_product_quantity_in_cart,String dsc_price,String cut_price) {
         this.mContext = context;
         this.prdId = productId;
         this.image = image_url;
@@ -113,6 +113,9 @@ public class HomeCategoryItemGridView {
         this.prdWhishStatus = whishlistStatus;
         this.spnrqty = spnrqty;
         this.sadd_product_quantity_in_cart = add_product_quantity_in_cart;
+        this.dsc_price = dsc_price;
+        this.cut_price = cut_price;
+
     }
 
     public String getTitle() {
@@ -140,6 +143,11 @@ public class HomeCategoryItemGridView {
         tinydb = new TinyDB(getApplicationContext());
 
         if (!spnrqty.equals("null")) {
+
+            spQuantity.setVisibility(android.view.View.VISIBLE);
+            llQuantityList.setVisibility(android.view.View.GONE);
+
+
             JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
 
             for (int j = 0; j < jsonElements.size(); j++) {
@@ -167,7 +175,23 @@ public class HomeCategoryItemGridView {
                     tvProdOldPrice.setText("₹" + " " + str_disValue);
                 }
             }
-        } else if (spnrqty.equals("null")) {
+        } else if (spnrqty.equals("null"))
+        {
+
+            double dbl_Price = Double.parseDouble(cut_price);//need to convert string to decimal
+            String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
+            tvProdPrice.setText("₹" + " " + productPrice);
+
+            if (dsc_price.equals("0")) {
+                tvProdOldPrice.setVisibility(android.view.View.INVISIBLE);
+            } else {
+                double dbl_Discount = Double.parseDouble(dsc_price);//need to convert string to decimal
+                String str_disValue = String.format("%.2f", dbl_Discount);//display only 2 decimal places of price
+                tvProdOldPrice.setVisibility(android.view.View.VISIBLE);
+                tvProdOldPrice.setText("₹" + " " + str_disValue);
+            }
+
+
             tvProductCount.setText(sadd_product_quantity_in_cart);
             spQuantity.setVisibility(android.view.View.GONE);
             llQuantityList.setVisibility(android.view.View.VISIBLE);

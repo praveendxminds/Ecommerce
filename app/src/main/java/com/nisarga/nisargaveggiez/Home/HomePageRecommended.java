@@ -50,16 +50,16 @@ public class HomePageRecommended {
             if ((image.options.equals("null")) && (!image.weight_classes.equals("null"))) {
                 qtyspinner = image.weight_classes;
                 phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.prd_id, image.image,
-                        image.name, qtyspinner, image.add_product_quantity_in_cart));
+                        image.name, qtyspinner, image.add_product_quantity_in_cart,image.discount_price,image.price));
 
             } else if ((!image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 qtyspinner = image.options;
                 phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.prd_id, image.image,
-                        image.name, qtyspinner, image.add_product_quantity_in_cart));
+                        image.name, qtyspinner, image.add_product_quantity_in_cart,image.discount_price,image.price));
 
             } else if ((image.options.equals("null")) && (image.weight_classes.equals("null"))) {
                 phvRecommendedList.addView(new HomePageRecommendedItemList(mContext, image.prd_id, image.image,
-                        image.name, qtyspinner, image.add_product_quantity_in_cart));
+                        image.name, qtyspinner, image.add_product_quantity_in_cart,image.discount_price,image.price));
             }
         }
     }
