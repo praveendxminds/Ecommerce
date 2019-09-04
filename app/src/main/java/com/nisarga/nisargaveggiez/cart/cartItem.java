@@ -1,5 +1,6 @@
 package com.nisarga.nisargaveggiez.cart;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -47,6 +48,9 @@ import static com.nisarga.nisargaveggiez.cart.cart.tvtotalAmount;
 @NonReusable
 @Layout(R.layout.cart_items)
 public class cartItem {
+
+    @View(R.id.llOneCart)
+    public LinearLayout llOneCart;
 
     @View(R.id.llCartList)
     public LinearLayout llCartList;
@@ -156,6 +160,11 @@ public class cartItem {
 
     @Click(R.id.ivbtndecreasePrdCount)
     public void onDecreaseClick() {
+        final ProgressDialog progress = new ProgressDialog(mcontext);
+        progress.setMessage("Please Wait...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+
         if (intCount <= 1) {
             intCount = intCount - 1;
             if (intCount >= 0) {
@@ -174,24 +183,34 @@ public class cartItem {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
 
+                            progress.dismiss();
+
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
                             double price_new_single = Double.parseDouble(mRealdiscount.toString());
                             double price_old_single = Double.parseDouble(mRealprice.toString());
                             price_total = price_total - price_new_single;
-                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+
+                            String totalPrice = String.valueOf(price_total).substring(0, String.valueOf(price_total).indexOf("."));
+
+                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + totalPrice);
 
                             tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
+                            } else {
+                                tvOldPrice.setVisibility(android.view.View.INVISIBLE);
                             }
+
 
                             Log.d("0 Item", "onResponse: ");
                             if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
-                                mCartView.removeView(mPos);
+                                //mCartView.removeView(mPos);
+                                llOneCart.setVisibility(android.view.View.GONE);
                             }
+
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {
                                 int cnt = Integer.parseInt(tvTotalVeggies.getText().toString().replace(" Item", ""));
@@ -212,6 +231,7 @@ public class cartItem {
                                 llEmptyCart.setVisibility(android.view.View.VISIBLE);
                                 llShowCart.setVisibility(android.view.View.GONE);
                             }
+
 
                             //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
                         } else {
@@ -242,22 +262,30 @@ public class cartItem {
                         UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
 
+                            progress.dismiss();
+
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
                             double price_new_single = Double.parseDouble(mRealdiscount.toString());
                             double price_old_single = Double.parseDouble(mRealprice.toString());
                             price_total = price_total - price_new_single;
-                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+
+                            String totalPrice = String.valueOf(price_total).substring(0, String.valueOf(price_total).indexOf("."));
+
+                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + totalPrice);
 
                             tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
+                            } else {
+                                tvOldPrice.setVisibility(android.view.View.INVISIBLE);
                             }
 
                             if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
-                                mCartView.removeView(mPos);
+                                //  mCartView.removeView(mPos);
+                                llOneCart.setVisibility(android.view.View.GONE);
                             }
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {
@@ -272,13 +300,10 @@ public class cartItem {
                                 tvTotalVeggies.setText(cnt + " " + "Items");
                             }
 
-                            Log.d("tvTotalVeggies1", tvTotalVeggies.getText().toString());
-
                             if ((tvTotalVeggies.getText().toString().equals("0 Item")) || (tvTotalVeggies.getText().toString().equals("0 Items"))) {
                                 tvTotalVeggies.setText("0 Item");
                                 llEmptyCart.setVisibility(android.view.View.VISIBLE);
                                 llShowCart.setVisibility(android.view.View.GONE);
-
                             }
 
                             //Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
@@ -297,7 +322,6 @@ public class cartItem {
         } else {
 
             intCount = intCount - 1;
-
             if (intCount >= 0) {
                 tvProductCount.setText(String.valueOf(intCount));
             }
@@ -314,21 +338,25 @@ public class cartItem {
                         UpdateToCartModel resource = response.body();
                         if (resource.status.equals("success")) {
 
+                            progress.dismiss();
+
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
                             double price_new_single = Double.parseDouble(mRealdiscount.toString());
                             double price_old_single = Double.parseDouble(mRealprice.toString());
                             price_total = price_total - price_new_single;
-                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
+                            String totalPrice = String.valueOf(price_total).substring(0, String.valueOf(price_total).indexOf("."));
 
-                            Log.d("price_new_real", String.valueOf(mRealprice));
+                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + totalPrice);
 
                             tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
+                            } else {
+                                tvOldPrice.setVisibility(android.view.View.INVISIBLE);
                             }
 
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
@@ -360,21 +388,25 @@ public class cartItem {
                         UpdateToCartOptionsModel resource = response.body();
                         if (resource.status.equals("success")) {
 
+                            progress.dismiss();
+
                             double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                             double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                             double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
                             double price_new_single = Double.parseDouble(mRealdiscount.toString());
                             double price_old_single = Double.parseDouble(mRealprice.toString());
                             price_total = price_total - price_new_single;
-                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
 
+                            String totalPrice = String.valueOf(price_total).substring(0, String.valueOf(price_total).indexOf("."));
 
-                            Log.d("price_new_real", String.valueOf(mRealprice));
+                            tvtotalAmount.setText("Total" + " " + "\u20B9 " + totalPrice);
 
                             tvNewPrice.setText("₹" + " " + String.valueOf(price_new - price_new_single));
 
                             if (!mdisprice.equals("null")) {
                                 tvOldPrice.setText("₹" + " " + String.valueOf(price_old - price_old_single));
+                            } else {
+                                tvOldPrice.setVisibility(android.view.View.INVISIBLE);
                             }
 
                             //  Toast.makeText(getApplicationContext(), "Remove from Cart", Toast.LENGTH_LONG).show();
@@ -394,6 +426,12 @@ public class cartItem {
 
     @Click(R.id.ivbtnincreasePrdCount)
     public void onIncreaseClick() {
+
+        final ProgressDialog progress = new ProgressDialog(mcontext);
+        progress.setMessage("Please Wait...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+
         intCount = intCount + 1;//display number in place of add to cart
         tvProductCount.setText(String.valueOf(intCount));
 
@@ -409,13 +447,18 @@ public class cartItem {
                     UpdateToCartModel resource = response.body();
                     if (resource.status.equals("success")) {
 
+                        progress.dismiss();
+
                         double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                         double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                         double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
                         double price_new_single = Double.parseDouble(mRealdiscount.toString());
                         double price_old_single = Double.parseDouble(mRealprice.toString());
                         price_total = price_total + price_new_single;
-                        tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+
+                        String totalPrice = String.valueOf(price_total).substring(0, String.valueOf(price_total).indexOf("."));
+
+                        tvtotalAmount.setText("Total" + " " + "\u20B9 " + totalPrice);
 
                         Log.d("price_new_real", String.valueOf(mRealprice));
 
@@ -423,6 +466,8 @@ public class cartItem {
 
                         if (!mdisprice.equals("null")) {
                             tvOldPrice.setText("₹" + " " + String.valueOf(price_old + price_old_single));
+                        } else {
+                            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
                         }
 
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();
@@ -454,13 +499,18 @@ public class cartItem {
                     UpdateToCartOptionsModel resource = response.body();
                     if (resource.status.equals("success")) {
 
+                        progress.dismiss();
+
                         double price_total = Double.parseDouble(tvtotalAmount.getText().toString().replace("Total \u20B9 ", ""));
                         double price_new = Double.parseDouble(tvNewPrice.getText().toString().replace("₹ ", ""));
                         double price_old = Double.parseDouble(tvOldPrice.getText().toString().replace("₹ ", ""));
                         double price_new_single = Double.parseDouble(mRealdiscount.toString());
                         double price_old_single = Double.parseDouble(mRealprice.toString());
                         price_total = price_total + price_new_single;
-                        tvtotalAmount.setText("Total" + " " + "\u20B9 " + String.valueOf(price_total));
+
+                        String totalPrice = String.valueOf(price_total).substring(0, String.valueOf(price_total).indexOf("."));
+
+                        tvtotalAmount.setText("Total" + " " + "\u20B9 " + totalPrice);
 
                         Log.d("price_new_real", String.valueOf(mRealprice));
 
@@ -468,6 +518,8 @@ public class cartItem {
 
                         if (!mdisprice.equals("null")) {
                             tvOldPrice.setText("₹" + " " + String.valueOf(price_old + price_old_single));
+                        } else {
+                            tvOldPrice.setVisibility(android.view.View.INVISIBLE);
                         }
 
                         //   Toast.makeText(getApplicationContext(), "Added in Cart", Toast.LENGTH_LONG).show();

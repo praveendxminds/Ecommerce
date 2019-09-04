@@ -853,7 +853,6 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
-                prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(prdIntent);
 
             }

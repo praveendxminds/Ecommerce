@@ -415,7 +415,6 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     Intent prdIntent = new Intent(getBaseContext(), ProductSearch.class);
-                    prdIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(prdIntent);
                     return true;
                 }
