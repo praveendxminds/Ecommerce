@@ -72,4 +72,14 @@ public class AddtoMoneyFailureAck extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intentSubmitBack = new Intent(AddtoMoneyFailureAck.this, MyWalletActivity.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
+        super.onBackPressed();
+    }
 }

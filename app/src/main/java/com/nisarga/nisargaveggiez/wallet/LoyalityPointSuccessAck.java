@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
+import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.cart.ConfirmOrder;
 
 public class LoyalityPointSuccessAck extends AppCompatActivity {
 
@@ -73,5 +75,15 @@ public class LoyalityPointSuccessAck extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intentSubmitBack = new Intent(LoyalityPointSuccessAck.this, MyWalletActivity.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
+        super.onBackPressed();
     }
 }

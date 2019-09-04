@@ -137,7 +137,7 @@ public class HomePageDealOfDayItemList {
             spQuantity.setVisibility(android.view.View.VISIBLE);
             llQuantityList.setVisibility(android.view.View.GONE);
 
-            
+
             JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(spnrqty);
 
             for (int j = 0; j < jsonElements.size(); j++) {
