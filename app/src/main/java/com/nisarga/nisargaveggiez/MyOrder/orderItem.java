@@ -179,6 +179,7 @@ public class orderItem {
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                 if (hour > 16) {
                     btnCancelOrder.setEnabled(false);
+                    btnCancelOrder.setClickable(false);
                     btnCancelOrder.setBackgroundColor(Color.parseColor("#33FA5400"));
                     Log.d("my_date", "YES");
                 }
@@ -187,8 +188,10 @@ public class orderItem {
 
             if (new Date().after(strDate)) {
                 btnCancelOrder.setEnabled(false);
+                btnCancelOrder.setClickable(false);
                 btnCancelOrder.setBackgroundColor(Color.parseColor("#33FA5400"));
             } else {
+                btnCancelOrder.setClickable(true);
                 btnCancelOrder.setEnabled(true);
             }
             if (mPayStatus != null && !mPayStatus.isEmpty() && !mPayStatus.equals("null")) {
