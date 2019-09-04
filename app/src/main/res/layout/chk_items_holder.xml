@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,68 +19,80 @@
         app:title="Checkout"
         app:titleTextAppearance="@style/toolbar_text"
         app:titleTextColor="@color/white" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="20dp"
-        android:orientation="vertical">
+        android:background="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Items"
                 android:textColor="@color/light_black_3"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="16sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
+                android:background="@drawable/chk_items_border"
                 android:orientation="horizontal"
-                android:background="@drawable/chk_items_border">
+                android:padding="12dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Item Name"
-                    android:textSize="14sp"
                     android:textColor="@color/green_1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_weight="1"/>
+                    android:textSize="14sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Price"
-                    android:textSize="14sp"
+                    android:textAlignment="center"
                     android:textColor="@color/green_1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_weight="1"/>
+                    android:textSize="14sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Update Price"
-                    android:textSize="14sp"
-                    android:textColor="@color/green_1"
+                    android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
-                    android:layout_weight="1"/>
+                    android:text="Update Price"
+                    android:textAlignment="center"
+                    android:textColor="@color/green_1"
+                    android:textSize="14sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.mindorks.placeholderview.PlaceHolderView
                     android:id="@+id/phvGetItems"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="#1A34773C">
-                </com.mindorks.placeholderview.PlaceHolderView>
+                    android:background="#1A34773C"
+                    android:orientation="vertical"></com.mindorks.placeholderview.PlaceHolderView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
