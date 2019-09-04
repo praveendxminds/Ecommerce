@@ -174,18 +174,34 @@ public class CheckoutOrder extends AppCompatActivity {
                                             startActivity(intent);
 
                                     }
-                                    else if(resource.total_to_be_paid == 0)
-                                    {
-                                        Intent intentSuccess = new Intent(getApplicationContext(), OrderPaymentSuccess.class);
-                                        startActivity(intentSuccess);
-                                    }
                                     else
-                                        {
-
-                                        Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
-                                        startActivity(intent);
-
+                                    {
+                                        if(resource.total_to_be_paid == 0) {
+                                            Intent intentSuccess = new Intent(getApplicationContext(), OrderPaymentSuccess.class);
+                                            startActivity(intentSuccess);
+                                        }
                                     }
+
+
+
+                                }
+                                else
+                                {
+                                    progressdialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), resource.message, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
+                                    intent.putExtra("FIRST_NAME", getFirstName);
+                                    intent.putExtra("PHONE_NUMBER", getPhone);
+                                    intent.putExtra("PHONE_NUMBER", getPhone);
+                                    intent.putExtra("EMAIL_ADDRESS", getEmail);
+                                    intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                                    double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
+                                    String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+
+                                    intent.putExtra("RECHARGE_AMT", String.valueOf(strTotalAmntpay));
+
+                                    startActivity(intent);
+
 
                                 }
                             }
@@ -208,7 +224,7 @@ public class CheckoutOrder extends AppCompatActivity {
 
 
                     Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
-                    Intent intent = new Intent(getApplicationContext(), PayMentGateWay.class);
+                    Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
                     intent.putExtra("FIRST_NAME", getFirstName);
                     intent.putExtra("PHONE_NUMBER", getPhone);
                     intent.putExtra("EMAIL_ADDRESS", getEmail);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.nisarga.nisargaveggiez.DeliveryInformation;
+import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 
@@ -42,7 +43,10 @@ public class OrderPaymentFailure extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp()
     {
-        onBackPressed();
+        Intent intentSubmitBack = new Intent(OrderPaymentFailure.this, HomePage.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
         return true;
     }
 

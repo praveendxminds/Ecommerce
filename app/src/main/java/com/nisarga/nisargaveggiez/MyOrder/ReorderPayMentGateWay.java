@@ -334,7 +334,7 @@ public class ReorderPayMentGateWay extends Activity {
                     //intent.putExtra("txnid", paymentId);
                     testStatus(paymentId,getRechargeAmt,"success","Payment Successful");
                     session.setTxnId(paymentId);
-                    Toast.makeText(getApplicationContext(),"Money added to wallet" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Payment Successful" ,Toast.LENGTH_LONG).show();
 
 
                 }

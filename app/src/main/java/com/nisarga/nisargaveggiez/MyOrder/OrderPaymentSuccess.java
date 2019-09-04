@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.cart.ConfirmOrder;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 
 public class OrderPaymentSuccess extends AppCompatActivity {
@@ -44,7 +45,10 @@ public class OrderPaymentSuccess extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp()
     {
-        onBackPressed();
+        Intent intentSubmitBack = new Intent(OrderPaymentSuccess.this, HomePage.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
         return true;
     }
 

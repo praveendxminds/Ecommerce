@@ -41,7 +41,10 @@ public class AddtoMoneyFailureAck extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp()
     {
-        onBackPressed();
+        Intent intentSubmitBack = new Intent(AddtoMoneyFailureAck.this, MyWalletActivity.class);
+        intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentSubmitBack);
+
         return true;
     }
 

@@ -9,6 +9,9 @@ public class Usewallet
     @SerializedName("status")
     public String status;
 
+    @SerializedName("message")
+    public String message;
+
     @SerializedName("total_to_be_paid")
     public int total_to_be_paid;
 
