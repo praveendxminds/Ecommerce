@@ -128,14 +128,20 @@ public class CheckoutOrder extends AppCompatActivity {
                 startActivity(intentReorder);
             }
         });
+
+
         llPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 if(checkbox.isChecked())
                 {
-
+                    int walletBlnc = Integer.parseInt(getAmount);
+                    if(walletBlnc == 0)
+                    {
+                        checkbox.setClickable(false);
+                        Toast.makeText(CheckoutOrder.this,"There's not enough funds in your wallet",Toast.LENGTH_SHORT).show();
+                    }
                     if (Utils.CheckInternetConnection(getApplicationContext())) {
 
                         try {
@@ -144,6 +150,7 @@ public class CheckoutOrder extends AppCompatActivity {
                             e.printStackTrace();
                         }
 //-------------------------------------Pay now procedure----------------------------------------------------------------------
+
                         final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),strWallet);
                         Call<Usewallet> call = apiInterface.esewallet(wallet);
                         call.enqueue(new Callback<Usewallet>() {
@@ -152,7 +159,6 @@ public class CheckoutOrder extends AppCompatActivity {
                                 Usewallet resource = response.body();
                                 if (resource.status.equals("success"))
                                 {
-                                    int walletBlnc = Integer.parseInt(getAmount);
 
                                     progressdialog.dismiss();
                                     if(resource.total_to_be_paid>0)
@@ -241,9 +247,9 @@ public class CheckoutOrder extends AppCompatActivity {
 
             }
         });
-
-        showListView();
         showWalletBlnc();
+        showListView();
+
     }
 
     // public String[] strPayArr = {"Wallet", "G-pay", "Paytm", "Phonepe"};

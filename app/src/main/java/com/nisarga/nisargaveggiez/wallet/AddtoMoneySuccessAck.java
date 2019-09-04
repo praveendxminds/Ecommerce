@@ -62,7 +62,10 @@ public class AddtoMoneySuccessAck extends AppCompatActivity {
         switch(item.getItemId())
         {
             case android.R.id.home:
-                onBackPressed();
+                Intent intentSubmitBack = new Intent(AddtoMoneySuccessAck.this, MyWalletActivity.class);
+                intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentSubmitBack);
+
                 return true;
 
             case R.id.help_menu_item:
