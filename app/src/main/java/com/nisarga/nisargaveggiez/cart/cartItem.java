@@ -206,6 +206,7 @@ public class cartItem {
                             if (Integer.parseInt(tvProductCount.getText().toString()) <= 0)
                             {
                                 mCartView.removeView(mPos);
+                                llCartList.setVisibility(android.view.View.GONE);
                             }
 
 
