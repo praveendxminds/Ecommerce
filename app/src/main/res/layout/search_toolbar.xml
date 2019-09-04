@@ -27,6 +27,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="Search"
+            android:singleLine="true"
             android:paddingLeft="65dp"
             android:textColorHint="@color/blackshadow" />
 
