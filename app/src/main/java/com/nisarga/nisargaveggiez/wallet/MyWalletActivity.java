@@ -51,13 +51,20 @@ public class MyWalletActivity extends AppCompatActivity {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         sessionManager = new SessionManager(MyWalletActivity.this);
 
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         tvAmntLoyalityPoints = findViewById(R.id.tvAmntLoyalityPoints);
         tvWalletOptnAmount = findViewById(R.id.tvWalletOptnAmount);
         btnAddMoney = findViewById(R.id.btnWalletOptnBtns);
@@ -184,17 +191,12 @@ public class MyWalletActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuMyWallet = getMenuInflater();
         menuMyWallet.inflate(R.menu.notifi_and_info_menu, menu);
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
             case R.id.menu_notifi:
                 Intent intentNotifiMywallet = new Intent(getBaseContext(), MyNotifications.class);
                 startActivity(intentNotifiMywallet);
@@ -209,8 +211,9 @@ public class MyWalletActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(MyWalletActivity.this, HomePage.class);
+        startActivity(intent);
     }
 }

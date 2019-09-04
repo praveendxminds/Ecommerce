@@ -102,9 +102,10 @@ public class ProductDetailHome extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                onBackPressed();
             }
         });
+
         tvTitle = findViewById(R.id.tvTitle);
 
         phvSingleProductImage = findViewById(R.id.phvSingleProductImage);
@@ -745,13 +746,6 @@ public class ProductDetailHome extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.cart_menu, menu);
@@ -816,10 +810,6 @@ public class ProductDetailHome extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
             case R.id.help_menu_item:
                 Intent i = new Intent(getApplicationContext(), DeliveryInformation.class);
                 startActivity(i);
@@ -831,5 +821,10 @@ public class ProductDetailHome extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
