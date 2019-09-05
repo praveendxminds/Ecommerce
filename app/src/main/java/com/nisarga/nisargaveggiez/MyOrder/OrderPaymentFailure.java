@@ -35,7 +35,8 @@ public class OrderPaymentFailure extends AppCompatActivity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentGoBack = new Intent(getBaseContext(),CheckoutOrder.class);
+                Intent intentGoBack = new Intent(getBaseContext(),MyOrders.class);
+                intentGoBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentGoBack);
             }
         });
