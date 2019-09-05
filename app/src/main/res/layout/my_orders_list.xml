@@ -44,8 +44,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/itemIconOrder"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
                         android:src="@drawable/delivery_truck"
                         app:civ_border_color="#FFFFFF"
                         app:civ_border_width="4dp"
@@ -56,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="bottom"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
@@ -68,7 +68,7 @@
                         android:text="Status"
                         android:textAlignment="center"
                         android:textColor="@color/light_black_2"
-                        android:textSize="8sp" />
+                        android:textSize="10sp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -78,12 +78,14 @@
                             android:id="@+id/pendingOrder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/deliveredOrder"
+                            android:layout_marginTop="0dp"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Pending"
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="#FFFA990E"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             android:visibility="invisible" />
 
                         <TextView
@@ -95,7 +97,7 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="#FFFA5400"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             android:visibility="invisible" />
 
                         <TextView
@@ -107,7 +109,7 @@
                             android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="#FF34773C"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             android:visibility="invisible" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -156,29 +158,33 @@
                             android:text="Order Id:XXXXXXXX"
                             android:textAllCaps="false"
                             android:textColor="@color/light_black_4"
-                            android:textSize="12sp" />
+                            android:textSize="14sp"
+                            android:layout_marginTop="5dp"/>
 
                         <TextView
                             android:id="@+id/deliveryDateOrder"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_regular"
-                            android:gravity="left|center"
+                            android:gravity="left|top"
                             android:inputType="textMultiLine"
                             android:padding="2dp"
+                            android:layout_marginTop="2dp"
                             android:text="Delivered on EEE, MMMM D’YY"
                             android:textColor="@color/light_black_5"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llPayNow"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight=".7"
                         android:gravity="right|center"
                         android:paddingRight="2dp"
-                        android:paddingLeft="2dp">
+                        android:paddingLeft="2dp"
+                        android:visibility="visible">
 
                         <Button
                             android:id="@+id/btnPayNow"

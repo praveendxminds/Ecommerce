@@ -117,7 +117,7 @@ public class billingAddress extends AppCompatActivity {
             etMobileNo.setText(strMobile);
             tvApartmentName.setText(strApartmentName);
             tvApartmentDetails.setText(strDoor + ","+" "+ strFloor + ","+" "+ strBlock + ","+" "+
-                    strAddress + ","+" "+ strArea + ","+" "+ strCity + ","+" "+ strPincode);
+                    strAddress + ","+" "+ strCity + ","+" "+ strPincode);
             etDelivery.setText(strDeliveryDay);
 
             imgBtnAddAddress.setOnClickListener(new View.OnClickListener() {

@@ -96,7 +96,7 @@ public class CheckOutMyCart extends AppCompatActivity {
         tvChkoutPhnNo.setText(strPhoneNo);
         tvChkoutAprtName.setText(" " + strAprtName);
         tvChkoutAprtDetails.setText(strDoor + ","+" "+strFloor + ","+" "+ strBlock
-                + ","+" "+ strAddress + ","+" "+ strArea + ","+" "+ strCity + ","+" "+ strPincode);
+                + ","+" "+ strAddress + ","+" "+ strCity + ","+" "+ strPincode);
         tvChkoutDelvInstruct.setText(strInstruct);
         tvChkoutDeliveryDay.setText(strDeliveryDay);
 

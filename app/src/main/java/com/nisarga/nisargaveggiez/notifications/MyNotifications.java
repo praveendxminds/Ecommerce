@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class MyNotifications extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     APIInterface apiInterface;
     SessionManager session;
+    FrameLayout flNotifications;
     TextView tvEmptyNotifications;
     SwipeRefreshLayout pullToRefresh;
     ProgressBar progressDialog;
@@ -71,6 +73,7 @@ public class MyNotifications extends AppCompatActivity {
         progressDialog = findViewById(R.id.pbLoading);
         progressDialog.setVisibility(View.VISIBLE);
 
+        flNotifications = (FrameLayout) findViewById(R.id.flNotifications);
         mnotificationView = (PlaceHolderView) findViewById(R.id.recycler_notify);
         tvEmptyNotifications = (TextView) findViewById(R.id.tvEmptyNotifications);
 
@@ -188,8 +191,9 @@ public class MyNotifications extends AppCompatActivity {
                         }
 
                     } else if (resourceMyProfile.status.equals("failure")) {
+                        progressDialog.setVisibility(View.INVISIBLE);
                         tvEmptyNotifications.setVisibility(View.VISIBLE);
-                        mnotificationView.setVisibility(View.GONE);
+                        flNotifications.setVisibility(View.GONE);
                     }
                 }
 
