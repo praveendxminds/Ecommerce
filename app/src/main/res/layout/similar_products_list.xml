@@ -121,7 +121,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="5dp"
                 android:visibility="gone">
 
                 <TextView
@@ -129,9 +128,10 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="left|center"
+                    android:padding="5dp"
                     android:text="1 Piece"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/light_black_1"
+                    android:textColor="@color/light_black_2"
                     android:textSize="12sp" />
             </LinearLayout>
 

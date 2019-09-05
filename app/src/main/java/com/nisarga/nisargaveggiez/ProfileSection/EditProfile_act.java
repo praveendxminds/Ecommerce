@@ -34,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.nisarga.nisargaveggiez.Home.HomeCategory;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
@@ -294,8 +296,11 @@ public class EditProfile_act extends AppCompatActivity {
                     if (resourceMyProfile.status.equals("success")) {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
+
                             Glide.with(EditProfile_act.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivProfile);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivProfile);
+
                             etFName.setText(mpmResult.firstname);
                             etLName.setText(mpmResult.lastname);
                             etEmail.setText(mpmResult.email);
@@ -451,9 +456,10 @@ public class EditProfile_act extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Glide.with(getApplicationContext()).load(filePath).into(ivProfile);
-//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-//          ivProfile.setImageBitmap(bitmap);
+
+            Glide.with(EditProfile_act.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivProfile);
 
             if (requestCode == PICK_IMAGE_REQUEST) {
                 new Thread(new Runnable() {

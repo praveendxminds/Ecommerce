@@ -49,6 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.nisarga.nisargaveggiez.ContactUs;
@@ -427,7 +428,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 tvSeekBarMax.setText("500");
                 rangeSeekbar.setMinValue(1).apply();
                 rangeSeekbar.setMaxValue(500).apply();
-              drawerHomeCategory.closeDrawer(Gravity.RIGHT);
+                drawerHomeCategory.closeDrawer(Gravity.RIGHT);
             }
         });
 
@@ -473,18 +474,18 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             qtyspinner = imgs.weight_classes;
                             phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.product_id,
                                     imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                    imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                    imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                         } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                             qtyspinner = imgs.options;
                             phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.product_id,
                                     imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                    imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                    imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                         } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                             phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.product_id,
                                     imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                    imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                    imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
                         }
 
                     }
@@ -539,18 +540,18 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                             qtyspinner = imgs.weight_classes;
                             phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                     imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                    imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                    imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                         } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                             qtyspinner = imgs.options;
                             phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                     imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                    imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                    imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                         } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                             phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.product_id,
                                     imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                    imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                    imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
                         }
 
                     }
@@ -592,11 +593,14 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                     if (resourceMyProfile.status.equals("success")) {
                         List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
-                            Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivProfilePic);
 
                             Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivProfilePic);
+
+                            Glide.with(HomeCategory.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivToolbarProfile);
 
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
@@ -642,18 +646,18 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                                 qtyspinner = imgs.weight_classes;
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
                                         imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
                                         imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvCategoryList.addView(new HomeCategoryItem(HomeCategory.this, imgs.prd_id,
                                         imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
                             }
                         }
                     }
@@ -710,18 +714,18 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                                 qtyspinner = imgs.weight_classes;
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
                                         imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                             } else if ((!imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 qtyspinner = imgs.options;
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
                                         imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
 
                             } else if ((imgs.options.equals("null")) && (imgs.weight_classes.equals("null"))) {
                                 phvCategoryList.addView(new HomeCategoryItemGridView(HomeCategory.this, imgs.prd_id,
                                         imgs.image, imgs.name, imgs.wishlist_status, qtyspinner,
-                                        imgs.add_product_quantity_in_cart,imgs.discount_price,imgs.price));
+                                        imgs.add_product_quantity_in_cart, imgs.discount_price, imgs.price));
                             }
                         }
                     }
@@ -1092,10 +1096,14 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
-            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarProfile);
-//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-//          ivProfile.setImageBitmap(bitmap);
+
+            Glide.with(HomeCategory.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivProfilePic);
+
+            Glide.with(HomeCategory.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivToolbarProfile);
 
             if (requestCode == PICK_IMAGE_REQUEST) {
                 new Thread(new Runnable() {

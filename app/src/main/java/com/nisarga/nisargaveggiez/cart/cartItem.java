@@ -50,8 +50,6 @@ import static com.nisarga.nisargaveggiez.cart.cart.tvtotalAmount;
 @Layout(R.layout.cart_items)
 public class cartItem {
 
-
-
     @View(R.id.carditem)
     public CardView carditem;
 

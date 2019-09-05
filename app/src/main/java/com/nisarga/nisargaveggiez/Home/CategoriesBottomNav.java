@@ -49,6 +49,7 @@ import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
@@ -304,10 +305,12 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
 
                             Glide.with(CategoriesBottomNav.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivProfilePic);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivProfilePic);
 
                             Glide.with(CategoriesBottomNav.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivToolbarProfile);
 
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
@@ -663,10 +666,14 @@ public class CategoriesBottomNav extends AppCompatActivity implements Navigation
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
-            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarProfile);
-//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-//          ivProfile.setImageBitmap(bitmap);
+
+            Glide.with(CategoriesBottomNav.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivProfilePic);
+
+            Glide.with(CategoriesBottomNav.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivToolbarProfile);
 
             if (requestCode == PICK_IMAGE_REQUEST) {
                 new Thread(new Runnable() {

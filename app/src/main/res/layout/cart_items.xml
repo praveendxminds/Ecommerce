@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/carditem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
     android:background="@color/white"
     android:orientation="vertical"
-    android:id="@+id/carditem"
     android:padding="0dp">
 
     <LinearLayout
@@ -163,8 +163,8 @@
                             android:gravity="bottom|center"
                             android:paddingBottom="15dp"
                             android:text="0"
-                            android:textStyle="bold"
                             android:textSize="14sp"
+                            android:textStyle="bold"
                             tools:textColor="@android:color/black" />
                     </LinearLayout>
 

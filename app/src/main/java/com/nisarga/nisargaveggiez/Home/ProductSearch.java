@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
@@ -272,10 +273,12 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
 
                             Glide.with(ProductSearch.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivProfilePic);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivProfilePic);
 
                             Glide.with(ProductSearch.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivToolbarPic);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivToolbarPic);
 
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
@@ -547,10 +550,14 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
-            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarPic);
-//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-//          ivProfile.setImageBitmap(bitmap);
+
+            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivProfilePic);
+
+            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivToolbarPic);
 
             if (requestCode == PICK_IMAGE_REQUEST) {
                 new Thread(new Runnable() {
