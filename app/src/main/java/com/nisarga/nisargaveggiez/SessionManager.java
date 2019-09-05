@@ -23,6 +23,7 @@ public class SessionManager {
     private static final String KEY_CUST_ID = "customer_id";
     private static final String KEY_DATE_ADDED = "date_added";
     private static final String KEY_TOKEN_LOGIN = "api_token";
+    private static final String KEY_REMEMBER_ME = "remember_me";
     private static final String KEY_CUST_GRP_ID = "customer_group_id";
     private static final String KEY_CART = "cart";
     private static final String KEY_WISHLIST = "wishlist";
@@ -192,7 +193,6 @@ public class SessionManager {
         editor.commit();
     }
 
-
     public String getCustomerId() {
         return pref.getString(KEY_CUST_ID, null);
     }
@@ -290,6 +290,7 @@ public class SessionManager {
         editor.commit();
     }
 
+
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
     }
@@ -329,7 +330,7 @@ public class SessionManager {
         return pref.getString(KEY_EMAIL_ADDRESS, null);
     }
 
-    public void saveTotal(String total, String totalSaving,String deliveryCharge,String payableAmount) {
+    public void saveTotal(String total, String totalSaving, String deliveryCharge, String payableAmount) {
         editor.putString(KEY_TOTAL, total);
         editor.putString(KEY_TOTAL_SAVING, totalSaving);
         editor.putString(KEY_DELIV_CHARGE, deliveryCharge);
