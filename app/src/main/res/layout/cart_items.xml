@@ -143,9 +143,9 @@
 
                         <ImageButton
                             android:id="@+id/ivbtndecreasePrdCount"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginBottom="5dp"
                             android:background="@drawable/decrease"
                             android:duplicateParentState="true" />
                     </LinearLayout>
@@ -161,10 +161,10 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="bottom|center"
-                            android:paddingBottom="15dp"
+                            android:paddingBottom="10dp"
                             android:text="0"
                             android:textSize="14sp"
-                            android:textStyle="bold"
+                            android:textStyle="normal"
                             tools:textColor="@android:color/black" />
                     </LinearLayout>
 
@@ -176,9 +176,9 @@
 
                         <ImageButton
                             android:id="@+id/ivbtnincreasePrdCount"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginBottom="5dp"
                             android:background="@drawable/increase"
                             android:duplicateParentState="true" />
                     </LinearLayout>

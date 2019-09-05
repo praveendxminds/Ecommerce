@@ -61,8 +61,8 @@ public class ProductDetailHome extends AppCompatActivity {
     PlaceHolderView phvSingleProductImage, phvSimilarProduct;
     TextView tvTitle, tvPrdName, tvNewPrice, tvOldPrice, tvProductCount, tvQuantityList;
     Spinner spQuantity;
-    LinearLayout llAddQuantity, llProductCount, llSimilarProduct, lldecreasePrdCount, llincreasePrdCount, llspinnerlayout;
-    ImageButton ivbtnAddItem;
+    LinearLayout llAddQuantity, llProductCount, llSimilarProduct, llspinnerlayout;
+    ImageButton ivbtnAddItem, ivbtndecreasePrdCount, ivbtnincreasePrdCount;
     WebView webViewDesc;
     Button btnAddCart;
 
@@ -113,9 +113,9 @@ public class ProductDetailHome extends AppCompatActivity {
         ivbtnAddItem = findViewById(R.id.ivbtnAddItem);
 
         llProductCount = findViewById(R.id.llProductCount);
-        lldecreasePrdCount = findViewById(R.id.lldecreasePrdCount);
+        ivbtndecreasePrdCount = findViewById(R.id.ivbtndecreasePrdCount);
         tvProductCount = findViewById(R.id.tvProductCount);
-        llincreasePrdCount = findViewById(R.id.llincreasePrdCount);
+        ivbtnincreasePrdCount = findViewById(R.id.ivbtnincreasePrdCount);
         llspinnerlayout = findViewById(R.id.llspinnerlayout);
 
         llSimilarProduct = findViewById(R.id.llSimilarProduct);
@@ -476,7 +476,7 @@ public class ProductDetailHome extends AppCompatActivity {
             }
         });
 
-        lldecreasePrdCount.setOnClickListener(new View.OnClickListener() {
+        ivbtndecreasePrdCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (putcntlst.size() > 0) {
@@ -612,7 +612,7 @@ public class ProductDetailHome extends AppCompatActivity {
             }
         });
 
-        llincreasePrdCount.setOnClickListener(new View.OnClickListener() {
+        ivbtnincreasePrdCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

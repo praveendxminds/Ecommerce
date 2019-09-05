@@ -174,13 +174,13 @@
                                 android:visibility="gone">
 
                                 <LinearLayout
-                                    android:id="@+id/lldecreasePrdCount"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:gravity="center">
 
                                     <ImageButton
+                                        android:id="@+id/ivbtndecreasePrdCount"
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:background="@drawable/decrease" />
@@ -204,13 +204,13 @@
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:id="@+id/llincreasePrdCount"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:gravity="center">
 
                                     <ImageButton
+                                        android:id="@+id/ivbtnincreasePrdCount"
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:background="@drawable/increase" />
