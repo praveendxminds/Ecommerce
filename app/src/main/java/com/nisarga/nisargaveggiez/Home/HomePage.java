@@ -1,6 +1,9 @@
 package com.nisarga.nisargaveggiez.Home;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -24,6 +27,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -142,10 +146,35 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     FirebaseMessaging.getInstance().subscribeToTopic(fcmConfig.TOPIC_GLOBAL);
                     displayFirebaseRegId();
 
-                } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION)) {
+                } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION))
+                {
                     // new push notification is received
                     String message = intent.getStringExtra("message");
+                    String title = intent.getStringExtra("title");
                     Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+
+                    /* local notification */
+//                    Intent p_intent = new Intent(context, HomePage.class);
+//                    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, p_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//                    NotificationCompat.Builder b = new NotificationCompat.Builder(context);
+//
+//                    b.setAutoCancel(true)
+//                            .setDefaults(Notification.DEFAULT_ALL)
+//                            .setWhen(System.currentTimeMillis())
+//                            .setSmallIcon(R.drawable.ic_launcher)
+//                            .setContentTitle(title)
+//                            .setContentText(message)
+//                            .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+//                            .setContentIntent(contentIntent)
+//                            .setContentInfo("Info");
+//
+//
+//                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//                    notificationManager.notify(1, b.build());
+
+                    /* local notification */
+
                 }
             }
         };
@@ -528,6 +557,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     private void displayFirebaseRegId() {
         String emp_user_id = session.getCustomerId();
         String emp_token_id = session.getKeyTokenId();
+
+        Log.d("emp_token_id", emp_token_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 

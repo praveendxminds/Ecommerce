@@ -1,7 +1,13 @@
 package com.nisarga.nisargaveggiez.fcm;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,7 +18,10 @@ import org.json.JSONObject;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.Home3.HomeThree;
+import com.nisarga.nisargaveggiez.R;
+import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 
 /**
  * Created by praveen on 27/11/18.
@@ -35,7 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
         }
 
         // Check if message contains a data payload.
@@ -51,18 +60,48 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void handleNotification(String message) {
+    private void handleNotification(String title,String message) {
 
 
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+        if (!NotificationUtils.isAppIsInBackground(getApplicationContext()))
+        {
+
+            Intent p_intent = new Intent(getApplicationContext(), MyNotifications.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, p_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
+
+            b.setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setSmallIcon(R.mipmap.ic_notification)
+                    .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                    .setContentIntent(contentIntent)
+                    .setContentInfo("Notification");
+
+
+            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(1, b.build());
+
+
+
+
+            /*
+
+
             // app is in foreground, broadcast the push message
             Intent pushNotification = new Intent(fcmConfig.PUSH_NOTIFICATION);
             pushNotification.putExtra("message", message);
+            pushNotification.putExtra("title", title);
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
+            */
         }else{
             // If the app is in background, firebase itself handles the notification
         }
