@@ -6,8 +6,8 @@
         android:id="@+id/quntity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="3dp"
+        android:padding="2dp"
         android:text="Text"
         android:textColor="@color/darkGrey"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 </LinearLayout>

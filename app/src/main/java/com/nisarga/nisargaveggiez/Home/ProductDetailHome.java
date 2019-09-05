@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
-import com.nisarga.nisargaveggiez.ProfileSection.QuantityList;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
@@ -48,7 +46,6 @@ import com.nisarga.nisargaveggiez.cart.cart;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.nisarga.nisargaveggiez.Home.ProductDetailsImageSlider.btn_addtoWishlistPrdDetail;
 
 /**
@@ -76,9 +73,6 @@ public class ProductDetailHome extends AppCompatActivity {
     String sPrd_id, sname, sDisPrice, sDesc, sWishlistStatus, sAddQtyStatus;
 
     int countVal = 0;
-
-    //String product_option_id[], product_option_value_id[], product_price[], product_price_dis[],disqty_ar[];
-    //  String sQuantitySpinner, option_id, option_value_id, price, disPrice,disqty;
 
     String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
 
@@ -132,16 +126,6 @@ public class ProductDetailHome extends AppCompatActivity {
         btnAddWishlist = findViewById(R.id.btnAddWishlist);
         btnAddCart = findViewById(R.id.btnAddCart);
         btnAddCart.setEnabled(false);
-
-        final ArrayList<String> product_qty_list = new ArrayList<>();
-        final ArrayList<String> disqty_arrr = new ArrayList<>();
-
-        final ArrayList<String> cart_count = new ArrayList<>();
-        final ArrayList<String> product_option_id = new ArrayList<>();
-        final ArrayList<String> product_option_value_id = new ArrayList<>();
-        final ArrayList<String> name = new ArrayList<>();
-        final ArrayList<String> product_price = new ArrayList<>();
-        final ArrayList<String> discount_price = new ArrayList<>();
 
 
         phvSimilarProduct.getBuilder()
@@ -213,9 +197,6 @@ public class ProductDetailHome extends AppCompatActivity {
                                 tvProductCount.setText(imgs.add_prd_cart);
                                 sadd_product_quantity_in_cart = imgs.add_prd_cart;
 
-                                // tvNewPrice.setText("₹" + " " + imgs.price);
-                                //tvOldPrice.setText("₹" + " " + imgs.discount_price);
-
                             } else if ((!imgs.weight_classes.equals("null")) && (imgs.options.equals("null"))) {
 
                                 JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(imgs.weight_classes);
@@ -246,7 +227,6 @@ public class ProductDetailHome extends AppCompatActivity {
                                         tvOldPrice.setText("₹" + " " + str_disValue);
                                     }
                                 }
-
 
                             } else if ((imgs.weight_classes.equals("null")) && (!imgs.options.equals("null"))) {
 
@@ -280,12 +260,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                         tvOldPrice.setText("₹" + " " + str_disValue);
                                     }
 
-
                                 }
-
-
-                            } else {
-
                             }
 
 
@@ -323,8 +298,6 @@ public class ProductDetailHome extends AppCompatActivity {
                                         llAddQuantity.setVisibility(View.GONE);
                                         llProductCount.setVisibility(View.VISIBLE);
                                     }
-
-
                                 }
 
                                 @Override
@@ -364,8 +337,8 @@ public class ProductDetailHome extends AppCompatActivity {
                                 } else {
                                     res = Html.fromHtml(sDesc).toString();
                                 }
-                                webViewDesc.loadDataWithBaseURL(null, res, "text/html",
-                                        "utf-8", null);
+                                webViewDesc.loadData(sDesc, "text/html", null);
+
                             }
                         }
                     }
@@ -430,7 +403,6 @@ public class ProductDetailHome extends AppCompatActivity {
                 session.cartcount(total_crtcnt);
                 cartcount.setText(String.valueOf(total_crtcnt));
 
-
                 Log.d("sgdsgdf", String.valueOf(putcntlst.size()));
 
                 if (putcntlst.size() > 0) {
@@ -444,7 +416,6 @@ public class ProductDetailHome extends AppCompatActivity {
 
                     llAddQuantity.setVisibility(View.GONE);
                     llProductCount.setVisibility(View.VISIBLE);
-
 
                     final AddToCartModel ref = new AddToCartModel(sPrd_id, tvProductCount.getText().toString(), option_id, option_value_id);
 
@@ -469,9 +440,7 @@ public class ProductDetailHome extends AppCompatActivity {
                         }
                     });
 
-
                 } else {
-
 
                     int i = Integer.parseInt(sadd_product_quantity_in_cart);
                     i = i + 1;
@@ -503,18 +472,13 @@ public class ProductDetailHome extends AppCompatActivity {
                             call.cancel();
                         }
                     });
-
-
-                    Log.d("dddd", "onClick: ddddddd");
                 }
-
             }
         });
 
         lldecreasePrdCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (putcntlst.size() > 0) {
 
                     if (Integer.parseInt(tvProductCount.getText().toString()) <= 1) {
@@ -579,10 +543,7 @@ public class ProductDetailHome extends AppCompatActivity {
                                 call.cancel();
                             }
                         });
-
-
                     }
-
 
                 } else {
 
@@ -646,13 +607,8 @@ public class ProductDetailHome extends AppCompatActivity {
                                 call.cancel();
                             }
                         });
-
-
                     }
-
-
                 }
-
             }
         });
 
@@ -689,7 +645,6 @@ public class ProductDetailHome extends AppCompatActivity {
                         }
                     });
 
-
                 } else {
 
                     int i = Integer.parseInt(sadd_product_quantity_in_cart);
@@ -716,11 +671,7 @@ public class ProductDetailHome extends AppCompatActivity {
                             call.cancel();
                         }
                     });
-
-
                 }
-
-
             }
         });
 

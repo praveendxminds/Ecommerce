@@ -181,9 +181,9 @@
                                     android:gravity="center">
 
                                     <ImageButton
-                                        android:layout_width="18dp"
-                                        android:layout_height="18dp"
-                                        android:background="@drawable/blackdecre" />
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:background="@drawable/decrease" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -199,7 +199,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:gravity="center"
                                         android:text="2"
-                                        android:textSize="13sp"
+                                        android:textSize="14sp"
                                         tools:textColor="@android:color/black" />
                                 </LinearLayout>
 
@@ -211,9 +211,9 @@
                                     android:gravity="center">
 
                                     <ImageButton
-                                        android:layout_width="18dp"
-                                        android:layout_height="18dp"
-                                        android:background="@drawable/blackincr" />
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:background="@drawable/increase" />
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>

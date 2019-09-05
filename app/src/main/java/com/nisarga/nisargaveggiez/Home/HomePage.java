@@ -54,6 +54,7 @@ import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nisarga.nisargaveggiez.ContactUs;
 import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.MyOrder.MyOrders;
@@ -344,10 +345,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         for (MyProfileModel.Datum mpmResult : mpmDatum) {
 
                             Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivProfilePic);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivProfilePic);
 
                             Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
-                                    .into(ivToolbarProfile);
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivToolbarProfile);
 
                             tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
                             tvEmail.setText(mpmResult.email);
@@ -552,15 +555,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     protected void onResume() {
         super.onResume();
 
-       // setNavMenuItemThemeColors();
+        // setNavMenuItemThemeColors();
 
         Menu menu = navigationView.getMenu();
         MenuItem item = menu.getItem(0);
         item.setChecked(true);
         Log.d("item", String.valueOf(item));
-
-
-
 
 
         Log.d("resumed", "resumed: ");
@@ -767,10 +767,14 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             imagepath = getPath(filePath);
-            Glide.with(getApplicationContext()).load(filePath).into(ivProfilePic);
-            Glide.with(getApplicationContext()).load(filePath).into(ivToolbarProfile);
-//          Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-//          ivProfile.setImageBitmap(bitmap);
+
+            Glide.with(HomePage.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivProfilePic);
+
+            Glide.with(HomePage.this).load(filePath).fitCenter().dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(ivToolbarProfile);
 
             if (requestCode == PICK_IMAGE_REQUEST) {
                 new Thread(new Runnable() {

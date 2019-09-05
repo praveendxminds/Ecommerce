@@ -72,20 +72,20 @@ public class HomeCategoryItem {
     @View(R.id.llAccountItem)
     public LinearLayout llAccountItem;
 
-    @View(R.id.llDecreaseCount)
-    public LinearLayout llDecreaseCount;
+    @View(R.id.ivbtnDecreaseCount)
+    public ImageButton ivbtnDecreaseCount;
 
     @View(R.id.tvProductCount)
     public TextView tvProductCount;
 
-    @View(R.id.llIncreaseCount)
-    public LinearLayout llIncreaseCount;
+    @View(R.id.ivbtnIncreaseCount)
+    public ImageButton ivbtnIncreaseCount;
 
     Context mContext;
     SessionManager session;
     APIInterface apiInterface;
 
-    String productId, image, productName, sWhislistStatus, sadd_product_quantity_in_cart,dsc_price,cut_price;
+    String productId, image, productName, sWhislistStatus, sadd_product_quantity_in_cart, dsc_price, cut_price;
 
     String quantity_name, option_id, option_value_id, scartcount, price, sDiscount;
     Object spnrqty;
@@ -95,7 +95,7 @@ public class HomeCategoryItem {
     TinyDB tinydb;
 
     public HomeCategoryItem(Context context, String prdId, String imageUrl, String prdName, String whislistStatus,
-                            Object spnrqty, String add_product_quantity_in_cart,String dsc_price,String cut_price) {
+                            Object spnrqty, String add_product_quantity_in_cart, String dsc_price, String cut_price) {
 
         this.mContext = context;
         this.productId = prdId;
@@ -160,8 +160,7 @@ public class HomeCategoryItem {
                     tvOldPrice.setText("₹" + " " + str_disValue);
                 }
             }
-        } else if (spnrqty.equals("null"))
-        {
+        } else if (spnrqty.equals("null")) {
             double dbl_Price = Double.parseDouble(cut_price);//need to convert string to decimal
             String productPrice = String.format("%.2f", dbl_Price);//display only 2 decimal places of price
             tvNewPrice.setText("₹" + " " + productPrice);
@@ -326,7 +325,7 @@ public class HomeCategoryItem {
         }
     }
 
-    @Click(R.id.llDecreaseCount)
+    @Click(R.id.ivbtnDecreaseCount)
     public void removeItem() {
         if (!spnrqty.equals("null")) {
             if (Integer.parseInt(tvProductCount.getText().toString()) <= 1) {
@@ -344,7 +343,7 @@ public class HomeCategoryItem {
                 btnAddItem.setVisibility(android.view.View.VISIBLE);
                 llAccountItem.setVisibility(android.view.View.GONE);
 
-                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(productId,option_id,option_value_id, String.valueOf(tvProductCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(productId, option_id, option_value_id, String.valueOf(tvProductCount.getText()));
 
                 apiInterface = APIClient.getClient().create(APIInterface.class);
                 Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
@@ -373,7 +372,7 @@ public class HomeCategoryItem {
                 putcntlst.set(spQuantity.getSelectedItemPosition(), String.valueOf(i));
                 tinydb.putListString(productId, putcntlst);
 
-                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(productId,option_id,option_value_id, String.valueOf(tvProductCount.getText()));
+                final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(productId, option_id, option_value_id, String.valueOf(tvProductCount.getText()));
 
                 apiInterface = APIClient.getClient().create(APIInterface.class);
                 Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
@@ -461,7 +460,7 @@ public class HomeCategoryItem {
         }
     }
 
-    @Click(R.id.llIncreaseCount)
+    @Click(R.id.ivbtnIncreaseCount)
     public void AddItem() {
         if (!spnrqty.equals("null")) {
             int i = Integer.parseInt(String.valueOf(putcntlst.get(spQuantity.getSelectedItemPosition())));
@@ -471,7 +470,7 @@ public class HomeCategoryItem {
             tinydb.putListString(productId, putcntlst);
 
 
-            final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(productId,option_id,option_value_id, String.valueOf(tvProductCount.getText()));
+            final UpdateToCartOptionsModel ref = new UpdateToCartOptionsModel(productId, option_id, option_value_id, String.valueOf(tvProductCount.getText()));
 
             apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<UpdateToCartOptionsModel> callAdd = apiInterface.updateAddToCartwithoptions("api/cart/edit_new", session.getToken(), ref);
