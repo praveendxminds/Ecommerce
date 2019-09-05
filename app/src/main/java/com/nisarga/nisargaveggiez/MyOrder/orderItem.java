@@ -151,7 +151,7 @@ public class orderItem {
         }
 
         if (mcancel.equals("0")) {
-            btnCancelOrder.setVisibility(android.view.View.GONE);
+            btnCancelOrder.setVisibility(android.view.View.INVISIBLE);
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
@@ -240,12 +240,13 @@ public class orderItem {
                         public void onResponse(Call<CancelOrderModel> call, Response<CancelOrderModel> response) {
                             CancelOrderModel resource = response.body();
                             Toast.makeText(mContext, "Your order has been cancelled", Toast.LENGTH_SHORT).show();
-                            btnCancelOrder.setVisibility(android.view.View.GONE);
+                            btnCancelOrder.setVisibility(android.view.View.INVISIBLE);
                             canceledOrder.setVisibility(android.view.View.VISIBLE);
                             pendingOrder.setVisibility(android.view.View.GONE);
                             deliveredOrder.setVisibility(android.view.View.GONE);
-                            btnPayNow.setVisibility(android.view.View.GONE);
+                            btnPayNow.setVisibility(android.view.View.INVISIBLE);
                             canceledOrder.setText("Canceled");
+                            deliveryDateOrder.setText("Order Canceled");
                             alertDialog.dismiss();
 
                         }

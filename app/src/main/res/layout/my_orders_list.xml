@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/myOrder_lt"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="130dp"
     android:orientation="vertical"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
@@ -176,18 +176,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight=".7"
-                        android:gravity="right|center">
+                        android:gravity="right|center"
+                        android:paddingRight="2dp"
+                        android:paddingLeft="2dp">
 
                         <Button
                             android:id="@+id/btnPayNow"
-                            android:layout_width="55dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/paynow_buttons"
                             android:duplicateParentState="true"
                             android:text="PayNow"
                             android:textAllCaps="false"
+                            android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp"
+                            android:textAlignment="center"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -202,49 +208,53 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
                 android:layout_weight="3"
+                android:padding="5dp"
                 android:gravity="right|bottom"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCancelOrder"
-                    android:layout_width="54dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@drawable/order_buttons"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Cancel"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:visibility="visible" />
+                    android:textSize="12sp"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp" />
 
                 <Button
                     android:id="@+id/btnReOrder"
-                    android:layout_width="54dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@drawable/reorder_buttons"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Re-Order"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"/>
 
                 <Button
                     android:id="@+id/btnDetails"
-                    android:layout_width="54dp"
-                    android:layout_height="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@drawable/order_details_button"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Details"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
