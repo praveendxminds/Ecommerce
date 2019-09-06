@@ -163,21 +163,21 @@ public class CheckoutOrder extends AppCompatActivity {
                                     progressdialog.dismiss();
                                     if(resource.total_to_be_paid>0)
                                     {
-                                            Toast.makeText(getApplicationContext(), "Pay full amount using online payment method", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Pay full amount using online payment method", Toast.LENGTH_SHORT).show();
 
-                                            Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
-                                            Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
-                                            intent.putExtra("FIRST_NAME", getFirstName);
-                                            intent.putExtra("PHONE_NUMBER", getPhone);
-                                            intent.putExtra("PHONE_NUMBER", getPhone);
-                                            intent.putExtra("EMAIL_ADDRESS", getEmail);
-                                            intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
-                                            double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
-                                            String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
+                                        Log.d("finaltotol", String.valueOf(tvFinalTotal.getText().toString().replaceAll("Rs. ", "")));
+                                        Intent intent = new Intent(getApplicationContext(), ReorderPayMentGateWay.class);
+                                        intent.putExtra("FIRST_NAME", getFirstName);
+                                        intent.putExtra("PHONE_NUMBER", getPhone);
+                                        intent.putExtra("PHONE_NUMBER", getPhone);
+                                        intent.putExtra("EMAIL_ADDRESS", getEmail);
+                                        intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                                        double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
+                                        String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
 
-                                            intent.putExtra("RECHARGE_AMT", String.valueOf(resource.total_to_be_paid));
+                                        intent.putExtra("RECHARGE_AMT", String.valueOf(resource.total_to_be_paid));
 
-                                            startActivity(intent);
+                                        startActivity(intent);
 
                                     }
                                     else
@@ -187,9 +187,6 @@ public class CheckoutOrder extends AppCompatActivity {
                                             startActivity(intentSuccess);
                                         }
                                     }
-
-
-
                                 }
                                 else
                                 {
@@ -260,13 +257,10 @@ public class CheckoutOrder extends AppCompatActivity {
           {
               RadioGroup ll = new RadioGroup(this);
               ll.setOrientation(LinearLayout.VERTICAL);
-
                   RadioButton radioBtn = new RadioButton(this);
                   radioBtn.setId(View.generateViewId());
                   radioBtn.setText(strPayArr[i]+radioBtn.getId());
                   ll.addView(radioBtn);
-
-
           }
           ((ViewGroup) findViewById(R.id.radiogroup)).addView(ll);
       }*/
