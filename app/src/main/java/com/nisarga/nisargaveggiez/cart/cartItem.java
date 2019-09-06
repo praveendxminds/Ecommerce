@@ -45,13 +45,9 @@ import static com.nisarga.nisargaveggiez.cart.cart.tvtotalAmount;
  * Created by Sushmita on 24/06/2019.
  */
 
-
 @NonReusable
 @Layout(R.layout.cart_items)
 public class cartItem {
-
-    @View(R.id.carditem)
-    public CardView carditem;
 
     @View(R.id.llOneCart)
     public LinearLayout llOneCart;
@@ -212,7 +208,7 @@ public class cartItem {
                             Log.d("0 Item", "onResponse: ");
                             if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
                                 //mCartView.removeView(mPos);
-                                carditem.setVisibility(android.view.View.GONE);
+                                llOneCart.setVisibility(android.view.View.GONE);
                             }
 
 
@@ -289,7 +285,7 @@ public class cartItem {
 
                             if (Integer.parseInt(tvProductCount.getText().toString()) <= 0) {
                                 //  mCartView.removeView(mPos);
-                                carditem.setVisibility(android.view.View.GONE);
+                                llOneCart.setVisibility(android.view.View.GONE);
                             }
 
                             if (tvTotalVeggies.getText().toString().equals("1 Item")) {

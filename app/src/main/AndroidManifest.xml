@@ -377,7 +377,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="Notification" />
-                <action android:name="android.intent.action.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -664,6 +664,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_notification" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
 
         <service android:name="com.nisarga.nisargaveggiez.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
