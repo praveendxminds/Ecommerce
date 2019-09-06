@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class PaymentHistory extends AppCompatActivity {
     APIInterface apiInterface;
     public String paymentId;
     TextView tvEmptyPaymentHistory;
+    FrameLayout flHistory;
     SwipeRefreshLayout pullToRefresh;
     ProgressBar progressDialog;
 
@@ -71,6 +73,7 @@ public class PaymentHistory extends AppCompatActivity {
         progressDialog = findViewById(R.id.pbLoading);
         progressDialog.setVisibility(View.VISIBLE);
 
+        flHistory  = findViewById(R.id.flHistory);
         recycler_payHistory = (PlaceHolderView) findViewById(R.id.recycler_payHistory);
         tvEmptyPaymentHistory = (TextView) findViewById(R.id.tvEmptyPaymentHistory);
 
@@ -145,8 +148,10 @@ public class PaymentHistory extends AppCompatActivity {
                         }
                     } else if ((resource.status).equals("failure")) {
                         Toast.makeText(PaymentHistory.this, resource.message, Toast.LENGTH_SHORT).show();
+                        progressDialog.setVisibility(View.INVISIBLE);
+                        flHistory.setVisibility(View.GONE);
                         tvEmptyPaymentHistory.setVisibility(View.VISIBLE);
-                        recycler_payHistory.setVisibility(View.GONE);
+
                     }
 
                 }

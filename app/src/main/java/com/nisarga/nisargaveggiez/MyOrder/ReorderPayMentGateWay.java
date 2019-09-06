@@ -59,9 +59,9 @@ public class ReorderPayMentGateWay extends Activity {
 
     String merchant_key="kYz2vV"; // test
     String salt="zhoXe53j"; // test
-	 	String action1 ="";
+    String action1 ="";
     String base_url="https://test.payu.in";
-     //https://secure.payu.in
+    //https://secure.payu.in
     //String base_url="https://secure.payu.in";//
     int error=0;
     String hashString="";
@@ -133,7 +133,6 @@ public class ReorderPayMentGateWay extends Activity {
 
 		/*for(int i = 0;i<post_val.size();){
 			params.put(post_val.get(i), post_val.get(i+1));
-
 			i+=2;
 		}*/
 
@@ -207,7 +206,6 @@ public class ReorderPayMentGateWay extends Activity {
 				// TODO Auto-generated method stub
 				Toast.makeText(activity, "Oh no! " + description, Toast.LENGTH_SHORT).show();
 			}
-
 			@Override
 			public void onReceivedSslError(WebView view,
 					SslErrorHandler handler, SslError error) {
@@ -215,14 +213,12 @@ public class ReorderPayMentGateWay extends Activity {
 				Toast.makeText(activity, "SslError! " +  error, Toast.LENGTH_SHORT).show();
 				 handler.proceed();
 			}
-
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				// TODO Auto-generated method stub
 				Toast.makeText(activity, "Page Started! " + url, Toast.LENGTH_SHORT).show();
 				if(url.startsWith(SUCCESS_URL)){
 					Toast
-
 					.makeText(activity, "Payment Successful! " + url, Toast.LENGTH_SHORT).show();
 					 Intent intent = new Intent(PayMentGateWay.this, MainActivity.class);
 					    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -292,17 +288,13 @@ public class ReorderPayMentGateWay extends Activity {
     }
 
 	/*public class PayUJavaScriptInterface {
-
 		@JavascriptInterface
         public void success(long id, final String paymentId) {
             mHandler.post(new Runnable() {
                 public void run() {
                     mHandler = null;
-
                     new PostRechargeData().execute();
-
             		Toast.makeText(getApplicationContext(),"Successfully payment\n redirect from PayUJavaScriptInterface" ,Toast.LENGTH_LONG).show();
-
                 }
             });
         }
@@ -329,7 +321,7 @@ public class ReorderPayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.PAYMENT_ID, paymentId);
 	                    setResult(RESULT_OK, intent);
 	                    finish();*/
-                   // new PostRechargeData().execute();
+                    // new PostRechargeData().execute();
 
                     //intent.putExtra("txnid", paymentId);
                     testStatus(paymentId,getRechargeAmt,"success","Payment Successful");
@@ -368,7 +360,7 @@ public class ReorderPayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
-                   testStatus("",getRechargeAmt,"failure","Payment Failed");
+                    testStatus("",getRechargeAmt,"failure","Payment Failed");
                     Toast.makeText(getApplicationContext(),"Failed payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -402,7 +394,7 @@ public class ReorderPayMentGateWay extends Activity {
             public void run() {
                 mHandler = null;
 
-              //  new PostRechargeData().execute();
+                //  new PostRechargeData().execute();
 
                 Toast.makeText(getApplicationContext(),"Successfully payment\n redirect from Success Function" ,Toast.LENGTH_LONG).show();
 
@@ -452,11 +444,8 @@ public class ReorderPayMentGateWay extends Activity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
         	/*if(url.contains("response.php") || url.equalsIgnoreCase(SUCCESS_URL)){
-
         		new PostRechargeData().execute();
-
         		Toast.makeText(getApplicationContext(),"Successfully payment\n redirect from webview" ,Toast.LENGTH_LONG).show();
-
                 return false;
         	}else  */if(url.startsWith("http")){
                 //Toast.makeText(getApplicationContext(),url ,Toast.LENGTH_LONG).show();
@@ -484,13 +473,11 @@ public class ReorderPayMentGateWay extends Activity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
-
         }
         protected String doInBackground(String... args)
         {
             String strStatus = null;
             ProfileSessionManager ProSessionManager = new ProfileSessionManager(PayMentGateWay.this);
-
             String getUserid   = ProSessionManager.getSpeculatorId();
             String getSpeculationId  = "0";
             String rechargeAmt = getRechargeAmt;
@@ -499,27 +486,21 @@ public class ReorderPayMentGateWay extends Activity {
             //access_token=ISOFTINCstockAppCheckDevelop&speculator=1&speculation=&amount=1000&action=1
             ServiceHandler sh = new ServiceHandler();
             String upLoadServerUri = ServiceList.payment_money_url+"speculator="+getUserid+"&speculation="+getSpeculationId+"&amount="+rechargeAmt+"&action="+postAction;
-
             try{
                 String jsonStr = sh.makeServiceCall(upLoadServerUri, ServiceHandler.POST);
                 JSONObject jsonObj  = new JSONObject(jsonStr);
-
                 JSONObject jobjDoc = jsonObj.optJSONObject("document");
                 JSONObject jobjRes = jobjDoc.optJSONObject("response");
-
                 strStatus   = jobjRes.getString("status");
                 //strMessage  = jobjRes.getString("message");
                 String strUserId = jobjRes.getString("user_id");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return strStatus;
         }
-
         protected void onPostExecute(final String strStatus)
         {
-
             runOnUiThread(new Runnable()
             {
                 public void run()
@@ -528,14 +509,12 @@ public class ReorderPayMentGateWay extends Activity {
                     if(strStatus != null && strStatus.equalsIgnoreCase("0")){
                         Toast.makeText(getApplicationContext(),"Your recharge amount not added in wallet." ,Toast.LENGTH_LONG).show();
                     }else if(strStatus != null && strStatus.equalsIgnoreCase("1")){
-
                         Toast.makeText(getApplicationContext(),"Your recharge amount added in wallet." ,Toast.LENGTH_LONG).show();
                     }
                     Intent intent = new Intent(activity, MainActivity.class);
                     startActivity(intent);
                 }
             });
-
         }
     }*/
 

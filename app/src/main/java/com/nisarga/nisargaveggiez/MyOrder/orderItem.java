@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +74,9 @@ public class orderItem {
     @View(R.id.btnDetails)
     public Button btnDetails;
 
+    @View(R.id.llPayNow)
+    public LinearLayout llPayNow;
+
     @View(R.id.btnPayNow)
     public Button btnPayNow;
 
@@ -135,13 +139,14 @@ public class orderItem {
             canceledOrder.setVisibility(android.view.View.VISIBLE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.GONE);
-            btnPayNow.setVisibility(android.view.View.GONE);
+            llPayNow.setVisibility(android.view.View.GONE);
+            deliveryDateOrder.setText("Order Canceled");
             canceledOrder.setText(mstatus);
         } else if (mstatus.equals("Complete")) {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
-            btnPayNow.setVisibility(android.view.View.GONE);
+            llPayNow.setVisibility(android.view.View.GONE);
             deliveredOrder.setText("Delivered");
         } else {
             canceledOrder.setVisibility(android.view.View.GONE);
@@ -152,6 +157,7 @@ public class orderItem {
 
         if (mcancel.equals("0")) {
             btnCancelOrder.setVisibility(android.view.View.INVISIBLE);
+            deliveryDateOrder.setText("Order Canceled");
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
@@ -196,12 +202,12 @@ public class orderItem {
             }
             if (mPayStatus != null && !mPayStatus.isEmpty() && !mPayStatus.equals("null")) {
                 if (mPayStatus.equals("0")) {
-                    btnPayNow.setVisibility(android.view.View.VISIBLE);
+                    llPayNow.setVisibility(android.view.View.VISIBLE);
                 } else {
-                    btnPayNow.setVisibility(android.view.View.INVISIBLE);
+                    llPayNow.setVisibility(android.view.View.INVISIBLE);
                 }
             } else {
-                btnPayNow.setVisibility(android.view.View.VISIBLE);
+                llPayNow.setVisibility(android.view.View.VISIBLE);
             }
             /* time date comparison 4 pm ends */
         }
@@ -247,7 +253,7 @@ public class orderItem {
                             canceledOrder.setVisibility(android.view.View.VISIBLE);
                             pendingOrder.setVisibility(android.view.View.GONE);
                             deliveredOrder.setVisibility(android.view.View.GONE);
-                            btnPayNow.setVisibility(android.view.View.INVISIBLE);
+                            llPayNow.setVisibility(android.view.View.INVISIBLE);
                             canceledOrder.setText("Canceled");
                             deliveryDateOrder.setText("Order Canceled");
                             alertDialog.dismiss();

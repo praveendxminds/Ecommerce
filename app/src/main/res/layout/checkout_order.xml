@@ -159,7 +159,7 @@
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Apartment Name :"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="13sp" />
+                                    android:textSize="14sp" />
 
                                 <TextView
                                     android:id="@+id/tvAprtNameChkoutOrder"
@@ -178,7 +178,7 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:text=""
                                 android:textColor="#8C4A4A4A"
-                                android:textSize="13sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -194,7 +194,7 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Delivery Instructions : "
                                 android:textColor="@color/light_black_1"
-                                android:textSize="13sp" />
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/tvChkoutDelvInstruct"
@@ -203,7 +203,7 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:text=""
                                 android:textColor="#8C4A4A4A"
-                                android:textSize="13sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -251,7 +251,7 @@
                             android:text="INVOICE"
                             android:textAllCaps="true"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -275,7 +275,7 @@
                                     android:gravity="left"
                                     android:text="Invoice No"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvInvoiceNo"
@@ -286,7 +286,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
 
@@ -305,7 +305,7 @@
                                     android:gravity="left"
                                     android:text="Order No"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvOrdNo"
@@ -316,7 +316,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
 
@@ -335,7 +335,7 @@
                                     android:gravity="left"
                                     android:text="Order Items"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvOrdItems"
@@ -346,7 +346,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
 
@@ -365,7 +365,7 @@
                                     android:gravity="left"
                                     android:text="Sub Total"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvSubTotal"
@@ -376,7 +376,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
 
@@ -395,7 +395,7 @@
                                     android:gravity="left"
                                     android:text="Delivery Charge"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvDeliveryCharges"
@@ -406,7 +406,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
 
@@ -425,7 +425,7 @@
                                     android:gravity="left"
                                     android:text="Variable Price"
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvPrice"
@@ -436,7 +436,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_1"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
 
@@ -455,7 +455,7 @@
                                     android:gravity="left"
                                     android:text="Final Total"
                                     android:textColor="@color/light_black_2"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/tvFinalTotal"
@@ -466,7 +466,7 @@
                                     android:gravity="right"
                                     android:text=""
                                     android:textColor="@color/light_black_2"
-                                    android:textSize="12sp" />
+                                    android:textSize="13sp" />
 
                             </LinearLayout>
                         </LinearLayout>

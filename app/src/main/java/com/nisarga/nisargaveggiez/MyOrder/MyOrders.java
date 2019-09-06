@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class MyOrders extends AppCompatActivity {
     View view_count;
     APIInterface apiInterface;
     TextView tvEmptyMyOrders;
+    FrameLayout flOrders;
     // public orderItem orderItem;
     SwipeRefreshLayout pullToRefresh;
     ProgressBar progressDialog;
@@ -69,6 +71,7 @@ public class MyOrders extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationMyOrders = findViewById(R.id.navigationMyOrders);
         mCartView = findViewById(R.id.recycler_order);
+        flOrders = findViewById(R.id.flOrders);
         tvEmptyMyOrders = findViewById(R.id.tvEmptyMyOrders);
         setSupportActionBar(toolbar);
         // add back arrow to toolbar
@@ -203,8 +206,9 @@ public class MyOrders extends AppCompatActivity {
                         }
 
                     } else if (resource.mstatus.equals("failure")) {
+                        progressDialog.setVisibility(View.INVISIBLE);
                         tvEmptyMyOrders.setVisibility(View.VISIBLE);
-                        mCartView.setVisibility(View.GONE);
+                        flOrders.setVisibility(View.GONE);
                     }
                 }
 
