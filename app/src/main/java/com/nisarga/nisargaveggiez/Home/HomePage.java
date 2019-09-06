@@ -347,6 +347,18 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                             newImageRecommendProducts.add(imageRecomendProducts.get(i));
                         }
                         list_items_homePage.addView(new HomePageRecommended(HomePage.this, newImageRecommendProducts));
+
+                        if (!resource.layout1.equals("null"))
+                        {
+                            list_items_homePage.addView(new HomePageLayoutOne(HomePage.this, resource.layout1));
+
+                        }
+                        if (!resource.layout2.equals("null"))
+                        {
+                            list_items_homePage.addView(new HomePageLayoutTwo(HomePage.this, resource.layout2));
+                        }
+
+
                     }
                     pbLoading.setVisibility(View.INVISIBLE);
                 }
