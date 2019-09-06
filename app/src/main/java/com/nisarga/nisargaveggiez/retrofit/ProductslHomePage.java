@@ -35,7 +35,8 @@ public class ProductslHomePage {
     @SerializedName("layout2")
     public Object layout2;
 
-
+    @SerializedName("layout2_title")
+    public String layout2_title;
 
     public ProductslHomePage(String cust_id) {
         this.customer_id = cust_id;

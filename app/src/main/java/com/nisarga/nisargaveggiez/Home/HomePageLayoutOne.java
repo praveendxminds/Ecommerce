@@ -49,7 +49,7 @@ public class HomePageLayoutOne {
         ltone.getBuilder()
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
-                .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+                .setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
 
         JsonArray jsonElements = (JsonArray) new Gson().toJsonTree(mList);
@@ -60,7 +60,9 @@ public class HomePageLayoutOne {
             id.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("id")).replace("\"", ""));
             title.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("title")).replace("\"", ""));
             img_url.add(String.valueOf(jsonElements.get(j).getAsJsonObject().get("image")).replace("\"", ""));
-
+            ltone.addView(new HomePageLayoutOneItem(mContext,
+                    (String.valueOf(jsonElements.get(j).getAsJsonObject().get("image")).replace("\"", "")),
+                    (String.valueOf(jsonElements.get(j).getAsJsonObject().get("id")).replace("\"", ""))));
             Log.d("id'", String.valueOf(id));
         }
 

@@ -324,17 +324,6 @@ public class CheckoutOrder extends AppCompatActivity {
                                 tvOrdItems.setText("0" + " " + "Item");
                             }
 
-
-                            if ((reorderData.revised_price) != null && !(reorderData.revised_price).isEmpty()
-                                    && !(reorderData.revised_price).equals("null")) {
-
-                                double dbl_Price = Double.parseDouble(reorderData.revised_price);
-                                strPrice = String.format("%.2f", dbl_Price);
-                                tvPrice.setText("Rs." + " " + strPrice);
-                            } else {
-                                tvPrice.setText("Rs." + " " + "00.00");
-                            }
-
                         }
                         //----------delivery day--------------------------
 
@@ -363,6 +352,13 @@ public class CheckoutOrder extends AppCompatActivity {
                             tvFinalTotal.setText("Rs." + " " + strTotalAmnt);
                         } else {
                             tvFinalTotal.setText("Rs." + " " + "00.00");
+                        }
+                        //---------------------variable price----------------
+                        if (resourcesReorder.variable_price != 0) {
+
+                            tvPrice.setText("Rs." + " " + resourcesReorder.variable_price);
+                        } else {
+                            tvPrice.setText("Rs." + " " + "00.00");
                         }
                         //----------------------sub-total--------------------
                         if ((resourcesReorder.sub_total) != null && !(resourcesReorder.sub_total).isEmpty()

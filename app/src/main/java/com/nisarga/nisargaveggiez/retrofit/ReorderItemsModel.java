@@ -43,6 +43,9 @@ public class ReorderItemsModel {
     @SerializedName("sub_total")
     public String sub_total;
 
+    @SerializedName("variable_price")
+    public int variable_price;
+
     @SerializedName("customer_details")
     public List<ReorderCustDetails> customer_details = null;
 
