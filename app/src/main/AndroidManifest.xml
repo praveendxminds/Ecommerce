@@ -809,6 +809,16 @@
         </activity>
 
         <activity
+            android:name="com.nisarga.nisargaveggiez.Home.RateUsReviews"
+            android:label="Rate us and Reviews"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="com.nisarga.nisargaveggiez.ProfileSection.Faqs_act"
             android:label="LoginSignup_act"
             android:screenOrientation="portrait"

@@ -186,6 +186,9 @@ public interface APIInterface {
     @POST("index.php?route=api/rateus/giveRateUs")
     Call<RateModel> setrate(@Body RateModel id);
 
+    @POST("index.php?route=api/rateus/ret_us")
+    Call<RateAndReviewModel> getComments(@Body RateAndReviewModel id);
+
     @POST("index.php")
     Call<CartCount> getCartCount(@Query("route") String route, @Query("api_token") String api_token);
 

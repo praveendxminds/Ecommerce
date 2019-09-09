@@ -146,8 +146,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     FirebaseMessaging.getInstance().subscribeToTopic(fcmConfig.TOPIC_GLOBAL);
                     displayFirebaseRegId();
 
-                } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION))
-                {
+                } else if (intent.getAction().equals(fcmConfig.PUSH_NOTIFICATION)) {
                     // new push notification is received
                     String message = intent.getStringExtra("message");
                     String title = intent.getStringExtra("title");
@@ -348,14 +347,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         }
                         list_items_homePage.addView(new HomePageRecommended(HomePage.this, newImageRecommendProducts));
 
-                        if (!resource.layout1.equals("null"))
-                        {
+                        if (!resource.layout1.equals("null")) {
                             list_items_homePage.addView(new HomePageLayoutOne(HomePage.this, resource.layout1));
 
                         }
-                        if (!resource.layout2.equals("null"))
-                        {
-                            list_items_homePage.addView(new HomePageLayoutTwo(HomePage.this, resource.layout2,resource.layout2_title));
+                        if (!resource.layout2.equals("null")) {
+                            list_items_homePage.addView(new HomePageLayoutTwo(HomePage.this, resource.layout2, resource.layout2_title));
                         }
 
 
@@ -570,7 +567,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         String emp_user_id = session.getCustomerId();
         String emp_token_id = session.getKeyTokenId();
 
-       // Log.d("emp_token_id", emp_token_id);
+        // Log.d("emp_token_id", emp_token_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -651,7 +648,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Intent intentMyReferEarn = new Intent(HomePage.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
         } else if (id == R.id.menuleft_rateus) {
-            LayoutInflater li = LayoutInflater.from(HomePage.this);
+           /* LayoutInflater li = LayoutInflater.from(HomePage.this);
             android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
             android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(HomePage.this,
                     R.style.AlertDialogStyle);
@@ -716,7 +713,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                     });
                     alertDialog.cancel();
                 }
-            });
+            });*/
+            Intent intentRateUs = new Intent(HomePage.this, RateUsReviews.class);
+            intentRateUs.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentRateUs);
         } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(HomePage.this, ContactUs.class);
             startActivity(intentAbtContact);
