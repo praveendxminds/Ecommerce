@@ -3,27 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tvComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:fontFamily="@font/roboto_regular"
+            android:text="some text some text some text"
+            android:textColor="@color/light_black_1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="right"
+            android:text="MMMM"
+            android:textColor="@color/light_black_1"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="Name"
-        android:textColor="@color/light_black_3"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvComments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
-        android:padding="5dp"
-        android:text="some text some text some text"
-        android:textColor="@color/light_black_1"
+        android:textColor="@color/light_black_2"
         android:textSize="14sp" />
 
     <View

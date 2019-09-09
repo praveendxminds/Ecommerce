@@ -48,5 +48,8 @@ public class RateAndReviewModel {
 
         @SerializedName("feedback")
         public String feedback;
+
+        @SerializedName("date_added")
+        public String date_added;
     }
 }

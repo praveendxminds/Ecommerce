@@ -18,191 +18,265 @@
         app:theme="@style/ToolbarColoredBackArrow"
         app:title="Rate us"
         app:titleTextAppearance="@style/toolbar_text"
-        app:titleTextColor="@color/white"/>
+        app:titleTextColor="@color/white" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Rating"
-                android:textColor="@color/green_1"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp"
-                android:layout_marginRight="5dp"></TextView>
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/like_green"
-                android:padding="3dp"/>
-            <TextView
-                android:id="@+id/tvRatings"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="1"
-                android:textColor="@color/green_1"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/tvTotalRatings"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="0"
-                android:textColor="@color/light_black_1"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_marginLeft="10dp"/>
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#FFD8D8D8"></View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reviews"
-                android:textColor="@color/light_black_1"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp"
-                android:paddingLeft="10dp"/>
 
-            <com.mindorks.placeholderview.PlaceHolderView
-                android:id="@+id/phvReviews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"></com.mindorks.placeholderview.PlaceHolderView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:padding="10dp"
-                    android:text="How is your experience with Nisarga"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:layout_height="35dp"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/rating_reviews"
+                    android:textColor="@color/light_black_2"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnWrteReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="7"
+                    android:background="@drawable/review_btn"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="5dp"
+                    android:text="Write Review"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp">
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
 
                     <ImageView
-                        android:id="@+id/ivUnlikeGray"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:padding="5dp"
-                        android:src="@drawable/unlike_gray" />
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:padding="2dp"
+                        android:src="@drawable/like_green" />
 
-                    <ImageView
-                        android:id="@+id/ivUnlikeGreen"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:padding="5dp"
-                        android:src="@drawable/unlike_green"
-                        android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/tvRatings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/green_1"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvTotalRatings"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="3dp"
                     android:layout_weight="1"
-                    android:elevation="25dp"
-                    app:cardCornerRadius="4dp"
-                    app:cardElevation="2dp">
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:textColor="@color/light_black_1"
+                    android:textSize="16sp" />
 
-                    <ImageView
-                        android:id="@+id/ivLikeGray"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:padding="5dp"
-                        android:src="@drawable/like_gray" />
-
-                    <ImageView
-                        android:id="@+id/ivLikeGreen"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:padding="5dp"
-                        android:src="@drawable/like_green"
-                        android:visibility="gone" />
-
-                </android.support.v7.widget.CardView>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llwriteReview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="15dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/btnSubmit"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp">
+
+                        <TextView
+                            android:id="@+id/tvUsrName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left|center"
+                            android:text="User Name"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/btn_check_items"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Submit"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:layout_weight="6"
+                        android:orientation="horizontal"
+                        android:paddingRight="10dp">
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/llLike"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_border"
+                            android:elevation="25dp"
+                            app:cardCornerRadius="4dp"
+                            app:cardElevation="2dp">
+
+                                <ImageView
+                                    android:id="@+id/ivLikeGray"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:padding="5dp"
+                                    android:src="@drawable/like_gray" />
+
+                                <ImageView
+                                    android:id="@+id/ivLikeGreen"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:padding="5dp"
+                                    android:src="@drawable/like_green"
+                                    android:visibility="gone" />
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/llDislike"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_border"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="2dp">
+
+                                <ImageView
+                                    android:id="@+id/ivUnlikeGray"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:padding="5dp"
+                                    android:src="@drawable/unlike_gray" />
+
+
+                                <ImageView
+                                    android:id="@+id/ivUnlikeGreen"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:padding="5dp"
+                                    android:src="@drawable/unlike_green"
+                                    android:visibility="gone" />
+                        </android.support.v7.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/etComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Type Here..."
+                    android:textColor="@color/light_black_2"
+                    android:textSize="14sp"
+                    android:gravity="top"
+                    android:background="@drawable/edit_txt_border"
+                    android:layout_margin="10dp"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right">
+
+                        <Button
+                            android:id="@+id/btnSubmit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/review_btn"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Submit Review"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:padding="5dp"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_black_1"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Reviews"
+                    android:textColor="@color/light_black_1"
+                    android:textSize="16sp" />
+
+                <com.mindorks.placeholderview.PlaceHolderView
+                    android:id="@+id/phvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"></com.mindorks.placeholderview.PlaceHolderView>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
     </ScrollView>
 </RelativeLayout>

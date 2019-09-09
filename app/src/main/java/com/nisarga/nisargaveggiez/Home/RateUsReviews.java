@@ -1,19 +1,33 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.mindorks.placeholderview.PlaceHolderView;
+import com.nisarga.nisargaveggiez.DeliveryInformation;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
 import com.nisarga.nisargaveggiez.retrofit.APIClient;
 import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.RateAndReviewModel;
+import com.nisarga.nisargaveggiez.retrofit.RateModel;
 
 import java.util.List;
 
@@ -26,20 +40,71 @@ public class RateUsReviews extends AppCompatActivity {
 
     SessionManager session;
     APIInterface apiInterface;
+    Toolbar toolbar;
     private PlaceHolderView phvReviews;
-    private TextView tvTotalRatings, tvRatings;
+    private TextView tvTotalRatings, tvRatings,tvUsrName;
+    private EditText etComment;
+    private LinearLayout llwriteReview;
+    private CardView llDislike,llLike;
+    private ImageView ivUnlikeGray,ivUnlikeGreen,ivLikeGray,ivLikeGreen;
+    private Button btnSubmit,btnWrteReview;
+    private String value,usrName1,usrName2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rate_us_reviews);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         tvTotalRatings = findViewById(R.id.tvTotalRatings);
         tvRatings = findViewById(R.id.tvRatings);
         phvReviews = findViewById(R.id.phvReviews);
+        ivUnlikeGray = findViewById(R.id.ivUnlikeGray);
+        ivUnlikeGreen = findViewById(R.id.ivUnlikeGreen);
+        ivLikeGray = findViewById(R.id.ivLikeGray);
+        ivLikeGreen = findViewById(R.id.ivLikeGreen);
+        llDislike = findViewById(R.id.llDislike);
+        llLike = findViewById(R.id.llLike);
+        llwriteReview = findViewById(R.id.llwriteReview);
+        tvUsrName = findViewById(R.id.tvUsrName);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnWrteReview = findViewById(R.id.btnWrteReview);
+        etComment = findViewById(R.id.etComment);
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
         getComments();
+        giveRatings();
+        usrName1 = session.getFirstName();
+        usrName2 = session.getLastName();
+        if(!usrName1.equals("null") && !usrName1.equals(null) && !usrName1.isEmpty())
+        {
+            if(!usrName2.equals("null") && !usrName2.equals(null) && !usrName2.isEmpty())
+            {
+                tvUsrName.setText(usrName1+" "+usrName2);
+            }
+            else
+            {
+                tvUsrName.setText(usrName1);
+            }
+        }
+        else
+        {
+            tvUsrName.setText("User");
+        }
+        btnWrteReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llwriteReview.setVisibility(View.VISIBLE);
+                btnWrteReview.setEnabled(false);
+                btnWrteReview.setClickable(false);
+                btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
+            }
+        });
     }
 
     public void getComments() {
@@ -57,8 +122,8 @@ public class RateUsReviews extends AppCompatActivity {
                     if ((resource.status).equals("success")) {
 
                         for (RateAndReviewModel.ReviewDatum rvDatum : datumList1) {
-
-                            phvReviews.addView(new RateReviewItems(getApplicationContext(), rvDatum.firstname, rvDatum.lastname, rvDatum.feedback));
+                            phvReviews.addView(new RateReviewItems(getApplicationContext(), rvDatum.firstname,
+                                    rvDatum.lastname, rvDatum.feedback,rvDatum.date_added));
                         }
                         //Rating Percent
                         if (!(resource.like_rate_in_percent).equals("null") &&
@@ -69,9 +134,53 @@ public class RateUsReviews extends AppCompatActivity {
                         }
                         //Total Rating in digit
                         if (resource.nuber_of_users_rating != 0) {
-                            tvTotalRatings.setText(String.valueOf(resource.nuber_of_users_rating));
+                            tvTotalRatings.setText(String.valueOf(resource.nuber_of_users_rating)+" "+"Ratings");
                         } else {
                             tvTotalRatings.setText("0");
+                        }
+                        //rating thumb
+                        if (!(resource.rated).equals("null") &&
+                                !(resource.rated).equals(null) && !(resource.rated).isEmpty()) {
+                            if(resource.rated.equals("1"))
+                            {
+                                ivLikeGreen.setVisibility(View.VISIBLE);
+                                ivLikeGray.setVisibility(View.GONE);
+                                llLike.setBackgroundColor(R.drawable.green_border);
+                                ivUnlikeGreen.setVisibility(View.GONE);
+                                ivUnlikeGray.setVisibility(View.VISIBLE);
+                                llDislike.setBackgroundColor(R.drawable.gray_border);
+                                //write review button disable
+                                llwriteReview.setVisibility(View.VISIBLE);
+                                btnWrteReview.setEnabled(false);
+                                btnWrteReview.setClickable(false);
+                                btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
+                               /* if(!(resource.feedback).equals("null") &&
+                                        !(resource.feedback).equals(null) && !(resource.feedback).isEmpty())
+                                {
+                                    etComment.setText(String.valueOf(resource.feedback));
+                                }
+                                else
+                                {
+                                    etComment.setText("");
+                                }*/
+                            }
+                            else
+                            {
+                                ivUnlikeGreen.setVisibility(View.VISIBLE);
+                                ivUnlikeGray.setVisibility(View.GONE);
+                                llDislike.setBackgroundColor(R.drawable.green_border);
+                                ivLikeGreen.setVisibility(View.GONE);
+                                ivLikeGray.setVisibility(View.VISIBLE);
+                                llLike.setBackgroundColor(R.drawable.gray_border);
+                            }
+
+                        } else {
+                            ivLikeGreen.setVisibility(View.GONE);
+                            ivLikeGray.setVisibility(View.VISIBLE);
+                            llLike.setBackgroundColor(R.drawable.gray_border);
+                            ivUnlikeGreen.setVisibility(View.GONE);
+                            ivUnlikeGray.setVisibility(View.VISIBLE);
+                            llDislike.setBackgroundColor(R.drawable.gray_border);
                         }
 
                     } else if (resource.status.equals("failure")) {
@@ -92,4 +201,91 @@ public class RateUsReviews extends AppCompatActivity {
         }
 
     }
+
+    public void giveRatings()
+    {
+        ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                ivUnlikeGreen.setVisibility(View.VISIBLE);
+                ivUnlikeGray.setVisibility(View.GONE);
+                llDislike.setBackgroundColor(R.drawable.green_border);
+                ivLikeGreen.setVisibility(View.GONE);
+                ivLikeGray.setVisibility(View.VISIBLE);
+                llLike.setBackgroundColor(R.drawable.gray_border);
+                value = "0";
+            }
+        });
+
+        ivLikeGray.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                ivLikeGreen.setVisibility(View.VISIBLE);
+                ivLikeGray.setVisibility(View.GONE);
+                llLike.setBackgroundColor(R.drawable.green_border);
+                ivUnlikeGreen.setVisibility(View.GONE);
+                ivUnlikeGray.setVisibility(View.VISIBLE);
+                llDislike.setBackgroundColor(R.drawable.gray_border);
+                value = "1";
+            }
+        });
+        btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                final RateModel ref = new RateModel(session.getCustomerId(), value,etComment.getText().toString());
+                Call<RateModel> calledu = apiInterface.setrate(ref);
+                calledu.enqueue(new Callback<RateModel>() {
+                    @Override
+                    public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                        final RateModel resource = response.body();
+                        if (resource.status.equals("success")) {
+                            Toast.makeText(RateUsReviews.this, resource.message, Toast.LENGTH_SHORT).show();
+                            Intent intentHomePage = new Intent(RateUsReviews.this,HomePage.class);
+                            intentHomePage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intentHomePage);
+                        } else {
+                            Toast.makeText(RateUsReviews.this, resource.message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RateModel> calledu, Throwable t) {
+                        calledu.cancel();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInfo = getMenuInflater();
+        menuInfo.inflate(R.menu.instruction_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case android.R.id.home:
+                Intent intentSubmitBack = new Intent(RateUsReviews.this, HomePage.class);
+                intentSubmitBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentSubmitBack);
+
+                return true;
+
+            case R.id.help_menu_item:
+                Intent intentInfo = new Intent(getBaseContext(),DeliveryInformation.class);
+                startActivity(intentInfo);
+                break;
+        }
+        return true;
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }
