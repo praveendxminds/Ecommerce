@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tvShopByCateg"
+            android:layout_above="@+id/navigationShopBy"
             android:orientation="vertical">
 
             <FrameLayout
@@ -49,8 +50,6 @@
                     android:background="@color/white"
                     android:divider="@color/white"
                     android:dividerHeight="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
                     android:scrollbars="vertical" />
 
                 <ProgressBar
