@@ -14,6 +14,7 @@
     <dimen name="design_navigation_separator_vertical_padding" tools:override="true">0dp</dimen>
     <dimen name="design_navigation_padding_bottom" tools:override="true">50dp</dimen>
     <dimen name="design_navigation_padding_left" tools:override="true">12dp</dimen>
+    <dimen name="space" tools:override="true">10dp</dimen>
 
     <!--<dimen name="menu_item_icon_size" tools:override="true">24dp</dimen>
     <dimen name="menu_item_size" tools:override="true">10dp</dimen>-->

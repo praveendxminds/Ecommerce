@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import android.view.MenuItem;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -154,7 +156,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     NavigationView navFilter;
     View header;
     TextView tvSortByText, tvSeekBarMin, tvSeekBarMax;
-    LinearLayout llSortByOption;
+    LinearLayout llSortByOption,llprds_holder;
     CheckBox cbPopularity, cbLowToHigh, cbHighToLow, cbNewestFirst;
     CrystalRangeSeekbar rangeSeekbar;
     Button btnClearFilter, btnApplyFilter;
@@ -187,6 +189,7 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         ivToolbarProfile = findViewById(R.id.ivToolbarProfile);
         llProfileIcon = findViewById(R.id.llProfileIcon);
+        llprds_holder = findViewById(R.id.llprds_holder);
 
         navLeftMenu = findViewById(R.id.navLeftMenu);
         headerView = navLeftMenu.getHeaderView(0);
@@ -198,6 +201,10 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         llProfileDesc = headerView.findViewById(R.id.llProfileDesc);
         ivProfilePic = headerView.findViewById(R.id.ivProfilePic);
         llEditProfile = headerView.findViewById(R.id.llEditProfile);
+
+
+
+
 
         llProfileDesc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,15 +247,19 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
         });
 
         showGridView();
+      //  llprds_holder.setPadding(14,14,14,14);
+
         ivbtnListView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (chngView == false) {
                     showGridView();
+                 //   llprds_holder.setPadding(14,14,14,14);
                     ivbtnListView.setBackgroundResource(R.drawable.listview);
                     chngView = true;
                 } else {
                     showListView();
+                   // llprds_holder.setPadding(0,0,0,0);
                     ivbtnListView.setBackgroundResource(R.drawable.gridview);
                     chngView = false;
                 }
@@ -516,10 +527,18 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
     }
 
     private void filterGridView() {
+
+
         phvCategoryList.getBuilder()
                 .setHasFixedSize(false)
-                .setItemViewCacheSize(10)
-                .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                .setItemViewCacheSize(10);
+                //.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
+
+        phvCategoryList.setLayoutManager(new GridAutofitLayoutManager(getApplicationContext(), getResources().getDimensionPixelSize(R.dimen.space)));
+        phvCategoryList.addItemDecoration(new GridSpacesItemDecoration(dpToPx(2),false));
+
+
 
         final FilterCategoryModel model = new FilterCategoryModel(session.getCustomerId(), sFilterPopularity,
                 sFilterLowToHigh, sFilterHighToLow, sFilterNewestFirst, minPrice, maxPrice);
@@ -696,6 +715,10 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
                 .setHasFixedSize(false)
                 .setItemViewCacheSize(10)
                 .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
+
+
+
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             final ProductListModel prdListModel1 = new ProductListModel(session.getCustomerId(), viewAll);
@@ -1184,4 +1207,10 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+    public static int dpToPx(final float dp) {
+        return Math.round(dp * (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+
 }
