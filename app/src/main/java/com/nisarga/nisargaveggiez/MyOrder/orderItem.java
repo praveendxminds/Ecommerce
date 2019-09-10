@@ -147,17 +147,18 @@ public class orderItem {
             pendingOrder.setVisibility(android.view.View.GONE);
             deliveredOrder.setVisibility(android.view.View.VISIBLE);
             llPayNow.setVisibility(android.view.View.GONE);
+            deliveryDateOrder.setText("Order Delivered");
             deliveredOrder.setText("Delivered");
         } else {
             canceledOrder.setVisibility(android.view.View.GONE);
             pendingOrder.setVisibility(android.view.View.VISIBLE);
             deliveredOrder.setVisibility(android.view.View.GONE);
+            deliveryDateOrder.setText("Delivered on" + " " + delivDate);
             pendingOrder.setText("Pending");
         }
 
         if (mcancel.equals("0")) {
             btnCancelOrder.setVisibility(android.view.View.INVISIBLE);
-            deliveryDateOrder.setText("Order Canceled");
         } else {
             btnCancelOrder.setVisibility(android.view.View.VISIBLE);
             btnCancelOrder.setText("Cancel");
