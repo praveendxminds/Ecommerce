@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="10dp"
     android:background="@color/white"
     android:orientation="vertical"
     android:id="@+id/cardViewLT1"

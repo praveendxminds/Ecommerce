@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_medium"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="@color/light_black_1"
                 android:padding="10dp"
                 android:text="Offers"
