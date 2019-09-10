@@ -151,11 +151,9 @@ public class LoyalityPoints extends AppCompatActivity {
                     Log.d("resource----", String.valueOf(resource.note));
 
                     List<LoyalityPointsModel.DatumLP> datumList = resource.note;
-                    int count = 1;
                     for (LoyalityPointsModel.DatumLP notes : datumList) {
                         if (response.isSuccessful()) {
-                            phvLoyalityPoints.addView(new LoyalityPointNotes(LoyalityPoints.this, count, notes.desciption));
-                             count = count + 1;
+                            phvLoyalityPoints.addView(new LoyalityPointNotes(LoyalityPoints.this, notes.desciption));
                         }
                     }
 

@@ -88,28 +88,10 @@ public class NotificationItem {
         }
         else
         {
-            iv_warning.setVisibility(android.view.View.INVISIBLE);
+            iv_warning.setVisibility(android.view.View.GONE);
         }
-
-
-
-       /* Glide.with(mContext).load(mUrl).into(itemIconNotifi);
-        dayNotifi.setText(mday);
-        timeNotifi.setText(mtime);
-        orderTitleNotifi.setText(morderTitle);
-        orderNameNotifi.setText(morderName);
-        orderDateNotifi.setText(mdate);
-*/
 
     }
 
-   /* @Click(R.id.notyfi_lt)
-    public void onCardClick()
-    {
-        Intent myIntent = new Intent(mContext, ProductDetails_act.class);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(myIntent);
-
-    }*/
 
 }
