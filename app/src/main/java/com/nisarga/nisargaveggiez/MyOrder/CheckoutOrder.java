@@ -151,7 +151,7 @@ public class CheckoutOrder extends AppCompatActivity {
                         }
 //-------------------------------------Pay now procedure----------------------------------------------------------------------
 
-                        final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),strWallet);
+                        final Usewallet wallet = new Usewallet(session.getCustomerId(),tvOrdId.getText().toString(),strWallet,"failure");
                         Call<Usewallet> call = apiInterface.esewallet(wallet);
                         call.enqueue(new Callback<Usewallet>() {
                             @Override
