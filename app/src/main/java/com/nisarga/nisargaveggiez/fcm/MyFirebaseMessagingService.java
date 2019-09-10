@@ -1,11 +1,14 @@
 package com.nisarga.nisargaveggiez.fcm;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -23,6 +26,8 @@ import com.nisarga.nisargaveggiez.Home3.HomeThree;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 
+import static com.nisarga.nisargaveggiez.fcm.fcmConfig.NOTIFICATION_CHANNEL_ID;
+
 /**
  * Created by praveen on 27/11/18.
  */
@@ -31,6 +36,7 @@ import com.nisarga.nisargaveggiez.notifications.MyNotifications;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
+
 
     private NotificationUtils notificationUtils;
 
@@ -63,30 +69,75 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void handleNotification(String title,String message) {
 
 
+        Log.d(TAG, "handleNotification: ");
+
+
+
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext()))
         {
 
-            Intent p_intent = new Intent(getApplicationContext(), MyNotifications.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, p_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            if(Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.O)
+            {
 
-            NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
+                Intent p_intent = new Intent(getApplicationContext(), MyNotifications.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, p_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            b.setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.mipmap.ic_notification)
-                    .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
-                    .setContentIntent(contentIntent)
-                    .setContentInfo("Notification");
+                // make the channel. The method has been discussed before.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    makeNotificationChannel("CHANNEL_1", "Example channel", NotificationManager.IMPORTANCE_DEFAULT);
+                }
+                // the check ensures that the channel will only be made
+                // if the device is running Android 8+
+
+                NotificationCompat.Builder notification =
+                        new NotificationCompat.Builder(this, "CHANNEL_1");
+                // the second parameter is the channel id.
+                // it should be the same as passed to the makeNotificationChannel() method
+
+                notification
+                        .setSmallIcon(R.mipmap.ic_notification) // can use any other icon
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
+                        .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                        .setContentIntent(contentIntent)
+                        .setContentInfo("Notification"); // this shows a number in the notification dots
+
+                NotificationManager notificationManager =
+                        (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+                assert notificationManager != null;
+                notificationManager.notify(1, notification.build());
+                // it is better to not use 0 as notification id, so used 1.
 
 
-            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(1, b.build());
+            }
+            else
+            {
+
+                Log.d(TAG, "oldhandleNotificationssss: ");
+
+                Intent p_intent = new Intent(getApplicationContext(), MyNotifications.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, p_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
+
+                b.setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setWhen(System.currentTimeMillis())
+                        .setSmallIcon(R.mipmap.ic_notification)
+                        .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                        .setContentIntent(contentIntent)
+                        .setContentInfo("Notification");
 
 
+                NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(1, b.build());
+
+            }
 
 
             /*
@@ -105,6 +156,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }else{
             // If the app is in background, firebase itself handles the notification
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void makeNotificationChannel(String id, String name, int importance)
+    {
+        NotificationChannel channel = new NotificationChannel(id, name, importance);
+        channel.setShowBadge(true); // set false to disable badges, Oreo exclusive
+
+        NotificationManager notificationManager =
+                (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+        assert notificationManager != null;
+        notificationManager.createNotificationChannel(channel);
     }
 
     private void handleDataMessage(JSONObject json) {

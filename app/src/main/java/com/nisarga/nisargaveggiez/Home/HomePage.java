@@ -139,6 +139,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
+
+
                 // checking for type intent filter
                 if (intent.getAction().equals(fcmConfig.REGISTRATION_COMPLETE)) {
                     // gcm successfully registered
