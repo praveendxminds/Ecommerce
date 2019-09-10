@@ -996,73 +996,9 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
             Intent intentMyReferEarn = new Intent(HomeCategory.this, RefersAndEarn_act.class);
             startActivity(intentMyReferEarn);
         } else if (id == R.id.menuleft_rateus) {
-            LayoutInflater li = LayoutInflater.from(HomeCategory.this);
-            android.view.View promptsView = li.inflate(R.layout.rate_us_act, null);
-            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(HomeCategory.this,
-                    R.style.AlertDialogStyle);
-            alertDialogBuilder.setView(promptsView);
-
-            // set the custom dialog components - text, image and button
-            ImageView ivClose = (ImageView) promptsView.findViewById(R.id.ivClose);
-            final ImageView ivUnlikeGray = (ImageView) promptsView.findViewById(R.id.ivUnlikeGray);
-            final ImageView ivUnlikeGreen = (ImageView) promptsView.findViewById(R.id.ivUnlikeGreen);
-            final ImageView ivLikeGray = (ImageView) promptsView.findViewById(R.id.ivLikeGray);
-            final ImageView ivLikeGreen = (ImageView) promptsView.findViewById(R.id.ivLikeGreen);
-            Button btnSubmit = (Button) promptsView.findViewById(R.id.btnSubmit);
-
-            final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-
-            ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
-                @Override
-                public void onClick(android.view.View view) {
-                    ivUnlikeGreen.setVisibility(View.VISIBLE);
-                    ivUnlikeGray.setVisibility(View.GONE);
-                    value = "0";
-                }
-            });
-
-            ivLikeGray.setOnClickListener(new android.view.View.OnClickListener() {
-                @Override
-                public void onClick(android.view.View view) {
-                    ivLikeGreen.setVisibility(View.VISIBLE);
-                    ivLikeGray.setVisibility(View.GONE);
-                    value = "1";
-                }
-            });
-
-            ivClose.setOnClickListener(new android.view.View.OnClickListener() {
-                @Override
-                public void onClick(android.view.View view) {
-                    alertDialog.cancel();
-                }
-            });
-
-            btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
-                @Override
-                public void onClick(android.view.View v) {
-                    final RateModel ref = new RateModel(session.getCustomerId(), value);
-                    Call<RateModel> calledu = apiInterface.setrate(ref);
-                    calledu.enqueue(new Callback<RateModel>() {
-                        @Override
-                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                            final RateModel resource = response.body();
-                            if (resource.status.equals("success")) {
-                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(HomeCategory.this, resource.message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RateModel> calledu, Throwable t) {
-                            calledu.cancel();
-                        }
-                    });
-                    alertDialog.cancel();
-                }
-            });
-
+            Intent intentRateUs = new Intent(HomeCategory.this, RateUsReviews.class);
+            intentRateUs.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentRateUs);
         } else if (id == R.id.menuleft_aboutcontact) {
             Intent intentAbtContact = new Intent(HomeCategory.this, ContactUs.class);
             startActivity(intentAbtContact);

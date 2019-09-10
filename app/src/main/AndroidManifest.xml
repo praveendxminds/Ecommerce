@@ -812,7 +812,8 @@
             android:name="com.nisarga.nisargaveggiez.Home.RateUsReviews"
             android:label="Rate us and Reviews"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
