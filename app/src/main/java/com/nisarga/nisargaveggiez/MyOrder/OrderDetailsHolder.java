@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +48,8 @@ public class OrderDetailsHolder extends AppCompatActivity {
     SessionManager session;
     private TextView tv_total,tvtotalAmount;
     String order_id;
-
+    LinearLayout llEmptyOrdList,layout_total;
+    FrameLayout flOrders;
     APIInterface apiInterface;
     public static TextView textCartItemCount;
     ProgressBar progressDialog;
@@ -70,6 +73,9 @@ public class OrderDetailsHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        layout_total = findViewById(R.id.layout_total);
+        flOrders = findViewById(R.id.flOrders);
+        llEmptyOrdList = findViewById(R.id.llEmptyOrdList);
         progressDialog = findViewById(R.id.pbLoading);
         progressDialog.setVisibility(View.VISIBLE);
 
@@ -118,7 +124,9 @@ public class OrderDetailsHolder extends AppCompatActivity {
                     }
                     else if(resourcesReorder.status.equals("failure"))
                     {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                       layout_total.setVisibility(View.GONE);
+                       flOrders.setVisibility(View.GONE);
+                       llEmptyOrdList.setVisibility(View.VISIBLE);
                     }
                 }
 

@@ -82,8 +82,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:indeterminate="true" />
-        </FrameLayout>
 
+
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/llEmptyOrdList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Your Order List is not available"
+                android:textColor="@color/light_black_1" />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/btn_placereorder"
             android:layout_width="match_parent"
@@ -94,7 +108,8 @@
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="8dp"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"

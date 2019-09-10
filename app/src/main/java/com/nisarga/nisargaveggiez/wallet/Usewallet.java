@@ -27,6 +27,8 @@ public class Usewallet
     @SerializedName("online_payment_status")
     public String online_payment_status;
 
+    @SerializedName("msg")
+    public String msg;
 
     public Usewallet(String customer_id, String order_id, String wallet,String pay_status)
     {

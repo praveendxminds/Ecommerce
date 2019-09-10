@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,8 @@ public class CheckoutOrder extends AppCompatActivity {
     CheckBox checkbox;
     ProgressDialog progressdialog;
     ProgressBar progressBar;
+    LinearLayout llEmptyOrdList;
+    FrameLayout flOrders;
 
 
     @Override
@@ -96,6 +99,8 @@ public class CheckoutOrder extends AppCompatActivity {
 
         btnItems = findViewById(R.id.btnItems);
         llPayNow = findViewById(R.id.llPayNow);
+        llEmptyOrdList = findViewById(R.id.llEmptyOrdList);
+        flOrders = findViewById(R.id.flOrders);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -171,7 +176,7 @@ public class CheckoutOrder extends AppCompatActivity {
                                         intent.putExtra("PHONE_NUMBER", getPhone);
                                         intent.putExtra("PHONE_NUMBER", getPhone);
                                         intent.putExtra("EMAIL_ADDRESS", getEmail);
-                                        intent.putExtra("WALLET", getEmail);
+                                        intent.putExtra("WALLET_STATUS", strWallet);
                                         intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
                                         double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                                         String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
@@ -198,6 +203,7 @@ public class CheckoutOrder extends AppCompatActivity {
                                     intent.putExtra("PHONE_NUMBER", getPhone);
                                     intent.putExtra("PHONE_NUMBER", getPhone);
                                     intent.putExtra("EMAIL_ADDRESS", getEmail);
+                                    intent.putExtra("WALLET_STATUS", strWallet);
                                     intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
                                     double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                                     String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
@@ -233,6 +239,7 @@ public class CheckoutOrder extends AppCompatActivity {
                     intent.putExtra("PHONE_NUMBER", getPhone);
                     intent.putExtra("EMAIL_ADDRESS", getEmail);
                     intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                    intent.putExtra("WALLET_STATUS", strWallet);
                     double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                     String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
 
@@ -455,13 +462,14 @@ public class CheckoutOrder extends AppCompatActivity {
 
                         }
                     } else if (resourcesReorder.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                        flOrders.setVisibility(View.GONE);
+                        llPayNow.setVisibility(View.GONE);
+                        llEmptyOrdList.setVisibility(View.VISIBLE);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ReorderItemsModel> call, Throwable t) {
-
                 }
             });
 
