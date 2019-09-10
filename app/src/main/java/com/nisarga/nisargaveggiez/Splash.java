@@ -42,7 +42,7 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ivOuterRing.startAnimation(rotatte);
+              //  ivOuterRing.startAnimation(rotatte);
             }
 
             @Override
