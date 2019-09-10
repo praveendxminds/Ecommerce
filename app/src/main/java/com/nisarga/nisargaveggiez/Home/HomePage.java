@@ -570,7 +570,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         String emp_user_id = session.getCustomerId();
         String emp_token_id = session.getKeyTokenId();
 
-         Log.d("emp_token_id", emp_token_id);
+       //  Log.d("emp_token_id", emp_token_id);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
