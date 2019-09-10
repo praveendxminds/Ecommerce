@@ -48,7 +48,7 @@ public class RateUsReviews extends AppCompatActivity {
     private CardView llDislike,llLike;
     private ImageView ivUnlikeGray,ivUnlikeGreen,ivLikeGray,ivLikeGreen;
     private Button btnSubmit,btnWrteReview;
-    private String value,usrName1,usrName2;
+    private String value1,usrName1,usrName2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +78,6 @@ public class RateUsReviews extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         apiInterface = APIClient.getClient().create(APIInterface.class);
         getComments();
-        giveRatings();
         usrName1 = session.getFirstName();
         usrName2 = session.getLastName();
         if(!usrName1.equals("null") && !usrName1.equals(null) && !usrName1.isEmpty())
@@ -145,16 +144,20 @@ public class RateUsReviews extends AppCompatActivity {
                             {
                                 ivLikeGreen.setVisibility(View.VISIBLE);
                                 ivLikeGray.setVisibility(View.GONE);
-                                llLike.setBackgroundColor(R.drawable.green_border);
                                 ivUnlikeGreen.setVisibility(View.GONE);
                                 ivUnlikeGray.setVisibility(View.VISIBLE);
-                                llDislike.setBackgroundColor(R.drawable.gray_border);
+
                                 //write review button disable
                                 llwriteReview.setVisibility(View.VISIBLE);
                                 btnWrteReview.setEnabled(false);
                                 btnWrteReview.setClickable(false);
                                 btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
-                               /* if(!(resource.feedback).equals("null") &&
+
+                                //enable submit button
+                                btnSubmit.setEnabled(true);
+                                btnSubmit.setClickable(true);
+                                btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                                if(!(resource.feedback).equals("null") &&
                                         !(resource.feedback).equals(null) && !(resource.feedback).isEmpty())
                                 {
                                     etComment.setText(String.valueOf(resource.feedback));
@@ -162,25 +165,63 @@ public class RateUsReviews extends AppCompatActivity {
                                 else
                                 {
                                     etComment.setText("");
-                                }*/
+                                }
+                               giveRatings();
+                              submitRatings("1");
                             }
-                            else
+                            else if((resource.rated.equals("0")))
                             {
                                 ivUnlikeGreen.setVisibility(View.VISIBLE);
                                 ivUnlikeGray.setVisibility(View.GONE);
-                                llDislike.setBackgroundColor(R.drawable.green_border);
                                 ivLikeGreen.setVisibility(View.GONE);
                                 ivLikeGray.setVisibility(View.VISIBLE);
-                                llLike.setBackgroundColor(R.drawable.gray_border);
+
+                                //disable write review button and make visible comment section
+                                llwriteReview.setVisibility(View.VISIBLE);
+                                btnWrteReview.setEnabled(false);
+                                btnWrteReview.setClickable(false);
+                                btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
+
+                                //enable submit button
+                                btnSubmit.setEnabled(true);
+                                btnSubmit.setClickable(true);
+                                btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                                if(!(resource.feedback).equals("null") &&
+                                        !(resource.feedback).equals(null) && !(resource.feedback).isEmpty())
+                                {
+                                    etComment.setText(String.valueOf(resource.feedback));
+                                }
+                                else
+                                {
+                                    etComment.setText("");
+                                }
+                                giveRatings();
+                                submitRatings("0");
+                            }
+                            else
+                            {
+                                ivUnlikeGreen.setVisibility(View.GONE);
+                                ivUnlikeGray.setVisibility(View.VISIBLE);
+                                ivLikeGreen.setVisibility(View.GONE);
+                                ivLikeGray.setVisibility(View.VISIBLE);
+                                //submit button disable
+                                btnSubmit.setEnabled(false);
+                                btnSubmit.setClickable(false);
+                                btnSubmit.setBackgroundColor(Color.parseColor("#3334773C"));
+                                giveRatings();
                             }
 
                         } else {
-                            ivLikeGreen.setVisibility(View.GONE);
-                            ivLikeGray.setVisibility(View.VISIBLE);
-                            llLike.setBackgroundColor(R.drawable.gray_border);
                             ivUnlikeGreen.setVisibility(View.GONE);
                             ivUnlikeGray.setVisibility(View.VISIBLE);
-                            llDislike.setBackgroundColor(R.drawable.gray_border);
+                            ivLikeGreen.setVisibility(View.GONE);
+                            ivLikeGray.setVisibility(View.VISIBLE);
+                            //submit button disable
+                            btnSubmit.setEnabled(false);
+                            btnSubmit.setClickable(false);
+                            btnSubmit.setBackgroundColor(Color.parseColor("#3334773C"));
+                            giveRatings();
+
                         }
 
                     } else if (resource.status.equals("failure")) {
@@ -204,16 +245,22 @@ public class RateUsReviews extends AppCompatActivity {
 
     public void giveRatings()
     {
+
         ivUnlikeGray.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
                 ivUnlikeGreen.setVisibility(View.VISIBLE);
                 ivUnlikeGray.setVisibility(View.GONE);
-                llDislike.setBackgroundColor(R.drawable.green_border);
                 ivLikeGreen.setVisibility(View.GONE);
                 ivLikeGray.setVisibility(View.VISIBLE);
-                llLike.setBackgroundColor(R.drawable.gray_border);
-                value = "0";
+
+                //enable submit button
+                btnSubmit.setEnabled(true);
+                btnSubmit.setClickable(true);
+                btnSubmit.setBackgroundResource(R.drawable.review_btn);
+
+                value1 = "0";
+                submitRatings(value1);
             }
         });
 
@@ -222,41 +269,54 @@ public class RateUsReviews extends AppCompatActivity {
             public void onClick(android.view.View view) {
                 ivLikeGreen.setVisibility(View.VISIBLE);
                 ivLikeGray.setVisibility(View.GONE);
-                llLike.setBackgroundColor(R.drawable.green_border);
                 ivUnlikeGreen.setVisibility(View.GONE);
                 ivUnlikeGray.setVisibility(View.VISIBLE);
-                llDislike.setBackgroundColor(R.drawable.gray_border);
-                value = "1";
-            }
-        });
-        btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                final RateModel ref = new RateModel(session.getCustomerId(), value,etComment.getText().toString());
-                Call<RateModel> calledu = apiInterface.setrate(ref);
-                calledu.enqueue(new Callback<RateModel>() {
-                    @Override
-                    public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
-                        final RateModel resource = response.body();
-                        if (resource.status.equals("success")) {
-                            Toast.makeText(RateUsReviews.this, resource.message, Toast.LENGTH_SHORT).show();
-                            Intent intentHomePage = new Intent(RateUsReviews.this,HomePage.class);
-                            intentHomePage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intentHomePage);
-                        } else {
-                            Toast.makeText(RateUsReviews.this, resource.message, Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<RateModel> calledu, Throwable t) {
-                        calledu.cancel();
-                    }
-                });
+                //enable submit button
+                btnSubmit.setEnabled(true);
+                btnSubmit.setClickable(true);
+                btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                value1 = "1";
+                submitRatings(value1);
             }
         });
     }
 
+    public void submitRatings(final String rate)
+    {
+        btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                if(rate.equals("null") || rate.equals(null) || rate.isEmpty())
+                {
+                    Toast.makeText(RateUsReviews.this, "Please Rate Us...", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    final RateModel ref = new RateModel(session.getCustomerId(), rate, etComment.getText().toString());
+                    Call<RateModel> calledu = apiInterface.setrate(ref);
+                    calledu.enqueue(new Callback<RateModel>() {
+                        @Override
+                        public void onResponse(Call<RateModel> calledu, Response<RateModel> response) {
+                            final RateModel resource = response.body();
+                            if (resource.status.equals("success")) {
+                                Toast.makeText(RateUsReviews.this, resource.message, Toast.LENGTH_SHORT).show();
+                                Intent intentHomePage = new Intent(RateUsReviews.this, HomePage.class);
+                                intentHomePage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentHomePage);
+                            } else {
+                                Toast.makeText(RateUsReviews.this, resource.message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RateModel> calledu, Throwable t) {
+                            calledu.cancel();
+                        }
+                    });
+                }
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInfo = getMenuInflater();

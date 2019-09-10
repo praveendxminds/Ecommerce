@@ -59,7 +59,7 @@
                     android:text="Write Review"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -75,8 +75,8 @@
                     android:paddingLeft="10dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:padding="2dp"
                         android:src="@drawable/like_green" />
 
@@ -88,7 +88,7 @@
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/green_1"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:padding="5dp"
                     android:text="0"
                     android:textColor="@color/light_black_1"
-                    android:textSize="16sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -131,9 +131,9 @@
                             android:layout_height="match_parent"
                             android:gravity="left|center"
                             android:text="User Name"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/black"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,23 +152,22 @@
                             android:layout_marginRight="5dp"
                             android:layout_marginBottom="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/gray_border"
                             android:elevation="25dp"
                             app:cardCornerRadius="4dp"
                             app:cardElevation="2dp">
 
                                 <ImageView
                                     android:id="@+id/ivLikeGray"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/like_gray" />
 
                                 <ImageView
                                     android:id="@+id/ivLikeGreen"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/like_green"
@@ -184,14 +183,13 @@
                             android:layout_marginRight="5dp"
                             android:layout_marginBottom="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/gray_border"
                             app:cardCornerRadius="5dp"
                             app:cardElevation="2dp">
 
                                 <ImageView
                                     android:id="@+id/ivUnlikeGray"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/unlike_gray" />
@@ -199,8 +197,8 @@
 
                                 <ImageView
                                     android:id="@+id/ivUnlikeGreen"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/unlike_green"
@@ -242,11 +240,11 @@
                             android:layout_height="35dp"
                             android:layout_margin="10dp"
                             android:background="@drawable/review_btn"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_medium"
                             android:text="Submit Review"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
                             android:padding="5dp"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -255,7 +253,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/light_black_1"></View>
+                android:background="@color/light_black_1"
+                android:layout_marginTop="5dp"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -266,7 +265,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:padding="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:text="Reviews"
                     android:textColor="@color/light_black_1"
                     android:textSize="16sp" />

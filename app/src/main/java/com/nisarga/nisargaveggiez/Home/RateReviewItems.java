@@ -70,7 +70,7 @@ public class RateReviewItems {
         }
         //comments
         if (!strComments.equals("null") && !strComments.equals(null) && !strComments.isEmpty()) {
-            tvComments.setText(strComments);
+            tvComments.setText(strComments.trim().replace("\n",""));
         } else {
             tvComments.setText("No Comments");
         }
