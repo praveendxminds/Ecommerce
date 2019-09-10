@@ -70,7 +70,7 @@ public class HomePageLayoutTwo {
             lttwo.addView(new HomePageLayoutTwoItem(mContext,
                     (String.valueOf(jsonElements.get(j).getAsJsonObject().get("image")).replace("\"", "")),
                     (String.valueOf(jsonElements.get(j).getAsJsonObject().get("id")).replace("\"", "")),
-                    (String.valueOf(jsonElements.get(j).getAsJsonObject().get("title")).replace("\"", ""))));
+                    (String.valueOf(jsonElements.get(j).getAsJsonObject().get("title")).replace("\"", "")),j));
             Log.d("id", String.valueOf(id));
         }
 

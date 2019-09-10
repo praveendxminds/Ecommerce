@@ -2,7 +2,9 @@ package com.nisarga.nisargaveggiez.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,21 +29,42 @@ public class HomePageLayoutTwoItem {
     @View(R.id.tvTitle)
     public TextView tvTitle;
 
+    @View(R.id.cardViewLT2)
+    public LinearLayout cardViewLT2;
+
     Context mContext;
     String mId;
     String mImage;
     String mTitle;
+    int mPos;
 
-    public HomePageLayoutTwoItem(Context context, String imageUrl, String id, String title) {
+    public HomePageLayoutTwoItem(Context context, String imageUrl, String id, String title,int pos) {
 
         this.mContext = context;
         this.mImage = imageUrl;
         this.mId = id;
         this.mTitle = title;
+        this.mPos = pos;
     }
 
     @Resolve
-    public void onResolved() {
+    public void onResolved()
+    {
+
+
+
+        if ( ( mPos % 3 ) == 0 )
+        {
+            cardViewLT2.setBackgroundResource(R.drawable.offer_border_lft);
+        }
+        else
+        {
+            cardViewLT2.setBackgroundResource(R.drawable.offer_border_rht);
+        }
+
+
+        Log.d("mpos", String.valueOf(mPos));
+
         if (mImage != null && !mImage.isEmpty() && !mImage.equals("null")) {
             Glide.with(mContext).load(mImage).into(ivImage);
         } else {
@@ -63,4 +86,6 @@ public class HomePageLayoutTwoItem {
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(myIntent);
     }
+
+
 }
