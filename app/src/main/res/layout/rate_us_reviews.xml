@@ -43,7 +43,7 @@
                     android:layout_height="35dp"
                     android:layout_weight="3"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/rating_reviews"
+                    android:text="@string/rat_reviews"
                     android:textColor="@color/light_black_2"
                     android:textSize="16sp" />
 

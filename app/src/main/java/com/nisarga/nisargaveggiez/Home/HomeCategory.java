@@ -531,12 +531,10 @@ public class HomeCategory extends AppCompatActivity implements NavigationView.On
 
         phvCategoryList.getBuilder()
                 .setHasFixedSize(false)
-                .setItemViewCacheSize(10);
-                //.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                .setItemViewCacheSize(10)
+                .setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
 
-        phvCategoryList.setLayoutManager(new GridAutofitLayoutManager(getApplicationContext(), getResources().getDimensionPixelSize(R.dimen.space)));
-        phvCategoryList.addItemDecoration(new GridSpacesItemDecoration(dpToPx(2),false));
 
 
 
