@@ -32,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -509,7 +509,6 @@
 
 
                 </LinearLayout>
-
             </LinearLayout>
 
             <ProgressBar
@@ -522,11 +521,26 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/llEmptyOrdList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Your Order Details is not available"
+            android:textColor="@color/light_black_1" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/llPayNow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/green_1">
+        android:background="@color/green_1"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"

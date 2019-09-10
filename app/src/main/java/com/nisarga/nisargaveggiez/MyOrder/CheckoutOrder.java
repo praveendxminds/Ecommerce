@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,8 @@ public class CheckoutOrder extends AppCompatActivity {
     CheckBox checkbox;
     ProgressDialog progressdialog;
     ProgressBar progressBar;
+    LinearLayout llEmptyOrdList;
+    FrameLayout flOrders;
 
 
     @Override
@@ -96,6 +99,8 @@ public class CheckoutOrder extends AppCompatActivity {
 
         btnItems = findViewById(R.id.btnItems);
         llPayNow = findViewById(R.id.llPayNow);
+        llEmptyOrdList = findViewById(R.id.llEmptyOrdList);
+        flOrders = findViewById(R.id.flOrders);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -457,13 +462,14 @@ public class CheckoutOrder extends AppCompatActivity {
 
                         }
                     } else if (resourcesReorder.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                        flOrders.setVisibility(View.GONE);
+                        llPayNow.setVisibility(View.GONE);
+                        llEmptyOrdList.setVisibility(View.VISIBLE);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ReorderItemsModel> call, Throwable t) {
-
                 }
             });
 

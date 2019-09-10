@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -67,6 +69,8 @@ public class ReorderHolder extends AppCompatActivity {
     public String select_item;
     ProgressBar progressBar;
     ProgressDialog progressdialog;
+    LinearLayout llEmptyOrdList,layout_total,btn_placereorder;
+    FrameLayout flOrders;
 
 
     @Override
@@ -86,6 +90,10 @@ public class ReorderHolder extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        btn_placereorder = findViewById(R.id.btn_placereorder);
+        layout_total = findViewById(R.id.layout_total);
+        flOrders = findViewById(R.id.flOrders);
+        llEmptyOrdList = findViewById(R.id.llEmptyOrdList);
         tv_total = findViewById(R.id.tv_total);
         tvtotalAmount = findViewById(R.id.tvtotalAmount);
         buttonChkOut = findViewById(R.id.buttonChkOut);
@@ -266,7 +274,10 @@ public class ReorderHolder extends AppCompatActivity {
                         }
 
                     } else if (resourcesReorder.status.equals("failure")) {
-                        Toast.makeText(getApplicationContext(), resourcesReorder.message, Toast.LENGTH_LONG).show();
+                        layout_total.setVisibility(View.GONE);
+                        flOrders.setVisibility(View.GONE);
+                        btn_placereorder.setVisibility(View.GONE);
+                        llEmptyOrdList.setVisibility(View.VISIBLE);
                     }
                 }
 

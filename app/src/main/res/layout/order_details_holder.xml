@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:paddingTop="12dp"
-            android:paddingBottom="12dp">
+            android:paddingBottom="12dp"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="match_parent"
@@ -63,7 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <com.mindorks.placeholderview.PlaceHolderView
                 android:id="@+id/recycler_order"
@@ -82,7 +84,19 @@
                 android:layout_gravity="center"
                 android:indeterminate="true" />
         </FrameLayout>
+        <LinearLayout
+            android:id="@+id/llEmptyOrdList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Your Order Details is not available"
+                android:textColor="@color/light_black_1" />
+        </LinearLayout>
     </RelativeLayout>
 
 
