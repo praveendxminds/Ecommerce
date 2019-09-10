@@ -205,7 +205,7 @@
                     android:gravity="left"
                     android:text="Delivery Address"
                     android:textColor="@color/light_black_2"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -240,7 +240,7 @@
                     android:padding="5dp"
                     android:text="Name"
                     android:textColor="@color/light_black_1"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvChkoutPhnNo"
@@ -250,7 +250,7 @@
                     android:padding="5dp"
                     android:text="+91 0000000000"
                     android:textColor="@color/light_black_1"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -271,14 +271,14 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Apartment Name :"
                             android:textColor="@color/light_black_1"
-                            android:textSize="13sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvChkoutAprtName"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Provident Harmony"
+                            android:text=""
                             android:textColor="#8C4A4A4A"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -288,9 +288,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="A11 802 ,Chokkanahalli Main Rd, Sri Balaji Krupa Layout, RK Hegde Nagar, Bengaluru, Karnataka 560077"
+                        android:text=""
                         android:textColor="#8C4A4A4A"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -306,7 +306,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="Delivery Instructions : "
                         android:textColor="#FF000000"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvChkoutDelvInstruct"
@@ -315,7 +315,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="If I would not be there than call me and drop my package near my neighbour"
                         android:textColor="#8C4A4A4A"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -331,7 +331,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="Delivery Day :"
                         android:textColor="#FF000000"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvChkoutDeliveryDay"
@@ -341,7 +341,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Day"
                         android:textColor="#8C4A4A4A"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
 

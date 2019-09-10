@@ -20,12 +20,10 @@ public class LoyalityPointNotes {
 
     public Context mContext;
     public String mNotes;
-    public Integer mNumber;
 
-    public LoyalityPointNotes(Context contxt, Integer num,String notes)
+    public LoyalityPointNotes(Context contxt,String notes)
     {
         this.mContext = contxt;
-        this.mNumber = num;
         this.mNotes = notes;
     }
     @Resolve
@@ -40,13 +38,13 @@ public class LoyalityPointNotes {
 //        }
 //        webViewNotes.loadDataWithBaseURL(null, res, "text/html", "utf-8", null);
         if (mNotes != null && !mNotes.isEmpty() && !mNotes.equals("null")) {
-            String noteLines = mNumber.toString() + "." + " " + mNotes;
+            String noteLines = mNotes;
             String data = Html.fromHtml(noteLines).toString();
             webViewNotes.loadData(data, "text/html", "UTF-8");
         }
         else
         {
-            String noteLines = mNumber.toString() + "." + " " + "Note";
+            String noteLines =  "Note";
             String data = Html.fromHtml(noteLines).toString();
             webViewNotes.loadData(data, "text/html", "UTF-8");
 

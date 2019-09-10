@@ -95,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Your Order List is not available"
+                android:text="Ordered products is not available in market"
                 android:textColor="@color/light_black_1" />
         </LinearLayout>
         <LinearLayout

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardReorder"
     android:layout_width="match_parent"
-    android:layout_height="97dp"
+    android:layout_height="100dp"
     android:layout_marginBottom="8dp"
     android:background="@color/white"
     android:elevation="20dp"
@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -72,7 +72,7 @@
                         android:id="@+id/tvPrdTitleReorder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="left"
                         android:text="Potato"
                         android:textAllCaps="false"
@@ -103,7 +103,7 @@
                             android:paddingBottom="5dp"
                             android:text="1000kg"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -128,7 +128,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="$ 80"
                             android:textColor="@color/light_black_2"
-                            android:textSize="7sp"
+                            android:textSize="10sp"
                             android:visibility="visible" />
 
                         <TextView
@@ -138,7 +138,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="₹ 5000.0000"
                             android:textColor="@color/light_black_2"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -198,7 +198,7 @@
                         android:gravity="right"
                         android:text="₹ 60"
                         android:textColor="@color/light_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 

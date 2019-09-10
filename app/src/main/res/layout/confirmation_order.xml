@@ -50,7 +50,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:text="Dear Member, Your Order is confirmed, will be delivered on ordered date morning."
                     android:textColor="@color/green_1"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:text="Thank you"
                     android:textAlignment="center"
                     android:textColor="@color/green_1"
-                    android:textSize="14sp"></TextView>
+                    android:textSize="16sp"></TextView>
             </LinearLayout>
 
             <LinearLayout
@@ -77,7 +77,7 @@
                     android:text="Nisarga Veggiez…"
                     android:textAlignment="center"
                     android:textColor="@color/green_1"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -86,7 +86,7 @@
                     android:text="Eat Fresh,Stay Healthy"
                     android:textAlignment="center"
                     android:textColor="@color/green_1"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -102,7 +102,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Payment Details"
                         android:textColor="@color/light_black_1"
                         android:textSize="16sp" />
@@ -122,7 +122,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Payment Status"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvPaymentStatus"
@@ -133,7 +133,7 @@
                         android:gravity="right"
                         android:text="Pending"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Order Amount"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvOrdAmount"
@@ -160,7 +160,7 @@
                         android:gravity="right"
                         android:text="Rs 000.00"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,7 +176,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Your Total Saving"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvTotalSaving"
@@ -187,7 +187,7 @@
                         android:gravity="right"
                         android:text="Rs 000.00"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -203,7 +203,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Delivery Charge"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvDelivCharge"
@@ -214,7 +214,7 @@
                         android:gravity="right"
                         android:text="Rs 000.00"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,7 +230,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Total Amount"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvTotalAmount"
@@ -241,7 +241,7 @@
                         android:gravity="right"
                         android:text="Rs 000.00"
                         android:textColor="@color/light_black_1"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
 
@@ -261,7 +261,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Shipment Details"
                         android:textColor="@color/light_black_1"
                         android:textSize="16sp" />
@@ -279,7 +279,7 @@
                         android:id="@+id/tvApartmentName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Apartment Name"
                         android:textColor="@color/light_black_3"
                         android:textSize="14sp" />
@@ -333,7 +333,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Feedback"
                         android:textColor="@color/light_black_1"
                         android:textSize="16sp" />
@@ -374,7 +374,7 @@
                         android:paddingRight="12dp"
                         android:paddingBottom="8dp"
                         android:textColor="@color/light_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

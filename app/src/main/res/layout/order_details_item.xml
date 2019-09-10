@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardOrderDetails"
     android:layout_width="match_parent"
-    android:layout_height="98dp"
+    android:layout_height="100dp"
     android:layout_marginBottom="8dp"
     android:background="@color/white"
     android:orientation="vertical"
@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -72,7 +72,7 @@
                         android:id="@+id/tvPrdTitleOrdDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="left"
                         android:text="Product"
                         android:textAllCaps="false"
@@ -102,7 +102,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="0"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:paddingBottom="5dp"/>
 
                     </LinearLayout>
@@ -127,7 +127,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="0"
                             android:textColor="@color/light_black_2"
-                            android:textSize="7sp"
+                            android:textSize="10sp"
                             android:visibility="invisible"/>
 
                         <TextView
@@ -137,7 +137,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="₹ 0"
                             android:textColor="@color/light_black_2"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
