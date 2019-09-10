@@ -171,7 +171,7 @@ public class CheckoutOrder extends AppCompatActivity {
                                         intent.putExtra("PHONE_NUMBER", getPhone);
                                         intent.putExtra("PHONE_NUMBER", getPhone);
                                         intent.putExtra("EMAIL_ADDRESS", getEmail);
-                                        intent.putExtra("WALLET", getEmail);
+                                        intent.putExtra("WALLET_STATUS", strWallet);
                                         intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
                                         double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                                         String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
@@ -198,6 +198,7 @@ public class CheckoutOrder extends AppCompatActivity {
                                     intent.putExtra("PHONE_NUMBER", getPhone);
                                     intent.putExtra("PHONE_NUMBER", getPhone);
                                     intent.putExtra("EMAIL_ADDRESS", getEmail);
+                                    intent.putExtra("WALLET_STATUS", strWallet);
                                     intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
                                     double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                                     String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
@@ -233,6 +234,7 @@ public class CheckoutOrder extends AppCompatActivity {
                     intent.putExtra("PHONE_NUMBER", getPhone);
                     intent.putExtra("EMAIL_ADDRESS", getEmail);
                     intent.putExtra("ORDER_ID", tvOrdId.getText().toString());
+                    intent.putExtra("WALLET_STATUS", strWallet);
                     double dbl_Price_1 = Double.parseDouble(tvFinalTotal.getText().toString().replaceAll("Rs. ", ""));
                     String strTotalAmntpay = String.format("%.2f", dbl_Price_1);
 

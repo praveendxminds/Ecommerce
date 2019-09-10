@@ -23,6 +23,7 @@ import com.nisarga.nisargaveggiez.retrofit.AddMoneytoWalletModel;
 import com.nisarga.nisargaveggiez.wallet.AddtoMoneyFailureAck;
 import com.nisarga.nisargaveggiez.wallet.AddtoMoneySuccessAck;
 import com.nisarga.nisargaveggiez.wallet.PaymentHistory;
+import com.nisarga.nisargaveggiez.wallet.Usewallet;
 import com.nisarga.nisargaveggiez.wallet.Walletpayment;
 
 import java.security.MessageDigest;
@@ -74,7 +75,7 @@ public class ReorderPayMentGateWay extends Activity {
     Handler mHandler = new Handler();
 
 
-    static String getFirstName, getNumber, getEmailAddress, getRechargeAmt,order_id;
+    static String getFirstName, getNumber, getEmailAddress, getRechargeAmt,order_id,wallet_status;
 
 
     ProgressDialog pDialog ;
@@ -101,6 +102,7 @@ public class ReorderPayMentGateWay extends Activity {
         getEmailAddress = oIntent.getExtras().getString("EMAIL_ADDRESS");
         getRechargeAmt  = oIntent.getExtras().getString("RECHARGE_AMT");
         order_id  = oIntent.getExtras().getString("ORDER_ID");
+        wallet_status  = oIntent.getExtras().getString("WALLET_STATUS");
 
 
 
@@ -560,6 +562,7 @@ public class ReorderPayMentGateWay extends Activity {
         if(strStatus.equals("failure"))
         {
             addMoneyToWallet(txnId,amount,strStatus,strDesc);
+            walletDeduct(order_id,wallet_status,strStatus);
             Intent intent=new Intent(ReorderPayMentGateWay.this, OrderPaymentFailure.class);
             intent.putExtra("test",getFirstName);
             startActivity(intent);
@@ -568,12 +571,30 @@ public class ReorderPayMentGateWay extends Activity {
         else
         {
             addMoneyToWallet(txnId,amount,strStatus,strDesc);
-
+            walletDeduct(order_id,wallet_status,strStatus);
             Intent intent=new Intent(ReorderPayMentGateWay.this, OrderPaymentSuccess.class);
             intent.putExtra("test",getFirstName);
             startActivity(intent);
 
         }
+    }
+
+    public void walletDeduct(String ordId,String walletStatus,String payStatus)
+    {
+        final Usewallet wallet = new Usewallet(session.getCustomerId(),ordId,walletStatus,payStatus);
+        Call<Usewallet> call = apiInterface.esewallet(wallet);
+        call.enqueue(new Callback<Usewallet>() {
+            @Override
+            public void onResponse(Call<Usewallet> call, Response<Usewallet> response) {
+                Usewallet resource = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Usewallet> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
     }
 
 }
