@@ -16,5 +16,5 @@
         android:paddingBottom="8dp"
         android:text="Items"
         android:textColor="@color/light_black_4"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 </LinearLayout>

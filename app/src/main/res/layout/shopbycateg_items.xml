@@ -31,11 +31,11 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/llimgShopBy"
             android:layout_weight=".1"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_medium"
             android:gravity="left|center"
             android:text="Menu Item"
             android:textColor="@color/light_black_1"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/toggleIconShopBy"

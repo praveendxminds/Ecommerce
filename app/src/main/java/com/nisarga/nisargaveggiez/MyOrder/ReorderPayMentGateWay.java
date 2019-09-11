@@ -326,7 +326,7 @@ public class ReorderPayMentGateWay extends Activity {
                     // new PostRechargeData().execute();
 
                     //intent.putExtra("txnid", paymentId);
-                    testStatus(paymentId,getRechargeAmt,"success","Payment Successful");
+                    testStatus("success");
                     session.setTxnId(paymentId);
                     Toast.makeText(getApplicationContext(),"Payment Successful" ,Toast.LENGTH_LONG).show();
 
@@ -341,7 +341,7 @@ public class ReorderPayMentGateWay extends Activity {
                 @Override
                 public void run() {
                     //cancelPayment();
-                    testStatus("",getRechargeAmt,"failure","Payment Canceled");
+                    testStatus("failure");
                     Toast.makeText(getApplicationContext(),"Cancel payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -362,7 +362,7 @@ public class ReorderPayMentGateWay extends Activity {
 	                    intent.putExtra(Constants.RESULT, params);
 	                    setResult(RESULT_CANCELED, intent);
 	                    finish();*/
-                    testStatus("",getRechargeAmt,"failure","Payment Failed");
+                    testStatus("failure");
                     Toast.makeText(getApplicationContext(),"Failed payment" ,Toast.LENGTH_LONG).show();
                 }
             });
@@ -523,7 +523,7 @@ public class ReorderPayMentGateWay extends Activity {
 
     /******************************************* closed send record to back end ************************************/
 
-    public void addMoneyToWallet(String Txnid,String Amnt,String status,String desc)
+    public void addMoneyToWallet(String status)
     {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
@@ -557,11 +557,11 @@ public class ReorderPayMentGateWay extends Activity {
 
 
     }
-    public void testStatus(String txnId,String amount,String strStatus,String strDesc)
+    public void testStatus(String strStatus)
     {
         if(strStatus.equals("failure"))
         {
-            addMoneyToWallet(txnId,amount,strStatus,strDesc);
+            addMoneyToWallet(strStatus);
             walletDeduct(order_id,wallet_status,strStatus);
             Intent intent=new Intent(ReorderPayMentGateWay.this, OrderPaymentFailure.class);
             intent.putExtra("test",getFirstName);
@@ -570,7 +570,7 @@ public class ReorderPayMentGateWay extends Activity {
         }
         else
         {
-            addMoneyToWallet(txnId,amount,strStatus,strDesc);
+            addMoneyToWallet(strStatus);
             walletDeduct(order_id,wallet_status,strStatus);
             Intent intent=new Intent(ReorderPayMentGateWay.this, OrderPaymentSuccess.class);
             intent.putExtra("test",getFirstName);

@@ -22,13 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbarShopBy"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_medium"
             android:paddingLeft="19.5dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:text="Shop By Category"
             android:textColor="#DE4A4A4A"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
