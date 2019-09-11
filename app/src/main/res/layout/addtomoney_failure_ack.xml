@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your amount will be refunded to you in 6-7 days"
+                android:text="Transaction failed"
                 android:textAllCaps="false"
                 android:textSize="14sp"
                 android:textColor="@color/light_black_1"
