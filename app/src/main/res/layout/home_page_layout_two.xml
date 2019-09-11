@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="16sp"
-                android:textColor="@color/light_black_1"
+                android:textColor="#824A4A4A"
                 android:padding="10dp"
                 android:text="Offers"
                 android:visibility="visible" />

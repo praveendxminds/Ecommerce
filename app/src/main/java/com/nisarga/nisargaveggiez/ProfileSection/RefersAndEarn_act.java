@@ -1,5 +1,7 @@
 package com.nisarga.nisargaveggiez.ProfileSection;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,6 +41,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
     TextView edref;
     TextView tvshare;
     SessionManager session;
+    Button btnCopyCode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
 
 
+        btnCopyCode = (Button) findViewById(R.id.btnCopyCode);
         edref = (TextView) findViewById(R.id.ref);
         tvshare = (TextView) findViewById(R.id.tvshare);
 
@@ -68,10 +73,20 @@ public class RefersAndEarn_act extends AppCompatActivity {
                 if (resource.status.equals("success")) {
 
                     List<ReferalModel.ReferalModelDatum> datumList = resource.result;
-                    for (ReferalModel.ReferalModelDatum imgs : datumList) {
+                    for (final ReferalModel.ReferalModelDatum imgs : datumList) {
                         if (response.isSuccessful()) {
                             Log.d("refd", imgs.referal_code);
                             edref.setText(imgs.referal_code);
+                            btnCopyCode.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //copy to clipboard
+                                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("label", imgs.referal_code);
+                                    clipboard.setPrimaryClip(clip);
+                                }
+                            });
+
                         }
                     }
 
