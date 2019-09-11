@@ -61,7 +61,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:padding="5dp"
                         android:text="Reward your friends and yourself"
                         android:textAllCaps="false"
@@ -107,7 +107,7 @@
                             android:padding="5dp"
                             android:text="Your Code :"
                             android:textColor="@color/light_black_1"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/ref"
@@ -121,7 +121,7 @@
                             android:textColor="@color/light_black_2"
                             android:textColorHint="@color/grey"
                             android:textCursorDrawable="@drawable/cursor"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:theme="@style/MyEditText1" />
 
                     </LinearLayout>
@@ -137,7 +137,7 @@
                         android:text="Copy"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -149,11 +149,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Share with your Friends"
                         android:textAlignment="center"
                         android:textColor="@color/light_black_4"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -205,13 +205,13 @@
         <TextView
             android:id="@+id/tvshare"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
-            android:padding="15dp"
+            android:padding="12dp"
             android:text="Share"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>
