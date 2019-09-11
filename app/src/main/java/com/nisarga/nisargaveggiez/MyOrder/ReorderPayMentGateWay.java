@@ -528,7 +528,7 @@ public class ReorderPayMentGateWay extends Activity {
 
         if (Utils.CheckInternetConnection(getApplicationContext())) {
 //-------------------------------------image slider view----------------------------------------------------------------------
-            final Walletpayment get_wallet_list = new Walletpayment("success",session.getCustomerId(),order_id);
+            final Walletpayment get_wallet_list = new Walletpayment(status,session.getCustomerId(),order_id);
             Call<Walletpayment> call = apiInterface.onlinepayment(get_wallet_list);
             call.enqueue(new Callback<Walletpayment>() {
                 @Override
