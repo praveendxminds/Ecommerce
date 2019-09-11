@@ -3,6 +3,7 @@ package com.nisarga.nisargaveggiez.Home;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -106,7 +107,9 @@ public class RateUsReviews extends AppCompatActivity {
                 llwriteReview.setVisibility(View.VISIBLE);
                 btnWrteReview.setEnabled(false);
                 btnWrteReview.setClickable(false);
-                btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
+                btnWrteReview.setBackgroundResource(R.drawable.review_btn); //rounded corner yellow button
+                GradientDrawable drawable = (GradientDrawable) btnWrteReview.getBackground();
+                drawable.setColor(Color.parseColor("#3334773C"));
             }
         });
     }
@@ -154,12 +157,17 @@ public class RateUsReviews extends AppCompatActivity {
                                 llwriteReview.setVisibility(View.VISIBLE);
                                 btnWrteReview.setEnabled(false);
                                 btnWrteReview.setClickable(false);
-                                btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
+                                btnWrteReview.setBackgroundResource(R.drawable.review_btn); //rounded corner yellow button
+                                GradientDrawable drawable = (GradientDrawable) btnWrteReview.getBackground();
+                                drawable.setColor(Color.parseColor("#3334773C"));
 
                                 //enable submit button
                                 btnSubmit.setEnabled(true);
                                 btnSubmit.setClickable(true);
                                 btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                                GradientDrawable drawable1 = (GradientDrawable) btnSubmit.getBackground();
+                                drawable1.setColor(Color.parseColor("#34773C"));
+
                                 if (!(resource.feedback).equals("null") &&
                                         !(resource.feedback).equals(null) && !(resource.feedback).isEmpty()) {
                                     etComment.setText(String.valueOf(resource.feedback));
@@ -168,7 +176,10 @@ public class RateUsReviews extends AppCompatActivity {
                                 }
                                 giveRatings();
                                 submitRatings("1");
-                            } else if ((resource.rated.equals("0"))) {
+
+                            }
+                            else if ((resource.rated.equals("0"))) {
+
                                 ivUnlikeGreen.setVisibility(View.VISIBLE);
                                 ivUnlikeGray.setVisibility(View.GONE);
                                 ivLikeGreen.setVisibility(View.GONE);
@@ -178,12 +189,17 @@ public class RateUsReviews extends AppCompatActivity {
                                 llwriteReview.setVisibility(View.VISIBLE);
                                 btnWrteReview.setEnabled(false);
                                 btnWrteReview.setClickable(false);
-                                btnWrteReview.setBackgroundColor(Color.parseColor("#3334773C"));
+                                btnWrteReview.setBackgroundResource(R.drawable.review_btn); //rounded corner yellow button
+                                GradientDrawable drawable = (GradientDrawable) btnWrteReview.getBackground();
+                                drawable.setColor(Color.parseColor("#3334773C"));
+
 
                                 //enable submit button
                                 btnSubmit.setEnabled(true);
                                 btnSubmit.setClickable(true);
                                 btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                                GradientDrawable drawable1 = (GradientDrawable) btnSubmit.getBackground();
+                                drawable1.setColor(Color.parseColor("#34773C"));
                                 if (!(resource.feedback).equals("null") &&
                                         !(resource.feedback).equals(null) && !(resource.feedback).isEmpty()) {
                                     etComment.setText(String.valueOf(resource.feedback));
@@ -200,7 +216,9 @@ public class RateUsReviews extends AppCompatActivity {
                                 //submit button disable
                                 btnSubmit.setEnabled(false);
                                 btnSubmit.setClickable(false);
-                                btnSubmit.setBackgroundColor(Color.parseColor("#3334773C"));
+                                btnSubmit.setBackgroundResource(R.drawable.review_btn); //rounded corner yellow button
+                                GradientDrawable drawable = (GradientDrawable) btnSubmit.getBackground();
+                                drawable.setColor(Color.parseColor("#3334773C"));
                                 giveRatings();
                             }
 
@@ -212,7 +230,9 @@ public class RateUsReviews extends AppCompatActivity {
                             //submit button disable
                             btnSubmit.setEnabled(false);
                             btnSubmit.setClickable(false);
-                            btnSubmit.setBackgroundColor(Color.parseColor("#3334773C"));
+                            btnSubmit.setBackgroundResource(R.drawable.review_btn); //rounded corner yellow button
+                            GradientDrawable drawable = (GradientDrawable) btnSubmit.getBackground();
+                            drawable.setColor(Color.parseColor("#3334773C"));
                             giveRatings();
 
                         }
@@ -250,6 +270,8 @@ public class RateUsReviews extends AppCompatActivity {
                 btnSubmit.setEnabled(true);
                 btnSubmit.setClickable(true);
                 btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                GradientDrawable drawable = (GradientDrawable) btnSubmit.getBackground();
+                drawable.setColor(Color.parseColor("#34773C"));
 
                 value1 = "0";
                 submitRatings(value1);
@@ -268,6 +290,9 @@ public class RateUsReviews extends AppCompatActivity {
                 btnSubmit.setEnabled(true);
                 btnSubmit.setClickable(true);
                 btnSubmit.setBackgroundResource(R.drawable.review_btn);
+                GradientDrawable drawable = (GradientDrawable) btnSubmit.getBackground();
+                drawable.setColor(Color.parseColor("#34773C"));
+
                 value1 = "1";
                 submitRatings(value1);
             }

@@ -192,6 +192,8 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/paynow_buttons"
                             android:duplicateParentState="true"
+                            android:enabled="false"
+                            android:clickable="false"
                             android:text="PayNow"
                             android:textAllCaps="false"
                             android:fontFamily="@font/roboto_medium"

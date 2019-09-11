@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
@@ -183,6 +184,12 @@ public class orderItem {
             Log.d("my_date", String.valueOf(deliver_Date));
 
             if (tddate.equals(deliver_Date)) {
+                btnPayNow.setEnabled(true);
+                btnPayNow.setClickable(true);
+                btnPayNow.setBackgroundResource(R.drawable.paynow_buttons); //rounded corner yellow button
+                GradientDrawable drawable = (GradientDrawable) btnPayNow.getBackground();
+                drawable.setColor(Color.parseColor("#FBD249"));
+
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                 if (hour > 16) {
                     btnCancelOrder.setEnabled(false);
