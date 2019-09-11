@@ -3,6 +3,7 @@ package com.nisarga.nisargaveggiez.ProfileSection;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,7 @@ public class RefersAndEarn_act extends AppCompatActivity {
     TextView tvshare;
     SessionManager session;
     Button btnCopyCode;
+    ImageButton imgBtnWhtsapp,imgBtnFb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class RefersAndEarn_act extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
 
 
+        imgBtnFb = findViewById(R.id.imgBtnFb);
+        imgBtnWhtsapp = findViewById(R.id.imgBtnWhtsapp);
         btnCopyCode = (Button) findViewById(R.id.btnCopyCode);
         edref = (TextView) findViewById(R.id.ref);
         tvshare = (TextView) findViewById(R.id.tvshare);
@@ -115,7 +120,64 @@ public class RefersAndEarn_act extends AppCompatActivity {
             }
         });
 
+        imgBtnWhtsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "https://play.google.com/store/apps/details?id=com.nisarga.nisargaveggiez&referrer=" + edref.getText());
+                sendIntent.setType("text/plain");
 
+                boolean installed = checkAppInstall("com.whatsapp");
+                if (installed) {
+                    sendIntent.setPackage("com.whatsapp");
+                    startActivity(sendIntent);
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Application is not installed on your device, Please install application...", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+
+
+
+        imgBtnFb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "https://play.google.com/store/apps/details?id=com.nisarga.nisargaveggiez&referrer=" + edref.getText());
+                sendIntent.setType("text/plain");
+
+                boolean installed = checkAppInstall("com.facebook.katana");
+                if (installed) {
+                    sendIntent.setPackage("com.facebook.katana");
+                    startActivity(sendIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Application is not installed on your device, Please install application...", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+
+
+    }
+    private boolean checkAppInstall(String uri) {
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return false;
     }
 
     @Override
