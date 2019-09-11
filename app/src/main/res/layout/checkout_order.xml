@@ -95,8 +95,8 @@
 
                             <Button
                                 android:id="@+id/btnItems"
-                                android:layout_width="54dp"
-                                android:layout_height="24dp"
+                                android:layout_width="60dp"
+                                android:layout_height="30dp"
                                 android:layout_margin="8dp"
                                 android:background="@drawable/checkout_items_border"
                                 android:fontFamily="@font/roboto_medium"
