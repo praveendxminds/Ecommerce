@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -74,6 +75,9 @@ import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,6 +104,8 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
 
     private String imagepath = null;
     String strProfilePic = "null";
+    private File temp_path;
+    private final int COMPRESS = 100;
 
     String value;
 
@@ -485,27 +491,96 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            imagepath = getPath(filePath);
 
-            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(ivProfilePic);
-
-            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(ivToolbarPic);
-
-            if (requestCode == PICK_IMAGE_REQUEST) {
-                new Thread(new Runnable() {
-                    public void run() {
-                        imagePath(imagepath);
-                        Log.e("----imagepath---", "" + imagepath);
-
-                    }
-                }).start();
+            InputStream imInputStream = null;
+            try {
+                imInputStream = getContentResolver().openInputStream(data.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
+            Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+
+            Bitmap bp_resized = resize(bitmap,200,200);
+
+            String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
+
+            Log.e("----imagepath---", "" + smallImagePath);
+
+
+            ivProfilePic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+            ivToolbarPic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+
+            imagePath(smallImagePath);
+
+
+//            Uri filePath = data.getData();
+//            imagepath = getPath(filePath);
+//
+//            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true).into(ivProfilePic);
+//
+//            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true).into(ivToolbarPic);
+//
+//            if (requestCode == PICK_IMAGE_REQUEST) {
+//                new Thread(new Runnable() {
+//                    public void run() {
+//                        imagePath(imagepath);
+//                        Log.e("----imagepath---", "" + imagepath);
+//
+//                    }
+//                }).start();
+//            }
         }
+    }
+    private static Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
+        if (maxHeight > 0 && maxWidth > 0) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+            float ratioBitmap = (float) width / (float) height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
+
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > ratioBitmap) {
+                finalWidth = (int) ((float)maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float)maxWidth / ratioBitmap);
+            }
+            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
+            return image;
+        } else {
+            return image;
+        }
+    }
+
+
+
+    private String saveGalaryImageOnLitkat(Bitmap bitmap) {
+        try {
+            File cacheDir;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+                cacheDir = new File(Environment.getExternalStorageDirectory(), getResources().getString(R.string.app_name));
+            else
+                cacheDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            if (!cacheDir.exists())
+                cacheDir.mkdirs();
+            String filename = System.currentTimeMillis() + ".jpg";
+            File file = new File(cacheDir, filename);
+            temp_path = file.getAbsoluteFile();
+            // if(!file.exists())
+            file.createNewFile();
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, COMPRESS, out);
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
     public String getPath(Uri uri) {

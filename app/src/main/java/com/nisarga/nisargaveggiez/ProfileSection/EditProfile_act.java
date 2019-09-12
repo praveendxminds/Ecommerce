@@ -5,11 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +40,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nisarga.nisargaveggiez.Home.HomeCategory;
+import com.nisarga.nisargaveggiez.Home.HomePage;
 import com.nisarga.nisargaveggiez.R;
 import com.nisarga.nisargaveggiez.SessionManager;
 import com.nisarga.nisargaveggiez.Utils;
@@ -44,6 +49,9 @@ import com.nisarga.nisargaveggiez.retrofit.APIInterface;
 import com.nisarga.nisargaveggiez.retrofit.EditProfileModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +71,9 @@ public class EditProfile_act extends AppCompatActivity {
 
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
+    private File temp_path;
+    private final int COMPRESS = 100;
+    CircleImageView ivProfile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +90,6 @@ public class EditProfile_act extends AppCompatActivity {
 
     Toolbar toolbar;
     ImageView ivOldHidePass, ivOldShowPass, ivNewHidePass, ivNewShowPass, ivConfHidePass, ivConfShowPass;
-    CircleImageView ivProfile;
     TextView tvApartmentName;
     EditText etFName, etLName, etEmail, etMobileNo, etOldPass, etNewPass, etConfirmPass, etDoorNo, etCity,
             etAddress, etPinCode;
@@ -112,6 +122,8 @@ public class EditProfile_act extends AppCompatActivity {
         ivNewShowPass = findViewById(R.id.ivNewShowPass);
         ivConfHidePass = findViewById(R.id.ivConfHidePass);
         ivConfShowPass = findViewById(R.id.ivConfShowPass);
+
+
 
         etFName = findViewById(R.id.etFName);
         etFName.setEnabled(false);
@@ -421,7 +433,12 @@ public class EditProfile_act extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
+//        finish();
+//        Intent intentEditProfile = new Intent(getBaseContext(), HomePage.class);
+//        startActivity(intentEditProfile);
+
         onBackPressed();
         return true;
     }
@@ -454,7 +471,32 @@ public class EditProfile_act extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            InputStream imInputStream = null;
+            try {
+                imInputStream = getContentResolver().openInputStream(data.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+
+            Bitmap bp_resized = resize(bitmap,200,200);
+
+            String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
+
+            Log.e("----imagepath---", "" + smallImagePath);
+
+
+
+            ivProfile.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+
+            imagePath(smallImagePath);
+
+            /*
+
             Uri filePath = data.getData();
+
+
             imagepath = getPath(filePath);
 
             Glide.with(EditProfile_act.this).load(filePath).fitCenter().dontAnimate()
@@ -470,6 +512,7 @@ public class EditProfile_act extends AppCompatActivity {
                     }
                 }).start();
             }
+            */
         }
     }
 
@@ -481,6 +524,53 @@ public class EditProfile_act extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+    private static Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
+        if (maxHeight > 0 && maxWidth > 0) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+            float ratioBitmap = (float) width / (float) height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
+
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > ratioBitmap) {
+                finalWidth = (int) ((float)maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float)maxWidth / ratioBitmap);
+            }
+            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
+            return image;
+        } else {
+            return image;
+        }
+    }
+
+
+
+    private String saveGalaryImageOnLitkat(Bitmap bitmap) {
+        try {
+            File cacheDir;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+                cacheDir = new File(Environment.getExternalStorageDirectory(), getResources().getString(R.string.app_name));
+            else
+                cacheDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            if (!cacheDir.exists())
+                cacheDir.mkdirs();
+            String filename = System.currentTimeMillis() + ".jpg";
+            File file = new File(cacheDir, filename);
+            temp_path = file.getAbsoluteFile();
+            // if(!file.exists())
+            file.createNewFile();
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, COMPRESS, out);
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
     private void imagePath(String imagepath) {
         try {
             progressdialog.show();
@@ -500,8 +590,10 @@ public class EditProfile_act extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<SignUpImageResponse> call, @NonNull Response<SignUpImageResponse> response) {
                 SignUpImageResponse responseModel = response.body();
-                if (responseModel.status.equals("success")) {
+                if (responseModel.status.equals("success"))
+                {
                     sProfilePic = responseModel.profile_url;
+
                 }
                 progressdialog.dismiss();
             }

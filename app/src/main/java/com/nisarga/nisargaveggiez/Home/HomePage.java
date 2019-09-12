@@ -1,5 +1,7 @@
 package com.nisarga.nisargaveggiez.Home;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +10,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -20,7 +23,9 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -91,7 +96,13 @@ import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mindorks.placeholderview.PlaceHolderView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -117,6 +128,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     public static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private File temp_path;
+    private final int COMPRESS = 100;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +150,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         initApiCall();
 
         reffaralcheck();
+
+
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -373,6 +390,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
+
+        /*
         if (Utils.CheckInternetConnection(getApplicationContext())) {
             //------------------------------------- My profile view section------------------------------------------------
             final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
@@ -408,6 +427,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else {
             Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+
+        */
     }
 
     @Override
@@ -598,12 +620,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     protected void onResume() {
         super.onResume();
 
+
+
+
         // setNavMenuItemThemeColors();
 
         Menu menu = navigationView.getMenu();
         MenuItem item = menu.getItem(0);
         item.setChecked(true);
         Log.d("item", String.valueOf(item));
+
+
 
 
         Log.d("resumed", "resumed: ");
@@ -617,6 +644,45 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         // clear the notification area when the app is opened
         NotificationUtils.clearNotifications(getApplicationContext());
+
+
+        if (Utils.CheckInternetConnection(getApplicationContext())) {
+            //------------------------------------- My profile view section------------------------------------------------
+            final MyProfileModel myProfileModel = new MyProfileModel(session.getCustomerId());
+            Call<MyProfileModel> call = apiInterface.showMyProfile(myProfileModel);
+            call.enqueue(new Callback<MyProfileModel>() {
+                @Override
+                public void onResponse(Call<MyProfileModel> call, Response<MyProfileModel> response) {
+                    MyProfileModel resourceMyProfile = response.body();
+                    if (resourceMyProfile.status.equals("success")) {
+                        List<MyProfileModel.Datum> mpmDatum = resourceMyProfile.resultdata;
+                        for (MyProfileModel.Datum mpmResult : mpmDatum) {
+
+                            Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivProfilePic);
+
+                            Glide.with(HomePage.this).load(mpmResult.image).fitCenter().dontAnimate()
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true).into(ivToolbarProfile);
+
+                            tvName.setText(mpmResult.firstname + " " + mpmResult.lastname);
+                            tvEmail.setText(mpmResult.email);
+                            tvMobileNo.setText(mpmResult.telephone);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyProfileModel> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet. Please Check Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     @Override
@@ -742,29 +808,111 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            imagepath = getPath(filePath);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+        {
 
-            Glide.with(HomePage.this).load(filePath).fitCenter().dontAnimate()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(ivProfilePic);
 
-            Glide.with(HomePage.this).load(filePath).fitCenter().dontAnimate()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(ivToolbarProfile);
-
-            if (requestCode == PICK_IMAGE_REQUEST) {
-                new Thread(new Runnable() {
-                    public void run() {
-                        imagePath(imagepath);
-                        Log.e("----imagepath---", "" + imagepath);
-
-                    }
-                }).start();
+            InputStream imInputStream = null;
+            try {
+                imInputStream = getContentResolver().openInputStream(data.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
+            Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+
+            Bitmap bp_resized = resize(bitmap,200,200);
+
+            String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
+
+            Log.e("----imagepath---", "" + smallImagePath);
+
+
+            ivProfilePic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+            ivToolbarProfile.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+
+            imagePath(smallImagePath);
+
+            /*
+
+            if (Build.VERSION.SDK_INT < 19)
+            {
+
+
+
+                Uri filePath = data.getData();
+                imagepath = getPath(filePath);
+
+                Log.e("----imagepath---", "" + imagepath);
+
+
+                Glide.with(HomePage.this).load(filePath).fitCenter().dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(ivProfilePic);
+
+                Glide.with(HomePage.this).load(filePath).fitCenter().dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(ivToolbarProfile);
+
+                imagePath(imagepath);
+
+
+            }
+            else
+            {
+
+                InputStream imInputStream = null;
+                try {
+                    imInputStream = getContentResolver().openInputStream(data.getData());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+
+                Bitmap bp_resized = resize(bitmap,200,200);
+
+                String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
+
+                Log.e("----imagepath---", "" + smallImagePath);
+
+
+                ivProfilePic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+                ivToolbarProfile.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+
+                imagePath(smallImagePath);
+
+            }
+
+            */
+
+
+//            if (requestCode == PICK_IMAGE_REQUEST) {
+//                new Thread(new Runnable() {
+//                    public void run() {
+//
+//                        if (checkPermissionREAD_EXTERNAL_STORAGE(getApplicationContext()))
+//                        {
+//                            InputStream imInputStream = null;
+//                            try {
+//                                imInputStream = getContentResolver().openInputStream(data.getData());
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
+//                            Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+//
+//                            String smallImagePath = saveGalaryImageOnLitkat(bitmap);
+//
+//                           // imagePath(imagepath);
+//
+//                        }
+//
+//
+//                        Log.e("----imagepath---", "" + imagepath);
+//
+//                    }
+//                }).start();
+//            }
         }
     }
 
@@ -774,6 +922,64 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(column_index);
+    }
+
+
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
+    }
+
+    private static Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
+        if (maxHeight > 0 && maxWidth > 0) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+            float ratioBitmap = (float) width / (float) height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
+
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > ratioBitmap) {
+                finalWidth = (int) ((float)maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float)maxWidth / ratioBitmap);
+            }
+            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
+            return image;
+        } else {
+            return image;
+        }
+    }
+
+
+
+    private String saveGalaryImageOnLitkat(Bitmap bitmap) {
+        try {
+            File cacheDir;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+                cacheDir = new File(Environment.getExternalStorageDirectory(), getResources().getString(R.string.app_name));
+            else
+                cacheDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            if (!cacheDir.exists())
+                cacheDir.mkdirs();
+            String filename = System.currentTimeMillis() + ".jpg";
+            File file = new File(cacheDir, filename);
+            temp_path = file.getAbsoluteFile();
+            // if(!file.exists())
+            file.createNewFile();
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, COMPRESS, out);
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
     private void imagePath(String imagepath) {
@@ -789,6 +995,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         MultipartBody.Part img1 = MultipartBody.Part.createFormData("file", file0.getName(),
                 requestFile0);
+
+
+//        File file = new File(imagepath);
+//
+//        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+
 
         Call<SignUpImageResponse> call = apiInterface.signupImageUpload(img1);
         call.enqueue(new Callback<SignUpImageResponse>() {
@@ -896,4 +1108,10 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         }
     }
+
+
+
+
+
+
 }
