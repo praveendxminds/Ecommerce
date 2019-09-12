@@ -829,6 +829,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             Log.e("----imagepath---", "" + smallImagePath);
 
 
+
             ivProfilePic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
             ivToolbarProfile.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
 
@@ -981,6 +982,9 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         return null;
 
     }
+
+
+
 
     private void imagePath(String imagepath) {
         try {
