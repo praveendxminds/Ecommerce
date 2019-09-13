@@ -13,6 +13,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -74,9 +76,11 @@ import com.nisarga.nisargaveggiez.retrofit.RateModel;
 import com.nisarga.nisargaveggiez.wallet.MyWalletActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -487,52 +491,142 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            InputStream imInputStream = null;
-            try {
-                imInputStream = getContentResolver().openInputStream(data.getData());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+
+
+            if (Build.VERSION.SDK_INT < 19) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+
+                ExifInterface exif = null;
+                try {
+                    exif = new ExifInterface(picturePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
+
+
+
+
+
+
+                InputStream imInputStream = null;
+                try {
+                    imInputStream = getContentResolver().openInputStream(data.getData());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+
+                Bitmap rot_bitmap = rotateImage(bitmap,orientation);
+
+                Bitmap bp_resized = resize(rot_bitmap,200,200);
+
+                String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
+
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bp_resized.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                Glide.with(this)
+                        .load(stream.toByteArray())
+                        .asBitmap()
+                        .into(ivProfilePic);
+                Glide.with(this)
+                        .load(stream.toByteArray())
+                        .asBitmap()
+                        .into(ivToolbarPic);
+
+
+
+                imagePath(smallImagePath);
+
+
             }
-            Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
-
-            Bitmap bp_resized = resize(bitmap,200,200);
-
-            String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
-
-            Log.e("----imagepath---", "" + smallImagePath);
+            else
+            {
 
 
-            ivProfilePic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
-            ivToolbarPic.setImageBitmap(BitmapFactory.decodeFile(smallImagePath));
+                InputStream in = null;
+                ExifInterface exifInterface = null;
+                try {
+                    in = getContentResolver().openInputStream(data.getData());
+                    exifInterface = new ExifInterface(in);
+                    // Now you can extract any Exif tag you want
+                    // Assuming the image is a JPEG or supported raw format
+                } catch (IOException e) {
+                    // Handle any errors
+                } finally {
+                    if (in != null) {
+                        try {
+                            in.close();
+                        } catch (IOException ignored) {}
+                    }
+                }
 
-            imagePath(smallImagePath);
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
 
 
-//            Uri filePath = data.getData();
-//            imagepath = getPath(filePath);
-//
-//            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .skipMemoryCache(true).into(ivProfilePic);
-//
-//            Glide.with(ProductSearch.this).load(filePath).fitCenter().dontAnimate()
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .skipMemoryCache(true).into(ivToolbarPic);
-//
-//            if (requestCode == PICK_IMAGE_REQUEST) {
-//                new Thread(new Runnable() {
-//                    public void run() {
-//                        imagePath(imagepath);
-//                        Log.e("----imagepath---", "" + imagepath);
-//
-//                    }
-//                }).start();
-//            }
+
+
+
+
+                InputStream imInputStream = null;
+                try {
+                    imInputStream = getContentResolver().openInputStream(data.getData());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                Bitmap bitmap = BitmapFactory.decodeStream(imInputStream);
+
+                Bitmap rot_bitmap = rotateImage(bitmap,orientation);
+
+                Bitmap bp_resized = resize(rot_bitmap,200,200);
+
+                String smallImagePath = saveGalaryImageOnLitkat(bp_resized);
+
+
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bp_resized.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                Glide.with(this)
+                        .load(stream.toByteArray())
+                        .asBitmap()
+                        .into(ivProfilePic);
+                Glide.with(this)
+                        .load(stream.toByteArray())
+                        .asBitmap()
+                        .into(ivToolbarPic);
+
+
+                imagePath(smallImagePath);
+
+
+
+
+
+
+            }
+
+
+
         }
     }
     private static Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
@@ -557,6 +651,12 @@ public class ProductSearch extends AppCompatActivity implements NavigationView.O
     }
 
 
+    private static Bitmap rotateImage(Bitmap img, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
+        return rotatedImg;
+    }
 
     private String saveGalaryImageOnLitkat(Bitmap bitmap) {
         try {
